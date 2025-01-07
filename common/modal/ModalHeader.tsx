@@ -1,0 +1,25 @@
+import Button from "../components/Button";
+import React from "react";
+
+interface ModalHeaderProps {
+  title?: string
+  setShow: (open: boolean) => void
+}
+
+const ModalHeader: React.FC<ModalHeaderProps> = ({ title, setShow }) => {
+  return (
+    <div className="modal-header">
+      <h5 className="modal-title">{title}</h5>
+      {/* <Button color="default"
+        type="button"
+        className="close"
+        data-dismiss="modal"
+        aria-label="Close"
+        onClick={() => setShow (false)}
+      > */}
+      <span aria-hidden="true" className="btn-close-modal" onClick={() => setShow (false)}>×</span>
+      {/* </Button> */}
+    </div>
+  )
+}
+export default ModalHeader;

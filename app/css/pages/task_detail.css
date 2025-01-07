@@ -1,0 +1,49 @@
+.task-title {
+    font-size: 30px;
+    background: #fff !important;
+    border: unset !important;
+    font-weight: 700;
+    padding: 0px !important;
+}
+
+#dueDate {
+    border: unset !important;
+    padding: unset !important;
+}
+
+.ql-container.ql-snow {
+    border: unset !important;
+    font-size: 15px !important;
+}
+
+.badge {
+    font-size: 14px !important;
+}
+
+.subtask-title {
+    font-weight: 500 !important;
+}
+
+.btn {
+    height: 30px !important;
+    line-height: 15px !important;
+    font-size: 15px !important;
+}
+
+.subtask-title-create {
+    border: unset !important;
+    font-size: 15px;
+    color: #000;
+    font-weight: 500;
+    padding-left: unset !important;
+}
+
+@media (max-width: 768px) {
+    .open-sidebar-detail {
+        width: 100% !important;
+    }
+}
+
+.open-sidebar-detail {
+    width: 20%;
+}

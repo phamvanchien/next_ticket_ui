@@ -1,0 +1,253 @@
+.icon-menu {
+    font-size: 25px !important;
+    padding: 2px !important;
+}
+
+.wrapper {
+    position: absolute;
+    width: 100%;
+}
+
+.content, .content-wrapper {
+    padding-top: 20px !important;
+}
+
+.main-header {
+    background: #6666 !important;
+    position: fixed;
+    width: 100%;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+    padding-top: 0px !important;
+    background: #007aff !important;
+}
+
+.main-sidebar {
+    background-color: #fff !important;
+}
+
+.sidebar-item {
+    height: 40px;
+    line-height: 35px;
+}
+
+[class*=sidebar-dark] .brand-link {
+    border: unset !important;
+}
+
+[class*=sidebar-dark-] .sidebar a {
+    color: #333 !important;
+}
+
+.main-container {
+    max-width: 100% !important;
+}
+
+.modal-title {
+    color: #000 !important;
+}
+
+.content-medium {
+    width: 80%;
+    margin: auto;
+}
+
+.content-small {
+    width: 60%;
+    margin: auto;
+}
+
+.rmdp-container {
+    margin-left: 4px;
+}
+
+.alert-error {
+    border-color: red;
+}
+
+.sidebar-item a p {
+    font-weight: 400 !important;
+    color: #666 !important;
+}
+
+.sidebar-item a {
+    padding-bottom: 0 !important;
+    padding-top: 0 !important;
+}
+
+.content-wrapper {
+    background: #fff !important;
+}
+
+.navbar-nav li a {
+    font-size: 16px !important;
+    color: #fff !important;
+}
+
+input {
+    height: 30px !important;
+}
+
+.btn-bars {
+    font-size: 30px !important;
+}
+
+.invite-group-item {
+    background-color: #fff !important;
+    border-color: unset !important;
+    color: #333 !important;
+    border: 1px solid #c2c7d0 !important;
+    height: 40px !important;
+    line-height: 15px !important;
+    margin-top: 5px;
+    cursor: pointer;
+}
+
+.send-to-item {
+    padding: 10px;
+}
+
+.sidebar-dark-primary .nav-sidebar>.nav-item>.nav-link.active, .sidebar-light-primary .nav-sidebar>.nav-item>.nav-link.active {
+    background-color: #3333 !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+}
+
+.modal-content {
+    margin-top: 50px !important;
+}
+
+.modal-header {
+    padding: 7px !important;
+}
+
+.btn-close-modal {
+    font-size: 25px;
+    height: 20px;
+    line-height: 20px;
+    cursor: pointer;
+}
+
+.btn {
+    height: 30px !important;
+    line-height: 15px !important;
+    font-size: 15px !important;
+}
+
+.open-sidebar {
+    width: 40%;
+}
+
+.close-sidebar {
+    width: 0;
+}
+
+.right-sidebar {
+    position: fixed;
+    top: 0;
+    right: -250px;
+    width: 250px;
+    height: 100%;
+    background-color: #333;
+    color: white;
+    transition: right 0.3s ease;
+    padding: 20px;
+    box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
+  }
+  
+.right-sidebar.open {
+    right: 0;
+}
+
+.sidebar-content {
+    overflow-y: auto;
+}
+  
+  .sidebar-toggle-btn {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: #333;
+    color: white;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+.sidebar-toggle-btn:hover {
+    background-color: #555;
+}
+
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    padding-right: 250px;
+}
+
+#sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    right: 250px;
+    height: 100%;
+    overflow-y: auto;
+    background: #fff;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+    box-shadow: 3px 4px 4px 3px;
+    padding: 10px;
+    top: 40px;
+}
+
+.dropdown-menu {
+    left: 5px !important;
+}
+
+.input-blur {
+    background: unset !important;
+    border: unset !important;
+}
+
+.badge-notification {
+    right: -25px !important;
+    padding: 5px !important;
+}
+
+.badge {
+    font-size: 14px !important;
+    font-weight: 500 !important;
+    padding: 7px;
+}
+
+@media (max-width: 768px) {
+    .open-sidebar {
+        width: 100% !important;
+    }
+}
+
+@media only screen and (max-width: 1024px) {
+    .main-container {
+        max-width: 100% !important;
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .main-container {
+        max-width: 100% !important;
+    }
+
+    .content-small, .content-medium {
+        width: 100%;
+        margin: auto;
+    }
+
+    .main-header {
+        line-height: 30px;
+    }
+}

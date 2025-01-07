@@ -1,0 +1,18 @@
+.invitation-box {
+    width: 500px !important;
+}
+
+.invite-from-wp {
+    font-size: 12px;
+}
+
+.invite-from-title {
+    margin-bottom: unset !important;
+}
+  
+@media (max-width: 576px) {
+    .invitation-box {
+        margin-top: .5rem;
+        width: 90% !important;
+    }
+}

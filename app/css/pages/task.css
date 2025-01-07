@@ -1,0 +1,204 @@
+.wrapper-board {
+    display: flex;
+    gap: 20px;
+    overflow-x: scroll;
+    padding: 10px;
+    white-space: nowrap;
+    scrollbar-width: thin;
+    -ms-overflow-style: none;
+    cursor: grab;
+    user-select: none;
+}
+
+.wrapper-board.scrolling {
+    cursor: grabbing;
+}
+
+.wrapper-board::-webkit-scrollbar {
+    height: 5px;
+}
+
+.wrapper-board::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 4px;
+}
+
+.wrapper-board::-webkit-scrollbar-track {
+    background: #f0f0f0;
+}
+
+.status-item {
+    width: 19%;
+    flex: 0 0 auto;
+    box-shadow: unset !important;
+}
+
+.status-item .card-header {
+    padding-left: unset !important;
+    border-bottom: unset !important;
+}
+
+.status-label {
+    color: #333;
+    padding: 5px;
+    border-radius: 15px;
+    font-size: 14px;
+    font-weight: 600;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.task-item.dragging {
+    opacity: 0.6;
+    transform: scale(1.05);
+    background-color: #f8f9fa;
+    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 3px;
+    cursor: move;
+}
+
+.status-item.drag-over {
+    border: 1px dashed #3333;
+    background-color: #f1f9f1;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.task-item {
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    /* box-shadow: 2px 3px 1px 4px #3333 !important; */
+}
+
+.status-item.drag-over {
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.task-title {
+    padding-left: unset !important;
+    padding-top: unset !important;
+    border: unset !important;
+    font-weight: 600;
+    background: #fff !important;
+}
+
+.new-task {
+    padding: 10px !important;
+    color: #9ec5fe;
+    cursor: pointer;
+}
+
+.filter-bar .card {
+    box-shadow: unset !important;
+}
+
+.filter-bar .card .card-body {
+    padding: 5px !important;
+    border-bottom: 1px solid #3333 !important;
+}
+
+.create-btn {
+    height: 30px !important;
+    line-height: 15px !important;
+    font-size: 15px;
+}
+
+@media (max-width: 768px) {
+    .status-item {
+        width: 100%;
+    }
+    .wrapper-board {
+        cursor: pointer;
+    }
+
+    .open-sidebar, .open-filter {
+        width: 100% !important;
+    }
+}
+
+.open-sidebar {
+    width: 40%;
+}
+
+.open-filter {
+    width: 40%;
+}
+
+.close-sidebar {
+    width: 0;
+}
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+}
+
+.task-title-create {
+    border: unset !important;
+    font-size: 25px;
+    color: #000;
+    font-weight: 500;
+}
+
+.assignee-item {
+    padding: 6px !important;
+}
+
+.search-assignee {
+    border: unset !important;
+    padding: unset !important;
+    height: 20px !important;
+}
+  
+.ql-editor {
+    height: 200px !important;
+}
+
+.input-group-text {
+    display: none;
+}
+
+.invalid-feedback {
+    display: none !important;
+}
+
+#dueDate {
+    border: unset !important;
+    padding: unset !important;
+}
+
+.task-due {
+    font-size: 12px !important;
+}
+
+.task-item .card-body {
+    padding-bottom: 0px !important;
+    padding-top: 5px !important;
+}
+
+.create-task-status {
+    padding: 10px !important;
+    padding-top: 5px !important;
+    padding-bottom: 5px !important;
+    color: #fff !important;
+}
+
+.status-label .icon-circle {
+    width: 15%;
+    float: left;
+    margin-top: 5px;
+}
+
+.status-label .status-name {
+    width: 85%;
+    padding: unset !important;
+    background: unset !important;
+    border: unset !important;
+    height: 20px !important;
+}
+
+.input-search-tasks {
+    border-radius: 15px;
+}
+
+.select-status-modal {
+    width: 40% !important;
+    margin: auto;
+}
