@@ -1,5 +1,5 @@
 "use client"
-import { faBars, faBell, faEnvelopeOpen, faGear } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faBell, faEnvelopeOpen, faGear, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
 import { APP_LINK } from "@/enums/app.enum";
@@ -9,7 +9,6 @@ import { RootState } from "@/reduxs/store.redux";
 
 const Header = () => {
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
-  const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const handleOpenMenu = () => {
     const body = document.getElementsByTagName('body') as HTMLCollectionOf<HTMLBodyElement>;
     body[0].classList.remove('sidebar-collapse');
@@ -43,13 +42,10 @@ const Header = () => {
           <NavItem href={APP_LINK.INVITATION} className="icon-menu mr-2">
             <FontAwesomeIcon icon={faEnvelopeOpen} /> Invitation
           </NavItem>
-          {
-            userLogged?.id === workspace?.user_id &&
-            <NavItem href={APP_LINK.WORKSPACE + '/' + workspace?.id + '/setting'} className="icon-menu mr-2">
-              <FontAwesomeIcon icon={faGear} /> Setting
-            </NavItem>
-          }
-          <NavItem href={APP_LINK.HOME} className="icon-menu mr-2">
+          <NavItem href={APP_LINK.PROFILE} className="icon-menu mr-2">
+            <FontAwesomeIcon icon={faUser} />
+          </NavItem>
+          <NavItem href={APP_LINK.HOME} className="icon-menu">
             <FontAwesomeIcon icon={faBell} />
             <span className="badge badge-warning navbar-badge badge-notification">15</span>
           </NavItem>

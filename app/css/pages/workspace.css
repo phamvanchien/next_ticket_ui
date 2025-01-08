@@ -42,6 +42,6 @@
 @media (max-width: 576px) {
   .create-workspace-box, .setting-workspace-box {
     margin-top: .5rem;
-    width: 90% !important;
+    width: 95% !important;
   }
 }

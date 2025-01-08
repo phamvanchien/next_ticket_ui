@@ -1,0 +1,11 @@
+.profile-box {
+    width: 700px !important;
+    margin: auto;
+}
+
+@media (max-width: 576px) {
+  .profile-box {
+    margin-top: .5rem;
+    width: 95% !important;
+  }
+}

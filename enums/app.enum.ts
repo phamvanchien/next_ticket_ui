@@ -10,12 +10,14 @@ enum APP_LINK {
   GO_TO_WORKSPACE = '/go-to-workspace',
   WORKSPACE = '/workspace',
   CREATE_WORKSPACE = '/workspace/create',
-  INVITATION = '/invitation'
+  INVITATION = '/invitation',
+  PROFILE = '/profile'
 }
 enum APP_VALIDATE_TYPE {
   REQUIRED = 'required',
   IS_EMAIL = 'is_email',
-  MATCH = 'is_match'
+  MATCH = 'is_match',
+  IS_PHONE = 'is_phone'
 }
 enum APP_ERROR {
   SERVER_ERROR = 'Server error',
@@ -23,6 +25,7 @@ enum APP_ERROR {
 }
 enum APP_LOCALSTORAGE {
   WORKSPACE_STORAGE = 'workspace_storage',
-  TASK_BOARD_TYPE_SHOW = 'task_board_type_show'
+  TASK_BOARD_TYPE_SHOW = 'task_board_type_show',
+  TASK_RECENTLY = 'task_recently'
 }
 export {APP_AUTH, APP_LINK, APP_VALIDATE_TYPE, APP_ERROR, APP_LOCALSTORAGE}

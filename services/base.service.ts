@@ -19,11 +19,34 @@ export const validateEmail = (email: string): boolean => {
   return emailRegex.test(email);
 };
 
+export const validatePhone = (phoneNumber: string) =>  {
+  if (/[a-zA-Z]/.test(phoneNumber)) {
+    return false;
+  }
+
+  const sanitizedPhoneNumber = phoneNumber.replace(/[^0-9]/g, '');
+  if (sanitizedPhoneNumber.length > 11) {
+    return false;
+  }
+
+  if (sanitizedPhoneNumber.length < 10 || sanitizedPhoneNumber.length > 11) {
+    return false;
+  }
+
+  const validPrefixes = ['03', '05', '07', '08', '09'];
+  const prefix = sanitizedPhoneNumber.substring(0, 2);
+  if (!validPrefixes.includes(prefix)) {
+    return false;
+  }
+  return true;
+}
+
+
 export const validateInput = (
   field: string, 
   value: string | string[], 
   message: string,
-  validateType: "required" | "is_email" | "is_match",
+  validateType: "required" | "is_email" | "is_match" | "is_phone",
   error: AppErrorType[],
   setError: (error: AppErrorType[]) => void) => {
     if (validateType === 'required') {
@@ -48,6 +71,16 @@ export const validateInput = (
 
     if (validateType === 'is_match') {
       if (value[0] !== value[1]) {
+        setError([...error, {
+          property: field,
+          message: message
+        }]);
+        return false;
+      }
+    }
+
+    if (validateType === "is_phone") {
+      if ((value && value !== '' && value.length > 0) && !validatePhone(value as string)) {
         setError([...error, {
           property: field,
           message: message

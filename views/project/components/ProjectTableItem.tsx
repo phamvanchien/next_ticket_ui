@@ -132,7 +132,7 @@ const ProjectTableItem: React.FC<ProjectTableItemProps> = ({ project, loadProjec
           <ul className="list-inline">
             {
               project.members.map(member => (
-                <li className="list-inline-item" title={member.email}>
+                <li className="list-inline-item" title={member.email} onClick={() => router.push(APP_LINK.PROFILE + '/' + member.id)}>
                   <img className="img-circle table-avatar" width={30} height={30} src={member.avatar ?? '/img/icon/user-loading.png'} onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} />
                 </li>
               ))
@@ -186,11 +186,6 @@ const ProjectTableItem: React.FC<ProjectTableItemProps> = ({ project, loadProjec
             <Link href={''} onClick={() => setModalAddmember (true)}>Add member <FontAwesomeIcon icon={faPlus} /></Link>
           </>
         }
-      </td>
-      <td>
-        {project.user_id === userLogged?.id && <Button color="danger" className="float-left" onClick={() => setModalDelete (true)}>
-          <FontAwesomeIcon icon={faTrash} />
-        </Button>}
       </td>
     </tr>
     {project.user_id === userLogged?.id && <RemoveProjectModal 

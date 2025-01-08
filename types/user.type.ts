@@ -11,6 +11,12 @@ export interface RequestCreateUserType {
   salary?: string
 }
 
+export interface RequestUpdateUserType {
+  first_name?: string,
+  last_name?: string,
+  phone?: string,
+}
+
 export interface RequestGetUsersType extends RequestWithPaginationType {
   id_not_in: string
   keyword?: string
@@ -63,4 +69,5 @@ export interface ResponseUserDataType {
   phone: string
   avatar: string
   created_at: string
+  login_type: "common" | "google_only"
 }

@@ -1,14 +1,15 @@
 import { TaskType } from "@/types/task.type";
 import { dateToString } from "@/utils/helper.util";
-import React, { useEffect, useState } from "react";
+import React, { MouseEvent, useEffect, useState } from "react";
 import CreateTaskView from "../../../create/CreateTaskView";
 import { ProjectType } from "@/types/project.type";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown, faArrowUp, faBug, faCheckSquare, faClone, faEquals, faExclamationCircle, faLineChart, faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import { APP_LINK } from "@/enums/app.enum";
+import { APP_LINK, APP_LOCALSTORAGE } from "@/enums/app.enum";
 import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
+import { useRouter } from "next/navigation";
 
 interface TaskItemProps {
   task: TaskType
@@ -43,6 +44,7 @@ export const getIconPriority = (id: number, className?: string) => {
 
 const TaskItem: React.FC<TaskItemProps> = ({ task, statusKey, draggingTask, project, setDraggingTask, setDragOverStatus }) => {
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
+  const router = useRouter();
   const [taskData, setTaskData] = useState(task);
   const [taskTitle, setTaskTitle] = useState(task.title);
   const [openEdit, setOpenEdit] = useState(false);
@@ -70,6 +72,25 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, statusKey, draggingTask, proj
     e.currentTarget.classList.remove("dragging");
   };
 
+  const redirectDetailTask = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    const tasksStorage = localStorage.getItem(APP_LOCALSTORAGE.TASK_RECENTLY);
+    if (tasksStorage) {
+      const taskParse: TaskType[] = JSON.parse(tasksStorage);
+      if (taskParse && taskParse.length > 0) {
+        const taskFind = taskParse.find(t => t.id === taskData.id);
+        if (!taskFind) {
+          taskParse.unshift(taskData);
+          localStorage.setItem(APP_LOCALSTORAGE.TASK_RECENTLY, JSON.stringify(taskParse));
+          router.push(APP_LINK.WORKSPACE + '/' + workspace?.id + '/project/' + project.id + '/task/' + task.id);
+          return;
+        }
+      }
+    }
+    localStorage.setItem(APP_LOCALSTORAGE.TASK_RECENTLY, JSON.stringify([taskData]));
+    router.push(APP_LINK.WORKSPACE + '/' + workspace?.id + '/project/' + project.id + '/task/' + task.id);
+  }
+
   return (
     <>
       <CreateTaskView open={openEdit} setOpen={setOpenEdit} project={project} task={taskData} setTaskResponse={setTaskData} />
@@ -83,9 +104,10 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, statusKey, draggingTask, proj
         <div className="card-body mt-2" style={{ padding: 15 }}>
           <h6>
             <Link 
-              href={APP_LINK.WORKSPACE + '/' + workspace?.id + '/project/' + project.id + '/task/' + task.id} 
+              href={'#'} 
               className="text-dark"
               title={taskTitle}
+              onClick={redirectDetailTask}
             >
               {taskTitle.length > 35 ? taskTitle.substring(0, 35) + '...' : taskTitle}
             </Link>

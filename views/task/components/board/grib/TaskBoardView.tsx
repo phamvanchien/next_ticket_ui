@@ -195,6 +195,7 @@ const TaskBoardView: React.FC<TaskBoardViewProps> = ({
               dragOverStatus={dragOverStatus}
               setTasks={setTasks}
               projectId={project.id}
+              projectUserId={project.user_id}
             >
               {
                 status.tasks.map(task => (

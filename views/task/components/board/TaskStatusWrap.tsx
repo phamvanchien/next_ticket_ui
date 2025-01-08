@@ -18,6 +18,7 @@ interface TaskStatusWrapProps {
   dragOverStatus: number | undefined;
   children: React.ReactNode;
   projectId: number
+  projectUserId: number,
   setDragOverStatus: (dragOverStatus?: number) => void;
   setDraggingTask: (draggingTask?: number) => void;
   setTasks: React.Dispatch<React.SetStateAction<ResponseTaskBoardDataType[]>>;
@@ -30,9 +31,11 @@ const TaskStatusWrap: React.FC<TaskStatusWrapProps> = ({
   setTasks,
   dragOverStatus,
   children,
-  projectId
+  projectId,
+  projectUserId
 }) => {
   const inputStatusNameRef = useRef<HTMLInputElement>(null);
+  const userLogged = useSelector((state: RootState) => state.userSlice).data;
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const [statusName, setStatusName] = useState(status.name);
   const handleDragOver = (e: React.DragEvent, target: number) => {
@@ -95,7 +98,7 @@ const TaskStatusWrap: React.FC<TaskStatusWrapProps> = ({
       if (inputStatusNameRef.current && !inputStatusNameRef.current.contains(event.target as Node)) {
         if (inputStatusNameRef.current && inputStatusNameRef.current.value && inputStatusNameRef.current.value !== statusName) {
           try {
-            if (!workspace) {
+            if (!workspace || userLogged?.id !== projectUserId) {
               return;
             }
 
@@ -142,7 +145,7 @@ const TaskStatusWrap: React.FC<TaskStatusWrapProps> = ({
       <div className="card-header mb-2">
         <h6 className="card-title status-label" style={{ background: status.color }}>
           <FontAwesomeIcon icon={faCircle} style={{ fontSize: 12, color: '#3333' }} className="icon-circle" /> 
-          <Input type="text" defaultValue={statusName} className="status-name" id={`statusName${status.id}`} ref={inputStatusNameRef} />
+          <Input type="text" defaultValue={statusName} className="status-name" id={`statusName${status.id}`} ref={inputStatusNameRef} disabled={userLogged?.id !== projectUserId} />
         </h6>
       </div>
       <div className="card-body" style={{ padding: 0 }}>

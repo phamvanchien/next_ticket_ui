@@ -1,10 +1,10 @@
 import { BaseResponseType } from "@/types/base.type";
-import { RequestChangePasswordType, RequestCreateUserType, RequestGetUsersType, RequestSetPasswordType, ResponseUsersType, ResponseUserType } from "@/types/user.type";
+import { RequestChangePasswordType, RequestCreateUserType, RequestGetUsersType, RequestSetPasswordType, RequestUpdateUserType, ResponseUsersType, ResponseUserType } from "@/types/user.type";
 import { request } from "./base.api";
 import { API_METHOD_ENUM } from "@/enums/api.enum";
 import { APP_CONFIG } from "@/config/app.config";
 
-export const changePassword = async (payload: RequestChangePasswordType): Promise<BaseResponseType> => {
+export const changePassword = async (payload: RequestChangePasswordType): Promise<ResponseUserType> => {
   return request({
     method: API_METHOD_ENUM.POST,
     url: APP_CONFIG.API.PREFIX.user.changePassword,
@@ -12,7 +12,7 @@ export const changePassword = async (payload: RequestChangePasswordType): Promis
   });
 }
 
-export const setPassword = async (payload: RequestSetPasswordType): Promise<BaseResponseType> => {
+export const setPassword = async (payload: RequestSetPasswordType): Promise<ResponseUserType> => {
   return request({
     method: API_METHOD_ENUM.POST,
     url: APP_CONFIG.API.PREFIX.user.setPassword,
@@ -24,6 +24,14 @@ export const create = async (payload: RequestCreateUserType): Promise<ResponseUs
   return request({
     method: API_METHOD_ENUM.POST,
     url: APP_CONFIG.API.PREFIX.user.url,
+    data: payload
+  });
+}
+
+export const update = async (payload: RequestUpdateUserType): Promise<ResponseUserType> => {
+  return request({
+    method: API_METHOD_ENUM.PUT,
+    url: APP_CONFIG.API.PREFIX.user.url + '/profile',
     data: payload
   });
 }

@@ -26,6 +26,7 @@ import TaskDescription from "./components/TaskDescription";
 import { notify } from "@/utils/helper.util";
 import { useRouter } from "next/navigation";
 import { APP_LINK } from "@/enums/app.enum";
+import Link from "next/link";
 
 interface TaskDetailViewProps {
   task: TaskType
@@ -88,19 +89,19 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
         </div>
       }
       <div className="row mt-2">
-        <div className="col-8">
-          <Input type="text" defaultValue={task.title} className="task-title" ref={titleRef} />
-        </div>
-        <div className="col-4">
-          <Button color="secondary" outline className="float-right ml-2" onClick={() => router.push(APP_LINK.WORKSPACE + '/' + workspace?.id + '/project/' + task.project_id)}>
+        <div className="col-12">
+          <Link href={APP_LINK.WORKSPACE + '/' + workspace?.id + '/project/' + task.project_id} className="text-secondary mr-4">
             <FontAwesomeIcon icon={faAngleDoubleLeft} /> Back to board
-          </Button>
-          <Button color="secondary" className="float-right ml-2" disabled={loading} onClick={() => setOpenSetting (true)}>
+          </Link>
+          <Button color="secondary" className="ml-2 float-right" disabled={loading} onClick={() => setOpenSetting (true)}>
             <FontAwesomeIcon icon={faInfo} />
           </Button>
           <Button color="primary" className="float-right" onClick={handleUpdateTask} disabled={loading}>
             {loading ? <Loading color="light" /> : 'Save'}
           </Button>
+        </div>
+        <div className="col-12 mt-4">
+          <Input type="text" defaultValue={task.title} className="task-title" ref={titleRef} />
         </div>
       </div>
       <TaskAssignee 

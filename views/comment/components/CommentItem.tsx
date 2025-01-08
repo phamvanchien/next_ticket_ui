@@ -3,6 +3,7 @@ import Button from "@/common/components/Button";
 import EditorArea from "@/common/components/EditorArea";
 import Loading from "@/common/components/Loading";
 import { API_CODE } from "@/enums/api.enum";
+import { APP_LINK } from "@/enums/app.enum";
 import { RootState } from "@/reduxs/store.redux";
 import { catchError } from "@/services/base.service";
 import { BaseResponseType } from "@/types/base.type";
@@ -10,6 +11,7 @@ import { CommentType } from "@/types/comment.type";
 import { formatTime, notify } from "@/utils/helper.util";
 import { faAngleDoubleLeft, faAngleDoubleRight, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -21,6 +23,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
   const maxContentSize = 600;
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
+  const router = useRouter();
   const [readMore, setReadMore] = useState(false);
   const [edit, setEdit] = useState(false);
   const [contentEdit, setContentEdit] = useState(comment.content);
@@ -71,8 +74,8 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
   }, []);
   return (
     <div className="col-12" key={comment.id}>
-      <img src={comment.user.avatar ?? '/img/icon/user-loading.png'} width={25} height={25} className="img-circle float-left mr-2" />
-      <span className="text-muted">
+      <img src={comment.user.avatar ?? '/img/icon/user-loading.png'} width={25} height={25} className="img-circle float-left mr-2" onClick={() => router.push(APP_LINK.PROFILE + '/' + (userLogged?.id === comment.user.id ? '' : comment.user.id))} />
+      <span className="text-muted" style={{cursor: 'pointer'}} onClick={() => router.push(APP_LINK.PROFILE + '/' + (userLogged?.id === comment.user.id ? '' : comment.user.id))}>
         <b>{comment.user.first_name} {comment.user.last_name}</b> <span style={{ fontSize: 12 }}>{formatTime(new Date(comment.created_at))}</span>
       </span>
       <div className="card mt-2">
