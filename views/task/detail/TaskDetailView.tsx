@@ -1,7 +1,7 @@
 "use client"
 import Input from "@/common/components/Input";
-import { TaskPriorityType, TaskType, TaskTypeItem } from "@/types/task.type";
-import React, { useRef, useState } from "react";
+import { ResponseHistoryDataType, TaskPriorityType, TaskType, TaskTypeItem } from "@/types/task.type";
+import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import TaskAssignee from "./components/TaskAssignee";
 import TaskStatus from "./components/TaskStatus";
 import TaskTag from "./components/TaskTag";
@@ -15,7 +15,7 @@ import TaskTypeList from "./components/TaskTypeList";
 import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
-import { update } from "@/api/task.api";
+import { taskHistory, update } from "@/api/task.api";
 import { API_CODE } from "@/enums/api.enum";
 import { catchError } from "@/services/base.service";
 import Button from "@/common/components/Button";
@@ -27,12 +27,14 @@ import { notify } from "@/utils/helper.util";
 import { useRouter } from "next/navigation";
 import { APP_LINK } from "@/enums/app.enum";
 import Link from "next/link";
+import SubTask from "./components/SubTask";
 
 interface TaskDetailViewProps {
   task: TaskType
 }
 
 const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
+  const defaultPageSizeHistory = 2;
   const [dueDate, setDueDate] = useState<Date | null>(task ? new Date(task.due) : new Date());
   const [assignee, setAssignee] = useState<ResponseUserDataType[]>(task ? task.assign : []);
   const [status, setStatus] = useState<ResponseTagType | undefined>(task ? task.status : undefined);
@@ -43,9 +45,11 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<AppErrorType | null>(null);
   const [openSetting, setOpenSetting] = useState(false);
+  const [historyData, setHistoryData] = useState<ResponseHistoryDataType>();
+  const [pageSize, setPageSize] = useState(defaultPageSizeHistory);
+  const [loadingViewMore, setLoadingViewMore] = useState(false);
   const titleRef = useRef<HTMLInputElement>(null);
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
-  const router = useRouter();
   const handleUpdateTask = async () => {
     try {
       if (!workspace || !titleRef.current || titleRef.current.value === '' || !dueDate || !status || !type || !priority) {
@@ -67,6 +71,7 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
       const response = await update(task.workspace_id, task.project_id, task.id, payload);
       setLoading(false);
       if (response && response.code === API_CODE.OK) {
+        loadHistories();
         notify('Task is saved', 'success');
         return;
       }
@@ -76,6 +81,31 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
       setError(catchError(error as BaseResponseType));
     }
   }
+  const handleViewMore = (event: MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault();
+    setLoadingViewMore(true);
+    setPageSize(pageSize + defaultPageSizeHistory);
+  }
+  const loadHistories = async () => {
+    try {
+      const response = await taskHistory(task.workspace_id, task.project_id, task.id, {
+        page: 1,
+        size: pageSize
+      });
+      setLoadingViewMore(false);
+      if (response && response.code === API_CODE.OK) {
+        setHistoryData(response.data);
+        return;
+      }
+      setHistoryData(undefined);
+    } catch (error) {
+      setLoadingViewMore(false);
+      setHistoryData(undefined);
+    }
+  }
+  useEffect(() => {
+    loadHistories();
+  }, [pageSize]);
   return (
     <div className="container mt-4">
       {
@@ -119,9 +149,18 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
       <TaskTag projectId={task.project_id} tags={tags} setTags={setTags} />
       <TaskPriority priority={priority} setPriority={setPriority} />
       <TaskTypeList type={type} setType={setType} />
+      <SubTask task={task} />
       <TaskDescription description={description} setDescription={setDescription} />
       <hr/>
-      <TaskSetting task={task} open={openSetting} setOpen={setOpenSetting} />
+      <TaskSetting 
+        task={task} 
+        open={openSetting} 
+        historyData={historyData} 
+        setOpen={setOpenSetting} 
+        handleViewMoreHistory={handleViewMore}
+        loadingViewMore={loadingViewMore}
+        pageSize={pageSize}
+      />
       <CommentView task={task} />
     </div>
   )

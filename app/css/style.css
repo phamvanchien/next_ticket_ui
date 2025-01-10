@@ -229,6 +229,10 @@ input {
     background-color: #3333 !important;
 }
 
+.react-datepicker-popper {
+    left: 40px !important;
+}
+
 @media (max-width: 768px) {
     .open-sidebar {
         width: 100% !important;

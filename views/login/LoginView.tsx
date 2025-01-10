@@ -82,11 +82,6 @@ const LoginView = () => {
       if (response && response.code === API_CODE.OK) {
         setCookie(APP_AUTH.COOKIE_AUTH_KEY, response.data.access_token, { expires: APP_CONFIG.TOKEN_EXPIRE_TIME });
         setCookie(APP_AUTH.COOKIE_AUTH_USER, JSON.stringify(response.data.user), { expires: APP_CONFIG.TOKEN_EXPIRE_TIME });
-        const workspaceStorage = localStorage.getItem(APP_LOCALSTORAGE.WORKSPACE_STORAGE);
-        if (workspaceStorage) {
-          router.push(APP_LINK.WORKSPACE + '/' + workspaceStorage);
-          return
-        }
         router.push(APP_LINK.GO_TO_WORKSPACE);
         return;
       }

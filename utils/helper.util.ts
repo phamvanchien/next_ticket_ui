@@ -24,7 +24,7 @@ export const formatTime = (date: Date) => {
     now.getMonth() === date.getMonth() &&
     now.getFullYear() === date.getFullYear()
   ) {
-    return `Hôm qua ${hour}:${minute}`;
+    return `Yesterday ${hour}:${minute}`;
   }
 
   if (
@@ -34,7 +34,7 @@ export const formatTime = (date: Date) => {
     now.getHours() === date.getHours() &&
     now.getMinutes() === date.getMinutes()
   ) {
-      return `Vừa xong ${hour}:${minute}`;
+      return `Now ${hour}:${minute}`;
   }
 
   if (
@@ -42,7 +42,7 @@ export const formatTime = (date: Date) => {
     now.getMonth() === date.getMonth() &&
     now.getFullYear() === date.getFullYear()
   ) {
-    return `Hôm nay ${hour}:${minute}`;
+    return `Today ${hour}:${minute}`;
   }
 
   return `${day}/${month}/${year}`;
@@ -379,9 +379,14 @@ export const colorRange = () => {
   ];
 }
 
-export const dateToString = (date: Date) => {
+export const dateToString = (date: Date, character = '/') => {
   const month = date.getMonth() + 1;
   return `${date.getDate() >= 10 ? date.getDate() : '0' + date.getDate().toString()}/${month >= 10 ? month : '0' + month.toString()}/${date.getFullYear()}`;
+}
+
+export const dateToStamptimeString = (date: Date) => {
+  const month = date.getMonth() + 1;
+  return `${date.getFullYear()}-${month >= 10 ? month : '0' + month.toString()}-${date.getDate() >= 10 ? date.getDate() : '0' + date.getDate().toString()}`;
 }
 
 export const taskType = (typeId?: number) => {

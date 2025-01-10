@@ -1,7 +1,7 @@
 "use client"
 import Button from "@/common/components/Button";
 import Input from "@/common/components/Input";
-import { faAngleDoubleDown, faEnvelope, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDoubleDown, faBullseye, faEnvelope, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CreateProjectModal from "./components/CreateProjectModal";
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from "react";
@@ -80,7 +80,7 @@ const ProjectView = () => {
   return <>
     <div className="row">
       <div className="col-12">
-          <h3>Projects</h3>
+          <h3><FontAwesomeIcon icon={faBullseye} className="text-primary" /> Projects</h3>
       </div>
     </div>
     <div className="row mt-4">

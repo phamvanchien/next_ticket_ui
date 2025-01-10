@@ -13,21 +13,21 @@ import { faAngleDoubleDown } from "@fortawesome/free-solid-svg-icons";
 import Loading from "@/common/components/Loading";
 import { statusList } from "@/api/project.api";
 import { ResponseUserDataType } from "@/types/user.type";
+import TaskListLoading from "./TaskListLoading";
+import { dateToStamptimeString } from "@/utils/helper.util";
 
 interface TaskListViewProps {
   project: ProjectType
   taskIncome?: TaskType
   keyword: string
   assignee: ResponseUserDataType[]
-  setAssignee: (assignee: ResponseUserDataType[]) => void
   creator: ResponseUserDataType[]
-  setCreator: (creator: ResponseUserDataType[]) => void,
   priority: TaskPriorityType[]
-  setPriority: (priority: TaskPriorityType[]) => void,
   tags: ResponseTagType[]
-  setTags: (tags: ResponseTagType[]) => void,
   type: TaskTypeItem[]
-  setType: (type: TaskTypeItem[]) => void
+  prioritySort?: "DESC" | "ASC"
+  dueSort?: "DESC" | "ASC"
+  dueDateFilter?: Date[]
 }
 
 const TaskListView: React.FC<TaskListViewProps> = ({ 
@@ -39,11 +39,9 @@ const TaskListView: React.FC<TaskListViewProps> = ({
   priority,
   tags,
   type,
-  setType,
-  setTags,
-  setPriority,
-  setCreator,
-  setAssignee,
+  prioritySort,
+  dueSort,
+  dueDateFilter
 }) => {
   const defaultPagesize = 10;
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
@@ -53,6 +51,7 @@ const TaskListView: React.FC<TaskListViewProps> = ({
   const [loadingViewMore, setLoadingViewMore] = useState(false);
   const [statusData, setStatusData] = useState<ResponseTagsDataType>();
   const [searchStatus, setSearchStatus] = useState<string>('');
+  const [loading, setLoading] = useState(true);
   const handleViewMore = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     setLoadingViewMore(true);
@@ -73,9 +72,14 @@ const TaskListView: React.FC<TaskListViewProps> = ({
         priority: priority.map(p => p.id).join(','),
         creator: creator.map(c => c.id).join(','),
         type: type.map(t => t.id).join(','),
-        sortCreatedAt: 'DESC'
+        sortCreatedAt: (prioritySort || dueSort) ? undefined : 'DESC',
+        sortPriority: prioritySort,
+        sortDue: dueSort,
+        fromDue: (dueDateFilter && dueDateFilter.length > 1) ? dateToStamptimeString(dueDateFilter[1]) + ' 00:00:00' : undefined,
+        toDue: (dueDateFilter && dueDateFilter.length > 1) ? dateToStamptimeString(dueDateFilter[0]) + ' 23:59:59' : undefined,
       });
       setLoadingViewMore(false);
+      setLoading(false);
       if (response && response.code === API_CODE.OK) {
         setTasksData(response.data);
         return;
@@ -83,6 +87,7 @@ const TaskListView: React.FC<TaskListViewProps> = ({
       setError(catchError(response));
     } catch (error) {
       setLoadingViewMore(false);
+      setLoading(false);
       setError(catchError(error as BaseResponseType));
     }
   }
@@ -107,7 +112,7 @@ const TaskListView: React.FC<TaskListViewProps> = ({
   }
   useEffect(() => {
     loadTasks();
-  }, [pageSize, keyword, assignee, tags, priority, creator, type]);
+  }, [pageSize, keyword, assignee, tags, priority, creator, type, prioritySort, dueSort, dueDateFilter]);
   useEffect(() => {
     if (taskIncome) {
       loadTasks();
@@ -116,6 +121,9 @@ const TaskListView: React.FC<TaskListViewProps> = ({
   useEffect(() => {
     loadStatus();
   }, [searchStatus]);
+  if (loading) {
+    return <TaskListLoading />
+  }
   return (
     <div className="row mt-4">
       <div className="col-12">

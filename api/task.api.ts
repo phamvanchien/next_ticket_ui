@@ -1,8 +1,8 @@
 import { API_METHOD_ENUM } from "@/enums/api.enum";
 import { request } from "./base.api";
 import { APP_CONFIG } from "@/config/app.config";
-import { RequestCreateTaskType, RequestGetTaskType, RequestUpdateTaskType, ResponseTaskBoardType, ResponseTasksType, ResponseTaskType } from "@/types/task.type";
-import { BaseResponseType } from "@/types/base.type";
+import { RequestCreateTaskType, RequestGetTaskType, RequestUpdateTaskType, ResponseHistoryType, ResponseTaskBoardType, ResponseTasksType, ResponseTaskType } from "@/types/task.type";
+import { BaseResponseType, RequestWithPaginationType } from "@/types/base.type";
 
 export const create = async (workspaceId: number, projectId: number, payload: RequestCreateTaskType): Promise<ResponseTaskType> => {
   return request({
@@ -62,5 +62,13 @@ export const removeTask = async (workspaceId: number, projectId: number, taskId:
   return request({
     method: API_METHOD_ENUM.DELETE,
     url: APP_CONFIG.API.PREFIX.task.url + '/' + workspaceId + '/' + projectId + '/' + taskId
+  });
+}
+
+export const taskHistory = async (workspaceId: number, projectId: number, taskId: number, payload: RequestWithPaginationType): Promise<ResponseHistoryType> => {
+  return request({
+    method: API_METHOD_ENUM.GET,
+    url: APP_CONFIG.API.PREFIX.task.url + '/' + workspaceId + '/' + projectId + '/' + taskId + '/history',
+    params: payload
   });
 }

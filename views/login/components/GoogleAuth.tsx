@@ -38,11 +38,6 @@ const GoogleAuth: React.FC<GoogleAuthProps> = ({ code, scope, authuser, prompt }
             setShowSetPassword(true);
             return;
           }
-          const workspaceStorage = localStorage.getItem(APP_LOCALSTORAGE.WORKSPACE_STORAGE);
-          if (workspaceStorage) {
-            router.push(APP_LINK.WORKSPACE + '/' + workspaceStorage);
-            return
-          }
           router.push(APP_LINK.GO_TO_WORKSPACE);
           return;
         }

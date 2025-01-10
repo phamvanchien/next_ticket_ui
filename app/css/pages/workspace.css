@@ -39,9 +39,18 @@
     cursor: pointer;
 }
 
+.img-banner-wp {
+  width: 60%;
+  height: 150px;
+}
+
 @media (max-width: 576px) {
   .create-workspace-box, .setting-workspace-box {
     margin-top: .5rem;
     width: 95% !important;
+  }
+
+  .img-banner-wp {
+    width: 100% !important;
   }
 }

@@ -5,7 +5,7 @@ import Button from "@/common/components/Button";
 import CreateTaskView from "./create/CreateTaskView";
 import { ProjectType, ResponseTagType } from "@/types/project.type";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckSquare, faFilter, faFilterCircleXmark, faGear, faList, faPlus, faSearch, faTable } from "@fortawesome/free-solid-svg-icons";
+import { faCheckSquare, faFilter, faFilterCircleXmark, faGear, faList, faPlus, faSearch, faSort, faSortAmountAsc, faSortAmountDesc, faTable, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import TaskBoardView from "./components/board/grib/TaskBoardView";
 import { APP_LOCALSTORAGE } from "@/enums/app.enum";
 import Input from "@/common/components/Input";
@@ -39,8 +39,11 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
   const [type, setType] = useState<TaskTypeItem[]>([]);
   const [openSearch, setOpenSearch] = useState(false);
   const [totalTask, setTotalTask] = useState<number>(0);
-
   const [isSetting, setIsSetting] = useState<boolean>();
+  const [prioritySort, setPrioritySort] = useState<"DESC" | "ASC">();
+  const [dueSort, setDueSort] = useState<"DESC" | "ASC">();
+  const [openSort, setOpenSort] = useState(false);
+  const [dueDateFilter, setDueDateFilter] = useState<Date[]>();
 
   const searchParams = useSearchParams();
   const createParam = searchParams.get('create');
@@ -55,6 +58,21 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
     if (event.target.value && event.target.value !== '') {
       setKeyword(event.target.value);
     }
+  }
+  const handleSelectFilter = (sortField: "priority" | "due", sortType: "DESC" | "ASC") => {
+    setPrioritySort(undefined);
+    setDueSort(undefined);
+    if (sortField === 'priority') {
+      setPrioritySort(sortType);
+    }
+    if (sortField === 'due') {
+      setDueSort(sortType);
+    }
+  }
+  const handleCancelSort = () => {
+    setPrioritySort(undefined);
+    setDueSort(undefined);
+    setOpenSort(false);
   }
   useEffect(() => {
     const handler = setTimeout(() => {
@@ -107,6 +125,7 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
         setPriority={setPriority}
         setCreator={setCreator}
         setAssignee={setAssignee}
+        setDueDate={setDueDateFilter}
       />
       <div className="row">
         <div className="col-12">
@@ -121,12 +140,12 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
       <div className="row mt-2 mb-2">
         <div className="col-12 filter-bar">
           <Button color="secondary" outline={!(typeShow === 1)} className="float-left create-btn mr-2" onClick={() => handleSetTypeShow (1)}>
-            <FontAwesomeIcon icon={faTable} />
+            <FontAwesomeIcon icon={faTable} /> Board
           </Button>
           {
             (totalTask > 0) &&
               <Button color="secondary" outline={!(typeShow === 2)} className="float-left create-btn mr-2" onClick={() => handleSetTypeShow (2)}>
-                <FontAwesomeIcon icon={faList} />
+                <FontAwesomeIcon icon={faList} /> List
               </Button>
           }
           {
@@ -137,9 +156,17 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
           }
           {
             (totalTask > maxTaskShowFilter && typeShow !== 3) &&
+              <>
               <Button color="secondary" outline className="float-left create-btn mr-2" onClick={() => setOpenFilter (true)}>
                 <FontAwesomeIcon icon={openFilter ? faFilterCircleXmark : faFilter} />
               </Button>
+              {
+                !openSort &&
+                <Button color="secondary" outline className="float-left create-btn mr-2" onClick={() => setOpenSort (true)}>
+                  <FontAwesomeIcon icon={faSort} />
+                </Button>
+              }
+              </>
           }
           {(totalTask > maxTaskShowFilter && !openSearch && typeShow !== 3) && <FontAwesomeIcon icon={faSearch} className="text-secondary" onClick={() => setOpenSearch (true)} />}
           {
@@ -153,6 +180,24 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
             </Button>
           }
         </div>
+        {
+          openSort &&
+          <div className="col-12 mt-2">
+            <Button color="secondary" className="float-left create-btn mr-2" outline={prioritySort !== 'ASC'} onClick={() => handleSelectFilter ('priority', "ASC")}>
+              <FontAwesomeIcon icon={faSortAmountAsc} /> Priority
+            </Button>
+            <Button color="secondary" className="float-left create-btn mr-2" outline={prioritySort !== 'DESC'} onClick={() => handleSelectFilter ('priority', "DESC")}>
+              <FontAwesomeIcon icon={faSortAmountDesc} /> Priority
+            </Button>
+            <Button color="secondary" className="float-left create-btn mr-2" outline={dueSort !== 'ASC'} onClick={() => handleSelectFilter ('due', 'ASC')}>
+              <FontAwesomeIcon icon={faSortAmountAsc} /> Due
+            </Button>
+            <Button color="secondary" className="float-left create-btn mr-2" outline={dueSort !== 'DESC'} onClick={() => handleSelectFilter ('due', 'DESC')}>
+              <FontAwesomeIcon icon={faSortAmountDesc} /> Due
+            </Button>
+            <FontAwesomeIcon icon={faTimesCircle} className="text-muted" style={{ fontSize: 20, marginTop: 5 }} onClick={handleCancelSort} />
+          </div>
+        }
         {
           (openSearch && typeShow !== 3) &&
           <div className="col-12 col-lg-3 mt-2">
@@ -179,6 +224,9 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
           priority={priority}
           tags={tags}
           type={type}
+          prioritySort={prioritySort}
+          dueSort={dueSort}
+          dueDateFilter={dueDateFilter}
         />
       }
       {
@@ -191,11 +239,9 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
           priority={priority}
           tags={tags}
           type={type}
-          setType={setType}
-          setTags={setTags}
-          setPriority={setPriority}
-          setCreator={setCreator}
-          setAssignee={setAssignee}
+          prioritySort={prioritySort}
+          dueSort={dueSort}
+          dueDateFilter={dueDateFilter}
         />
       }
       {

@@ -1,6 +1,9 @@
+import { APP_LINK } from "@/enums/app.enum";
 import { TaskType } from "@/types/task.type";
 import { dateToString } from "@/utils/helper.util";
 import { getIconPriority, getTypeClass, getTypeIcon } from "@/views/task/components/board/grib/TaskItem";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 interface TaskItemRecentlyProps {
@@ -8,19 +11,21 @@ interface TaskItemRecentlyProps {
 }
 
 const TaskItemRecently: React.FC<TaskItemRecentlyProps> = ({ task }) => {
+  const router = useRouter();
+  const taskLink: string = APP_LINK.WORKSPACE + '/' + task.workspace_id + '/project/' + task.project_id + '/task/' + task.id;
   return (
     <div
       className={`card task-item`}
       style={{ marginRight: 10 }}
     >
-      <div className="card-body mt-2" style={{ padding: 15 }}>
+      <div className="card-body mt-2" style={{ padding: 15 }} onClick={() => router.push(taskLink)}>
         <h6>
-          <a 
-            href={'#'} 
+          <Link
+            href={taskLink}
             className="text-dark"
           >
-            {task.title.length > 35 ? task.title.substring(0, 35) + '...' : task.title}
-          </a>
+            {task.title.length > 25 ? task.title.substring(0, 25) + '...' : task.title}
+          </Link>
         </h6>
         <div>
           <p className="text-secondary task-due">Due: {dateToString(new Date(task.due))}</p>

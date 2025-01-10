@@ -9,7 +9,7 @@ import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { catchError } from "@/services/base.service";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { colorRange } from "@/utils/helper.util";
+import { colorRange, dateToStamptimeString } from "@/utils/helper.util";
 import TaskBoardLoading from "./TaskBoardLoading";
 import TaskStatusWrap from "../TaskStatusWrap";
 import TaskItem from "./TaskItem";
@@ -29,6 +29,9 @@ interface TaskBoardViewProps {
   priority: TaskPriorityType[]
   tags: ResponseTagType[]
   type: TaskTypeItem[]
+  prioritySort?: "DESC" | "ASC"
+  dueSort?: "DESC" | "ASC"
+  dueDateFilter?: Date[]
 }
 
 const TaskBoardView: React.FC<TaskBoardViewProps> = ({ 
@@ -41,6 +44,9 @@ const TaskBoardView: React.FC<TaskBoardViewProps> = ({
   tags,
   type,
   totalTask,
+  prioritySort,
+  dueSort,
+  dueDateFilter,
   setTotalTask,
   setOpenCreate, 
   setInputStatusCreate 
@@ -105,7 +111,12 @@ const TaskBoardView: React.FC<TaskBoardViewProps> = ({
           tags: tags.map(t => t.id).join(','),
           priority: priority.map(p => p.id).join(','),
           creator: creator.map(c => c.id).join(','),
-          type: type.map(t => t.id).join(',')
+          type: type.map(t => t.id).join(','),
+          sortCreatedAt: (prioritySort || dueSort) ? undefined : 'ASC',
+          sortPriority: prioritySort,
+          sortDue: dueSort,
+          fromDue: (dueDateFilter && dueDateFilter.length > 1) ? dateToStamptimeString(dueDateFilter[1]) + ' 00:00:00' : undefined,
+          toDue: (dueDateFilter && dueDateFilter.length > 1) ? dateToStamptimeString(dueDateFilter[0]) + ' 23:59:59' : undefined,
         });
         if (response && response.code === API_CODE.OK) {
           setTasks(response.data);
@@ -124,7 +135,7 @@ const TaskBoardView: React.FC<TaskBoardViewProps> = ({
       }
     }
     loadTaskBoard();
-  }, [workspace, keyword, assignee, tags, priority, creator, type]);
+  }, [workspace, keyword, assignee, tags, priority, creator, type, prioritySort, dueSort, dueDateFilter]);
   
   useEffect(() => {
     if (taskData) {

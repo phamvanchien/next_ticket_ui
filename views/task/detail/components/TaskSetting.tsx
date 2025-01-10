@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import SubTask from "./SubTask";
-import { TaskType } from "@/types/task.type";
+import { ResponseHistoryDataType, TaskType } from "@/types/task.type";
 import Modal from "@/common/modal/Modal";
 import ModalBody from "@/common/modal/ModalBody";
 import { useSelector } from "react-redux";
@@ -17,14 +17,19 @@ import { notify } from "@/utils/helper.util";
 import { catchError } from "@/services/base.service";
 import { BaseResponseType } from "@/types/base.type";
 import Loading from "@/common/components/Loading";
+import TaskHistory from "./TaskHistory";
 
 interface TaskSettingProps {
   open: boolean
   task: TaskType
+  historyData?: ResponseHistoryDataType
+  loadingViewMore: boolean
+  pageSize: number
   setOpen: (open: boolean) => void
+  handleViewMoreHistory: (event: MouseEvent<HTMLAnchorElement>) => void
 }
 
-const TaskSetting: React.FC<TaskSettingProps> = ({ open, task, setOpen }) => {
+const TaskSetting: React.FC<TaskSettingProps> = ({ open, task, historyData, loadingViewMore, pageSize, setOpen, handleViewMoreHistory }) => {
   const taskDivRef = useRef<HTMLDivElement>(null);
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
@@ -95,7 +100,7 @@ const TaskSetting: React.FC<TaskSettingProps> = ({ open, task, setOpen }) => {
   return (
     <div id="wrapper" ref={taskDivRef}>
       <div id="sidebar-wrapper" className={open ? 'open-sidebar-detail' : 'close-sidebar'} style={
-        {marginRight: open ? -250 : -275}
+        {marginRight: open ? -250 : -275, paddingBottom: 50}
       }>
         <div className="row mb-4">
           <div className="col-6">
@@ -119,7 +124,13 @@ const TaskSetting: React.FC<TaskSettingProps> = ({ open, task, setOpen }) => {
             </div>
           }
         </div>
-        <SubTask task={task} />
+        <TaskHistory 
+          historyData={historyData} 
+          task={task} 
+          loadingViewMore={loadingViewMore}
+          pageSize={pageSize}
+          handleViewMoreHistory={handleViewMoreHistory}
+        />
       </div>
       <Modal className="clone-modal" isOpen={confirmClone ? true : false}>
         <ModalBody>

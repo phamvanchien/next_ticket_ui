@@ -10,6 +10,7 @@ import { Metadata } from "next";
 import { cookies } from "next/headers";
 import React, { use } from "react";
 import '../../css/pages/task.css';
+import '../../css/pages/workspace.css';
 
 interface WorkspacePageProps {
   params: {

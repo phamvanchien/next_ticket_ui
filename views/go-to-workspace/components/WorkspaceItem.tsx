@@ -1,4 +1,4 @@
-import { APP_LINK, APP_LOCALSTORAGE } from "@/enums/app.enum";
+import { APP_LINK } from "@/enums/app.enum";
 import { WorkspaceType } from "@/types/workspace.type";
 import { faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,13 +11,9 @@ interface WorkspaceItemProps {
 
 const WorkspaceItem: React.FC<WorkspaceItemProps> = ({ workspace }) => {
   const router = useRouter();
-  const handleClickItem = () => {
-    localStorage.setItem(APP_LOCALSTORAGE.WORKSPACE_STORAGE, workspace.id.toString());
-    router.push (APP_LINK.WORKSPACE + '/' + workspace.id)
-  }
   return (
     <div className="col-12 col-lg-6 col-sm-6">
-      <div className="info-box workspace-item" onClick={handleClickItem}>
+      <div className="info-box workspace-item" onClick={() => router.push (APP_LINK.WORKSPACE + '/' + workspace.id)}>
         {/* <span className="info-box-icon elevation-1">
             <img src="/img/logo.png" alt="Next Ticket Logo" width={60} height={60} />
         </span> */}

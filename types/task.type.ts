@@ -109,3 +109,24 @@ export interface TaskPriorityType {
   title: string
   color: string
 }
+
+export interface ResponseHistoryType extends BaseResponseType {
+  data: ResponseHistoryDataType
+}
+
+export interface ResponseHistoryDataType extends ResponseWithPaginationType {
+  items: HistoryType[]
+}
+
+export interface HistoryType {
+  id: number
+  user: ResponseUserDataType
+  content: HistoryContentType[]
+  created_at: string
+}
+
+export interface HistoryContentType {
+  field: string
+  before: string
+  after: string
+}

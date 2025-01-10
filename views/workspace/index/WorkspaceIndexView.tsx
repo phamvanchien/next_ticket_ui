@@ -39,13 +39,39 @@ const WorkspaceIndexView = () => {
   }, []);
   return (
     <div className="container">
-      <div className="row">
+      <div className="row mb-4">
         <div className="col-12 text-center">
           <h3>Hi! {userLogged?.first_name} {userLogged?.last_name}</h3>
         </div>
       </div>
-      {
-        (taskRecently && taskRecently.length > 0) && 
+      <div className="row">
+        <div className="col-3">
+          <div className="card">
+            <div className="card-body">
+              <center>
+                <img src="/img/banners/project.png" className="img-banner-wp" />
+              </center>
+            </div>
+            <div className="card-footer text-center text-primary">
+              <h6>Project manage</h6>
+            </div>
+          </div>
+        </div>
+        <div className="col-3">
+          <div className="card">
+            <div className="card-body">
+              <center>
+                <img src="/img/banners/setting.png" className="img-banner-wp" />
+              </center>
+            </div>
+            <div className="card-footer text-center text-primary">
+              <h6>Workspace setting</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+      {/* {
+        (taskRecently && taskRecently.length > 3) && 
         <>
           <div className="row">
             <div className="col-12">
@@ -64,7 +90,7 @@ const WorkspaceIndexView = () => {
             </div>
           </div>
         </>
-      }
+      } */}
     </div>
   )
 }
