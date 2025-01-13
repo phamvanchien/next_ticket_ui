@@ -108,56 +108,56 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
     loadHistories();
   }, [pageSize]);
 
-  return (
-    <div className="row mt-2">
-      <div className="col-12 mb-2">
-        <h4>{task.title}</h4>
-      </div>
-      <div className="col-lg-5 col-12">
-        <div className="card">
-          <div className="card-header p-10">
-            <div className="card-title">
-              <h6 className="text-secondary">Details:</h6>
-            </div>
-          </div>
-          <div className="card-body p-10 text-secondary">
-            <TaskAssignSelect 
-              assignee={assignee}
-              setAssignee={setAssignee}
-              project={task.project}
-              className="mb-4"
-            />
-            <div className="row">
-              <div className="col-4 lh-40">
-                Labels:
-              </div>
-              <div className="col-8">
-                <span className="badge badge-light mb-2 mr-2">
-                  <img src="/img/icon/user.png" width={30} height={30} /> Chien <FontAwesomeIcon icon={faTimesCircle} className="mt-2 ml-2" />
-                </span>
-                <span className="badge badge-light mb-2 mr-2">
-                  <img src="/img/icon/user.png" width={30} height={30} /> Chien <FontAwesomeIcon icon={faTimesCircle} className="mt-2 ml-2" />
-                </span>
-                <span className="badge badge-light mb-2 mr-2">
-                  <img src="/img/icon/user.png" width={30} height={30} /> Chien <FontAwesomeIcon icon={faTimesCircle} className="mt-2 ml-2" />
-                </span>
-                <span className="badge badge-light mb-2 mr-2">
-                  <img src="/img/icon/user.png" width={30} height={30} /> Chien <FontAwesomeIcon icon={faTimesCircle} className="mt-2 ml-2" />
-                </span>
-                <span className="badge badge-light mb-2 mr-2">
-                  <img src="/img/icon/user.png" width={30} height={30} /> Chien <FontAwesomeIcon icon={faTimesCircle} className="mt-2 ml-2" />
-                </span>
-                <Input type="search" className="w-100" />
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div className="col-lg-7 col-12">
-        <TaskDescription description={description} setDescription={setDescription} />
-      </div>
-    </div>
-  )
+  // return (
+  //   <div className="row mt-2">
+  //     <div className="col-12 mb-2">
+  //       <h4>{task.title}</h4>
+  //     </div>
+  //     <div className="col-lg-5 col-12">
+  //       <div className="card">
+  //         <div className="card-header p-10">
+  //           <div className="card-title">
+  //             <h6 className="text-secondary">Details:</h6>
+  //           </div>
+  //         </div>
+  //         <div className="card-body p-10 text-secondary">
+  //           <TaskAssignSelect 
+  //             assignee={assignee}
+  //             setAssignee={setAssignee}
+  //             project={task.project}
+  //             className="mb-4"
+  //           />
+  //           <div className="row">
+  //             <div className="col-4 lh-40">
+  //               Labels:
+  //             </div>
+  //             <div className="col-8">
+  //               <span className="badge badge-light mb-2 mr-2">
+  //                 <img src="/img/icon/user.png" width={30} height={30} /> Chien <FontAwesomeIcon icon={faTimesCircle} className="mt-2 ml-2" />
+  //               </span>
+  //               <span className="badge badge-light mb-2 mr-2">
+  //                 <img src="/img/icon/user.png" width={30} height={30} /> Chien <FontAwesomeIcon icon={faTimesCircle} className="mt-2 ml-2" />
+  //               </span>
+  //               <span className="badge badge-light mb-2 mr-2">
+  //                 <img src="/img/icon/user.png" width={30} height={30} /> Chien <FontAwesomeIcon icon={faTimesCircle} className="mt-2 ml-2" />
+  //               </span>
+  //               <span className="badge badge-light mb-2 mr-2">
+  //                 <img src="/img/icon/user.png" width={30} height={30} /> Chien <FontAwesomeIcon icon={faTimesCircle} className="mt-2 ml-2" />
+  //               </span>
+  //               <span className="badge badge-light mb-2 mr-2">
+  //                 <img src="/img/icon/user.png" width={30} height={30} /> Chien <FontAwesomeIcon icon={faTimesCircle} className="mt-2 ml-2" />
+  //               </span>
+  //               <Input type="search" className="w-100" />
+  //             </div>
+  //           </div>
+  //         </div>
+  //       </div>
+  //     </div>
+  //     <div className="col-lg-7 col-12">
+  //       <TaskDescription description={description} setDescription={setDescription} />
+  //     </div>
+  //   </div>
+  // )
   return (
     <div className="container mt-4">
       {
