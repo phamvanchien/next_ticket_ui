@@ -17,6 +17,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
 import ProjectInvitationModal from "./components/ProjectInvitationModal";
 import { WorkspaceType } from "@/types/workspace.type";
+import Loading from "@/common/components/Loading";
 
 const ProjectView = () => {
   const defaultPageSize = 10;
@@ -24,7 +25,7 @@ const ProjectView = () => {
   const [pageSize, setPageSize] = useState(defaultPageSize);
   const [openModal, setOpenModal] = useState(false);
   const [projectData, setProjectData] = useState<ResponseProjectsDataType>();
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<AppErrorType | null>(null);
   const [keyword, setKeyword] = useState<string>('');
   const [debounceKeyword, setDebounceKeyword] = useState<string>('');
@@ -45,16 +46,14 @@ const ProjectView = () => {
       if (!workspace) {
         return;
       }
-
-      setLoading(true);
       const response = await projects(workspace.id, {
         page: 1,
         size: pageSize,
         keyword: keyword
       });
+      setLoading(false);
       if (response && response.code === API_CODE.OK) {
         setProjectData(response.data);
-        setLoading(false);
         return;
       }
       setError(catchError(response));
@@ -95,7 +94,7 @@ const ProjectView = () => {
       {
         (projectData) &&
         <div className="col-12 col-lg-5 mb-2">
-          <Input type="search" placeholder="Search projects" className="float-right search-input" onChange={handleChangeKeyword} />
+          <Input type="search" placeholder="Search projects" className="float-right input-search" onChange={handleChangeKeyword} />
         </div>
       }
     </div>
@@ -106,9 +105,20 @@ const ProjectView = () => {
             <ProjectTableHead />
             <tbody>
               {
-                (projectData && projectData.total > 0) ? projectData.items.map(project => (
+                loading &&
+                <tr>
+                  <td colSpan={6} className="text-center">
+                    <Loading color="primary" size={40} />
+                  </td>
+                </tr>
+              }
+              {
+                (!loading && projectData && projectData.total > 0) && projectData.items.map(project => (
                   <ProjectTableItem key={project.id} project={project} loadProjects={loadProjects} />
-                )) : 
+                ))
+              }
+              {
+                (!loading && projectData && projectData.total === 0) &&
                 <tr>
                   <td colSpan={6}>
                     <h6 className="text-muted text-center">Your projects will be show here</h6>
@@ -116,7 +126,7 @@ const ProjectView = () => {
                 </tr>
               }
               {
-                (projectData && projectData.total > pageSize) &&
+                (!loading && projectData && projectData.total > pageSize) &&
                 <tr>
                   <td colSpan={6} className="text-left">
                     <a href="#" className="link" onClick={handleViewMoreProjects}>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 
 interface ModalProps {
   children: React.ReactNode
@@ -7,6 +7,7 @@ interface ModalProps {
 }
 
 const Modal: React.FC<ModalProps> = ({ children, isOpen, className }) => {
+  const modalDivRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     const body = document.getElementsByTagName('body') as HTMLCollectionOf<HTMLBodyElement>;
     if (isOpen) {
@@ -17,7 +18,7 @@ const Modal: React.FC<ModalProps> = ({ children, isOpen, className }) => {
   }, [isOpen]);
 
   return <>
-    <div className={`modal fade ${isOpen ? 'show display-block' : ''}`} id="modal">
+    <div className={`modal fade ${isOpen ? 'show display-block' : ''}`} id="modal" ref={modalDivRef}>
       <div className="modal-dialog">
         <div className={`modal-content ${className ? className : ''}`}>
           {children}

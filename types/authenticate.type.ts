@@ -33,6 +33,7 @@ export interface ResponseAuthenticateType extends BaseResponseType {
   data: {
     access_token: string
     user: ResponseUserDataType,
+    google_auth_url: string,
     login_type: 'nomarl' | 'google' | 'register_google'
   }
 }

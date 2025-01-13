@@ -9,8 +9,8 @@ interface NavItemProps {
 
 const NavItem: React.FC<NavItemProps> = ({ children, href, className }) => {
   return (
-    <li className="nav-item">
-      <Link href={href} className={`nav-link ${className ?? ''}`}>
+    <li className={`nav-item ${className ?? ''}`}>
+      <Link href={href} className={`nav-link`}>
         {children}
       </Link>
     </li>

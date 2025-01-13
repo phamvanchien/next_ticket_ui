@@ -26,6 +26,14 @@
     margin: unset !important;
 }
 
+.pt-unset {
+    padding-top: unset !important;
+}
+
+.lh-40 {
+    line-height: 40px !important;
+}
+
 .p-5 {
     padding: 5px !important;
 }

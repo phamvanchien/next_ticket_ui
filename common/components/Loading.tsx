@@ -1,4 +1,4 @@
-import { faSpinner } from "@fortawesome/free-solid-svg-icons";
+import { faCircleDot, faCircleNotch, faSpinner } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface LoadingProps {
@@ -8,6 +8,6 @@ interface LoadingProps {
 }
 
 const Loading: React.FC<LoadingProps> = ({ color, size, className }) => {
-    return <FontAwesomeIcon className={`text-${color} ${className ? className : ''}`} icon={faSpinner} spin style={{fontSize: size}} />
+    return <FontAwesomeIcon className={`text-${color} ${className ? className : ''}`} icon={faCircleNotch} spin style={{fontSize: size}} />
 }
 export default Loading;

@@ -51,16 +51,16 @@ const InviteItem: React.FC<InviteItemProps> = ({ invite, loadInvite }) => {
   }
   return (
     <div className="row mb-4">
-      <div className="col-12 col-lg-6">
+      <div className="col-12 col-lg-4">
         <h6 className="invite-from-title">{invite.workspace.user?.first_name} {invite.workspace.user?.last_name}</h6>
-        <span className="text-muted invite-from-wp">Mời tham gia <i>{invite.workspace.name}</i></span>
+        <span className="text-muted invite-from-wp">Invite to join <i>{invite.workspace.name}</i></span>
       </div>
-      <div className="col-6 col-lg-3">
+      <div className="col-6 col-lg-2 mt-2">
         <Button color="primary" fullWidth onClick={handleAcceptInvite} disabled={loading || loadingDelete}>
           {loading ? <Loading color="light" /> : 'Accept'}
         </Button>
       </div>
-      <div className="col-6 col-lg-3">
+      <div className="col-6 col-lg-2 mt-2">
         <Button color="secondary" outline fullWidth disabled={loading || loadingDelete} onClick={handleRemoveInvite}>
           {loadingDelete ? <Loading color="secondary" /> : 'Remove'}
         </Button>

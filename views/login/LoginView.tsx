@@ -128,7 +128,7 @@ const LoginView = () => {
       const response = await fetchEmail(emailInput ?? '');
       if (response && response.code === API_CODE.OK) {
         if (response.data.login_type === 'google') {
-          authenticateWithGoogle();
+          window.location = response.data.google_auth_url;
           return;
         }
         setEmailVerified(true);
@@ -174,7 +174,7 @@ const LoginView = () => {
               }
               <form onSubmit={emailVerified ? handleSubmitLogin : handleFetchEmail} className="mt-2">
                 {
-                  !emailVerified && <div className="input-group mb-3">
+                  !emailVerified && <div className="input-group mb-2">
                     <Input 
                       type="text" 
                       placeholder="Enter your email address" 

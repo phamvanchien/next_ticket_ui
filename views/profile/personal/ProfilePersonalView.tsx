@@ -13,7 +13,7 @@ import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { ResponseUserDataType } from "@/types/user.type";
 import { getCookie, removeCookie, setCookie } from "@/utils/cookie.util";
 import { notify } from "@/utils/helper.util";
-import { faAngleDoubleLeft, faAngleDoubleRight, faLock, faPhone, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDoubleLeft, faAngleDoubleRight, faLock, faPhone, faUser, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -147,182 +147,167 @@ const ProfilePersonalView = () => {
     }
   }, []);
   return (
-    <div className="login-box auth-box profile-box">
-      <div className="login-logo">
-        <Link href="/">
-          <img src="/img/logo.png" alt="AdminLTE Logo" width={130} height={90} />
-        </Link>
+    <div className="row">
+      <div className="col-12 mb-4">
+        <h3><FontAwesomeIcon icon={faUserCircle} className="text-primary" /> Profile</h3>
       </div>
-      <div className="card">
-        <div className="card-body login-card-body p-10">
-            <Link href={'#'} style={{cursor: 'pointer'}} onClick={() => router.back()}>
-              <FontAwesomeIcon icon={faAngleDoubleLeft} /> Back
-            </Link>
-            <Link className="float-right" href={APP_LINK.GO_TO_WORKSPACE}>
-              Workspaces <FontAwesomeIcon icon={faAngleDoubleRight} />
-            </Link>
-            <hr/>
-            <div className="row">
-              {
-                (error) && 
-                <div className="col-12 mb-2">
-                  <div className="alert alert-light mt-4 alert-error">
-                    <b className="text-danger mt-2">Error: </b> {error.message}
-                  </div>
-                </div>
-              }
-              <div className="col-12">
-                <label className="label-field-register mr-2" htmlFor="phone">Email: </label>
-                {user?.email}
-              </div>
-              <div className="col-12">
-                <label className="label-field-register mr-2" htmlFor="phone">Status: </label>
-                <b className="text-success">Verified</b>
-              </div>
-              <div className="col-6">
-                <InputForm
-                  label="First name"
-                  id="first_name"
-                  inputType="text"
-                  inputPlaceholder="Enter your first name"
-                  inputIcon={<FontAwesomeIcon icon={faUser} />}
-                  inputValue={firstName}
-                  defaultValue={firstName}
-                  setInputValue={setFirstName}
-                  error={validateError}
-                  setError={setValidateError}
-                  validates={[
-                    {
-                      validateType: APP_VALIDATE_TYPE.REQUIRED,
-                      validateMessage: AUTHENTICATE_ENUM.FIRST_NAME_IS_EMPTY
-                    }
-                  ]}
-                />
-              </div>
-              <div className="col-6">
-                <InputForm
-                  label="last name"
-                  id="last_name"
-                  inputType="text"
-                  inputPlaceholder="Enter your last name"
-                  inputIcon={<FontAwesomeIcon icon={faUser} />}
-                  inputValue={lastName}
-                  defaultValue={lastName}
-                  setInputValue={setLastName}
-                  error={validateError}
-                  setError={setValidateError}
-                  validates={[
-                    {
-                      validateType: APP_VALIDATE_TYPE.REQUIRED,
-                      validateMessage: AUTHENTICATE_ENUM.LAST_NAME_IS_EMPTY
-                    }
-                  ]}
-                />
-              </div>
-              <div className="col-12">
-                <label className="label-field-register" htmlFor="phone">Phone</label>
-                <Input
-                  type="text"
-                  placeholder="Your phone"
-                  id="phone"
-                  defaultValue={phone}
-                  onChange={handleEmailInputChange}
-                  invalid={hasError(validateError, 'phone')}
-                />
-                {
-                  hasError(validateError, 'phone') &&
-                  <div className="invalid-feedback" style={{display: 'block'}}>
-                    {printError(validateError, 'phone')}
-                  </div>
-                }
-              </div>
-              <div className="col-12 mt-4">
-                <Button color="primary" onClick={handleUpdateProfile} disabled={loadingUpdate || loadingChangePassword}>
-                  {loadingUpdate ? <Loading color="light" /> : 'Save'}
-                </Button>
-              </div>
-              <div className="col-12 mt-4">
-                <div className="custom-control custom-checkbox">
-                  <Input type="checkbox" className="custom-control-input" id="changePassword" onChange={handleOpenChangePassword} />
-                  <label htmlFor="changePassword" className="custom-control-label">{loginType === 'common' ? 'Change' : 'Set'} password</label>
-                </div>
-              </div>
-              {
-                openChangePassword && <>
-                  {
-                    loginType === "common" &&
-                    <div className="col-12 mt-2">
-                      <InputForm
-                        label="Password"
-                        id="password"
-                        inputType="password"
-                        inputPlaceholder="Enter current password"
-                        inputIcon={<FontAwesomeIcon icon={faLock} />}
-                        inputValue={password}
-                        setInputValue={setPasswordOld}
-                        error={validateError}
-                        setError={setValidateError}
-                        validates={[
-                          {
-                            validateType: APP_VALIDATE_TYPE.REQUIRED,
-                            validateMessage: AUTHENTICATE_ENUM.PASSWORD_IS_EMPTY
-                          }
-                        ]}
-                      />
-                    </div>
-                  }
-                  <div className="col-12 mt-2">
-                    <InputForm
-                      id="new_password"
-                      inputType="password"
-                      inputPlaceholder={`Enter ${loginType === 'common' ? 'new' : ''} password`}
-                      inputIcon={<FontAwesomeIcon icon={faLock} />}
-                      inputValue={newPassword}
-                      setInputValue={setNewPassword}
-                      error={validateError}
-                      setError={setValidateError}
-                      validates={[
-                        {
-                          validateType: APP_VALIDATE_TYPE.REQUIRED,
-                          validateMessage: AUTHENTICATE_ENUM.NEW_PASSWORD_IS_REQUIRED
-                        }
-                      ]}
-                    />
-                  </div>
-                  <div className="col-12 mt-2">
-                    <InputForm
-                      id="confirm_password"
-                      inputType="password"
-                      inputPlaceholder={`Confirm ${loginType === 'common' ? 'new' : ''} password`}
-                      inputIcon={<FontAwesomeIcon icon={faLock} />}
-                      inputValue={confirmNewPassword}
-                      setInputValue={setConfirmNewPassword}
-                      error={validateError}
-                      setError={setValidateError}
-                      inputValueMatch={newPassword}
-                      validates={[
-                        {
-                          validateType: APP_VALIDATE_TYPE.REQUIRED,
-                          validateMessage: AUTHENTICATE_ENUM.CONFIRM_PASSWORD_IS_EMPTY
-                        },
-                        {
-                          validateType: APP_VALIDATE_TYPE.MATCH,
-                          validateMessage: AUTHENTICATE_ENUM.CONFIRM_PASSWORD_MISMATCH
-                        }
-                      ]}
-                    />
-                  </div>
-                  <div className="col-12 mt-2">
-                    <Button color="primary" disabled={loadingUpdate || loadingChangePassword} onClick={loginType === "google_only" ? handleSetPassword : handleChangePassword}>
-                      {loadingChangePassword ? <Loading color="light" /> : 'Change password'}
-                    </Button>
-                  </div>
-                </>
-              }
-            </div>
+      {
+        (error) && 
+        <div className="col-12 mb-2">
+          <div className="alert alert-light mt-4 alert-error">
+            <b className="text-danger mt-2">Error: </b> {error.message}
+          </div>
+        </div>
+      }
+      <div className="col-12">
+        <label className="label-field-register mr-2" htmlFor="phone">Email: </label>
+        {user?.email}
+      </div>
+      <div className="col-12">
+        <label className="label-field-register mr-2" htmlFor="phone">Status: </label>
+        <b className="text-success">Verified</b>
+      </div>
+      <div className="col-6">
+        <InputForm
+          label="First name"
+          id="first_name"
+          inputType="text"
+          inputPlaceholder="Enter your first name"
+          inputIcon={<FontAwesomeIcon icon={faUser} />}
+          inputValue={firstName}
+          defaultValue={firstName}
+          setInputValue={setFirstName}
+          error={validateError}
+          setError={setValidateError}
+          validates={[
+            {
+              validateType: APP_VALIDATE_TYPE.REQUIRED,
+              validateMessage: AUTHENTICATE_ENUM.FIRST_NAME_IS_EMPTY
+            }
+          ]}
+        />
+      </div>
+      <div className="col-6">
+        <InputForm
+          label="last name"
+          id="last_name"
+          inputType="text"
+          inputPlaceholder="Enter your last name"
+          inputIcon={<FontAwesomeIcon icon={faUser} />}
+          inputValue={lastName}
+          defaultValue={lastName}
+          setInputValue={setLastName}
+          error={validateError}
+          setError={setValidateError}
+          validates={[
+            {
+              validateType: APP_VALIDATE_TYPE.REQUIRED,
+              validateMessage: AUTHENTICATE_ENUM.LAST_NAME_IS_EMPTY
+            }
+          ]}
+        />
+      </div>
+      <div className="col-12">
+        <label className="label-field-register" htmlFor="phone">Phone</label>
+        <Input
+          type="text"
+          placeholder="Your phone"
+          id="phone"
+          defaultValue={phone}
+          onChange={handleEmailInputChange}
+          invalid={hasError(validateError, 'phone')}
+        />
+        {
+          hasError(validateError, 'phone') &&
+          <div className="invalid-feedback" style={{display: 'block'}}>
+            {printError(validateError, 'phone')}
+          </div>
+        }
+      </div>
+      <div className="col-12 mt-4">
+        <Button color="primary" onClick={handleUpdateProfile} disabled={loadingUpdate || loadingChangePassword}>
+          {loadingUpdate ? <Loading color="light" /> : 'Save'}
+        </Button>
+      </div>
+      <div className="col-12 mt-4">
+        <div className="custom-control custom-checkbox">
+          <Input type="checkbox" className="custom-control-input" id="changePassword" onChange={handleOpenChangePassword} />
+          <label htmlFor="changePassword" className="custom-control-label">{loginType === 'common' ? 'Change' : 'Set'} password</label>
         </div>
       </div>
+      {
+        openChangePassword && <>
+          {
+            loginType === "common" &&
+            <div className="col-12 mt-2">
+              <InputForm
+                label="Password"
+                id="password"
+                inputType="password"
+                inputPlaceholder="Enter current password"
+                inputIcon={<FontAwesomeIcon icon={faLock} />}
+                inputValue={password}
+                setInputValue={setPasswordOld}
+                error={validateError}
+                setError={setValidateError}
+                validates={[
+                  {
+                    validateType: APP_VALIDATE_TYPE.REQUIRED,
+                    validateMessage: AUTHENTICATE_ENUM.PASSWORD_IS_EMPTY
+                  }
+                ]}
+              />
+            </div>
+          }
+          <div className="col-12 mt-2">
+            <InputForm
+              id="new_password"
+              inputType="password"
+              inputPlaceholder={`Enter ${loginType === 'common' ? 'new' : ''} password`}
+              inputIcon={<FontAwesomeIcon icon={faLock} />}
+              inputValue={newPassword}
+              setInputValue={setNewPassword}
+              error={validateError}
+              setError={setValidateError}
+              validates={[
+                {
+                  validateType: APP_VALIDATE_TYPE.REQUIRED,
+                  validateMessage: AUTHENTICATE_ENUM.NEW_PASSWORD_IS_REQUIRED
+                }
+              ]}
+            />
+          </div>
+          <div className="col-12 mt-2">
+            <InputForm
+              id="confirm_password"
+              inputType="password"
+              inputPlaceholder={`Confirm ${loginType === 'common' ? 'new' : ''} password`}
+              inputIcon={<FontAwesomeIcon icon={faLock} />}
+              inputValue={confirmNewPassword}
+              setInputValue={setConfirmNewPassword}
+              error={validateError}
+              setError={setValidateError}
+              inputValueMatch={newPassword}
+              validates={[
+                {
+                  validateType: APP_VALIDATE_TYPE.REQUIRED,
+                  validateMessage: AUTHENTICATE_ENUM.CONFIRM_PASSWORD_IS_EMPTY
+                },
+                {
+                  validateType: APP_VALIDATE_TYPE.MATCH,
+                  validateMessage: AUTHENTICATE_ENUM.CONFIRM_PASSWORD_MISMATCH
+                }
+              ]}
+            />
+          </div>
+          <div className="col-12 mt-2">
+            <Button color="primary" disabled={loadingUpdate || loadingChangePassword} onClick={loginType === "google_only" ? handleSetPassword : handleChangePassword}>
+              {loadingChangePassword ? <Loading color="light" /> : 'Change password'}
+            </Button>
+          </div>
+        </>
+      }
     </div>
-  )
+  );
 }
 export default ProfilePersonalView;

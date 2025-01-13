@@ -5,6 +5,11 @@
 
 .google-btn {
     font-weight: 500;
+    height: 40px !important;
+}
+
+.google-btn img {
+    margin-top: -3px !important;
 }
 
 .label-field-register {

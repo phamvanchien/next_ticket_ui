@@ -11,7 +11,7 @@ interface InputFormProps {
   id: string
   inputType: "number" | "search" | "text" | "email" | "password" | "radio" | "checkbox"
   inputPlaceholder: string
-  inputIcon: JSX.Element
+  inputIcon?: JSX.Element
   setError: (error: AppErrorType[]) => void
   validates: ValidateObject[]
   error: AppErrorType[]
@@ -72,12 +72,15 @@ const InputForm: React.FC<InputFormProps> = ({
         invalid={hasError(error, id)}
         defaultValue={defaultValue}
       />
-      <div className="input-group-append">
-        <div className="input-group-text">
-          {inputType === 'password' && <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} className="mr-2" onClick={() => setShowPassword (showPassword ? false : true)} />}
-          {inputIcon}
+      {
+        inputIcon &&
+        <div className="input-group-append">
+          <div className="input-group-text">
+            {inputType === 'password' && <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} className="mr-2" onClick={() => setShowPassword (showPassword ? false : true)} />}
+            {inputIcon}
+          </div>
         </div>
-      </div>
+      }
       {
         (hasError(error, id)) &&
         <div className="invalid-feedback" style={{display: 'block'}}>

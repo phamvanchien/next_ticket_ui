@@ -99,11 +99,6 @@ const ProjectTableItem: React.FC<ProjectTableItemProps> = ({ project, loadProjec
   return <>
     <tr>
       <th scope="row">
-        <Button color="secondary" rounded title="Manage" onClick={() => router.push (APP_LINK.WORKSPACE + '/' + workspace?.id + '/project/' + project.id)}>
-          <FontAwesomeIcon icon={faArrowAltCircleRight} />
-        </Button>
-      </th>
-      <th scope="row">
         {
           expand ?
           <FontAwesomeIcon icon={faCaretDown} size="1x" style={{cursor: 'pointer'}} onClick={() => setExpand (false)} />
@@ -113,15 +108,9 @@ const ProjectTableItem: React.FC<ProjectTableItemProps> = ({ project, loadProjec
         
       </th>
       <td>
-        {
-          project.user_id !== userLogged?.id ? project.name : 
-          <Input 
-            ref={inputNameRef}
-            type="text" 
-            defaultValue={project.name} 
-            style={{padding: 0, border: 'unset'}} 
-          />
-        }
+        <Link href={APP_LINK.WORKSPACE + '/' + workspace?.id + '/project/' + project.id} className="text-secondary">
+          {project.name}
+        </Link>
       </td>
       <td>
         <i>{project.user.first_name} {project.user.last_name}</i>

@@ -12,6 +12,8 @@ import { catchError, hasError, printError, validateInput } from "@/services/base
 import { create } from "@/api/workspace.api";
 import { API_CODE } from "@/enums/api.enum";
 import Loading from "@/common/components/Loading";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const CreateWorkspaceView = () => {
   const router = useRouter();
@@ -62,61 +64,54 @@ const CreateWorkspaceView = () => {
     }
   }
   return (
-    <div className="login-box auth-box create-workspace-box">
-      <div className="login-logo">
-        <Link href="/">
-          <img src="/img/logo.png" alt="Next Ticket Logo" width={130} height={90} />
-        </Link>
+    <div className="row">
+      <div className="col-12 text-secondary">
+        <h3><FontAwesomeIcon icon={faPlus} /> Create Workspaces</h3>
       </div>
-      <div className="card">
-        <div className="card-body login-card-body">
-          <h6 className="text-dark">Create a new workspace</h6>
-          {
-            (error) && <div className="alert alert-light alert-error">
-              <b className="text-danger mt-2">Error: </b> {error.message}
-            </div>
-          }
-          <form className="mt-4" onSubmit={handleSubmitCreate}>
-            <div className="row">
-              <div className="col-12">
-                <Input 
-                  type="text" 
-                  minLength={3} 
-                  maxLength={100} 
-                  placeholder="Enter your workspace name" 
-                  onChange={handleWorkspaceNameChange} 
-                  invalid={hasError(validateError, 'name')}
-                  disabled={loading}
-                />
-                {
-                  hasError(validateError, 'name') &&
-                  <div className="invalid-feedback" style={{display: 'block'}}>
-                    {printError(validateError, 'name')}
-                  </div>
-                }
-              </div>
-              <div className="col-12">
-                <Textarea 
-                  className="mt-2" 
-                  placeholder="Workspace description" 
-                  onChange={handleWorkspaceDescriotionChange} 
-                  disabled={loading}></Textarea>
-              </div>
-              <div className="col-8"></div>
-              <div className="col-2">
-                <Button type="button" color="secondary" fullWidth outline className="float-right mt-2" onClick={() => router.push (APP_LINK.GO_TO_WORKSPACE)} disabled={loading}>
-                  Back
-                </Button>
-              </div>
-              <div className="col-2">
-                <Button type="submit" color="primary" fullWidth className="float-right mt-2" disabled={loading}>
-                  {loading ? <Loading color="light" /> : 'Create'}
-                </Button>
-              </div>
-            </div>
-          </form>
+      {
+        (error) && 
+        <div className="col-12">
+          <div className="alert alert-light alert-error">
+            <b className="text-danger mt-2">Error: </b> {error.message}
+          </div>
         </div>
-      </div>
+      }
+      <form className="mt-4" onSubmit={handleSubmitCreate}>
+        <div className="row">
+          <div className="col-12">
+            <Input 
+              type="text" 
+              minLength={3} 
+              maxLength={100} 
+              placeholder="Enter your workspace name" 
+              onChange={handleWorkspaceNameChange} 
+              invalid={hasError(validateError, 'name')}
+              disabled={loading}
+            />
+            {
+              hasError(validateError, 'name') &&
+              <div className="invalid-feedback" style={{display: 'block'}}>
+                {printError(validateError, 'name')}
+              </div>
+            }
+          </div>
+          <div className="col-12">
+            <Textarea 
+              className="mt-2" 
+              placeholder="Workspace description" 
+              onChange={handleWorkspaceDescriotionChange} 
+              disabled={loading}></Textarea>
+          </div>
+          <div className="col-12">
+            <Button type="button" color="secondary" outline className="float-right mt-2" onClick={() => router.push (APP_LINK.GO_TO_WORKSPACE)} disabled={loading}>
+              Back
+            </Button>
+            <Button type="submit" color="primary" className="float-right mt-2 mr-2" disabled={loading}>
+              {loading ? <Loading color="light" /> : 'Create'}
+            </Button>
+          </div>
+        </div>
+      </form>
     </div>
   );
 }

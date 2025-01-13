@@ -91,7 +91,7 @@ const Sidebar: React.FC<SidebarProps> = ({ workspace }) => {
       show: true
     },
     {
-      title: 'Join another workspace',
+      title: 'Workspaces',
       icon: <ImageIcon icon="circle-plus" width={iconSize} height={iconSize} />,
       link: APP_LINK.GO_TO_WORKSPACE,
       show: true

@@ -1,6 +1,6 @@
 "use client"
 import { APP_LINK } from "@/enums/app.enum";
-import { faAngleDoubleDown, faAngleDoubleLeft, faAngleDoubleRight, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDoubleDown, faAngleDoubleLeft, faAngleDoubleRight, faCubes, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -71,68 +71,51 @@ const GoToWorkspaceView = () => {
     return <ErrorPage errorCode={500} />
   }
   return (
-    <div className="login-box auth-box create-workspace-box">
-      <div className="login-logo">
-        <Link href="/">
-          <img src="/img/logo.png" alt="Next Ticket Logo" width={130} height={90} />
-        </Link>
-      </div>
-      <div className="card">
-        <div className="card-body login-card-body">
-          <Link href={APP_LINK.INVITATION}>
-            <FontAwesomeIcon icon={faAngleDoubleLeft} /> Invitaion
-          </Link>
-          <Link className="float-right" href={APP_LINK.GO_TO_WORKSPACE}>
-            Create workspace <FontAwesomeIcon icon={faAngleDoubleRight} />
-          </Link>
-          <hr/>
+    <div className="row">
+      <div className="col-12">
+        <div className="row">
+          <div className="col-12 col-lg-7 text-secondary">
+            <h3><FontAwesomeIcon icon={faCubes} className="text-primary" /> Workspaces</h3>
+            <h6 className="text-dark">Join to a workspace or</h6>
+            <h6 className="text-secondary">Create a new workspace</h6>
+          </div>
+          {
+            (!loading && workspacesData) &&
+            <div className="col-12 col-lg-5">
+              <Input type="search" className="input-search float-right" placeholder="Search your workspaces" onChange={handleChangeKeyword} disabled={viewMoreLoading} />
+            </div>
+          }
+        </div>
+        <div className="row mt-4">
+          <div className="col-12 col-lg-12 col-sm-12">
+            <div className="info-box create-box" onClick={() => router.push(APP_LINK.CREATE_WORKSPACE)}>
+              <span className="info-box-icon elevation-1">
+                <FontAwesomeIcon icon={faPlusCircle} className="create-icon" />
+              </span>
+            </div>
+          </div>
           {
             loading &&
-            <div className="row">
-              <div className="col-12 text-center">
-                <Loading color="secondary" size={50} />
-              </div>
+            <div className="col-12 text-center mt-4">
+              <Loading color="primary" size={40} />
             </div>
           }
           {
-            (!loading && workspacesData) &&
-            <>
-              <div className="row">
-                <div className="col-12 col-lg-7">
-                  <h6 className="text-dark">Join to a workspace or</h6>
-                  <h6 className="text-secondary">Create a new workspace</h6>
-                </div>
-                <div className="col-12 col-lg-5">
-                  <Input type="search" className="input-search" placeholder="Search your workspaces" onChange={handleChangeKeyword} disabled={viewMoreLoading} />
-                </div>
-              </div>
-              <div className="row mt-4">
-                <div className="col-12 col-lg-12 col-sm-12">
-                  <div className="info-box create-box" onClick={() => router.push(APP_LINK.CREATE_WORKSPACE)}>
-                    <span className="info-box-icon elevation-1">
-                      <FontAwesomeIcon icon={faPlusCircle} className="create-icon" />
-                    </span>
-                  </div>
-                </div>
-                {
-                  workspacesData.items.map(workspace => (
-                    <WorkspaceItem key={workspace.id} workspace={workspace} />
-                  ))
-                }
-              </div>
-              {
-                workspacesData.total > pageSize &&
-                <div className="row mt-2">
-                  <div className="col-12 text-center">
-                    <Button color="primary" rounded outline onClick={handleViewMore} disabled={viewMoreLoading}>
-                      {viewMoreLoading ? <Loading color="primary" /> : <>View more <FontAwesomeIcon icon={faAngleDoubleDown} /></>}
-                    </Button>
-                  </div>
-                </div>
-              }
-            </>
+            (!loading && workspacesData) && workspacesData.items.map(workspace => (
+              <WorkspaceItem key={workspace.id} workspace={workspace} />
+            ))
           }
         </div>
+        {
+          (workspacesData && workspacesData.total > pageSize) &&
+          <div className="row mt-2">
+            <div className="col-12 text-center">
+              <Button color="primary" rounded outline onClick={handleViewMore} disabled={viewMoreLoading}>
+                {viewMoreLoading ? <Loading color="primary" /> : <>View more <FontAwesomeIcon icon={faAngleDoubleDown} /></>}
+              </Button>
+            </div>
+          </div>
+        }
       </div>
     </div>
   );

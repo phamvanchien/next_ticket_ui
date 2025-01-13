@@ -151,10 +151,6 @@
     height: 200px !important;
 }
 
-.input-group-text {
-    display: none;
-}
-
 .invalid-feedback {
     display: none !important;
 }

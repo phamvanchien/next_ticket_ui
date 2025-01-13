@@ -20,6 +20,7 @@
 .input-search {
   border-radius: 20px;
   padding-left: 15px;
+  width: 70%;
 }
 
 .workspace-item {
@@ -28,11 +29,6 @@
 
 .create-workspace-box, .setting-workspace-box {
     width: 700px !important;
-}
-
-.input-search {
-    border-radius: 20px;
-    padding-left: 15px;
 }
   
 .workspace-item {
@@ -46,11 +42,16 @@
 
 @media (max-width: 576px) {
   .create-workspace-box, .setting-workspace-box {
-    margin-top: .5rem;
     width: 95% !important;
   }
 
   .img-banner-wp {
     width: 100% !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .input-search {
+    width: 100%;
   }
 }

@@ -181,7 +181,7 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
           }
         </div>
         {
-          openSort &&
+          (openSort && [1, 2].includes(typeShow)) &&
           <div className="col-12 mt-2">
             <Button color="secondary" className="float-left create-btn mr-2" outline={prioritySort !== 'ASC'} onClick={() => handleSelectFilter ('priority', "ASC")}>
               <FontAwesomeIcon icon={faSortAmountAsc} /> Priority

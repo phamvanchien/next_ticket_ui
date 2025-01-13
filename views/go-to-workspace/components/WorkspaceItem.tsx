@@ -13,7 +13,7 @@ const WorkspaceItem: React.FC<WorkspaceItemProps> = ({ workspace }) => {
   const router = useRouter();
   return (
     <div className="col-12 col-lg-6 col-sm-6">
-      <div className="info-box workspace-item" onClick={() => router.push (APP_LINK.WORKSPACE + '/' + workspace.id)}>
+      <div className="info-box workspace-item" onClick={() => router.push (APP_LINK.WORKSPACE + '/' + workspace.id + '/project')}>
         {/* <span className="info-box-icon elevation-1">
             <img src="/img/logo.png" alt="Next Ticket Logo" width={60} height={60} />
         </span> */}

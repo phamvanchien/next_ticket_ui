@@ -8,7 +8,6 @@ import Modal from "@/common/modal/Modal";
 import ModalBody from "@/common/modal/ModalBody";
 import ModalHeader from "@/common/modal/ModalHeader";
 import { API_CODE } from "@/enums/api.enum";
-import { APP_LOCALSTORAGE } from "@/enums/app.enum";
 import { RootState } from "@/reduxs/store.redux";
 import { catchError } from "@/services/base.service";
 import { AppErrorType, BaseResponseType } from "@/types/base.type";
@@ -19,7 +18,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 interface InviteMemberViewProps {
-  openModal: boolean
+  openModal: boolean | undefined
   setOpenModal: (openModal: boolean) => void
 }
 
@@ -168,12 +167,9 @@ const InviteMemberView: React.FC<InviteMemberViewProps> = ({ openModal, setOpenM
                   </ul>
                 }
               </div>
-              <div className="col-4 col-lg-6"></div>
-              <div className="col-4 col-lg-3">
-                <Button color="secondary" fullWidth outline onClick={handleCancelModal} disabled={loading}>Cancel</Button>
-              </div>
-              <div className="col-4 col-lg-3">
-                <Button color="primary" fullWidth onClick={handleSubmitSend} disabled={loading}>
+              <div className="col-12">
+                <Button color="secondary" className="float-right" outline onClick={handleCancelModal} disabled={loading}>Cancel</Button>
+                <Button color="primary" className="float-right mr-2" onClick={handleSubmitSend} disabled={loading}>
                   {loading ? <Loading color="light" /> : 'Send invite'}
                 </Button>
               </div>
