@@ -43,17 +43,17 @@ const DocumentCreate = () => {
     }
 
     setLoading(true);
-    const response = await create (workspace.id, {
-      title: titleRef.current.value,
-      content: content,
-      public: documentPublic,
-      user_share: memberShare.map(m => {
-        return {
-          id: m.id
-        }
-      }),
-      project_share: projectShare.map(p => p.id)
-    });
+    // const response = await create (workspace.id, {
+    //   title: titleRef.current.value,
+    //   content: content,
+    //   public: documentPublic,
+    //   user_share: memberShare.map(m => {
+    //     return {
+    //       id: m.id
+    //     }
+    //   }),
+    //   project_share: projectShare.map(p => p.id)
+    // });
   }
   const handleChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
