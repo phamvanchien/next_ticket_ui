@@ -39,7 +39,7 @@ const Dropdown: React.FC<DropdownProps> = ({ title, children, className }) => {
       <Button color="secondary" className="dropdown-toggle" onClick={handleClickDropdown}>
         {title}
       </Button>
-      <ul className="dropdown-menu" x-placement="bottom-start">
+      <ul className="dropdown-menu p-unset" x-placement="bottom-start">
         {children}
       </ul>
     </div>

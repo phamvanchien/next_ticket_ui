@@ -1,0 +1,128 @@
+import { tagsList } from "@/api/project.api";
+import Input from "@/common/components/Input";
+import { API_CODE } from "@/enums/api.enum";
+import { RootState } from "@/reduxs/store.redux";
+import { ResponseTagsDataType, ResponseTagType } from "@/types/project.type";
+import { faTag, faTimes, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+
+interface TaskTagSelectProps {
+  tags: ResponseTagType[]
+  className?: string
+  projectId: number
+  setTags: (tags: ResponseTagType[]) => void
+}
+
+const TaskTagSelect: React.FC<TaskTagSelectProps> = ({ tags, className, projectId, setTags }) => {
+  const [openTagList, setOpenTagList] = useState(false);
+  const [keyword, setKeyword] = useState<string>('');
+  const [debounceKeyword, setDebounceKeyword] = useState<string>('');
+  const [tagData, setTagData] = useState<ResponseTagsDataType>();
+  const listTagsRef = useRef<HTMLDivElement>(null);
+  const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
+  const handleChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {
+    event.preventDefault();
+    setKeyword('');
+    if (event.target.value && event.target.value !== '') {
+      setKeyword(event.target.value);
+    }
+  }
+  const handleSelectTag = (tag: ResponseTagType) => {
+    const added = tags.find(a => a.id === tag.id);
+    if (!added) {
+      setTags([...tags, tag]);
+    }
+  }
+  const handleRemoveTag = (tag: ResponseTagType) => {
+    setTags(tags.filter(a => a.id !== tag.id));
+  }
+  const loadTags = async () => {
+    try {
+      if (!workspace || !openTagList) {
+        return;
+      }
+      const response = await tagsList(workspace.id, projectId, {
+        page: 1,
+        size: 5,
+        keyword: keyword
+      });
+      if (response && response.code === API_CODE.OK) {
+        setTagData(response.data);
+        return;
+      }
+      setTagData(undefined);
+    } catch (error) {
+      setTagData(undefined);
+    }
+  }
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebounceKeyword(keyword);
+    }, 500);
+    return () => {
+      clearTimeout(handler);
+    };
+  }, [keyword]);
+  useEffect(() => {
+    loadTags();
+  }, [workspace, openTagList, debounceKeyword]);
+  useEffect(() => {
+    const handleClickOutside = async (event: MouseEvent) => {
+      if (listTagsRef.current && !listTagsRef.current.contains(event.target as Node)) {
+        setOpenTagList(false);
+        setKeyword('');
+        setDebounceKeyword('');
+      }
+    };
+  
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
+  return (
+    <div className={`row text-secondary ${className ?? ''}`}>
+      <div className="col-4 lh-40">
+        Tags:
+      </div>
+      <div className="col-8 text-secondary" onClick={() => setOpenTagList (true)} ref={listTagsRef}>
+        {
+          tags.length === 0 &&
+          <span className="badge badge-light lh-20 mb-2 mr-2">
+            <FontAwesomeIcon icon={faTag} /> No tags
+          </span>
+        }
+        {
+          tags.map((tag, index) => (
+            <span className="badge badge-light lh-20 mb-2 mr-2" key={index}>
+              <FontAwesomeIcon icon={faTag} style={{ color: tag.color }} /> {tag.name}
+              <FontAwesomeIcon icon={faTimes} className="mt-2 ml-2 text-secondary" onClick={() => handleRemoveTag (tag)} />
+            </span>
+          ))
+        }
+        {
+          openTagList &&
+          <>
+            <ul className="list-group select-search-task">
+              <li className="list-group-item border-unset p-unset">
+                <Input type="search" className="w-100" onChange={handleChangeKeyword} />
+              </li>
+              {
+                tagData && tagData.items.filter(m => !tags.map(a => a.id).includes(m.id)).map((tag, index) => (
+                  <li className="list-group-item border-unset p-unset" key={index} onClick={() => handleSelectTag (tag)}>
+                    <span className="badge badge-default w-100 text-left">
+                      <FontAwesomeIcon icon={faTag} style={{ color: tag.color }} /> {tag.name}
+                    </span>
+                  </li>
+                ))
+              }
+            </ul>
+          </>
+        }
+      </div>
+    </div>
+  );
+}
+export default TaskTagSelect;

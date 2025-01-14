@@ -2,40 +2,43 @@
 import Input from "@/common/components/Input";
 import { ResponseHistoryDataType, TaskPriorityType, TaskType, TaskTypeItem } from "@/types/task.type";
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
-import TaskAssignee from "./components/TaskAssignee";
-import TaskStatus from "./components/TaskStatus";
-import TaskTag from "./components/TaskTag";
-import TaskPriority from "./components/TaskPriority";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDoubleLeft, faCalendarCheck, faComment, faInfo, faTimes, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDoubleLeft, faCaretDown, faCaretUp, faCheck, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import DateInput from "@/common/components/DateInput";
 import { ResponseUserDataType } from "@/types/user.type";
 import { ResponseTagType } from "@/types/project.type";
-import TaskTypeList from "./components/TaskTypeList";
 import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
-import { taskHistory, update } from "@/api/task.api";
+import { create, removeTask, taskHistory, update } from "@/api/task.api";
 import { API_CODE } from "@/enums/api.enum";
 import { catchError } from "@/services/base.service";
 import Button from "@/common/components/Button";
 import Loading from "@/common/components/Loading";
-import TaskSetting from "./components/TaskSetting";
 import CommentView from "@/views/comment/CommentView";
 import TaskDescription from "./components/TaskDescription";
 import { notify } from "@/utils/helper.util";
 import { useRouter } from "next/navigation";
 import { APP_LINK } from "@/enums/app.enum";
-import Link from "next/link";
 import SubTask from "./components/SubTask";
 import TaskAssignSelect from "../components/select/TaskAssignSelect";
+import TaskTagSelect from "../components/select/TaskTagSelect";
+import TaskStatusSelect from "../components/select/TaskStatusSelect";
+import TaskPrioritySelect from "../components/select/TaskPrioritySelect";
+import TaskTypeSelect from "../components/select/TaskTypeSelect";
+import TaskHistory from "./components/TaskHistory";
+import Dropdown from "@/common/dropdown/Dropdown";
+import DropdownItem from "@/common/dropdown/DropdownItem";
+import Modal from "@/common/modal/Modal";
+import ModalBody from "@/common/modal/ModalBody";
+import Link from "next/link";
 
 interface TaskDetailViewProps {
   task: TaskType
 }
 
 const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
-  const defaultPageSizeHistory = 2;
+  const defaultPageSizeHistory = 5;
   const [dueDate, setDueDate] = useState<Date | null>(task ? new Date(task.due) : new Date());
   const [assignee, setAssignee] = useState<ResponseUserDataType[]>(task ? task.assign : []);
   const [status, setStatus] = useState<ResponseTagType | undefined>(task ? task.status : undefined);
@@ -45,22 +48,27 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
   const [description, setDescription] = useState<string>(task ? task.description : '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<AppErrorType | null>(null);
-  const [openSetting, setOpenSetting] = useState(false);
   const [historyData, setHistoryData] = useState<ResponseHistoryDataType>();
   const [pageSize, setPageSize] = useState(defaultPageSizeHistory);
   const [loadingViewMore, setLoadingViewMore] = useState(false);
+  const [openHistory, setOpenHistory] = useState(false);
+  const [openUpdateTitle, setOpenUpdateTitle] = useState(false);
+  const [title, setTitle] = useState(task.title);
+  const [confirmClone, setConfirmClone] = useState(false);
+  const [confirmDelete, setConfirmDelete] = useState(false);
   const titleRef = useRef<HTMLInputElement>(null);
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
+  const router = useRouter();
   const handleUpdateTask = async () => {
     try {
-      if (!workspace || !titleRef.current || titleRef.current.value === '' || !dueDate || !status || !type || !priority) {
+      if (!workspace || !title || title === '' || !dueDate || !status || !type || !priority) {
         return;
       }
       setLoading(true);
       setError(null);
 
       const payload = {
-        title: titleRef.current.value,
+        title: title,
         description: description,
         priority: priority.id,
         status_id: status.id,
@@ -73,7 +81,6 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
       setLoading(false);
       if (response && response.code === API_CODE.OK) {
         loadHistories();
-        notify('Task is saved', 'success');
         return;
       }
       setError(catchError(response));
@@ -104,117 +111,230 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
       setHistoryData(undefined);
     }
   }
+  const handleSaveTitle = () => {
+    if (titleRef.current && titleRef.current.value) {
+      setTitle(titleRef.current.value);
+    }
+    setOpenUpdateTitle(false);
+  }
+  const handleSubmitClone = async () => {
+    try {
+      if (!workspace) {
+        return;
+      }
+      setLoading(true);
+      const response = await create (workspace.id, task.project_id, {
+        title: task.title + ' - Copy',
+        priority: task.priority.id,
+        status_id: task.status.id,
+        type_id: task.type.id,
+        description: task.description,
+        due: new Date(task.due),
+        tags: task.tags.map(t => t.id),
+        assigns: task.assign.map(a => a.id)
+      });
+      setLoading(false);
+      if (response && response.code === API_CODE.CREATED) {
+        router.push(`${APP_LINK.WORKSPACE}/${workspace.id}/project/${task.project_id}/task/${response.data.id}`);
+        return;
+      }
+      notify(catchError(response)?.message ?? '', 'error');
+    } catch (error) {
+      setLoading(false);
+      notify(catchError(error as BaseResponseType)?.message ?? '', 'error');
+    }
+  }
+  const handleRemoveTask = async () => {
+    try {
+      if (!workspace) {
+        return;
+      }
+      const response = await removeTask (workspace.id, task.project_id, task.id);
+      setLoading(true);
+      if (response && response.code === API_CODE.OK) {
+        router.push(`${APP_LINK.WORKSPACE}/${workspace.id}/project/${task.project_id}`);
+        return;
+      }
+      notify(catchError(response)?.message ?? '', 'error');
+    } catch (error) {
+      setLoading(false);
+      notify(catchError(error as BaseResponseType)?.message ?? '', 'error');
+    }
+  }
   useEffect(() => {
     loadHistories();
   }, [pageSize]);
+  useEffect(() => {
+    handleUpdateTask();
+  }, [priority, status, type, assignee, tags, dueDate, description, title]);
 
-  // return (
-  //   <div className="row mt-2">
-  //     <div className="col-12 mb-2">
-  //       <h4>{task.title}</h4>
-  //     </div>
-  //     <div className="col-lg-5 col-12">
-  //       <div className="card">
-  //         <div className="card-header p-10">
-  //           <div className="card-title">
-  //             <h6 className="text-secondary">Details:</h6>
-  //           </div>
-  //         </div>
-  //         <div className="card-body p-10 text-secondary">
-  //           <TaskAssignSelect 
-  //             assignee={assignee}
-  //             setAssignee={setAssignee}
-  //             project={task.project}
-  //             className="mb-4"
-  //           />
-  //           <div className="row">
-  //             <div className="col-4 lh-40">
-  //               Labels:
-  //             </div>
-  //             <div className="col-8">
-  //               <span className="badge badge-light mb-2 mr-2">
-  //                 <img src="/img/icon/user.png" width={30} height={30} /> Chien <FontAwesomeIcon icon={faTimesCircle} className="mt-2 ml-2" />
-  //               </span>
-  //               <span className="badge badge-light mb-2 mr-2">
-  //                 <img src="/img/icon/user.png" width={30} height={30} /> Chien <FontAwesomeIcon icon={faTimesCircle} className="mt-2 ml-2" />
-  //               </span>
-  //               <span className="badge badge-light mb-2 mr-2">
-  //                 <img src="/img/icon/user.png" width={30} height={30} /> Chien <FontAwesomeIcon icon={faTimesCircle} className="mt-2 ml-2" />
-  //               </span>
-  //               <span className="badge badge-light mb-2 mr-2">
-  //                 <img src="/img/icon/user.png" width={30} height={30} /> Chien <FontAwesomeIcon icon={faTimesCircle} className="mt-2 ml-2" />
-  //               </span>
-  //               <span className="badge badge-light mb-2 mr-2">
-  //                 <img src="/img/icon/user.png" width={30} height={30} /> Chien <FontAwesomeIcon icon={faTimesCircle} className="mt-2 ml-2" />
-  //               </span>
-  //               <Input type="search" className="w-100" />
-  //             </div>
-  //           </div>
-  //         </div>
-  //       </div>
-  //     </div>
-  //     <div className="col-lg-7 col-12">
-  //       <TaskDescription description={description} setDescription={setDescription} />
-  //     </div>
-  //   </div>
-  // )
   return (
-    <div className="container mt-4">
+    <div className="row mt-2">
       {
         (error) && 
-        <div className="row">
-          <div className="col-12">
+          <div className="col-12 mb-2">
             <div className="alert alert-light alert-error">
               <b className="text-danger mt-2">Error: </b> {error.message}
             </div>
           </div>
-        </div>
       }
-      <div className="row mt-2">
-        <div className="col-12">
-          <Link href={APP_LINK.WORKSPACE + '/' + workspace?.id + '/project/' + task.project_id} className="text-secondary mr-4">
-            <FontAwesomeIcon icon={faAngleDoubleLeft} /> Back to board
-          </Link>
-          <Button color="secondary" className="ml-2 float-right" disabled={loading} onClick={() => setOpenSetting (true)}>
-            <FontAwesomeIcon icon={faInfo} />
+      <div className="col-12 mb-2">
+        {
+          openUpdateTitle &&
+          <>
+          <Button color="secondary" outline className="float-left mr-2" onClick={() => setOpenUpdateTitle (false)}>
+            <FontAwesomeIcon icon={faTimesCircle} />
           </Button>
-          <Button color="primary" className="float-right" onClick={handleUpdateTask} disabled={loading}>
-            {loading ? <Loading color="light" /> : 'Save'}
+          <Button color="secondary" className="float-left" onClick={handleSaveTitle}>
+            <FontAwesomeIcon icon={faCheck} />
           </Button>
+          </>
+        }
+        <Input 
+          type="text" 
+          defaultValue={task.title} 
+          className="input-title" 
+          readOnly={openUpdateTitle ? false : true} 
+          ref={titleRef}
+          onClick={() => setOpenUpdateTitle (true)} 
+        />
+      </div>
+      <div className="col-12 mb-2">
+        <Link href={APP_LINK.WORKSPACE + '/' + task.workspace_id + '/project/' + task.project_id} className="text-secondary">
+          <FontAwesomeIcon icon={faAngleDoubleLeft} /> Back to board
+        </Link>
+        <Dropdown title="Action" className="float-left">
+          <DropdownItem className="pointer" onClick={() => setConfirmClone (true)}>
+            Clone
+          </DropdownItem>
+          <DropdownItem className="pointer" onClick={() => setConfirmDelete (true)}>
+            Delete
+          </DropdownItem>
+        </Dropdown>
+      </div>
+      <div className="col-lg-5 col-12">
+        <div className="card">
+          <div className="card-header p-10">
+            <div className="card-title">
+              <h6 className="text-secondary">Details:</h6>
+            </div>
+          </div>
+          <div className="card-body p-10 text-secondary">
+            <TaskAssignSelect 
+              assignee={assignee}
+              setAssignee={setAssignee}
+              project={task.project}
+            />
+            <TaskTagSelect
+              tags={tags}
+              projectId={task.project_id}
+              setTags={setTags}
+              className="mt-2"
+            />
+            <TaskStatusSelect
+              status={status}
+              projectId={task.project_id}
+              setStatus={setStatus}
+              className="mt-2"
+            />
+            <TaskPrioritySelect
+              priority={priority}
+              setPriority={setPriority}
+              className="mt-2"
+            />
+            <TaskTypeSelect
+              type={type}
+              setType={setType}
+              className="mt-2"
+            />
+            <div className="row mt-2 text-secondary">
+              <div className="col-4 lh-40">
+                Due:
+              </div>
+              <div className={`col-8`}>
+                <DateInput selected={dueDate} setSelected={setDueDate} id="dueDate" className="ml-2" />
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="col-12 mt-4">
-          <Input type="text" defaultValue={task.title} className="task-title" ref={titleRef} />
+        <div className="card">
+          <div className="card-body p-10 text-secondary">
+            <SubTask task={task} />
+          </div>
+        </div>
+        <div className="card">
+          <div className="card-header p-10 text-secondary">
+            <div className="card-title">
+              <h6 className="text-secondary">History:</h6>
+            </div>
+            {
+              openHistory ? 
+              <FontAwesomeIcon icon={faCaretUp} className="float-right pointer" onClick={() => setOpenHistory (false)} />
+              :
+              <FontAwesomeIcon icon={faCaretDown} className="float-right pointer" onClick={() => setOpenHistory (true)} />
+            }
+          </div>
+          {
+            openHistory &&
+            <div className="card-body p-10 text-secondary history-section">
+              <TaskHistory 
+                historyData={historyData} 
+                task={task} 
+                loadingViewMore={loadingViewMore}
+                pageSize={pageSize}
+                handleViewMoreHistory={handleViewMore}
+              />
+            </div>
+          }
         </div>
       </div>
-      <TaskAssignee 
-        project={task.project}
-        assignee={assignee}
-        setAssignee={setAssignee}
-      />
-      <div className="row mt-4 text-secondary">
-        <div className="col-lg-2 col-4 pt-2"><FontAwesomeIcon icon={faCalendarCheck} /> Due: </div>
-        <div className={`col-8 col-lg-6`}>
-          <DateInput selected={dueDate} setSelected={setDueDate} id="dueDate" className="ml-2" />
-        </div>
+      <div className="col-lg-7 col-12">
+        <TaskDescription description={description} setDescription={setDescription} />
+        <CommentView task={task} />
       </div>
-      <TaskStatus task={task} status={status} setStatus={setStatus} />
-      <TaskTag projectId={task.project_id} tags={tags} setTags={setTags} />
-      <TaskPriority priority={priority} setPriority={setPriority} />
-      <TaskTypeList type={type} setType={setType} />
-      <SubTask task={task} />
-      <TaskDescription description={description} setDescription={setDescription} />
-      <hr/>
-      <TaskSetting 
-        task={task} 
-        open={openSetting} 
-        historyData={historyData} 
-        setOpen={setOpenSetting} 
-        handleViewMoreHistory={handleViewMore}
-        loadingViewMore={loadingViewMore}
-        pageSize={pageSize}
-      />
-      <CommentView task={task} />
+      <Modal className="clone-modal" isOpen={confirmClone ? true : false}>
+        <ModalBody>
+          <div className="row">
+            <div className="col-12 mb-2">
+              <h6 className="text-muted">
+                You will clone this task into a similar one.
+              </h6>
+            </div>
+            <div className="col-6">
+              <Button color="secondary" fullWidth onClick={handleSubmitClone} disabled={loading}>
+                Clone {loading && <Loading color="light" />}
+              </Button>
+            </div>
+            <div className="col-6">
+              <Button color="secondary" fullWidth outline disabled={loading} onClick={() => setConfirmClone (false)}>
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </ModalBody>
+      </Modal>
+      <Modal className="delete-modal" isOpen={confirmDelete ? true : false}>
+        <ModalBody>
+          <div className="row">
+            <div className="col-12 mb-2">
+              <h6 className="text-muted">
+                You will delete this task and related data.
+              </h6>
+            </div>
+            <div className="col-6">
+              <Button color="danger" fullWidth onClick={handleRemoveTask} disabled={loading}>
+                OK {loading && <Loading color="light" />}
+              </Button>
+            </div>
+            <div className="col-6">
+              <Button color="danger" fullWidth outline disabled={loading} onClick={() => setConfirmDelete (false)}>
+                Cancel
+              </Button>
+            </div>
+          </div>
+        </ModalBody>
+      </Modal>
     </div>
-  )
+  );
 }
 export default TaskDetailView;

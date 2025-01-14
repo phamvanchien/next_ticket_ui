@@ -19,11 +19,16 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
 import { create, update } from "@/api/task.api";
 import { API_CODE } from "@/enums/api.enum";
-import { TaskType } from "@/types/task.type";
+import { TaskPriorityType, TaskType, TaskTypeItem } from "@/types/task.type";
 import { catchError } from "@/services/base.service";
 import Loading from "@/common/components/Loading";
 import ImageIcon from "@/common/components/ImageIcon";
 import { getIconPriority, getTypeClass, getTypeIcon } from "../components/board/grib/TaskItem";
+import TaskAssignSelect from "../components/select/TaskAssignSelect";
+import TaskTagSelect from "../components/select/TaskTagSelect";
+import TaskStatusSelect from "../components/select/TaskStatusSelect";
+import TaskPrioritySelect from "../components/select/TaskPrioritySelect";
+import TaskTypeSelect from "../components/select/TaskTypeSelect";
 
 interface CreateTaskViewProps {
   open: boolean
@@ -36,21 +41,23 @@ interface CreateTaskViewProps {
 
 const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project, inputStatus, task, setTaskResponse }) => {
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
+  const types = taskType();
+  const priorities = priorityRange();
   const [validateError, setValidateError] = useState<AppErrorType[] | []>([]);
   const [description, setDescription] = useState<string>(task ? task.description : '');
   const [assignee, setAssignee] = useState<ResponseUserDataType[]>(task ? task.assign : []);
   const [tags, setTags] = useState<ResponseTagType[]>(task ? task.tags : []);
   const [status, setStatus] = useState<ResponseTagType | undefined>(task ? task.status : undefined);
-  const [priority, setPriority] = useState<number>(task ? task.priority.id : 1);
+  const [priority, setPriority] = useState<TaskPriorityType | undefined>(task ? task.priority : priorities[0]);
   const [title, setTitle] = useState<string | undefined>(task ? task.title : 'Your task title here');
   const [dueDate, setDueDate] = useState<Date | null>(task ? new Date(task.due) : new Date());
-  const [type, setType] = useState(task ? task.type.id : 1);
+  const [type, setType] = useState<TaskTypeItem | undefined>(task ? task.type : types[0]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<AppErrorType | null>(null);
   const taskDivRef = useRef<HTMLDivElement>(null);
   const handleCreateTask = async () => {
     try {
-      if (!workspace || !title || title === '' || !dueDate || !status || !type) {
+      if (!workspace || !title || title === '' || !dueDate || !status || !type || !priority || !type) {
         return;
       }
       setLoading(true);
@@ -59,9 +66,9 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
       const payload = {
         title: title,
         description: description,
-        priority: priority,
+        priority: priority.id,
         status_id: status.id,
-        type_id: type,
+        type_id: type.id,
         due: dueDate,
         tags: tags.map(t => t.id),
         assigns: assignee.map(a => a.id)
@@ -87,8 +94,8 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
         setAssignee([]);
         setTags([]);
         setStatus(undefined);
-        setType(1);
-        setPriority(1);
+        setType(types[0]);
+        setPriority(priorities[0]);
         setTitle('Your task title here');
         setDueDate(new Date());
         return;
@@ -158,13 +165,13 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
             </div>
           </div>
         }
+
         <div className="row">
           <div className="col-12">
             <InputForm
               className="task-title-create"
               id="taskName"
               inputType="text"
-              inputIcon={<FontAwesomeIcon icon={faPencil} />}
               inputPlaceholder="Your task title here"
               inputValue={title}
               setInputValue={setTitle}
@@ -179,47 +186,46 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
               ]}
             />
           </div>
-
-          <TaskAssignee project={project} assignee={assignee} setAssignee={setAssignee} />
-
-          <div className="col-3 mt-4 text-secondary" style={{ paddingLeft: 20 }}>
+        </div>
+        <TaskAssignSelect 
+          assignee={assignee}
+          setAssignee={setAssignee}
+          project={project}
+        />
+        <div className="row mt-2 text-secondary">
+          <div className="col-4 lh-40">
             Due:
           </div>
-          <div className="col-9 mt-4">
-            <label htmlFor="dueDate">
-              <ImageIcon icon="calendar" width={25} height={25} className="mr-2" />
-            </label>
-            <DateInput selected={dueDate} setSelected={setDueDate} id="dueDate" />
+          <div className={`col-8`}>
+            <DateInput selected={dueDate} setSelected={setDueDate} id="dueDate" className="ml-2" />
           </div>
-
-          <TaskTag projectId={project.id} tags={tags} setTags={setTags} />
-
-          {!task && <TaskStatus projectId={project.id} status={status} setStatus={setStatus} />}
-
-          <div className="col-3 mt-4 text-secondary" style={{ paddingLeft: 20 }}>
-            Priority:
-          </div>
-          <div className="col-9 mt-4">
-            {
-              priorityRange().map(item => (
-                <span className="badge badge-light mr-2" key={item.id} style={{ cursor: 'pointer' }} onClick={() => setPriority (item.id)}>
-                  {getIconPriority(item.id, 'mr-2')} {item.title} {priority === item.id && <FontAwesomeIcon icon={faCheckCircle} className="text-secondary" />}
-                </span>
-              ))
-            }
-          </div>
-          <div className="col-3 mt-4 text-secondary" style={{ paddingLeft: 20 }}>
-            Type:
-          </div>
-          <div className="col-9 mt-4">
-            {
-              taskType().map(item => (
-                <span key={item.id} className={`badge badge-${getTypeClass(item.id)} mr-2`} style={{cursor: 'pointer'}} onClick={() => setType (item.id)}>
-                  {getTypeIcon(item.id)} {item.title} {type === item.id && <FontAwesomeIcon icon={faCheckCircle} />}
-                </span>
-              ))
-            }
-          </div>
+        </div>
+        <TaskTagSelect
+          tags={tags}
+          projectId={project.id}
+          setTags={setTags}
+          className="mt-2"
+        />
+        {
+          !task &&
+          <TaskStatusSelect
+            status={status}
+            projectId={project.id}
+            setStatus={setStatus}
+            className="mt-2"
+          />
+        }
+        <TaskPrioritySelect
+          priority={priority}
+          setPriority={setPriority}
+          className="mt-2"
+        />
+        <TaskTypeSelect
+          type={type}
+          setType={setType}
+          className="mt-2"
+        />
+        <div className="row">
           <div className="col-12 mt-4">
             <EditorArea value={description} setValue={setDescription} placeholder="Description about your task..." />
           </div>

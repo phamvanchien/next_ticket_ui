@@ -44,6 +44,7 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
   const [dueSort, setDueSort] = useState<"DESC" | "ASC">();
   const [openSort, setOpenSort] = useState(false);
   const [dueDateFilter, setDueDateFilter] = useState<Date[]>();
+  const [createdDateFilter, setCreatedDateFilter] = useState<Date[]>();
 
   const searchParams = useSearchParams();
   const createParam = searchParams.get('create');
@@ -126,6 +127,7 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
         setCreator={setCreator}
         setAssignee={setAssignee}
         setDueDate={setDueDateFilter}
+        setCreatedDate={setCreatedDateFilter}
       />
       <div className="row">
         <div className="col-12">
@@ -227,6 +229,7 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
           prioritySort={prioritySort}
           dueSort={dueSort}
           dueDateFilter={dueDateFilter}
+          createdDateFilter={createdDateFilter}
         />
       }
       {
@@ -242,6 +245,7 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
           prioritySort={prioritySort}
           dueSort={dueSort}
           dueDateFilter={dueDateFilter}
+          createdDateFilter={createdDateFilter}
         />
       }
       {

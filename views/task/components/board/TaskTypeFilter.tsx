@@ -1,9 +1,9 @@
-import { TaskPriorityType, TaskTypeItem } from "@/types/task.type";
-import { priorityRange, taskType } from "@/utils/helper.util";
-import { faAdjust, faDotCircle, faPlus, faTimes, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { TaskTypeItem } from "@/types/task.type";
+import { taskType } from "@/utils/helper.util";
+import { faPlus, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
-import { getIconPriority, getTypeClass, getTypeIcon } from "../../components/board/grib/TaskItem";
+import { getTypeClass, getTypeIcon } from "../../components/board/grib/TaskItem";
 
 interface TaskTypeFilterProps {
   type: TaskTypeItem[]
@@ -12,7 +12,7 @@ interface TaskTypeFilterProps {
 
 const TaskTypeFilter: React.FC<TaskTypeFilterProps> = ({ type, setType }) => {
   const types = taskType();
-  const listTypeRef = useRef<HTMLUListElement>(null);
+  const listTypeRef = useRef<HTMLDivElement>(null);
   const [openTypeList, setOpenTypeList] = useState(false);
   const handleSelectPriority = (typeItem: TaskTypeItem) => {
     const selected = type.find(p => p.id === typeItem.id);
@@ -40,38 +40,41 @@ const TaskTypeFilter: React.FC<TaskTypeFilterProps> = ({ type, setType }) => {
     };
   }, []);
   return (
-    <div className="row mt-4 text-secondary">
-      <div className="col-lg-2 col-4 pt-2"><FontAwesomeIcon icon={faDotCircle} /> Type: </div>
-      <div className={`col-8 col-lg-6 ${(!openTypeList && type.length === 0) ? 'pt-2' : ''}`}>
+    <div className="row text-secondary">
+      <div className="col-4 lh-40">
+        Type:
+      </div>
+      <div className="col-8 text-secondary" onClick={() => setOpenTypeList (true)} ref={listTypeRef}>
         {
-          (!openTypeList && type.length === 0) &&
-          <span style={{ cursor: 'pointer' }} onClick={() => setOpenTypeList (true)}>
-            <FontAwesomeIcon icon={faPlus} /> Add
+          (type.length === 0) &&
+          <span className="badge badge-light lh-20 mb-2 mr-2">
+            <FontAwesomeIcon icon={faPlus} /> Add filter
           </span>
         }
-        <ul className="list-group" ref={listTypeRef}>
-            {
-              (type.length > 0) &&
-              <li className={`list-group-item p-5 ${!openTypeList ? 'border-unset' : ''}`}>
-                {
-                  type.map(value => (
-                    <span className="badge badge-default p-5 float-left mr-2" onClick={() => setOpenTypeList (true)}>
-                      {getTypeIcon(value.id, `mr-2 text-${getTypeClass(value.id)}`)} {value.title} <FontAwesomeIcon icon={faTimesCircle} className="ml-2" onClick={() => handleRemovePriority (value)} />
+        {
+          type.map((value, index) => (
+            <span className="badge badge-light lh-20 mb-2 mr-2" key={index}>
+              {getTypeIcon(value.id, `text-${getTypeClass(value.id)}`)} {value.title}
+              <FontAwesomeIcon icon={faTimesCircle} className="mt-2 ml-2 text-secondary" onClick={() => handleRemovePriority (value)} />
+            </span>
+          ))
+        }
+        {
+          openTypeList &&
+          <>
+            <ul className="list-group select-search-task">
+              {
+                types && types.filter(m => !type.map(a => a.id).includes(m.id)).map((value, index) => (
+                  <li className="list-group-item border-unset p-unset" key={index} onClick={() => handleSelectPriority (value)}>
+                    <span className="badge badge-default w-100 text-left">
+                      {getTypeIcon(value.id, `text-${getTypeClass(value.id)}`)} {value.title}
                     </span>
-                  ))
-                }
-              </li>
-            }
-            {
-              openTypeList && types.filter(m => !type.map(p => p.id).includes(m.id)).map(item => (
-                <li key={item.id} className={`list-group-item p-5 ${!openTypeList ? 'border-unset' : ''}`} onClick={() => handleSelectPriority (item)} style={{ cursor: 'pointer' }}>
-                  <span className="badge badge-light p-5 float-left mr-2">
-                    {getTypeIcon(item.id, `mr-2 text-${getTypeClass(item.id)}`)} {item.title}
-                  </span>
-                </li>
-              ))
-            }
-          </ul>
+                  </li>
+                ))
+              }
+            </ul>
+          </>
+        }
       </div>
     </div>
   )

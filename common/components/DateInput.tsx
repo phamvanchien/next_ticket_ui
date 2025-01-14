@@ -21,6 +21,7 @@ const DateInput: React.FC<DateInputProps> = ({ id, className, selected, setSelec
     placeholderText={placeholder ? placeholder : undefined}
     disabled={disabled}
     readOnly={readOnly}
+    autoComplete="off"
   />
 }
 export default DateInput;

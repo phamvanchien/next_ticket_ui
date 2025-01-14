@@ -103,6 +103,12 @@ const Sidebar: React.FC<SidebarProps> = ({ workspace }) => {
       show: workspace?.user_id === userLogged?.id
     },
     {
+      title: 'Document',
+      icon: <ImageIcon icon="document" width={iconSize} height={iconSize} />,
+      link: APP_LINK.WORKSPACE + '/' + workspace?.id + '/document',
+      show: true
+    },
+    {
       title: 'Setting',
       icon: <ImageIcon icon="setting-project" width={iconSize} height={iconSize} />,
       link: APP_LINK.WORKSPACE + '/' + workspace?.id + '/setting',

@@ -17,10 +17,6 @@ interface TaskHistoryProps {
 
 const TaskHistory: React.FC<TaskHistoryProps> = ({ historyData, task, loadingViewMore, pageSize, handleViewMoreHistory }) => {
   return <>
-    <div className="col-12 mt-4 mb-4">
-      <hr/>
-      <h6 className="text-muted"><FontAwesomeIcon icon={faHistory} /> History</h6>
-    </div>
     {
       historyData && historyData.items.map((history, index) => (
         <div className="col-12" key={index}>

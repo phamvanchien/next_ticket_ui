@@ -39,6 +39,9 @@ export const APP_CONFIG: AppConfigType = {
       },
       calendar: {
         url: '/calendar'
+      },
+      document: {
+        url: '/document'
       }
     }
   }

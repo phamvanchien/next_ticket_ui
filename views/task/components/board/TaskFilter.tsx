@@ -1,17 +1,15 @@
 import { ProjectType, ResponseTagType } from "@/types/project.type";
 import { ResponseUserDataType } from "@/types/user.type";
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
-import TaskAssignee from "../../detail/components/TaskAssignee";
 import { TaskPriorityType, TaskTypeItem } from "@/types/task.type";
 import TaskPriorityFilter from "./TaskPriorityFilter";
-import TaskTag from "../../detail/components/TaskTag";
-import TaskTypeList from "../../detail/components/TaskTypeList";
 import TaskTypeFilter from "./TaskTypeFilter";
 import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowDown, faArrowRight, faCalendar, faTimes, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCalendar, faTimes } from "@fortawesome/free-solid-svg-icons";
 import DateInput from "@/common/components/DateInput";
-import DateBox from "@/common/components/DateBox";
+import TaskAssignSelect from "../select/TaskAssignSelect";
+import TaskTagSelect from "../select/TaskTagSelect";
 
 interface TaskFilterProps {
   open: boolean
@@ -28,6 +26,7 @@ interface TaskFilterProps {
   type: TaskTypeItem[]
   setType: (type: TaskTypeItem[]) => void,
   setDueDate: (dueDate?: Date[]) => void
+  setCreatedDate: (dueDate?: Date[]) => void
 }
 
 const TaskFilter: React.FC<TaskFilterProps> = ({ 
@@ -44,10 +43,13 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
   setCreator,
   setAssignee,
   setOpen,
-  setDueDate
+  setDueDate,
+  setCreatedDate
 }) => {
   const [dueDateFilterFrom, setDueDateFilterFrom] = useState<Date | null>(null);
   const [dueDateFilterTo, setDueDateFilterTo] = useState<Date | null>(null);
+  const [createdDateFilterFrom, setCreatedDateFilterFrom] = useState<Date | null>(null);
+  const [createdDateFilterTo, setCreatedDateFilterTo] = useState<Date | null>(null);
   const taskDivRef = useRef<HTMLDivElement>(null);
   const handleClose = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
@@ -59,6 +61,17 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
     setPriority([]);
     setCreator([]);
     setAssignee([]);
+    handleClearDueDate();
+    handleClearCreatedDate();
+  }
+  const handleClearCreatedDate = () => {
+    setCreatedDateFilterFrom(null);
+    setCreatedDateFilterTo(null);
+    setCreatedDate(undefined);
+  }
+  const handleClearDueDate = () => {
+    setDueDateFilterFrom(null);
+    setDueDateFilterTo(null);
     setDueDate(undefined);
   }
   useEffect(() => {
@@ -80,7 +93,15 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
         dueDateFilterTo
       ]);
     }
-  }, [dueDateFilterFrom, dueDateFilterTo])
+  }, [dueDateFilterFrom, dueDateFilterTo]);
+  useEffect(() => {
+    if (createdDateFilterFrom && createdDateFilterTo) {
+      setCreatedDate([
+        createdDateFilterFrom,
+        createdDateFilterTo
+      ]);
+    }
+  }, [createdDateFilterFrom, createdDateFilterTo]);
   return <>
     <div id="wrapper" ref={taskDivRef}>
       <div id="sidebar-wrapper" className={open ? 'open-filter' : 'close-sidebar'} style={
@@ -100,10 +121,25 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
             </Link>
           </div>
         </div>
-        <TaskAssignee project={project} assignee={creator} setAssignee={setCreator} label="Creator" />
-        <TaskAssignee project={project} assignee={assignee} setAssignee={setAssignee} />
+        <TaskAssignSelect
+          assignee={creator}
+          setAssignee={setCreator}
+          project={project}
+          className="mb-2"
+        />
+        <TaskAssignSelect
+          assignee={assignee}
+          setAssignee={setAssignee}
+          project={project}
+          className="mb-2"
+        />
+        <TaskTagSelect
+          tags={tags}
+          projectId={project.id}
+          setTags={setTags}
+          className="mb-2"
+        />
         <TaskPriorityFilter priority={priority} setPriority={setPriority} />
-        <TaskTag tags={tags} setTags={setTags} projectId={project.id} />
         <TaskTypeFilter type={type} setType={setType} />
         <div className="row mt-4 text-muted">
           <div className="col-12 mb-2">
@@ -115,6 +151,29 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
           <div className="col-3">
             <DateInput selected={dueDateFilterFrom} setSelected={setDueDateFilterFrom} id="dueDateFrom" className="float-left" placeholder="Due date to" />
           </div>
+          {
+            (dueDateFilterFrom && dueDateFilterTo) &&
+            <div className="col-3">
+              <FontAwesomeIcon icon={faTimes} onClick={handleClearDueDate} />
+            </div>
+          }
+        </div>
+        <div className="row mt-4 text-muted">
+          <div className="col-12 mb-2">
+            <FontAwesomeIcon icon={faCalendar} /> Created at:
+          </div>
+          <div className="col-3">
+            <DateInput selected={createdDateFilterTo} setSelected={setCreatedDateFilterTo} id="dueDateTo" className="float-left" placeholder="Due date from" />
+          </div>
+          <div className="col-3">
+            <DateInput selected={createdDateFilterFrom} setSelected={setCreatedDateFilterFrom} id="dueDateFrom" className="float-left" placeholder="Due date to" />
+          </div>
+          {
+            (createdDateFilterFrom && createdDateFilterTo) &&
+            <div className="col-3">
+              <FontAwesomeIcon icon={faTimes} onClick={handleClearCreatedDate} />
+            </div>
+          }
         </div>
       </div>
     </div>

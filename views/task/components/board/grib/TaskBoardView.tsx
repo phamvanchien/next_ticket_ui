@@ -32,6 +32,7 @@ interface TaskBoardViewProps {
   prioritySort?: "DESC" | "ASC"
   dueSort?: "DESC" | "ASC"
   dueDateFilter?: Date[]
+  createdDateFilter?: Date[]
 }
 
 const TaskBoardView: React.FC<TaskBoardViewProps> = ({ 
@@ -47,6 +48,7 @@ const TaskBoardView: React.FC<TaskBoardViewProps> = ({
   prioritySort,
   dueSort,
   dueDateFilter,
+  createdDateFilter,
   setTotalTask,
   setOpenCreate, 
   setInputStatusCreate 
@@ -117,6 +119,8 @@ const TaskBoardView: React.FC<TaskBoardViewProps> = ({
           sortDue: dueSort,
           fromDue: (dueDateFilter && dueDateFilter.length > 1) ? dateToStamptimeString(dueDateFilter[1]) + ' 00:00:00' : undefined,
           toDue: (dueDateFilter && dueDateFilter.length > 1) ? dateToStamptimeString(dueDateFilter[0]) + ' 23:59:59' : undefined,
+          fromCreated: (createdDateFilter && createdDateFilter.length > 1) ? dateToStamptimeString(createdDateFilter[1]) + ' 00:00:00' : undefined,
+          toCreated: (createdDateFilter && createdDateFilter.length > 1) ? dateToStamptimeString(createdDateFilter[0]) + ' 23:59:59' : undefined,
         });
         if (response && response.code === API_CODE.OK) {
           setTasks(response.data);
@@ -135,7 +139,7 @@ const TaskBoardView: React.FC<TaskBoardViewProps> = ({
       }
     }
     loadTaskBoard();
-  }, [workspace, keyword, assignee, tags, priority, creator, type, prioritySort, dueSort, dueDateFilter]);
+  }, [workspace, keyword, assignee, tags, priority, creator, type, prioritySort, dueSort, dueDateFilter, createdDateFilter]);
   
   useEffect(() => {
     if (taskData) {

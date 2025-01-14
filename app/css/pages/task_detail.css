@@ -38,6 +38,20 @@
     padding-left: unset !important;
 }
 
+.history-section {
+    height: 400px;
+    overflow-y: auto;
+}
+
+.input-title {
+    height: 50px !important;
+    font-size: 22px;
+    padding: unset;
+    border: unset;
+    font-weight: 600;
+    background-color: #fff !important;
+}
+
 @media (max-width: 768px) {
     .open-sidebar-detail {
         width: 100% !important;

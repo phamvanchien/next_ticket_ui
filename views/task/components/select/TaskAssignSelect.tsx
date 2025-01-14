@@ -8,7 +8,7 @@ import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { ProjectType } from "@/types/project.type";
 import { ResponseUserDataType } from "@/types/user.type";
 import { ResponseMemberWorkspaceDataType } from "@/types/workspace.type";
-import { faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faTimes, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -98,23 +98,29 @@ const TaskAssignSelect: React.FC<TaskAssignSelectProps> = ({ assignee, project, 
     };
   }, []);
   return (
-    <div className={`row ${className ?? ''}`}>
+    <div className={`row text-secondary ${className ?? ''}`}>
       <div className="col-4 lh-40">
         Assignee:
       </div>
       <div className="col-8" onClick={() => setOpenMemberList (true)} ref={listMembersRef}>
         {
+          assignee.length === 0 &&
+          <span className="badge badge-light mr-2">
+            <img className="img-circle" onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} src={'/img/icon/user-loading.png'} width={25} height={25} /> Unassigned 
+          </span>
+        }
+        {
           assignee.map((member, index) => (
-            <span className="badge badge-light mb-2 mr-2" key={index}>
-              <img className="img-circle" onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} src={member.avatar ?? '/img/icon/user-loading.png'} width={30} height={30} /> Chien 
-              <FontAwesomeIcon icon={faTimesCircle} className="mt-2 ml-2 text-secondary" onClick={() => handleRemoveAssignee (member)} />
+            <span className="badge badge-light mr-2" key={index}>
+              <img className="img-circle" onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} src={member.avatar ?? '/img/icon/user-loading.png'} width={25} height={25} /> Chien 
+              <FontAwesomeIcon icon={faTimes} className="mt-2 ml-2 text-secondary" onClick={() => handleRemoveAssignee (member)} />
             </span>
           ))
         }
         {
           openMemberList &&
           <>
-            <ul className="list-group" style={{ position: 'absolute', zIndex: 1000, width: '95%', boxShadow: '-1px 6px 7px -2px' }}>
+            <ul className="list-group select-search-task">
               <li className="list-group-item border-unset p-unset">
                 <Input type="search" className="w-100" onChange={handleChangeKeyword} />
               </li>
@@ -122,7 +128,7 @@ const TaskAssignSelect: React.FC<TaskAssignSelectProps> = ({ assignee, project, 
                 !assignee.find(a => a.id === project.user.id) &&
                 <li className="list-group-item border-unset p-unset" onClick={() => handleSelectAssignee (project.user)}>
                   <span className="badge badge-default w-100 text-left">
-                    <img className="img-circle" src={project.user.avatar ?? '/img/icon/user-loading.png'} onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} width={30} height={30} /> {project.user.first_name} {project.user.last_name} (Project owner)
+                    <img className="img-circle" src={project.user.avatar ?? '/img/icon/user-loading.png'} onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} width={25} height={25} /> {project.user.first_name} {project.user.last_name} (Project owner)
                   </span>
                 </li>
               }
@@ -130,7 +136,7 @@ const TaskAssignSelect: React.FC<TaskAssignSelectProps> = ({ assignee, project, 
                 membersData && membersData.items.filter(m => !assignee.map(a => a.id).includes(m.id)).map((member, index) => (
                   <li className="list-group-item border-unset p-unset" key={index} onClick={() => handleSelectAssignee (member)}>
                     <span className="badge badge-default w-100 text-left">
-                      <img className="img-circle" src={member.avatar ?? '/img/icon/user-loading.png'} onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} width={30} height={30} /> {member.first_name} {member.last_name}
+                      <img className="img-circle" src={member.avatar ?? '/img/icon/user-loading.png'} onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} width={25} height={25} /> {member.first_name} {member.last_name}
                     </span>
                   </li>
                 ))

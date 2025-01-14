@@ -39,6 +39,9 @@ export interface AppConfigType {
       },
       calendar: {
         url: string
+      },
+      document: {
+        url: string
       }
     }
   }

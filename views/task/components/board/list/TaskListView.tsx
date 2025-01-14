@@ -28,6 +28,7 @@ interface TaskListViewProps {
   prioritySort?: "DESC" | "ASC"
   dueSort?: "DESC" | "ASC"
   dueDateFilter?: Date[]
+  createdDateFilter?: Date[]
 }
 
 const TaskListView: React.FC<TaskListViewProps> = ({ 
@@ -41,7 +42,8 @@ const TaskListView: React.FC<TaskListViewProps> = ({
   type,
   prioritySort,
   dueSort,
-  dueDateFilter
+  dueDateFilter,
+  createdDateFilter
 }) => {
   const defaultPagesize = 10;
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
@@ -77,6 +79,8 @@ const TaskListView: React.FC<TaskListViewProps> = ({
         sortDue: dueSort,
         fromDue: (dueDateFilter && dueDateFilter.length > 1) ? dateToStamptimeString(dueDateFilter[1]) + ' 00:00:00' : undefined,
         toDue: (dueDateFilter && dueDateFilter.length > 1) ? dateToStamptimeString(dueDateFilter[0]) + ' 23:59:59' : undefined,
+        fromCreated: (createdDateFilter && createdDateFilter.length > 1) ? dateToStamptimeString(createdDateFilter[1]) + ' 00:00:00' : undefined,
+        toCreated: (createdDateFilter && createdDateFilter.length > 1) ? dateToStamptimeString(createdDateFilter[0]) + ' 23:59:59' : undefined,
       });
       setLoadingViewMore(false);
       setLoading(false);
@@ -112,7 +116,7 @@ const TaskListView: React.FC<TaskListViewProps> = ({
   }
   useEffect(() => {
     loadTasks();
-  }, [pageSize, keyword, assignee, tags, priority, creator, type, prioritySort, dueSort, dueDateFilter]);
+  }, [pageSize, keyword, assignee, tags, priority, creator, type, prioritySort, dueSort, dueDateFilter, createdDateFilter]);
   useEffect(() => {
     if (taskIncome) {
       loadTasks();

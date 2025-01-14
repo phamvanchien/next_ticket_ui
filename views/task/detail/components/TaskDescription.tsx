@@ -1,3 +1,4 @@
+import Button from "@/common/components/Button";
 import EditorArea from "@/common/components/EditorArea";
 import { faAngleDoubleLeft, faAngleDoubleRight, faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,6 +14,11 @@ const TaskDescription: React.FC<TaskDescriptionProps> = ({ description, setDescr
   const [readMore, setReadMore] = useState(false);
   const [edit, setEdit] = useState(false);
   const [clientRendered, setClientRendered] = useState(false);
+  const [content, setContent] = useState<string>(description);
+  const handleSaveDescription = () => {
+    setDescription(content);
+    setEdit(false);
+  }
 
   useEffect(() => {
     setClientRendered(true);
@@ -20,14 +26,14 @@ const TaskDescription: React.FC<TaskDescriptionProps> = ({ description, setDescr
 
   return (
     <div className="row">
-      <div className="col-12 mt-4 text-muted">
+      <div className="col-12 text-muted">
         <h6 style={{ cursor: 'pointer' }} onClick={() => setEdit (edit ? false : true)}>
           {!edit && <><FontAwesomeIcon icon={faPencil} /> {(description && description !== '' ? 'Edit' : 'Write') + ' description'}</>}
         </h6>
       </div>
       <div className="col-12">
         {edit ? (
-          <EditorArea value={description} setValue={setDescription} placeholder="Description about your task..." />
+          <EditorArea value={content} setValue={setContent} placeholder="Description about your task..." />
         ) : (
           clientRendered && (
             <p
@@ -58,6 +64,13 @@ const TaskDescription: React.FC<TaskDescriptionProps> = ({ description, setDescr
           </span>
         )}
       </div>
+      {
+        edit &&
+        <div className="col-12">
+          <Button color="secondary" outline className="float-right" onClick={() => setEdit (false)}>Cancel</Button>
+          <Button color="secondary" className="float-right mr-2" onClick={handleSaveDescription}>Save</Button>
+        </div>
+      }
     </div>
   );
 };

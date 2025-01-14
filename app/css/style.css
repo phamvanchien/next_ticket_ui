@@ -256,6 +256,13 @@ input {
     border-right: 2px solid #fff;
 }
 
+.select-search-task {
+    position: absolute;
+    z-index: 1000;
+    width: 95%;
+    box-shadow: -1px 6px 7px -2px;
+}
+
 @media (max-width: 768px) {
     .open-sidebar {
         width: 100% !important;

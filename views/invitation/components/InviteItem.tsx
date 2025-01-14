@@ -25,7 +25,7 @@ const InviteItem: React.FC<InviteItemProps> = ({ invite, loadInvite }) => {
       const response = await acceptInvite(invite.workspace.id, invite.id);
       setLoading(false);
       if (response && response.code === API_CODE.OK) {
-        router.push(APP_LINK.WORKSPACE + '/' + invite.workspace.id);
+        router.push(APP_LINK.WORKSPACE + '/' + invite.workspace.id + '/project');
         return;
       }
       notify(catchError(response)?.message ?? '', 'error');

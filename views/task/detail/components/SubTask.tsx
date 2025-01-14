@@ -153,7 +153,6 @@ const SubTask: React.FC<SubTaskProps> = ({ task }) => {
   return <>
     <div className="row mt-4-4">
       <div className="col-12">
-        <hr/>
         <h6 className="text-muted">Sub tasks:</h6>
       </div>
       <div className="col-12">

@@ -8,13 +8,14 @@ interface EditorAreaProps {
   setValue: Dispatch<SetStateAction<string>>;
   value: string;
   placeholder?: string;
+  toolbarExtra?: boolean
 }
 
-const EditorArea: React.FC<EditorAreaProps> = ({ setValue, value, placeholder }) => {
+const EditorArea: React.FC<EditorAreaProps> = ({ setValue, value, placeholder, toolbarExtra }) => {
   const modules = {
     toolbar: [
-      // [{ header: '1' }, { header: '2' }, { font: [] }],
-      // [{ size: [] }],
+      [{ header: '1' }, { header: '2' }, { font: [] }],
+      [{ size: [] }],
       ['bold', 'italic', 'underline', 'strike', 'blockquote'],
       [{ list: 'ordered' }, { list: 'bullet' }],
       ['link', 'image', 'video'],
@@ -22,6 +23,13 @@ const EditorArea: React.FC<EditorAreaProps> = ({ setValue, value, placeholder })
       [{ 'align': [] }]
     ],
   };
+
+  if (toolbarExtra) {
+    modules.toolbar.push(
+      [{ header: '1' }, { header: '2' }, { font: [] }],
+      [{ size: [] }]
+    )
+  }
 
   return (
     <ReactQuill

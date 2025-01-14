@@ -1,11 +1,9 @@
 import { members, removeMember } from "@/api/workspace.api";
 import { API_CODE } from "@/enums/api.enum";
-import { RootState } from "@/reduxs/store.redux";
 import { ResponseMemberWorkspaceDataType, WorkspaceType } from "@/types/workspace.type";
 import { faAngleDoubleDown, faInfoCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import MemberSettingItem from "./MemberSettingItem";
 import { ResponseUserDataType } from "@/types/user.type";
 import Input from "@/common/components/Input";
