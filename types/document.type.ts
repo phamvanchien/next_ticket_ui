@@ -1,4 +1,4 @@
-import { BaseResponseType } from "./base.type";
+import { BaseResponseType, ResponseWithPaginationType } from "./base.type";
 import { ResponseUserDataType } from "./user.type";
 
 export interface CreateDocumentRequestType {
@@ -7,9 +7,17 @@ export interface CreateDocumentRequestType {
   public?: boolean
   user_share?: {
     id: number
-    permission: 1 | 2
+    permission: number
   }[]
   project_share?: number[]
+}
+
+export interface DocumentsResponse extends BaseResponseType {
+  data: DocumentsDataType
+}
+
+export interface DocumentsDataType extends ResponseWithPaginationType {
+  items: DocumentType[]
 }
 
 export interface DocumentResponse extends BaseResponseType {
@@ -21,5 +29,7 @@ export interface DocumentType {
   workspace_id: number
   title: string
   content: string
+  full_permission: boolean
+  creator: ResponseUserDataType
   updator: ResponseUserDataType
 }

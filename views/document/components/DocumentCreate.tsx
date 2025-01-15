@@ -13,12 +13,20 @@ import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { ProjectType, ResponseProjectsDataType } from "@/types/project.type";
 import { ResponseUserDataType } from "@/types/user.type";
 import { ResponseMemberWorkspaceDataType, WorkspaceUserType } from "@/types/workspace.type";
+import { dateToString } from "@/utils/helper.util";
 import { faCircle, faCircleCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import React, { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
-const DocumentCreate = () => {
+interface DocumentCreateProps {
+  openCreate: boolean
+  setOpenCreate: (openCreate: boolean) => void
+  loadDocuments: () => void
+}
+
+const DocumentCreate: React.FC<DocumentCreateProps> = ({ openCreate, setOpenCreate, loadDocuments }) => {
   const defaultPageSize = 5;
   const [content, setContent] = useState<string>('');
   const [loading, setLoading] = useState(false);
@@ -43,17 +51,40 @@ const DocumentCreate = () => {
     }
 
     setLoading(true);
-    // const response = await create (workspace.id, {
-    //   title: titleRef.current.value,
-    //   content: content,
-    //   public: documentPublic,
-    //   user_share: memberShare.map(m => {
-    //     return {
-    //       id: m.id
-    //     }
-    //   }),
-    //   project_share: projectShare.map(p => p.id)
-    // });
+    const payloadMember = [];
+    for (let i = 0; i < memberShare.length; i++) {
+      const userId = memberShare[i].id;
+      const checkboxPermission = document.getElementById(`userSharePermission${userId}`) as HTMLInputElement;
+      if (checkboxPermission) {
+        payloadMember.push({
+          id: userId,
+          permission: checkboxPermission.checked ? 1 : 2
+        });
+      }
+    }
+    const response = await create (workspace.id, {
+      title: titleRef.current.value,
+      content: content,
+      public: documentPublic,
+      user_share: (documentPublic) ? undefined : payloadMember,
+      project_share: documentPublic ? undefined : projectShare.map(p => p.id)
+    });
+
+    setLoading(false);
+    if (response && response.code === API_CODE.CREATED) {
+      loadDocuments();
+      setKeyword('');
+      setDebounceKeyword('');
+      setProjectShare([]);
+      setMemberShare([]);
+      setContent('');
+      const inputTitle = document.getElementById('documentTitle') as HTMLInputElement;
+      if (inputTitle) {
+        inputTitle.value = "New document " + dateToString(new Date());
+      }
+      setOpenModal(false);
+      setOpenCreate(false);
+    }
   }
   const handleChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -159,140 +190,150 @@ const DocumentCreate = () => {
   useEffect(() => {
     loadMembers();
   }, [workspace, debounceKeywordMember]);
-  return (
-    <div className="row">
-      <div className="col-12 mb-2">
-        <Button color="secondary" className="float-left mr-2" outline>
-          Cancel
-        </Button>
-        <Button color="primary" className="float-left" onClick={() => setOpenModal (true)}>
-          Save
-        </Button>
-      </div>
-      <div className="col-12 mb-2">
-        <Input type="text" className="input-title" defaultValue={'New document'} ref={titleRef} />
-      </div>
-      <div className="col-12">
-        <EditorArea setValue={setContent} value={content} toolbarExtra placeholder="Document text here ..." />
-      </div>
-      <Modal className="invite-modal" isOpen={openModal ? true : false}>
-        <ModalBody>
-          <div className="row mb-2">
-            <div className="col-12 mb-2">
-              {
-                (error) && <div className="alert alert-light alert-error">
-                  <b className="text-danger mt-2">Error: </b> {error.message}
-                </div>
-              }
-            </div>
-            <div className="col-12">
-              <FontAwesomeIcon 
-                icon={documentPublic ? faCircleCheck : faCircle} 
-                className={`text-${documentPublic ? 'primary' : 'secondary'}`}
-                style={{ cursor: 'pointer' }}
-                onClick={() => setDocumentPublic (true)}
-              /> Public
-              <br/>
-              <FontAwesomeIcon 
-                icon={!documentPublic ? faCircleCheck : faCircle} 
-                className={`text-${!documentPublic ? 'primary' : 'secondary'} mt-2`} 
-                style={{ cursor: 'pointer' }}
-                onClick={() => setDocumentPublic (false)}
-              /> Private
-            </div>
-            {
-              !documentPublic &&
-              <>
-                <div className="col-6 mt-2">
-                  <Button color="secondary" outline={shareType === 2} fullWidth className="float-left" onClick={() => handleSetTypeShare (1)}>
-                    Share in project
-                  </Button>
-                </div>
-                <div className="col-6 mt-2">
-                  <Button color="secondary" outline={shareType === 1} fullWidth className="float-left" onClick={() => handleSetTypeShare (2)}>
-                    Share with member
-                  </Button>
-                </div>
-              </>
-            }
-            {
-              (!documentPublic && shareType === 1 && projectShare.length > 0) &&
-              <div className="col-12 mt-2">
-                {
-                  projectShare.map(project => (
-                    <span className="badge badge-light mr-2">
-                      {project.name} <FontAwesomeIcon icon={faTimes} className="ml-2 pointer" onClick={() => handleRemoveProject (project)} />
-                    </span>
-                  ))
-                }
-              </div>
-            }
-            {
-              (!documentPublic && shareType === 2 && memberShare.length > 0) &&
-                memberShare.map(member => (
-                  <div className="card">
-                    <div className="col-6 mt-2">
-                      <span className="badge badge-light mr-2">
-                        <FontAwesomeIcon icon={faTimes} className="ml-2 pointer" onClick={() => handleRemoveMember (member)} /> {member.first_name} {member.last_name}
-                      </span>
-                    </div>
-                    <div className="col-6 mt-2">
-                      <div className="custom-control custom-checkbox float-right">
-                        <Input type="checkbox" className="custom-control-input" id="changePassword" />
-                        <label htmlFor="changePassword" className="custom-control-label">All permission</label>
-                      </div>
-                    </div>
-                  </div>
-                ))
-            }
-            {
-              (!documentPublic && shareType === 1) &&
-              <div className="col-12 mt-2">
-                <Input type="search" placeholder="Search projects" className="w-100" onChange={handleChangeKeyword} />
-                <ul className="list-group invite-group">
-                  {
-                    projectData && projectData.items.map(project => (
-                      <li className="list-group-item invite-group-item pointer" key={project.id} onClick={() => handleSelectProject (project)}>
-                        <FontAwesomeIcon 
-                          icon={projectShare.find(p => p.id === project.id) ? faCircleCheck : faCircle} 
-                          className={`text-${projectShare.find(p => p.id === project.id) ? 'primary' : 'secondary'} mr-2`} 
-                        /> {project.name}
-                      </li>
-                    ))
-                  }
-                </ul>
-              </div>
-            }
-            {
-              (!documentPublic && shareType === 2) &&
-              <div className="col-12 mt-2">
-                <Input type="search" placeholder="Search projects" className="w-100" onChange={handleChangeKeywordMember} />
-                <ul className="list-group invite-group">
-                  {
-                    workspaceMembers && workspaceMembers.items.map(member => (
-                      <li className="list-group-item invite-group-item pointer" key={member.id} onClick={() => handleSelectMember (member)}>
-                        <FontAwesomeIcon 
-                          icon={memberShare.find(p => p.id === member.id) ? faCircleCheck : faCircle} 
-                          className={`text-${memberShare.find(p => p.id === member.id) ? 'primary' : 'secondary'} mr-2`} 
-                        /> {member.email}
-                      </li>
-                    ))
-                  }
-                </ul>
-              </div>
-            }
-            <div className="col-12 mt-4">
-              <Button color="secondary" className="float-right" outline onClick={() => setOpenModal (false)} disabled={loading}>
-                Cancel
-              </Button>
-              <Button color="primary" className="float-right mr-2" disabled={loading} onClick={handleCreateDocument}>
-                Save
-              </Button>
-            </div>
+  return <>
+    <div id="wrapper">
+      <div id="sidebar-wrapper" className={openCreate ? 'open-sidebar-create-document' : 'close-sidebar'} style={
+        {marginRight: openCreate ? -250 : -275}
+      }>
+        <div className="row mt-4">
+          <div className="col-12 mb-2">
+            <Button color="secondary" className="float-left mr-2" outline onClick={() => setOpenCreate (false)}>
+              Cancel
+            </Button>
+            <Button color="primary" className="float-left" onClick={() => setOpenModal (true)}>
+              Save
+            </Button>
           </div>
-        </ModalBody>
-      </Modal>
+          <div className="col-12 mb-2">
+            <Input type="text" className="input-title" id="documentTitle" defaultValue={'New document ' + dateToString(new Date())} ref={titleRef} />
+          </div>
+          <div className="col-12">
+            <EditorArea setValue={setContent} value={content} toolbarExtra placeholder="Document text here ..." />
+          </div>
+          <Modal className="invite-modal" isOpen={openModal ? true : false}>
+            <ModalBody>
+              <div className="row mb-2">
+                <div className="col-12 mb-2">
+                  {
+                    (error) && <div className="alert alert-light alert-error">
+                      <b className="text-danger mt-2">Error: </b> {error.message}
+                    </div>
+                  }
+                </div>
+                <div className="col-12">
+                  <FontAwesomeIcon 
+                    icon={documentPublic ? faCircleCheck : faCircle} 
+                    className={`text-${documentPublic ? 'primary' : 'secondary'}`}
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => setDocumentPublic (true)}
+                  /> Public
+                  <br/>
+                  <FontAwesomeIcon 
+                    icon={!documentPublic ? faCircleCheck : faCircle} 
+                    className={`text-${!documentPublic ? 'primary' : 'secondary'} mt-2`} 
+                    style={{ cursor: 'pointer' }}
+                    onClick={() => setDocumentPublic (false)}
+                  /> Private
+                </div>
+                {
+                  !documentPublic &&
+                  <>
+                    <div className="col-6 mt-2 mb-2">
+                      <Button color="secondary" outline={shareType === 2} fullWidth className="float-left" onClick={() => handleSetTypeShare (1)}>
+                        Share in project
+                      </Button>
+                    </div>
+                    <div className="col-6 mt-2 mb-2">
+                      <Button color="secondary" outline={shareType === 1} fullWidth className="float-left" onClick={() => handleSetTypeShare (2)}>
+                        Share with member
+                      </Button>
+                    </div>
+                  </>
+                }
+                {
+                  (!documentPublic && shareType === 1 && projectShare.length > 0) &&
+                  <div className="col-12 mt-2">
+                    {
+                      projectShare.map(project => (
+                        <span className="badge badge-light mr-2">
+                          {project.name} <FontAwesomeIcon icon={faTimes} className="ml-2 pointer" onClick={() => handleRemoveProject (project)} />
+                        </span>
+                      ))
+                    }
+                  </div>
+                }
+                {
+                  (!documentPublic && shareType === 2 && memberShare.length > 0) &&
+                    memberShare.map(member => (
+                      <div className="col-12">
+                        <div className="card">
+                          <div className="row">
+                            <div className="col-6">
+                              <span className="badge badge-light">
+                                <FontAwesomeIcon icon={faTimes} className="ml-2 pointer mr-2" onClick={() => handleRemoveMember (member)} /> {member.first_name} {member.last_name}
+                              </span>
+                            </div>
+                            <div className="col-6">
+                              <div className="custom-control custom-checkbox float-right mr-2">
+                                <Input type="checkbox" className="custom-control-input" id={`userSharePermission${member.id}`} />
+                                <label htmlFor={`userSharePermission${member.id}`} className="custom-control-label">All permission</label>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))
+                }
+                {
+                  (!documentPublic && shareType === 1) &&
+                  <div className="col-12 mt-2">
+                    <Input type="search" placeholder="Search projects" className="w-100" onChange={handleChangeKeyword} />
+                    <ul className="list-group invite-group">
+                      {
+                        projectData && projectData.items.map(project => (
+                          <li className="list-group-item invite-group-item pointer" key={project.id} onClick={() => handleSelectProject (project)}>
+                            <FontAwesomeIcon 
+                              icon={projectShare.find(p => p.id === project.id) ? faCircleCheck : faCircle} 
+                              className={`text-${projectShare.find(p => p.id === project.id) ? 'primary' : 'secondary'} mr-2`} 
+                            /> {project.name}
+                          </li>
+                        ))
+                      }
+                    </ul>
+                  </div>
+                }
+                {
+                  (!documentPublic && shareType === 2) &&
+                  <div className="col-12 mt-2">
+                    <Input type="search" placeholder="Search projects" className="w-100" onChange={handleChangeKeywordMember} />
+                    <ul className="list-group invite-group">
+                      {
+                        workspaceMembers && workspaceMembers.items.map(member => (
+                          <li className="list-group-item invite-group-item pointer" key={member.id} onClick={() => handleSelectMember (member)}>
+                            <FontAwesomeIcon 
+                              icon={memberShare.find(p => p.id === member.id) ? faCircleCheck : faCircle} 
+                              className={`text-${memberShare.find(p => p.id === member.id) ? 'primary' : 'secondary'} mr-2`} 
+                            /> {member.email}
+                          </li>
+                        ))
+                      }
+                    </ul>
+                  </div>
+                }
+                <div className="col-12 mt-4">
+                  <Button color="secondary" className="float-right" outline onClick={() => setOpenModal (false)} disabled={loading}>
+                    Cancel
+                  </Button>
+                  <Button color="primary" className="float-right mr-2" disabled={loading} onClick={handleCreateDocument}>
+                    Save
+                  </Button>
+                </div>
+              </div>
+            </ModalBody>
+          </Modal>
+        </div>
+      </div>
     </div>
-  )
+  </>
 }
 export default DocumentCreate;

@@ -129,7 +129,7 @@ const ProjectView = () => {
                 (!loading && projectData && projectData.total > pageSize) &&
                 <tr>
                   <td colSpan={6} className="text-left">
-                    <a href="#" className="link" onClick={handleViewMoreProjects}>
+                    <a href="#" className="text-secondary" onClick={handleViewMoreProjects}>
                       View more <FontAwesomeIcon icon={faAngleDoubleDown} />
                     </a>
                   </td>

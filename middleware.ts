@@ -16,6 +16,7 @@ export const config = {
     '/',
     '/go-to-workspace',
     '/workspace/:path*',
+    '/document/:path*',
     '/invitation'
   ],
 }

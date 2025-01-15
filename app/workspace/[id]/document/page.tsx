@@ -29,7 +29,7 @@ const DocumentPage: React.FC<DocumentPageProps> = ({ params }) => {
   }
   return (
     <MainLayout workspace={workspace.data}>
-      <DocumentView />
+      <DocumentView workspaceId={workspace.data.id} />
     </MainLayout>
   );
 }

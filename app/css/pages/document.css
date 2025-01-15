@@ -10,3 +10,13 @@
 .ql-container.ql-snow {
     border: unset !important;
 }
+
+@media (max-width: 768px) {
+    .open-sidebar-create-document {
+        width: 100% !important;
+    }
+}
+
+.open-sidebar-create-document {
+    width: 87%;
+}
