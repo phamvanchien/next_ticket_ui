@@ -289,9 +289,12 @@ const DocumentUpdate: React.FC<DocumentUpdateProps> = ({ documentUpdate, setDocu
               <Button color="primary" className="float-left mr-2" onClick={handleUpdateContent} disabled={loading}>
                 {loading ? <Loading color="light" /> : 'Save'}
               </Button>
-              <Button color="secondary" className="float-left" outline onClick={() => setOpenModal (true)} disabled={loading}>
-                <FontAwesomeIcon icon={faGear} />
-              </Button>
+              {
+                userLogged?.id === documentUpdate?.user_id &&
+                <Button color="secondary" className="float-left" outline onClick={() => setOpenModal (true)} disabled={loading}>
+                  <FontAwesomeIcon icon={faGear} />
+                </Button>
+              }
             </div>
             <div className="col-12 mb-2">
               <Input type="text" className="input-title" id="documentTitle" defaultValue={title ?? 'New document ' + dateToString(new Date())} ref={titleRef} />
