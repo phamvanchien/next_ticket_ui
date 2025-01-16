@@ -1,24 +1,31 @@
 import ImageIcon from "@/common/components/ImageIcon";
 import { DocumentType } from "@/types/document.type";
-import Link from "next/link";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 interface DocumentItemProps {
   document: DocumentType
+  documentUpdated?: DocumentType
+  setDocumentUpdate: (documentUpdate?: DocumentType) => void
 }
 
-const DocumentItem: React.FC<DocumentItemProps> = ({ document }) => {
+const DocumentItem: React.FC<DocumentItemProps> = ({ document, documentUpdated, setDocumentUpdate }) => {
+  const [documentData, setDocumentData] = useState<DocumentType>(document)
+  useEffect(() => {
+    if (documentUpdated && documentData.id === documentUpdated.id) {
+      setDocumentData(documentUpdated);
+    }
+  }, [documentUpdated]);
   return (
     <div className="col-6 col-lg-2">
       <div className="card pointer">
-        <div className="card-body p-10">
+        <div className="card-body p-10" onClick={() => setDocumentUpdate (documentData)}>
           <center>
             <ImageIcon icon="document-o" />
           </center>
         </div>
         <div className="card-header p-5">
           <h6 className="text-secondary text-center">
-            {document.title.length > 40 ? document.title.substring(0, 40) + '...' : document.title}
+            {(documentData.title && documentData.title !== '') ? documentData.title.length > 40 ? documentData.title.substring(0, 40) + '...' : documentData.title : 'No name'}
           </h6>
         </div>
       </div>

@@ -1,15 +1,16 @@
 "use client"
-import { faAngleDoubleDown, faPager, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDoubleDown, faFileText, faPager, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DocumentCreate from "./components/DocumentCreate";
 import Button from "@/common/components/Button";
 import React, { MouseEvent, useEffect, useState } from "react";
 import { documents } from "@/api/document.api";
 import { API_CODE } from "@/enums/api.enum";
-import { DocumentsDataType } from "@/types/document.type";
+import { DocumentsDataType, DocumentType } from "@/types/document.type";
 import Loading from "@/common/components/Loading";
 import DocumentItem from "./components/DocumentItem";
 import Link from "next/link";
+import DocumentUpdate from "./components/DocumentUpdate";
 
 interface DocumentViewProps {
   workspaceId: number
@@ -22,6 +23,8 @@ const DocumentView: React.FC<DocumentViewProps> = ({ workspaceId }) => {
   const [loading, setLoading] = useState(true);
   const [pageSize, setPageSize] = useState(defaultPageSize);
   const [loadingViewMore, setLoadingViewMore] = useState(false);
+  const [documentUpdate, setDocumentUpdate] = useState<DocumentType>();
+  const [documentUpdated, setDocumentUpdated] = useState<DocumentType>();
   const loadDocuments = async () => {
     const response = await documents(workspaceId, 1, pageSize);
     setLoading(false);
@@ -41,7 +44,7 @@ const DocumentView: React.FC<DocumentViewProps> = ({ workspaceId }) => {
   return <>
     <div className="row mb-4">
       <div className="col-12">
-        <h3><FontAwesomeIcon icon={faPager} className="text-primary" /> Documents</h3>
+        <h3><FontAwesomeIcon icon={faFileText} className="text-primary" /> Documents</h3>
       </div>
       <div className="col-12 mt-2">
         <Button color="primary" onClick={() => setOpenCreate (true)}>
@@ -54,6 +57,11 @@ const DocumentView: React.FC<DocumentViewProps> = ({ workspaceId }) => {
       setOpenCreate={setOpenCreate} 
       loadDocuments={loadDocuments}
     />
+    <DocumentUpdate
+      documentUpdate={documentUpdate}
+      setDocumentUpdate={setDocumentUpdate}
+      setDocumentUpdated={setDocumentUpdated}
+    />
     <div className="row mt-4">
       {
         loading &&
@@ -65,7 +73,12 @@ const DocumentView: React.FC<DocumentViewProps> = ({ workspaceId }) => {
       }
       {
         (!loading && documentData) && documentData.items.map(document => (
-          <DocumentItem document={document} key={document.id} />
+          <DocumentItem 
+            document={document} 
+            key={document.id} 
+            setDocumentUpdate={setDocumentUpdate}
+            documentUpdated={documentUpdated}
+          />
         ))
       }
       {
