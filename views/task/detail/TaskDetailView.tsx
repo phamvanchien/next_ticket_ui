@@ -3,7 +3,7 @@ import Input from "@/common/components/Input";
 import { ResponseHistoryDataType, TaskPriorityType, TaskType, TaskTypeItem } from "@/types/task.type";
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDoubleLeft, faCaretDown, faCaretUp, faCheck, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDoubleLeft, faCaretDown, faCaretUp, faCheck, faTimes, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import DateInput from "@/common/components/DateInput";
 import { ResponseUserDataType } from "@/types/user.type";
 import { ResponseTagType } from "@/types/project.type";
@@ -32,6 +32,7 @@ import DropdownItem from "@/common/dropdown/DropdownItem";
 import Modal from "@/common/modal/Modal";
 import ModalBody from "@/common/modal/ModalBody";
 import Link from "next/link";
+import ErrorAlert from "@/common/components/ErrorAlert";
 
 interface TaskDetailViewProps {
   task: TaskType
@@ -58,6 +59,7 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const titleRef = useRef<HTMLInputElement>(null);
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
+  const userLogged = useSelector((state: RootState) => state.userSlice).data;
   const router = useRouter();
   const handleUpdateTask = async () => {
     try {
@@ -167,25 +169,40 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
   useEffect(() => {
     handleUpdateTask();
   }, [priority, status, type, assignee, tags, dueDate, description, title]);
+  useEffect(() => {
+    const handleClickOutside = async (event: any) => {
+      if (titleRef.current && !titleRef.current.contains(event.target as Node)) {
+        setOpenUpdateTitle(false);
+      }
+    };
+  
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="row mt-2">
       {
         (error) && 
           <div className="col-12 mb-2">
-            <div className="alert alert-light alert-error">
-              <b className="text-danger mt-2">Error: </b> {error.message}
-            </div>
+            <ErrorAlert error={error} />
           </div>
       }
+      <div className="col-12">
+        <Link href={APP_LINK.WORKSPACE + '/' + task.workspace_id + '/project/' + task.project_id} className="text-secondary">
+          <FontAwesomeIcon icon={faAngleDoubleLeft} /> Back to board
+        </Link>
+      </div>
       <div className="col-12 mb-2">
         {
           openUpdateTitle &&
           <>
-          <Button color="secondary" outline className="float-left mr-2" onClick={() => setOpenUpdateTitle (false)}>
-            <FontAwesomeIcon icon={faTimesCircle} />
+          <Button color="secondary" outline className="float-left mt-2 mr-2" onClick={() => setOpenUpdateTitle (false)}>
+            <FontAwesomeIcon icon={faTimes} />
           </Button>
-          <Button color="secondary" className="float-left" onClick={handleSaveTitle}>
+          <Button color="primary" className="float-left mt-2" onClick={handleSaveTitle}>
             <FontAwesomeIcon icon={faCheck} />
           </Button>
           </>
@@ -200,16 +217,16 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
         />
       </div>
       <div className="col-12 mb-2">
-        <Link href={APP_LINK.WORKSPACE + '/' + task.workspace_id + '/project/' + task.project_id} className="text-secondary">
-          <FontAwesomeIcon icon={faAngleDoubleLeft} /> Back to board
-        </Link>
         <Dropdown title="Action" className="float-left">
           <DropdownItem className="pointer" onClick={() => setConfirmClone (true)}>
             Clone
           </DropdownItem>
-          <DropdownItem className="pointer" onClick={() => setConfirmDelete (true)}>
-            Delete
-          </DropdownItem>
+          {
+            userLogged?.id === task.user.id &&
+            <DropdownItem className="pointer" onClick={() => setConfirmDelete (true)}>
+              Delete
+            </DropdownItem>
+          }
         </Dropdown>
       </div>
       <div className="col-lg-5 col-12">

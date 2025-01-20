@@ -30,7 +30,7 @@ const WorkspacePage: React.FC<WorkspacePageProps> = ({ params }) => {
   }
 
   return <MainLayout workspace={workspace.data}>
-    <WorkspaceIndexView />
+    <WorkspaceIndexView workspace={workspace.data} />
   </MainLayout>
 }
 

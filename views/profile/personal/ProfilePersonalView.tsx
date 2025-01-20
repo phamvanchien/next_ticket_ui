@@ -148,7 +148,7 @@ const ProfilePersonalView = () => {
   }, []);
   return (
     <div className="row">
-      <div className="col-12 mb-4">
+      <div className="col-12 mb-4 text-secondary">
         <h3><FontAwesomeIcon icon={faUserCircle} className="text-primary" /> Profile</h3>
       </div>
       {

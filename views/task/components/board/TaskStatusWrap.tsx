@@ -56,7 +56,7 @@ const TaskStatusWrap: React.FC<TaskStatusWrapProps> = ({
         status_id: statusId
       });
       if (!response || (response && response.code !== API_CODE.OK)) {
-        notify(catchError(response)?.message ?? APP_ERROR.SERVER_MAINTAIN, 'error')
+        notify(catchError(response)?.message ?? APP_ERROR.SERVER_MAINTAIN, 'error');
       }
     } catch (error) {
       notify(catchError(error as BaseResponseType)?.message ?? APP_ERROR.SERVER_MAINTAIN, 'error');

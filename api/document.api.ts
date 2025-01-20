@@ -11,13 +11,14 @@ export const create = async (workspaceId: number, payload: CreateDocumentRequest
   });
 }
 
-export const documents = async (workspaceId: number, page: number, size: number): Promise<DocumentsResponse> => {
+export const documents = async (workspaceId: number, page: number, size: number, keyword?: string): Promise<DocumentsResponse> => {
   return request({
     method: API_METHOD_ENUM.GET,
     url: APP_CONFIG.API.PREFIX.document.url + '/' + workspaceId,
     params: {
       page: page,
-      size: size
+      size: size,
+      keyword: keyword
     }
   });
 }

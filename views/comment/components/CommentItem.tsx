@@ -74,7 +74,13 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
   }, []);
   return (
     <div className="col-12" key={comment.id}>
-      <img src={comment.user.avatar ?? '/img/icon/user-loading.png'} width={25} height={25} className="img-circle float-left mr-2" onClick={() => router.push(APP_LINK.PROFILE + '/' + (userLogged?.id === comment.user.id ? '' : comment.user.id))} />
+      <img 
+        src={comment.user.avatar ?? '/img/icon/user-loading.png'} 
+        width={25} height={25} 
+        className="img-circle float-left mr-2" 
+        onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} 
+        onClick={() => router.push(APP_LINK.PROFILE + '/' + (userLogged?.id === comment.user.id ? '' : comment.user.id))} 
+      />
       <span className="text-muted" style={{cursor: 'pointer'}} onClick={() => router.push(APP_LINK.PROFILE + '/' + (userLogged?.id === comment.user.id ? '' : comment.user.id))}>
         <b>{comment.user.first_name} {comment.user.last_name}</b> <span style={{ fontSize: 12 }}>{formatTime(new Date(comment.created_at))}</span>
       </span>

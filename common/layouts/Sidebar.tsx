@@ -8,6 +8,8 @@ import { setWorkspace } from "@/reduxs/workspace.redux";
 import { WorkspaceType } from "@/types/workspace.type";
 import { getCookie, removeCookie } from "@/utils/cookie.util";
 import InviteMemberView from "@/views/invite-member/InviteMemberView";
+import { faAngleRight, faBullseye, faCalendarCheck, faCalendarDay, faCubes, faFileText, faGear, faSignOut, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
@@ -19,7 +21,6 @@ interface SidebarProps {
 
 const Sidebar: React.FC<SidebarProps> = ({ workspace }) => {
   const router = useRouter();
-  const iconSize = 30;
   const pathname = usePathname();
   const dispatch = useAppDispatch();
   const menuRedux = useSelector((state: RootState) => state.menuSlice);
@@ -51,7 +52,7 @@ const Sidebar: React.FC<SidebarProps> = ({ workspace }) => {
     event.preventDefault();
     removeCookie(APP_AUTH.COOKIE_AUTH_KEY);
     removeCookie(APP_AUTH.COOKIE_AUTH_USER);
-    router.push(APP_LINK.LOGIN);
+    router.replace(APP_LINK.LOGIN);
   }
 
   const handleOpenModal = (link: string) => {
@@ -85,38 +86,44 @@ const Sidebar: React.FC<SidebarProps> = ({ workspace }) => {
 
   const sidebarData = [
     {
-      title: 'Projects',
-      icon: <ImageIcon icon="project" width={iconSize} height={iconSize} />,
-      link: APP_LINK.WORKSPACE + '/' + workspace?.id + '/project',
-      show: true
-    },
-    {
       title: 'Workspaces',
-      icon: <ImageIcon icon="circle-plus" width={iconSize} height={iconSize} />,
+      icon: <FontAwesomeIcon icon={faCubes} className="text-secondary mr-2" />,
       link: APP_LINK.GO_TO_WORKSPACE,
       show: true
     },
     {
+      title: 'Projects',
+      icon: <FontAwesomeIcon icon={faBullseye} className="text-secondary mr-2" />,
+      link: APP_LINK.WORKSPACE + '/' + workspace?.id + '/project',
+      show: true
+    },
+    {
       title: 'Invite members',
-      icon: <ImageIcon icon="add-member" width={iconSize} height={iconSize} />,
+      icon: <FontAwesomeIcon icon={faUserPlus} className="text-secondary mr-2" />,
       link: null,
       show: workspace?.user_id === userLogged?.id
     },
     {
-      title: 'Document',
-      icon: <ImageIcon icon="document" width={iconSize} height={iconSize} />,
+      title: 'Documents',
+      icon: <FontAwesomeIcon icon={faFileText} className="text-secondary mr-2" />,
       link: APP_LINK.WORKSPACE + '/' + workspace?.id + '/document',
       show: true
     },
     {
+      title: 'Calendar',
+      icon: <FontAwesomeIcon icon={faCalendarDay} className="text-secondary mr-2" />,
+      link: APP_LINK.CALENDAR,
+      show: true
+    },
+    {
       title: 'Setting',
-      icon: <ImageIcon icon="setting-project" width={iconSize} height={iconSize} />,
+      icon: <FontAwesomeIcon icon={faGear} className="text-secondary mr-2" />,
       link: APP_LINK.WORKSPACE + '/' + workspace?.id + '/setting',
       show: workspace?.user_id === userLogged?.id
     },
     {
       title: 'Logout',
-      icon: <ImageIcon icon="logout" width={iconSize} height={iconSize} />,
+      icon: <FontAwesomeIcon icon={faSignOut} className="text-secondary mr-2" />,
       link: 'logout',
       show: true
     }
@@ -140,14 +147,15 @@ const Sidebar: React.FC<SidebarProps> = ({ workspace }) => {
           <ul className="nav nav-pills nav-sidebar flex-column">
             {
               sidebarData.filter(s => s.show === true).map((sidebar, index) => (
-                <li className="nav-item sidebar-item mt-2" key={index}>
+                <li className={`nav-item sidebar-item ${(index + 1 < sidebarData.length) ? 'mt-2' : ''}`} key={index} style={ (index + 1 === sidebarData.length) ? {marginTop: 590} : undefined }>
                   <Link 
                     href={sidebar.link ?? ''} 
-                    className={`nav-link ${menuRedux.sidebar === sidebar.link ? 'active' : ''}`} 
+                    className={`nav-link ${(menuRedux.sidebar === sidebar.link || (sidebar.link && window.location.href.indexOf(sidebar.link ?? '') !== -1)) ? 'active' : ''}`} 
                     onClick={sidebar.link ? sidebar.link === 'logout' ? handleLogout : () => handleClickSidebar(sidebar.link ?? '') : () => handleOpenModal (sidebar.link ?? '')}
                   >
                     {sidebar.icon}
-                    <p> {sidebar.title}</p>
+                    {sidebar.title}
+                    {(menuRedux.sidebar === sidebar.link || (sidebar.link && window.location.href.indexOf(sidebar.link ?? '') !== -1)) && <FontAwesomeIcon icon={faAngleRight} className="float-right text-muted" />}
                   </Link>
                 </li>
               ))

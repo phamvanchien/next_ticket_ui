@@ -1,5 +1,6 @@
 import { create, removeSubTask, subTask, update } from "@/api/task.api";
 import Button from "@/common/components/Button";
+import ErrorAlert from "@/common/components/ErrorAlert";
 import Input from "@/common/components/Input";
 import InputForm from "@/common/components/InputForm";
 import Loading from "@/common/components/Loading";
@@ -171,9 +172,7 @@ const SubTask: React.FC<SubTaskProps> = ({ task }) => {
           {
             (error) && 
             <div className="col-12">
-              <div className="alert alert-light alert-error">
-                <b className="text-danger mt-2">Error: </b> {error.message}
-              </div>
+              <ErrorAlert error={error} />
             </div>
           }
           <div className="col-12">
@@ -181,7 +180,6 @@ const SubTask: React.FC<SubTaskProps> = ({ task }) => {
               className="subtask-title-create"
               id="subTaskName"
               inputType="text"
-              inputIcon={<FontAwesomeIcon icon={faPencil} />}
               inputPlaceholder="Enter sub task"
               inputValue={subTaskTitle}
               setInputValue={setSubTaskTitle}
@@ -197,11 +195,11 @@ const SubTask: React.FC<SubTaskProps> = ({ task }) => {
             />
           </div>
           <div className="col-12">
-            <Button color="secondary" className="mr-2" disabled={loadingCreate} onClick={handleCreateSubtask}>
-              {loadingCreate ? <Loading color="light" /> : 'Save'}
-            </Button>
-            <Button color="secondary" outline disabled={loadingCreate} onClick={() => setOpenCreate (false)}>
+            <Button color="secondary" className="btn-no-border" outline disabled={loadingCreate} onClick={() => setOpenCreate (false)}>
               Cancel
+            </Button>
+            <Button color="primary" className="ml-2" disabled={loadingCreate} onClick={handleCreateSubtask}>
+              {loadingCreate ? <Loading color="light" /> : 'Save'}
             </Button>
           </div>
         </>

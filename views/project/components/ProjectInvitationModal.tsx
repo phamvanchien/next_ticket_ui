@@ -1,5 +1,6 @@
 import { inviteList, joinProject, removeInvite } from "@/api/project.api";
 import Button from "@/common/components/Button";
+import ErrorAlert from "@/common/components/ErrorAlert";
 import Loading from "@/common/components/Loading";
 import ErrorPage from "@/common/layouts/ErrorPage";
 import Modal from "@/common/modal/Modal";
@@ -102,9 +103,7 @@ const ProjectInvitationModal: React.FC<ProjectInvitationModalProps> = ({ openMod
           (errorProjectItem) && 
           <div className="row">
             <div className="col-12">
-              <div className="alert alert-light alert-error">
-                <b className="text-danger mt-2">Error: </b> {errorProjectItem.message}
-              </div>
+              <ErrorAlert error={errorProjectItem} />
             </div>
           </div>
         }

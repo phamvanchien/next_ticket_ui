@@ -126,6 +126,7 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
           setAssignee={setCreator}
           project={project}
           className="mb-2"
+          label="Creator"
         />
         <TaskAssignSelect
           assignee={assignee}

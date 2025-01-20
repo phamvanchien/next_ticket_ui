@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
 import SendLinkSuccess from "./components/SendLinkSuccess";
+import ErrorAlert from "@/common/components/ErrorAlert";
 
 const ForgotPasswordView = () => {
   const [error, setError] = useState<AppErrorType | null>(null);
@@ -71,11 +72,7 @@ const ForgotPasswordView = () => {
             sent ? <SendLinkSuccess /> : <>
               <h6 className="text-dark">Enter your email that you are registered</h6>
               <h6 className="text-secondary mb-2">to receive the link and reset your password</h6>
-              {
-                (error) && <div className="alert alert-light alert-error">
-                  <b className="text-danger mt-2">Error: </b> {error.message}
-                </div>
-              }
+              <ErrorAlert error={error} />
               <form className="mt-4" onSubmit={handleSubmitSendLinkReset}>
                 <InputForm
                   id="email"

@@ -50,8 +50,7 @@
 .task-item.dragging {
     opacity: 0.6;
     transform: scale(1.05);
-    background-color: #f8f9fa;
-    /* box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); */
+    background-color: #cfe2ff;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 3px;
     cursor: move;
 }
@@ -65,6 +64,7 @@
 .task-item {
     transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
     /* box-shadow: 2px 3px 1px 4px #3333 !important; */
+    border-radius: 20px !important;
 }
 
 .status-item.drag-over {
@@ -98,6 +98,30 @@
     height: 30px !important;
     line-height: 15px !important;
     font-size: 15px;
+}
+
+.btn-layout-type-active {
+    border: unset;
+    background: #fff;
+    color: #333;
+    border-bottom: 2px solid #333;
+    border-radius: unset;
+}
+
+.btn-layout-type {
+    background: #fff !important;
+    border: unset !important;
+    color: #6c757d !important;
+}
+
+.btn-layout-type-active:hover {
+    background-color: unset !important;
+    color: #333 !important;
+}
+
+.btn-layout-type-active:focus {
+    background-color: unset !important;
+    color: #333 !important;
 }
 
 @media (max-width: 768px) {
@@ -197,4 +221,11 @@
 .select-status-modal {
     width: 40% !important;
     margin: auto;
+}
+
+.title-task-board {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
 }

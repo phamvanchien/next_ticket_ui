@@ -29,6 +29,7 @@ import TaskTagSelect from "../components/select/TaskTagSelect";
 import TaskStatusSelect from "../components/select/TaskStatusSelect";
 import TaskPrioritySelect from "../components/select/TaskPrioritySelect";
 import TaskTypeSelect from "../components/select/TaskTypeSelect";
+import ErrorAlert from "@/common/components/ErrorAlert";
 
 interface CreateTaskViewProps {
   open: boolean
@@ -159,9 +160,7 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
           (error) && 
           <div className="row">
             <div className="col-12">
-              <div className="alert alert-light alert-error">
-                <b className="text-danger mt-2">Error: </b> {error.message}
-              </div>
+              <ErrorAlert error={error} />
             </div>
           </div>
         }
@@ -225,7 +224,7 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
           setType={setType}
           className="mt-2"
         />
-        <div className="row">
+        <div className="row" style={{marginBottom: 30}}>
           <div className="col-12 mt-4">
             <EditorArea value={description} setValue={setDescription} placeholder="Description about your task..." />
           </div>

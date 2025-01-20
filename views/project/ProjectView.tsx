@@ -1,7 +1,7 @@
 "use client"
 import Button from "@/common/components/Button";
 import Input from "@/common/components/Input";
-import { faAngleDoubleDown, faBullseye, faEnvelope, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDoubleDown, faBullseye, faEnvelope, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CreateProjectModal from "./components/CreateProjectModal";
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from "react";
@@ -13,15 +13,16 @@ import { catchError } from "@/services/base.service";
 import { projects } from "@/api/project.api";
 import { API_CODE } from "@/enums/api.enum";
 import ErrorPage from "@/common/layouts/ErrorPage";
-import { useSelector } from "react-redux";
-import { RootState } from "@/reduxs/store.redux";
 import ProjectInvitationModal from "./components/ProjectInvitationModal";
 import { WorkspaceType } from "@/types/workspace.type";
 import Loading from "@/common/components/Loading";
 
-const ProjectView = () => {
+interface ProjectViewProps {
+  workspace: WorkspaceType
+}
+
+const ProjectView: React.FC<ProjectViewProps> = ({ workspace }) => {
   const defaultPageSize = 10;
-  const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const [pageSize, setPageSize] = useState(defaultPageSize);
   const [openModal, setOpenModal] = useState(false);
   const [projectData, setProjectData] = useState<ResponseProjectsDataType>();
@@ -72,7 +73,7 @@ const ProjectView = () => {
   }, [keyword]);
   useEffect(() => {
     loadProjects();
-  }, [debounceKeyword, pageSize, workspace]);
+  }, [debounceKeyword, pageSize, workspace.id]);
   if (error) {
     return <ErrorPage errorCode={500} />
   }
@@ -83,22 +84,22 @@ const ProjectView = () => {
       </div>
     </div>
     <div className="row mt-4">
-      <div className="col-12 col-lg-7 mb-2">
-        <Button color="secondary" className="letter-btn mr-2 mt-2" outline onClick={() => setInviteModal (true)}>
-          <FontAwesomeIcon icon={faEnvelope} /> Invitation
+      <div className="col-6 col-lg-6 mb-2">
+        <Button color="primary" className="create-btn mt-2 mr-2" onClick={() => setOpenModal (true)}>
+          New <FontAwesomeIcon icon={faPlus} />
         </Button>
-        <Button color="primary" className="create-btn mt-2" onClick={() => setOpenModal (true)}>
-          New <FontAwesomeIcon icon={faPlusCircle} />
+        <Button color="secondary" className="letter-btn mt-2 btn-no-border" outline onClick={() => setInviteModal (true)}>
+          <FontAwesomeIcon icon={faEnvelope} /> Invitation
         </Button>
       </div>
       {
         (projectData) &&
-        <div className="col-12 col-lg-5 mb-2">
-          <Input type="search" placeholder="Search projects" className="float-right input-search" onChange={handleChangeKeyword} />
+        <div className="col-6 col-lg-6">
+          <Input type="search" placeholder="Search projects" className="float-right input-search mt-2" onChange={handleChangeKeyword} />
         </div>
       }
     </div>
-    <div className="row mt-2">
+    <div className="row">
       <div className="col-12 col-lg-12">
         <div className="table-responsive">
           <table className="table">

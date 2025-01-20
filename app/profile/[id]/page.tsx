@@ -9,6 +9,7 @@ import { cookies } from "next/headers";
 import React, { use } from "react";
 import '../../css/pages/profile.css';
 import ProfileUserView from "@/views/profile/user/ProfileUserView";
+import WrapApp from "@/common/layouts/WrapApp";
 
 interface ProfileUserPageProps {
   params: {
@@ -27,7 +28,9 @@ const ProfileUserPage: React.FC<ProfileUserPageProps> = ({ params }) => {
     return <ErrorPage errorCode={user.code} />
   }
 
-  return <ProfileUserView user={user.data} />
+  return <WrapApp>
+    <ProfileUserView user={user.data} />
+  </WrapApp>
 }
 
 const fetchUser = async (userId: number): Promise<ResponseUserType> => {

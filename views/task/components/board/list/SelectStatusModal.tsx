@@ -92,7 +92,7 @@ const SelectStatusModal: React.FC<SelectStatusModalProps> = ({
       <ModalBody>
         <div className="row mb-2">
           <div className="col-12">
-            <Input type="search" placeholder="Search status" onChange={handleChangeKeyword} disabled={loading} />
+            <Input type="search" placeholder="Search status" className="input-search w-100" onChange={handleChangeKeyword} disabled={loading} />
           </div>
           <div className="col-12 mt-2">
             {

@@ -14,11 +14,20 @@ import { ProjectType, ResponseProjectsDataType } from "@/types/project.type";
 import { ResponseUserDataType } from "@/types/user.type";
 import { ResponseMemberWorkspaceDataType, WorkspaceUserType } from "@/types/workspace.type";
 import { dateToString } from "@/utils/helper.util";
-import { faCircle, faCircleCheck, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faCircle, faCircleCheck, faInfoCircle, faMinusCircle, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React, { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import DocumentMemberList from "./DocumentMemberList";
+import { MemberShareType } from "@/types/document.type";
+import DocumentProjectList from "./DocumentProjectList";
+import DocumentAlertPrivate from "./DocumentAlertPrivate";
+import DocumentProjectShared from "./DocumentProjectShared";
+import DocumentMemberShared from "./DocumentMemberShared";
+import DocumentShareType from "./DocumentShareType";
+import Loading from "@/common/components/Loading";
+import ErrorAlert from "@/common/components/ErrorAlert";
 
 interface DocumentCreateProps {
   openCreate: boolean
@@ -27,169 +36,66 @@ interface DocumentCreateProps {
 }
 
 const DocumentCreate: React.FC<DocumentCreateProps> = ({ openCreate, setOpenCreate, loadDocuments }) => {
-  const defaultPageSize = 5;
   const [content, setContent] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<AppErrorType | null>(null);
   const [openModal, setOpenModal] = useState(false);
   const [documentPublic, setDocumentPublic] = useState(true);
   const [shareType, setShareType] = useState(1);
-  const [pageSize, setPageSize] = useState(defaultPageSize);
-  const [keyword, setKeyword] = useState<string>('');
-  const [debounceKeyword, setDebounceKeyword] = useState<string>('');
-  const [keywordMember, setKeywordMember] = useState<string>('');
-  const [debounceKeywordMember, setDebounceKeywordMember] = useState<string>('');
-  const [projectData, setProjectData] = useState<ResponseProjectsDataType>();
   const [projectShare, setProjectShare] = useState<ProjectType[]>([]);
-  const [memberShare, setMemberShare] = useState<ResponseUserDataType[]>([]);
-  const [workspaceMembers, setWorkspaceMembers] = useState<ResponseMemberWorkspaceDataType>();
+  const [memberShare, setMemberShare] = useState<MemberShareType[]>([]);
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const titleRef = useRef<HTMLInputElement>(null);
   const handleCreateDocument = async () => {
-    if (!workspace || !content || content === '' || !titleRef.current || (titleRef.current && titleRef.current.value && titleRef.current.value === '')) {
-      return;
-    }
-
-    setLoading(true);
-    const payloadMember = [];
-    for (let i = 0; i < memberShare.length; i++) {
-      const userId = memberShare[i].id;
-      const checkboxPermission = document.getElementById(`userSharePermission${userId}`) as HTMLInputElement;
-      if (checkboxPermission) {
-        payloadMember.push({
-          id: userId,
-          permission: checkboxPermission.checked ? 1 : 2
-        });
-      }
-    }
-    const response = await create (workspace.id, {
-      title: titleRef.current.value,
-      content: content,
-      public: documentPublic,
-      user_share: (documentPublic) ? undefined : payloadMember,
-      project_share: documentPublic ? undefined : projectShare.map(p => p.id)
-    });
-
-    setLoading(false);
-    if (response && response.code === API_CODE.CREATED) {
-      loadDocuments();
-      setKeyword('');
-      setDebounceKeyword('');
-      setProjectShare([]);
-      setMemberShare([]);
-      setContent('');
-      const inputTitle = document.getElementById('documentTitle') as HTMLInputElement;
-      if (inputTitle) {
-        inputTitle.value = "New document " + dateToString(new Date());
-      }
-      setOpenModal(false);
-      setOpenCreate(false);
-    }
-  }
-  const handleChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    setKeyword('');
-    if (event.target.value && event.target.value !== '') {
-      setKeyword(event.target.value);
-    }
-  }
-  const handleChangeKeywordMember = (event: ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    setKeywordMember('');
-    if (event.target.value && event.target.value !== '') {
-      setKeywordMember(event.target.value);
-    }
-  }
-  const handleSetTypeShare = (type: 1 | 2) => {
-    setShareType(type);
-    setKeyword('');
-    setKeywordMember('');
-    setDebounceKeyword('');
-    setDebounceKeywordMember('');
-    setMemberShare([]);
-    setProjectShare([]);
-  }
-  const handleSelectProject = (project: ProjectType) => {
-    const added = projectShare.find(p => p.id === project.id);
-    if (!added) {
-      setProjectShare([...projectShare, project]);
-    }
-  }
-  const handleRemoveProject = (project: ProjectType) => {
-    setProjectShare(
-      projectShare.filter(p => p.id !== project.id)
-    );
-  }
-  const handleSelectMember = (member: ResponseUserDataType) => {
-    const added = memberShare.find(p => p.id === member.id);
-    if (!added) {
-      setMemberShare([...memberShare, member]);
-    }
-  }
-  const handleRemoveMember = (member: ResponseUserDataType) => {
-    setMemberShare(
-      memberShare.filter(p => p.id !== member.id)
-    );
-  }
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebounceKeyword(keyword);
-    }, 500);
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [keyword]);
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebounceKeywordMember(keywordMember);
-    }, 500);
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [keywordMember]);
-  const loadProjects = async () => {
     try {
-      if (!workspace) {
+      if (!workspace || !content || content === '' || !titleRef.current || (titleRef.current && titleRef.current.value && titleRef.current.value === '')) {
         return;
       }
-      const response = await projects(workspace.id, {
-        page: 1,
-        size: pageSize,
-        keyword: keyword
+  
+      setLoading(true);
+      const payloadMember = [];
+      for (let i = 0; i < memberShare.length; i++) {
+        const userId = memberShare[i].id;
+        const checkboxPermission = document.getElementById(`userSharePermission${userId}`) as HTMLInputElement;
+        if (checkboxPermission) {
+          payloadMember.push({
+            id: userId,
+            permission: checkboxPermission.checked ? 1 : 2
+          });
+        }
+      }
+      const response = await create (workspace.id, {
+        title: titleRef.current.value,
+        content: content,
+        public: documentPublic,
+        user_share: (documentPublic) ? undefined : payloadMember,
+        project_share: documentPublic ? undefined : projectShare.map(p => p.id)
       });
+  
       setLoading(false);
-      if (response && response.code === API_CODE.OK) {
-        setProjectData(response.data);
+      if (response && response.code === API_CODE.CREATED) {
+        loadDocuments();
+        setProjectShare([]);
+        setMemberShare([]);
+        setContent('');
+        const inputTitle = document.getElementById('documentTitle') as HTMLInputElement;
+        if (inputTitle) {
+          inputTitle.value = "New document " + dateToString(new Date());
+        }
+        setOpenModal(false);
+        setOpenCreate(false);
         return;
       }
       setError(catchError(response));
     } catch (error) {
-      setLoading(false);
       setError(catchError(error as BaseResponseType));
     }
   }
-  useEffect(() => {
-    loadProjects();
-  }, [debounceKeyword, pageSize, workspace]);
-
-  const loadMembers = async () => {
-    try {
-      if (!workspace) {
-        return;
-      }
-      const response = await members(workspace.id, 1, 5, keywordMember);
-      if (response && response.code === API_CODE.OK) {
-        setWorkspaceMembers(response.data);
-        return;
-      }
-      setWorkspaceMembers(undefined);
-    } catch (error) {
-      setWorkspaceMembers(undefined);
-    }
-  };
-  useEffect(() => {
-    loadMembers();
-  }, [workspace, debounceKeywordMember]);
+  const handleSetTypeShare = (type: number) => {
+    setShareType(type);
+    setMemberShare([]);
+    setProjectShare([]);
+  }
   return <>
     <div id="wrapper">
       <div id="sidebar-wrapper" className={openCreate ? 'open-sidebar-create-document' : 'close-sidebar'} style={
@@ -197,7 +103,7 @@ const DocumentCreate: React.FC<DocumentCreateProps> = ({ openCreate, setOpenCrea
       }>
         <div className="row mt-4">
           <div className="col-12 mb-2">
-            <Button color="secondary" className="float-left mr-2" outline onClick={() => setOpenCreate (false)}>
+            <Button color="secondary" className="float-left mr-2 btn-no-border" outline onClick={() => setOpenCreate (false)}>
               Cancel
             </Button>
             <Button color="primary" className="float-left" onClick={() => setOpenModal (true)}>
@@ -214,11 +120,7 @@ const DocumentCreate: React.FC<DocumentCreateProps> = ({ openCreate, setOpenCrea
             <ModalBody>
               <div className="row mb-2">
                 <div className="col-12 mb-2">
-                  {
-                    (error) && <div className="alert alert-light alert-error">
-                      <b className="text-danger mt-2">Error: </b> {error.message}
-                    </div>
-                  }
+                  <ErrorAlert error={error} />
                 </div>
                 <div className="col-12">
                   <FontAwesomeIcon 
@@ -237,95 +139,49 @@ const DocumentCreate: React.FC<DocumentCreateProps> = ({ openCreate, setOpenCrea
                 </div>
                 {
                   !documentPublic &&
-                  <>
-                    <div className="col-6 mt-2 mb-2">
-                      <Button color="secondary" outline={shareType === 2} fullWidth className="float-left" onClick={() => handleSetTypeShare (1)}>
-                        Share in project
-                      </Button>
-                    </div>
-                    <div className="col-6 mt-2 mb-2">
-                      <Button color="secondary" outline={shareType === 1} fullWidth className="float-left" onClick={() => handleSetTypeShare (2)}>
-                        Share with member
-                      </Button>
-                    </div>
-                  </>
+                  <DocumentShareType
+                    shareType={shareType}
+                    setShareType={handleSetTypeShare}
+                  />
                 }
                 {
                   (!documentPublic && shareType === 1 && projectShare.length > 0) &&
-                  <div className="col-12 mt-2">
-                    {
-                      projectShare.map(project => (
-                        <span className="badge badge-light mr-2">
-                          {project.name} <FontAwesomeIcon icon={faTimes} className="ml-2 pointer" onClick={() => handleRemoveProject (project)} />
-                        </span>
-                      ))
-                    }
-                  </div>
+                  <DocumentProjectShared
+                    setProjectShared={setProjectShare}
+                    projectShared={projectShare}
+                  />
+                }
+                {
+                  !documentPublic && shareType === 2 &&
+                  <DocumentAlertPrivate />
                 }
                 {
                   (!documentPublic && shareType === 2 && memberShare.length > 0) &&
-                    memberShare.map(member => (
-                      <div className="col-12">
-                        <div className="card">
-                          <div className="row">
-                            <div className="col-6">
-                              <span className="badge badge-light">
-                                <FontAwesomeIcon icon={faTimes} className="ml-2 pointer mr-2" onClick={() => handleRemoveMember (member)} /> {member.first_name} {member.last_name}
-                              </span>
-                            </div>
-                            <div className="col-6">
-                              <div className="custom-control custom-checkbox float-right mr-2">
-                                <Input type="checkbox" className="custom-control-input" id={`userSharePermission${member.id}`} />
-                                <label htmlFor={`userSharePermission${member.id}`} className="custom-control-label">All permission</label>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                    ))
+                  <DocumentMemberShared
+                    setMemberShared={setMemberShare}
+                    memberShared={memberShare}
+                  />
                 }
                 {
                   (!documentPublic && shareType === 1) &&
-                  <div className="col-12 mt-2">
-                    <Input type="search" placeholder="Search projects" className="w-100" onChange={handleChangeKeyword} />
-                    <ul className="list-group invite-group">
-                      {
-                        projectData && projectData.items.map(project => (
-                          <li className="list-group-item invite-group-item pointer" key={project.id} onClick={() => handleSelectProject (project)}>
-                            <FontAwesomeIcon 
-                              icon={projectShare.find(p => p.id === project.id) ? faCircleCheck : faCircle} 
-                              className={`text-${projectShare.find(p => p.id === project.id) ? 'primary' : 'secondary'} mr-2`} 
-                            /> {project.name}
-                          </li>
-                        ))
-                      }
-                    </ul>
-                  </div>
+                  <DocumentProjectList
+                    setProjectShared={setProjectShare}
+                    projectShared={projectShare}
+                  />
                 }
                 {
                   (!documentPublic && shareType === 2) &&
-                  <div className="col-12 mt-2">
-                    <Input type="search" placeholder="Search projects" className="w-100" onChange={handleChangeKeywordMember} />
-                    <ul className="list-group invite-group">
-                      {
-                        workspaceMembers && workspaceMembers.items.map(member => (
-                          <li className="list-group-item invite-group-item pointer" key={member.id} onClick={() => handleSelectMember (member)}>
-                            <FontAwesomeIcon 
-                              icon={memberShare.find(p => p.id === member.id) ? faCircleCheck : faCircle} 
-                              className={`text-${memberShare.find(p => p.id === member.id) ? 'primary' : 'secondary'} mr-2`} 
-                            /> {member.email}
-                          </li>
-                        ))
-                      }
-                    </ul>
-                  </div>
+                  <DocumentMemberList
+                    setMemberShared={setMemberShare}
+                    memberShared={memberShare}
+                  />
                 }
                 <div className="col-12 mt-4">
-                  <Button color="secondary" className="float-right" outline onClick={() => setOpenModal (false)} disabled={loading}>
-                    Cancel
+                  <Button color="primary" className="float-right ml-2" disabled={loading} onClick={handleCreateDocument}>
+                    {loading ? <Loading color="light" /> : 'Save'}
                   </Button>
-                  <Button color="primary" className="float-right mr-2" disabled={loading} onClick={handleCreateDocument}>
-                    Save
+                  <Button color="secondary" className="float-right btn-no-border" outline onClick={() => setOpenModal (false)} disabled={loading}>
+                    Cancel
                   </Button>
                 </div>
               </div>

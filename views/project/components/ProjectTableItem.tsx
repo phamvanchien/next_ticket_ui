@@ -113,7 +113,9 @@ const ProjectTableItem: React.FC<ProjectTableItemProps> = ({ project, loadProjec
         </Link>
       </td>
       <td>
-        <i>{project.user.first_name} {project.user.last_name}</i>
+        <i style={{fontSize: 14}}>
+          {project.user.first_name} {project.user.last_name}
+        </i>
       </td>
       <td>
         {
@@ -121,7 +123,7 @@ const ProjectTableItem: React.FC<ProjectTableItemProps> = ({ project, loadProjec
           <ul className="list-inline">
             {
               project.members.map(member => (
-                <li className="list-inline-item" title={member.email} onClick={() => router.push(APP_LINK.PROFILE + '/' + member.id)}>
+                <li className="list-inline-item" key={member.id} title={member.email} onClick={() => router.push(APP_LINK.PROFILE + '/' + member.id)}>
                   <img className="img-circle table-avatar" width={30} height={30} src={member.avatar ?? '/img/icon/user-loading.png'} onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} />
                 </li>
               ))

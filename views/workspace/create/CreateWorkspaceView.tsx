@@ -14,6 +14,7 @@ import { API_CODE } from "@/enums/api.enum";
 import Loading from "@/common/components/Loading";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import ErrorAlert from "@/common/components/ErrorAlert";
 
 const CreateWorkspaceView = () => {
   const router = useRouter();
@@ -71,9 +72,7 @@ const CreateWorkspaceView = () => {
       {
         (error) && 
         <div className="col-12">
-          <div className="alert alert-light alert-error">
-            <b className="text-danger mt-2">Error: </b> {error.message}
-          </div>
+          <ErrorAlert error={error} />
         </div>
       }
       <form className="mt-4" onSubmit={handleSubmitCreate}>
@@ -103,11 +102,11 @@ const CreateWorkspaceView = () => {
               disabled={loading}></Textarea>
           </div>
           <div className="col-12">
-            <Button type="button" color="secondary" outline className="float-right mt-2" onClick={() => router.push (APP_LINK.GO_TO_WORKSPACE)} disabled={loading}>
-              Back
-            </Button>
-            <Button type="submit" color="primary" className="float-right mt-2 mr-2" disabled={loading}>
+            <Button type="submit" color="primary" className="float-right mt-2 ml-2" disabled={loading}>
               {loading ? <Loading color="light" /> : 'Create'}
+            </Button>
+            <Button type="button" color="secondary" outline className="float-right mt-2 btn-no-border" onClick={() => router.push (APP_LINK.GO_TO_WORKSPACE)} disabled={loading}>
+              Back
             </Button>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { sendInvite, userInvite } from "@/api/project.api";
 import Button from "@/common/components/Button";
+import ErrorAlert from "@/common/components/ErrorAlert";
 import Input from "@/common/components/Input";
 import Loading from "@/common/components/Loading";
 import Modal from "@/common/modal/Modal";
@@ -10,7 +11,7 @@ import { RootState } from "@/reduxs/store.redux";
 import { catchError } from "@/services/base.service";
 import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { ResponseUserDataType } from "@/types/user.type";
-import { faEnvelope, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faTimesCircle, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -29,6 +30,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({ openModal, setOpenModal
   const [debounceKeyword, setDebounceKeyword] = useState<string>('');
   const [memberData, setMemberData] = useState<ResponseUserDataType[]>();
   const [userSendData, setUserSendData] = useState<ResponseUserDataType[]>([]);
+  const [loadingList, setLoadingList] = useState(false);
   const handleChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setKeyword('');
@@ -81,17 +83,21 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({ openModal, setOpenModal
   useEffect(() => {
     const loadUsers = async () => {
       try {
-        if (!openModal || !workspace) {
+        if (!openModal || !workspace || !keyword) {
+          setMemberData(undefined);
           return;
         }
         setError(null);
+        setLoadingList(true);
         const response = await userInvite(workspace.id, projectId, keyword);
+        setLoadingList(false);
         if (response && response.code === API_CODE.OK) {
           setMemberData(response.data);
           return;
         }
         setError(catchError(response));
       } catch (error) {
+        setLoadingList(false);
         setError(catchError(error as BaseResponseType));
       }
     }
@@ -100,30 +106,32 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({ openModal, setOpenModal
   return (
     <Modal className="invite-modal" isOpen={openModal ? true : false}>
       <ModalHeader 
-        title="Add member"
+        title="Add members"
         setShow={setOpenModal}
       />
       <ModalBody>
         <div className="row mb-2">
           {
-            (memberData && memberData.length === 0) && 
+            (error) && 
             <div className="col-12">
-              <h6 className="text-muted text-center">Invite list is empty</h6>
+              <ErrorAlert error={error} />
             </div>
           }
           {
-            (error) && 
-            <div className="col-12">
-              <div className="alert alert-light alert-error">
-                <b className="text-danger mt-2">Error: </b> {error.message}
+            userSendData.map((user, index) => (
+              <div className="col-12 mt-2" key={index}>
+                <span className="badge badge-secondary send-to-item w-100 text-left">
+                  Send to: <i>{user.email}</i>
+                  <FontAwesomeIcon icon={faTimesCircle} className="ml-2 float-right" style={{ fontSize: 17 }} onClick={() => handleRemoveUserSend (user)} />
+                </span>
               </div>
-            </div>
+            ))
           }
-          <div className="col-12 mt-2">
-            {(memberData && memberData.length > 0) && <label htmlFor="searchMember" className="text-secondary">Add member</label>}
-            {(memberData && memberData.length > 4) && <Input type="text" id="searchMember" placeholder="Enter name or email" onChange={handleChangeKeyword} />}
+          <div className="col-12">
+            <Input type="text" id="searchMember" placeholder="Enter name or email" onChange={handleChangeKeyword} />
+            {loadingList && <center><Loading color="secondary" className="mt-2" /></center>}
             {
-              (memberData) &&
+              (memberData && keyword && keyword !== '') &&
               <ul className="list-group invite-group">
                 {
                   memberData.map(member => (
@@ -135,25 +143,12 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({ openModal, setOpenModal
               </ul>
             }
           </div>
-          {
-            userSendData.map((user, index) => (
-              <div className="col-12 mt-2" key={index}>
-                <span className="badge badge-secondary send-to-item w-100 text-left">
-                  Send to: <i>{user.email}</i>
-                  <FontAwesomeIcon icon={faTimesCircle} className="ml-2 float-right" style={{ fontSize: 17 }} onClick={() => handleRemoveUserSend (user)} />
-                </span>
-              </div>
-            ))
-          }
-          {
-            (memberData && memberData.length > 0) && 
-            <div className="col-12 mt-4">
-              <Button color="primary" className="float-right" disabled={loading} onClick={handleSubmitSendInvite}>
-                {loading ? <Loading color="light" /> : 'Send'}
-              </Button>
-              <Button color="secondary" className="float-right mr-2" outline disabled={loading} onClick={() => setOpenModal (false)}>Cancel</Button>
-            </div>
-          }
+          <div className="col-12 mt-2">
+            <Button color="primary" className="float-right" disabled={loading} onClick={handleSubmitSendInvite}>
+              {loading ? <Loading color="light" /> : 'Send'}
+            </Button>
+            <Button color="secondary" className="float-right mr-2 btn-no-border" outline disabled={loading} onClick={() => setOpenModal (false)}>Cancel</Button>
+          </div>
         </div>
       </ModalBody>
     </Modal>

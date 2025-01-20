@@ -8,7 +8,7 @@ interface ModalHeaderProps {
 const ModalHeader: React.FC<ModalHeaderProps> = ({ title, setShow }) => {
   return (
     <div className="modal-header">
-      <h5 className="modal-title">{title}</h5>
+      <h6 className="modal-title">{title}</h6>
       {/* <Button color="default"
         type="button"
         className="close"

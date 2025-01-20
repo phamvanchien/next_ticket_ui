@@ -1,6 +1,7 @@
 import { create } from "@/api/project.api";
 import { members } from "@/api/workspace.api";
 import Button from "@/common/components/Button";
+import ErrorAlert from "@/common/components/ErrorAlert";
 import Input from "@/common/components/Input";
 import Loading from "@/common/components/Loading";
 import Textarea from "@/common/components/Textarea";
@@ -15,7 +16,7 @@ import { catchError, hasError, validateInput } from "@/services/base.service";
 import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { ResponseUserDataType } from "@/types/user.type";
 import { ResponseInviteListDataType, ResponseMemberWorkspaceDataType } from "@/types/workspace.type";
-import { faEnvelope, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope, faTimesCircle, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -148,11 +149,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ openModal, setO
       <ModalBody>
         <div className="row mb-2">
           <div className="col-12">
-            {
-              (error) && <div className="alert alert-light alert-error">
-                <b className="text-danger mt-2">Error: </b> {error.message}
-              </div>
-            }
+            <ErrorAlert error={error} />
           </div>
           <div className="col-12">
             <Input 
@@ -178,7 +175,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ openModal, setO
                 data-type={'public'} 
                 onChange={handleCheckProjectType} 
               />
-              <label htmlFor="public_project" className="custom-control-label">Public</label>
+              <label htmlFor="public_project" className="custom-control-label text-secondary">Public</label>
             </div>
           </div>
           <div className="col-6 mt-2">
@@ -191,13 +188,13 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ openModal, setO
                 data-type={'private'} 
                 onChange={handleCheckProjectType} 
               />
-              <label htmlFor="private_project" className="custom-control-label">Private</label>
+              <label htmlFor="private_project" className="custom-control-label text-secondary">Private</label>
             </div>
           </div>
           {
             projectType === 'private' &&
             <div className="col-12 mt-2">
-              {memberData && <label htmlFor="searchMember" className="text-secondary">Add member</label>}
+              {memberData && <label htmlFor="searchMember" className="text-secondary">Add member <FontAwesomeIcon icon={faUserPlus} /></label>}
               {(memberData && memberData.total > 10) && <Input type="text" id="searchMember" placeholder="Enter name or email" onChange={handleChangeKeyword} />}
               {(memberData && memberData.total === 0 && <h6 className="text-muted">No member</h6>)}
               {
@@ -205,7 +202,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ openModal, setO
                 <ul className="list-group invite-group">
                   {
                     memberData.items.map(member => (
-                      <li className="list-group-item invite-group-item" key={member.id} onClick={() => handleSelectUserSend (member)}>
+                      <li className="list-group-item invite-group-item text-secondary" key={member.id} onClick={() => handleSelectUserSend (member)}>
                         <FontAwesomeIcon icon={faEnvelope} /> {member.email}
                       </li>
                     ))
@@ -228,7 +225,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ openModal, setO
             <Button color="primary" className="float-right" disabled={hasError(validateError) || loading} onClick={handleSubmitProject}>
               {loading ? <Loading color="light" /> : 'Create'}
             </Button>
-            <Button color="secondary" className="float-right mr-2" outline onClick={() => setOpenModal (false)}>Cancel</Button>
+            <Button color="secondary" className="float-right btn-no-border mr-2" outline onClick={() => setOpenModal (false)}>Cancel</Button>
           </div>
         </div>
       </ModalBody>

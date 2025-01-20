@@ -132,7 +132,7 @@ const TaskListView: React.FC<TaskListViewProps> = ({
     <div className="row mt-4">
       <div className="col-12">
         <div className="table-responsive">          
-          <table className="table">
+          <table className="table table-striped">
             <tbody>
               {
                 tasksData && tasksData.items.map((task, index) => (

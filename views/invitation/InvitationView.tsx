@@ -39,10 +39,10 @@ const InvitationView = () => {
 
   return (
     <div className="row">
-      <div className="col-12">
+      <div className="col-12 text-secondary">
         <h3><FontAwesomeIcon icon={faEnvelope} className="text-primary" /> Invitation</h3>
       </div>
-      <div className="col-12">
+      <div className="col-12 mt-4">
         {
           (!loading && inviteData && inviteData.total === 0) &&
           <div className="row text-secondary">

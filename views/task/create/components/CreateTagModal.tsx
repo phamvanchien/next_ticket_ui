@@ -1,5 +1,6 @@
 import { createTag } from "@/api/project.api";
 import Button from "@/common/components/Button";
+import ErrorAlert from "@/common/components/ErrorAlert";
 import InputForm from "@/common/components/InputForm";
 import Loading from "@/common/components/Loading";
 import Modal from "@/common/modal/Modal";
@@ -76,9 +77,7 @@ const CreateTagModal: React.FC<CreateTagModalProps> = ({ openCreate, projectId, 
         <div className="row mb-2">
           {
             (error) && <div className="col-12">
-              <div className="alert alert-light alert-error">
-                <b className="text-danger mt-2">Error: </b> {error.message}
-              </div>
+              <ErrorAlert error={error} />
             </div>
           }
           <div className="col-12">
@@ -110,11 +109,11 @@ const CreateTagModal: React.FC<CreateTagModalProps> = ({ openCreate, projectId, 
             }
           </div>
           <div className="col-12 mt-4">
-            <Button color="secondary" outline className="float-right" disabled={loading} onClick={() => setOpenCreate (false)}>
-              Cancel
-            </Button>
-            <Button color="primary" className="float-right mr-2" disabled={hasError(validateError) || loading} onClick={handleCreateTag}>
+            <Button color="primary" className="float-right ml-2" disabled={hasError(validateError) || loading} onClick={handleCreateTag}>
               {loading ? <Loading color="light" /> : 'Save'}
+            </Button>
+            <Button color="secondary" outline className="float-right btn-no-border" disabled={loading} onClick={() => setOpenCreate (false)}>
+              Cancel
             </Button>
           </div>
         </div>

@@ -10,7 +10,7 @@
 .invite-group-item {
     background-color: #fff !important;
     border-color: unset !important;
-    color: #333 !important;
+    /* color: #333 !important; */
     border: 1px solid #c2c7d0 !important;
     height: 40px !important;
     line-height: 15px !important;
@@ -27,15 +27,19 @@
 .input-search {
     border-radius: 20px;
     padding-left: 15px;
-    width: 50% !important;
+    width: 50%;
+}
+
+@media (max-width: 576px) {
+    .input-search {
+        border-radius: 20px;
+        padding-left: 15px;
+        width: 100% !important;
+    }
 }
 
 @media (max-width: 576px) {
     .search-input {
         width: 100% !important;
-    }
-
-    .create-btn {
-        /* width: 100% !important; */
     }
 }

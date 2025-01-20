@@ -8,7 +8,7 @@ import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { ProjectType } from "@/types/project.type";
 import { ResponseUserDataType } from "@/types/user.type";
 import { ResponseMemberWorkspaceDataType } from "@/types/workspace.type";
-import { faTimes, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -18,9 +18,10 @@ interface TaskAssignSelectProps {
   setAssignee: (assignee: ResponseUserDataType[]) => void
   project: ProjectType
   className?: string
+  label?: string
 }
 
-const TaskAssignSelect: React.FC<TaskAssignSelectProps> = ({ assignee, project, className, setAssignee }) => {
+const TaskAssignSelect: React.FC<TaskAssignSelectProps> = ({ assignee, project, className, label, setAssignee }) => {
   const [membersData, setMembersData] = useState<ResponseMemberWorkspaceDataType>();
   const [error, setError] = useState<AppErrorType | null>(null);
   const [openMemberList, setOpenMemberList] = useState(false);
@@ -100,13 +101,13 @@ const TaskAssignSelect: React.FC<TaskAssignSelectProps> = ({ assignee, project, 
   return (
     <div className={`row text-secondary ${className ?? ''}`}>
       <div className="col-4 lh-40">
-        Assignee:
+        {label ?? 'Assignee'}:
       </div>
       <div className="col-8" onClick={() => setOpenMemberList (true)} ref={listMembersRef}>
         {
           assignee.length === 0 &&
           <span className="badge badge-light mr-2">
-            <img className="img-circle" onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} src={'/img/icon/user-loading.png'} width={25} height={25} /> Unassigned 
+            <img className="img-circle" onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} src={'/img/icon/user-loading.png'} width={25} height={25} /> Empty 
           </span>
         }
         {

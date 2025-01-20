@@ -11,6 +11,7 @@ import { update } from "@/api/project.api";
 import { API_CODE } from "@/enums/api.enum";
 import { notify } from "@/utils/helper.util";
 import { catchError } from "@/services/base.service";
+import ErrorAlert from "@/common/components/ErrorAlert";
 
 interface ProjectSettingViewProps {
   project: ProjectType
@@ -53,9 +54,7 @@ const ProjectSettingView: React.FC<ProjectSettingViewProps> = ({ project }) => {
       {
         (error) && 
         <div className="col-12 col-lg-4 col-sm-6 mt-4">
-          <div className="alert alert-light alert-error">
-            <b className="text-danger mt-2">Error: </b> {error.message}
-          </div>
+          <ErrorAlert error={error} />
         </div>
       }
       <div className="col-12 col-lg-4 col-sm-6 mt-4">

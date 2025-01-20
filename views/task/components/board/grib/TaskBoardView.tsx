@@ -58,7 +58,6 @@ const TaskBoardView: React.FC<TaskBoardViewProps> = ({
   const [dragOverStatus, setDragOverStatus] = useState<number>();
   const [error, setError] = useState<AppErrorType | null>(null);
   const [loading, setLoading] = useState(true);
-  const [total, setTotal] = useState();
 
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const wrapperRef = useRef<HTMLDivElement>(null);

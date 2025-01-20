@@ -28,7 +28,6 @@ const GoogleAuth: React.FC<GoogleAuthProps> = ({ code, scope, authuser, prompt }
   useEffect(() => {
     const handleAuthGoogleCallback = async () => {
       try {
-        console.log('params: ', code, scope, authuser, prompt)
         setError(null);
         const response = await authGoogleCallback({code, scope, authuser, prompt});
         if (response && response.code === API_CODE.OK) {

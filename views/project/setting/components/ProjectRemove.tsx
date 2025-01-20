@@ -1,5 +1,6 @@
 import { remove } from "@/api/project.api";
 import Button from "@/common/components/Button";
+import ErrorAlert from "@/common/components/ErrorAlert";
 import Input from "@/common/components/Input";
 import Loading from "@/common/components/Loading";
 import Modal from "@/common/modal/Modal";
@@ -90,9 +91,7 @@ const ProjectRemove: React.FC<ProjectRemoveProps> = ({ projectId, projectName })
           {
             error &&
             <div className="col-12">
-              <div className="alert alert-light alert-error">
-                <b className="text-danger mt-2">Error: </b> {error.message}
-              </div>
+              <ErrorAlert error={error} />
             </div>
           }
           <div className="col-12 mb-2">

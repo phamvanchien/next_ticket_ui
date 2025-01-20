@@ -11,7 +11,8 @@ enum APP_LINK {
   WORKSPACE = '/workspace',
   CREATE_WORKSPACE = '/workspace/create',
   INVITATION = '/invitation',
-  PROFILE = '/profile'
+  PROFILE = '/profile',
+  CALENDAR = '/calendar'
 }
 enum APP_VALIDATE_TYPE {
   REQUIRED = 'required',

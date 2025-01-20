@@ -102,7 +102,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, statusKey, draggingTask, proj
         onDragEnd={handleDragEnd}
       >
         <div className="card-body mt-2" style={{ padding: 15 }}>
-          <h6>
+          <h6 className="title-task-board">
             <Link 
               href={'#'} 
               className="text-dark"

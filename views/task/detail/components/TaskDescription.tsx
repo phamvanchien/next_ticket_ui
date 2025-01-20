@@ -67,8 +67,8 @@ const TaskDescription: React.FC<TaskDescriptionProps> = ({ description, setDescr
       {
         edit &&
         <div className="col-12">
-          <Button color="secondary" outline className="float-right" onClick={() => setEdit (false)}>Cancel</Button>
-          <Button color="secondary" className="float-right mr-2" onClick={handleSaveDescription}>Save</Button>
+          <Button color="primary" className="float-right ml-2" onClick={handleSaveDescription}>Save</Button>
+          <Button color="secondary" outline className="float-right btn-no-border" onClick={() => setEdit (false)}>Cancel</Button>
         </div>
       }
     </div>

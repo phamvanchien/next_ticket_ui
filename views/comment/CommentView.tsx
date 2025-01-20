@@ -16,6 +16,7 @@ import Link from "next/link";
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import CommentItem from "./components/CommentItem";
+import ErrorAlert from "@/common/components/ErrorAlert";
 
 interface CommentViewProps {
   task: TaskType
@@ -45,6 +46,9 @@ const CommentView: React.FC<CommentViewProps> = ({ task }) => {
       setLoadingViewMore(false);
       if (response && response.code === API_CODE.OK) {
         setCommentData(response.data);
+        if (response.data.total === 0) {
+          setCreateForm(true);
+        }
         return;
       }
       setCommentData(undefined);
@@ -84,14 +88,7 @@ const CommentView: React.FC<CommentViewProps> = ({ task }) => {
   }, [workspace, pageSize]);
   return <>
     <div className="row mt-4">
-      {
-        (error) && 
-          <div className="col-12">
-            <div className="alert alert-light alert-error">
-              <b className="text-danger mt-2">Error: </b> {error.message}
-            </div>
-          </div>
-      }
+      <ErrorAlert error={error} />
       {
         createForm ? <>
           <div className="col-12 mb-2">
@@ -104,10 +101,10 @@ const CommentView: React.FC<CommentViewProps> = ({ task }) => {
             <EditorArea placeholder="Enter your content" value={content} setValue={setContent} />
           </div>
           <div className="col-12">
-            <Button color="secondary" outline className="float-right" onClick={() => setCreateForm (false)} disabled={loading}>Cancel</Button>
-            <Button color="primary" className="float-right mr-2" onClick={handleSubmitComment} disabled={loading}>
+            <Button color="primary" className="float-right ml-2" onClick={handleSubmitComment} disabled={loading}>
               {loading ? <Loading color="light" /> : 'Send'}
             </Button>
+            <Button color="secondary" outline className="float-right btn-no-border" onClick={() => setCreateForm (false)} disabled={loading}>Cancel</Button>
           </div>
         </> : (
           <div className="col-12 text-muted">

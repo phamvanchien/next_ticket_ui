@@ -11,9 +11,29 @@
     border: unset !important;
 }
 
+.btn-share-type {
+    height: 50px !important;
+}
+
+.input-search {
+    border-radius: 20px;
+    padding-left: 15px;
+    width: 50%;
+}
+
+.ql-editor {
+    font-size: 15px !important;
+}
+
 @media (max-width: 768px) {
     .open-sidebar-create-document {
         width: 100% !important;
+    }
+
+    .input-search {
+        border-radius: 20px;
+        padding-left: 15px;
+        width: 100%;
     }
 }
 

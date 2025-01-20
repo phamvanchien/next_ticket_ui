@@ -17,6 +17,7 @@ import { setCookie } from "@/utils/cookie.util";
 import { APP_CONFIG } from "@/config/app.config";
 import Loading from "@/common/components/Loading";
 import GoogleAuth from "./components/GoogleAuth";
+import ErrorAlert from "@/common/components/ErrorAlert";
 
 const LoginView = () => {
   const router = useRouter();
@@ -167,11 +168,7 @@ const LoginView = () => {
               <center>
                 <span className="text-muted mt-4 mb-4">Or</span>
               </center>
-              {
-                (error) && <div className="alert alert-light alert-error">
-                  <b className="text-danger mt-2">Error: </b> {error.message}
-                </div>
-              }
+              <ErrorAlert error={error} />
               <form onSubmit={emailVerified ? handleSubmitLogin : handleFetchEmail} className="mt-2">
                 {
                   !emailVerified && <div className="input-group mb-2">

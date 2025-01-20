@@ -16,16 +16,16 @@ const DocumentItem: React.FC<DocumentItemProps> = ({ document, documentUpdated, 
     }
   }, [documentUpdated]);
   return (
-    <div className="col-6 col-lg-2">
-      <div className="card pointer">
-        <div className="card-body p-10" onClick={() => setDocumentUpdate (documentData)}>
+    <div className="col-6 col-lg-3">
+      <div className="card pointer" onClick={() => setDocumentUpdate (documentData)}>
+        <div className="card-body p-10">
           <center>
             <ImageIcon icon="document-o" />
           </center>
         </div>
         <div className="card-header p-5">
-          <h6 className="text-secondary text-center">
-            {(documentData.title && documentData.title !== '') ? documentData.title.length > 40 ? documentData.title.substring(0, 40) + '...' : documentData.title : 'No name'}
+          <h6 className="text-secondary text-center" title={documentData.title}>
+            {(documentData.title && documentData.title !== '') ? (documentData.title.length > 20 ? documentData.title.substring(0, 13) + '...' : documentData.title) : 'No name'}
           </h6>
         </div>
       </div>

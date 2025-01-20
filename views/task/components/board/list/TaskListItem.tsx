@@ -83,7 +83,7 @@ const TaskListItem: React.FC<TaskListItemProps> = ({ task, index, project, statu
       </td>
       <td style={{minWidth: 150}} className="text-secondary">Due: {dateToString(new Date(taskData.due))}</td>
       <td>
-        {getIconPriority(taskData.priority.id, `mr-2 text-${getIconPriority(taskData.priority.id)}`)} {taskData.priority.title}
+        {getIconPriority(taskData.priority.id, `mr-2 text-${getIconPriority(taskData.priority.id)}`)}
       </td>
     </tr>
     <CreateTaskView open={openEdit} setOpen={setOpenEdit} project={project} task={taskData} setTaskResponse={setTaskData} />

@@ -40,6 +40,21 @@
   height: 150px;
 }
 
+.btn-wp-home {
+  width: 200px;
+  height: 50px !important;
+  margin-top: 15px;
+  font-size: 22px !important;
+}
+
+.card-body-wp-home {
+  text-align: left;
+}
+
+.card-wp-home {
+  width: 80%;
+}
+
 @media (max-width: 576px) {
   .create-workspace-box, .setting-workspace-box {
     width: 95% !important;
@@ -52,6 +67,18 @@
 
 @media (max-width: 768px) {
   .input-search {
+    width: 100%;
+  }
+
+  .img-wp-home {
+    float: unset !important;
+  }
+
+  .card-body-wp-home {
+    text-align: center;
+  }
+
+  .card-wp-home {
     width: 100%;
   }
 }

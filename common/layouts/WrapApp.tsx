@@ -1,34 +1,55 @@
-import { faBars, faBell, faCubes, faEnvelopeOpen, faHome, faPlus, faUser } from "@fortawesome/free-solid-svg-icons";
+"use client"
+import { faBars, faBell, faCalendarDay, faCubes, faEnvelopeOpen, faHome, faPlus, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NavItem from "./NavItem";
 import { APP_LINK } from "@/enums/app.enum";
 import React from "react";
+import Sidebar from "./Sidebar";
 
 interface WrapAppProps {
   children: React.ReactNode
 }
 
 const WrapApp: React.FC<WrapAppProps> = ({ children }) => {
+  const handleOpenMenu = () => {
+    const body = document.getElementsByTagName('body') as HTMLCollectionOf<HTMLBodyElement>;
+    body[0].classList.remove('sidebar-collapse');
+    body[0].classList.add('sidebar-open');
+  }
+  const handleCloseMenu = () => {
+    const body = document.getElementsByTagName('body') as HTMLCollectionOf<HTMLBodyElement>;
+    body[0].classList.add('sidebar-collapse');
+    body[0].classList.remove('sidebar-open');
+  }
+  const clickOpenMenu = (event: React.MouseEvent<SVGSVGElement>) => {
+    event.preventDefault();
+    const sidebarOpenClass = document.getElementsByClassName('sidebar-open') as HTMLCollectionOf<HTMLBodyElement>;
+    if (sidebarOpenClass.length > 0) {
+      handleCloseMenu();
+    } else {
+      handleOpenMenu();
+    }
+  }
   return (
     <div className="wrapper">
-    <nav className="header-app navbar navbar-expand-md navbar-light navbar-white ml-unset bg-primary" style={{height: 38}}>
-      <div className="container">
-        <ul className="navbar-nav navbar-no-expand float-right p-unset">
-          <NavItem href={APP_LINK.INVITATION} className="icon-menu border-right-header">
-            <FontAwesomeIcon icon={faHome} />
-          </NavItem>
-          <NavItem href={APP_LINK.INVITATION} className="icon-menu border-right-header">
-            <FontAwesomeIcon icon={faEnvelopeOpen} /> Invitation
-          </NavItem>
-          <NavItem href={APP_LINK.GO_TO_WORKSPACE} className="icon-menu border-right-header">
-            <FontAwesomeIcon icon={faCubes} /> Workspaces
-          </NavItem>
-          <NavItem href={APP_LINK.PROFILE} className="icon-menu">
-            <FontAwesomeIcon icon={faUser} /> Profile
-          </NavItem>
-        </ul>
-      </div>
-    </nav>
+      <nav className="header-app navbar navbar-expand-md navbar-light navbar-white p-unset">
+        <div className="container">
+          <ul className="navbar-nav navbar-no-expand float-right">
+            <NavItem href={APP_LINK.INVITATION} className="icon-menu text-center border-right-header">
+              <FontAwesomeIcon icon={faEnvelopeOpen} /> Invitation
+            </NavItem>
+            <NavItem href={APP_LINK.GO_TO_WORKSPACE} className="icon-menu text-center border-right-header">
+              <FontAwesomeIcon icon={faCubes} /> Workspaces
+            </NavItem>
+            <NavItem href={APP_LINK.PROFILE} className="icon-menu text-center">
+              <FontAwesomeIcon icon={faUser} /> Profile
+            </NavItem>
+            <NavItem href={APP_LINK.CALENDAR} className="icon-menu text-center">
+              <FontAwesomeIcon icon={faCalendarDay} /> Calendar
+            </NavItem>
+          </ul>
+        </div>
+      </nav>
       <div className="content-wrapper content-wrapper-app pt-unset">
         <div className="content">
           <div className="container main-container-app">

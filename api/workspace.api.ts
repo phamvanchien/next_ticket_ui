@@ -3,6 +3,7 @@ import { request } from "./base.api";
 import { API_METHOD_ENUM } from "@/enums/api.enum";
 import { APP_CONFIG } from "@/config/app.config";
 import { BaseResponseType } from "@/types/base.type";
+import { ResponseTasksType } from "@/types/task.type";
 
 export const create = async (payload: RequestCreateWorkspaceType): Promise<ResponseWorkspaceType> => {
   return request({
@@ -109,5 +110,15 @@ export const removeWorkspace = async (workspaceId: number): Promise<BaseResponse
   return request({
     method: API_METHOD_ENUM.DELETE,
     url: APP_CONFIG.API.PREFIX.workspace.url + '/' + workspaceId
+  });
+}
+
+export const getTasksByIds = async (workspaceId: number, taskIds: string): Promise<ResponseTasksType> => {
+  return request({
+    method: API_METHOD_ENUM.GET,
+    url: APP_CONFIG.API.PREFIX.workspace.url + '/' + workspaceId + '/get-tasks-by-id',
+    params: {
+      ids: taskIds
+    }
   });
 }

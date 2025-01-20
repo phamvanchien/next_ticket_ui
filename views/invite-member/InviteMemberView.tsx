@@ -1,6 +1,7 @@
 import { users } from "@/api/user.api";
 import { sendInvite, userInvite } from "@/api/workspace.api";
 import Button from "@/common/components/Button";
+import ErrorAlert from "@/common/components/ErrorAlert";
 import Input from "@/common/components/Input";
 import Loading from "@/common/components/Loading";
 import ErrorPage from "@/common/layouts/ErrorPage";
@@ -100,6 +101,7 @@ const InviteMemberView: React.FC<InviteMemberViewProps> = ({ openModal, setOpenM
     const loadUsers = async () => {
       try {
         if (!userLogged || !openModal || !keyword || !workspace) {
+          setUserData(undefined);
           return;
         }
         setError(null);
@@ -124,7 +126,9 @@ const InviteMemberView: React.FC<InviteMemberViewProps> = ({ openModal, setOpenM
       <ModalBody>
         <div className="row mb-2">
           {
-            error ? <ErrorPage errorCode={500} /> :
+            error ? <div className="col-12">
+              <ErrorAlert error={error} />
+            </div> :
             <>
               {
                 userSendData.map((email, index) => (
@@ -136,23 +140,18 @@ const InviteMemberView: React.FC<InviteMemberViewProps> = ({ openModal, setOpenM
                   </div>
                 ))
               }
-              {
-                (errorSend) && <div className="alert alert-light alert-error">
-                  <b className="text-danger mt-2">Error: </b> {errorSend.message}
-                </div>
-              }
+              <ErrorAlert error={errorSend} />
               {
                 emailSent.map((email, index) => (
                   <div className="col-12 mb-2" key={index}>
                     <span className="badge badge-success send-to-item w-100 text-left">
-                      Send to: <i>{email}</i>
+                      Sent to: <i>{email}</i>
                       <FontAwesomeIcon icon={faCheckCircle} className="ml-2 float-right" style={{ fontSize: 17 }} />
                     </span>
                   </div>
                 ))
               }
               <div className="col-12 mb-2">
-                <label htmlFor="searchMember" className="text-muted">Email or name</label>
                 <Input type="text" id="searchMember" placeholder="Enter name or email" onChange={handleChangeKeyword} disabled={loading} />
                 {
                   (keyword && keyword !== '') &&
@@ -168,10 +167,10 @@ const InviteMemberView: React.FC<InviteMemberViewProps> = ({ openModal, setOpenM
                 }
               </div>
               <div className="col-12">
-                <Button color="secondary" className="float-right" outline onClick={handleCancelModal} disabled={loading}>Cancel</Button>
-                <Button color="primary" className="float-right mr-2" onClick={handleSubmitSend} disabled={loading}>
-                  {loading ? <Loading color="light" /> : 'Send invite'}
+                <Button color="primary" className="float-right ml-2" onClick={handleSubmitSend} disabled={loading}>
+                  {loading ? <Loading color="light" /> : 'Send'}
                 </Button>
+                <Button color="secondary" className="float-right btn-no-border" outline onClick={handleCancelModal} disabled={loading}>Cancel</Button>
               </div>
             </>
           }

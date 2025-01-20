@@ -1,5 +1,6 @@
 import { remove } from "@/api/project.api";
 import Button from "@/common/components/Button";
+import ErrorAlert from "@/common/components/ErrorAlert";
 import Loading from "@/common/components/Loading";
 import Modal from "@/common/modal/Modal";
 import ModalBody from "@/common/modal/ModalBody";
@@ -51,11 +52,7 @@ const RemoveProjectModal: React.FC<RemoveProjectModalProps> = ({ openModal, setO
       <ModalBody>
         <div className="row mb-2">
           <div className="col-12 mb-2">
-            {
-              (error) && <div className="alert alert-light alert-error">
-                <b className="text-danger mt-2">Error: </b> {error.message}
-              </div>
-            }
+            <ErrorAlert error={error} />
           </div>
           <div className="col-6">
             <Button color="secondary" outline fullWidth onClick={() => setOpenModal (false)} disabled={loading}>Cancel</Button>

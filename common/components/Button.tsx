@@ -12,12 +12,14 @@ interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ children, className, size, rounded, color, fullWidth, outline = false, ...rest }, ref) => {
+    // btn-block
+    // bg-gradient-${
+    //   !outline ? color : ""
+    // }
     return (
       <button
         ref={ref}
-        className={`btn ${fullWidth ? "btn-block" : ""} bg-gradient-${
-          !outline ? color : ""
-        } btn-${outline ? "outline-" : ""}${color} ${
+        className={`btn ${fullWidth ? "btn-block" : ""}  btn-${outline ? "outline-" : ""}${color} ${
           size ? "btn-" + size : ""
         } ${rounded ? "rounded-pill" : ""} ${className ? className : ""}`}
         {...rest}

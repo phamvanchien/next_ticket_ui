@@ -34,19 +34,7 @@ const Header = () => {
   return (
     <nav className="main-header navbar navbar-expand-md navbar-light navbar-white">
       <div className="container" style={{maxWidth: '100%'}}>
-        <FontAwesomeIcon className="navbar-brand d-block d-lg-none text-white btn-bars pt-unset" icon={faBars} size="2x" onClick={clickOpenMenu} />
-        {/* <ul className="navbar-nav navbar-no-expand float-right">
-          <NavItem href={APP_LINK.INVITATION} className="icon-menu mr-2">
-            <FontAwesomeIcon icon={faEnvelopeOpen} /> Invitation
-          </NavItem>
-          <NavItem href={APP_LINK.PROFILE} className="icon-menu mr-2">
-            <FontAwesomeIcon icon={faUser} />
-          </NavItem>
-          <NavItem href={APP_LINK.HOME} className="icon-menu">
-            <FontAwesomeIcon icon={faBell} />
-            <span className="badge badge-warning navbar-badge badge-notification">15</span>
-          </NavItem>
-        </ul> */}
+        <FontAwesomeIcon className="navbar-brand d-block d-lg-none text-dark btn-bars pt-unset" icon={faBars} size="2x" onClick={clickOpenMenu} />
         <ul className="navbar-nav navbar-no-expand float-right">
           <NavItem href={APP_LINK.INVITATION} className="icon-menu border-right-header">
             <FontAwesomeIcon icon={faEnvelopeOpen} /> Invitation

@@ -29,7 +29,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
   }
 
   return <MainLayout workspace={workspace.data}>
-    <ProjectView />
+    <ProjectView workspace={workspace.data} />
   </MainLayout>
 }
 

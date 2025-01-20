@@ -29,7 +29,7 @@ const HeaderProfile = () => {
           <div className="widget-user-image user-avatar-header">
             <img 
               className="img-circle elevation-2" 
-              src={loading ? '/img/icon/no-user.png' : ((userLogged && userLogged.avatar) ? userLogged.avatar : '/img/unnamed.png')}
+              src={loading ? '/img/icon/user-loading.png' : ((userLogged && userLogged.avatar) ? userLogged.avatar : '/img/unnamed.png')}
               width={40} height={40} 
               alt="User Avatar" 
             />

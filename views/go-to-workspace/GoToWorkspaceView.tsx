@@ -110,8 +110,8 @@ const GoToWorkspaceView = () => {
           (workspacesData && workspacesData.total > pageSize) &&
           <div className="row mt-2">
             <div className="col-12 text-center">
-              <Button color="primary" rounded outline onClick={handleViewMore} disabled={viewMoreLoading}>
-                {viewMoreLoading ? <Loading color="primary" /> : <>View more <FontAwesomeIcon icon={faAngleDoubleDown} /></>}
+              <Button color="secondary" rounded outline onClick={handleViewMore} disabled={viewMoreLoading}>
+                {viewMoreLoading ? <Loading color="secondary" /> : <>View more <FontAwesomeIcon icon={faAngleDoubleDown} /></>}
               </Button>
             </div>
           </div>

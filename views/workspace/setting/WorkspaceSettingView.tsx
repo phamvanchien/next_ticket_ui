@@ -18,6 +18,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import MemberWorkspaceSetting from "./components/MemberWorkspaceSetting";
+import ErrorAlert from "@/common/components/ErrorAlert";
 
 interface WorkspaceSettingViewProps {
   workspace: WorkspaceType
@@ -118,9 +119,7 @@ const WorkspaceSettingView: React.FC<WorkspaceSettingViewProps> = ({ workspace }
       {
         (error) && 
         <div className="col-12 col-lg-4 col-sm-6 mt-4">
-          <div className="alert alert-light alert-error">
-            <b className="text-danger mt-2">Error: </b> {error.message}
-          </div>
+          <ErrorAlert error={error} />
         </div>
       }
       <div className="col-12 col-lg-4 col-sm-6 mt-4">
@@ -152,9 +151,7 @@ const WorkspaceSettingView: React.FC<WorkspaceSettingViewProps> = ({ workspace }
           {
             (error) && 
             <div className="col-12 mb-2">
-              <div className="alert alert-light alert-error">
-                <b className="text-danger mt-2">Error: </b> {error.message}
-              </div>
+              <ErrorAlert error={error} />
             </div>
           }
           <div className="col-12 col-lg-12 mt-2 mb-2">

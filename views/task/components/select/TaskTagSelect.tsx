@@ -20,6 +20,7 @@ const TaskTagSelect: React.FC<TaskTagSelectProps> = ({ tags, className, projectI
   const [keyword, setKeyword] = useState<string>('');
   const [debounceKeyword, setDebounceKeyword] = useState<string>('');
   const [tagData, setTagData] = useState<ResponseTagsDataType>();
+  const [totalTag, setTotalTag] = useState<number>();
   const listTagsRef = useRef<HTMLDivElement>(null);
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const handleChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {
@@ -50,6 +51,9 @@ const TaskTagSelect: React.FC<TaskTagSelectProps> = ({ tags, className, projectI
       });
       if (response && response.code === API_CODE.OK) {
         setTagData(response.data);
+        if (!totalTag) {
+          setTotalTag(response.data.total);
+        }
         return;
       }
       setTagData(undefined);
@@ -91,7 +95,7 @@ const TaskTagSelect: React.FC<TaskTagSelectProps> = ({ tags, className, projectI
         {
           tags.length === 0 &&
           <span className="badge badge-light lh-20 mb-2 mr-2">
-            <FontAwesomeIcon icon={faTag} /> No tags
+            <FontAwesomeIcon icon={faTag} /> Empty
           </span>
         }
         {
@@ -106,11 +110,17 @@ const TaskTagSelect: React.FC<TaskTagSelectProps> = ({ tags, className, projectI
           openTagList &&
           <>
             <ul className="list-group select-search-task">
-              <li className="list-group-item border-unset p-unset">
-                <Input type="search" className="w-100" onChange={handleChangeKeyword} />
-              </li>
               {
-                tagData && tagData.items.filter(m => !tags.map(a => a.id).includes(m.id)).map((tag, index) => (
+                (totalTag && totalTag > 0) ?
+                <li className="list-group-item border-unset p-unset">
+                  <Input type="search" className="w-100" onChange={handleChangeKeyword} />
+                </li> : 
+                <li className="list-group-item p-5 border-unset p-unset text-muted">
+                  No matches found
+                </li>
+              }
+              {
+                (tagData && tagData.total > 0) && tagData.items.filter(m => !tags.map(a => a.id).includes(m.id)).map((tag, index) => (
                   <li className="list-group-item border-unset p-unset" key={index} onClick={() => handleSelectTag (tag)}>
                     <span className="badge badge-default w-100 text-left">
                       <FontAwesomeIcon icon={faTag} style={{ color: tag.color }} /> {tag.name}
