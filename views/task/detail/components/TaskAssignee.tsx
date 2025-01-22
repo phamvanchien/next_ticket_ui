@@ -3,10 +3,9 @@ import { members } from "@/api/workspace.api";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
 import { catchError } from "@/services/base.service";
-import { AppErrorType, BaseResponseType } from "@/types/base.type";
+import { AppErrorType, BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import { TaskType } from "@/types/task.type";
 import { ResponseUserDataType } from "@/types/user.type";
-import { ResponseMemberWorkspaceDataType } from "@/types/workspace.type";
 import { faPlus, faTimesCircle, faUserCircle, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Input from "@/common/components/Input";
@@ -29,7 +28,7 @@ const TaskAssignee: React.FC<TaskAssigneeProps> = ({
 }) => {
   const [openMemberList, setOpenMemberList] = useState(false);
   const [error, setError] = useState<AppErrorType | null>(null);
-  const [membersData, setMembersData] = useState<ResponseMemberWorkspaceDataType>();
+  const [membersData, setMembersData] = useState<ResponseWithPaginationType<ResponseUserDataType[]>>();
   const [keyword, setKeyword] = useState<string>('');
   const [debounceKeyword, setDebounceKeyword] = useState<string>('');
   const listMembersRef = useRef<HTMLUListElement>(null);

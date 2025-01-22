@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import SubTask from "./SubTask";
-import { ResponseHistoryDataType, TaskType } from "@/types/task.type";
 import Modal from "@/common/modal/Modal";
 import ModalBody from "@/common/modal/ModalBody";
 import { useSelector } from "react-redux";
@@ -15,14 +14,15 @@ import { useRouter } from "next/navigation";
 import { APP_LINK } from "@/enums/app.enum";
 import { notify } from "@/utils/helper.util";
 import { catchError } from "@/services/base.service";
-import { BaseResponseType } from "@/types/base.type";
+import { BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import Loading from "@/common/components/Loading";
 import TaskHistory from "./TaskHistory";
+import { HistoryType, TaskType } from "@/types/task.type";
 
 interface TaskSettingProps {
   open: boolean
   task: TaskType
-  historyData?: ResponseHistoryDataType
+  historyData?: ResponseWithPaginationType<HistoryType[]>
   loadingViewMore: boolean
   pageSize: number
   setOpen: (open: boolean) => void

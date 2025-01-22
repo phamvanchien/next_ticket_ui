@@ -2,7 +2,8 @@ import { tagsList } from "@/api/project.api";
 import Input from "@/common/components/Input";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
-import { ResponseTagsDataType, ProjectTagType } from "@/types/project.type";
+import { ResponseWithPaginationType } from "@/types/base.type";
+import { ProjectTagType } from "@/types/project.type";
 import { TaskType } from "@/types/task.type";
 import { faPlus, faTags, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -19,7 +20,7 @@ const TaskTag: React.FC<TaskTagProps> = ({ projectId, tags, setTags }) => {
   const [openTagList, setOpenTagList] = useState(false);
   const [keyword, setKeyword] = useState<string>('');
   const [debounceKeyword, setDebounceKeyword] = useState<string>('');
-  const [tagData, setTagData] = useState<ResponseTagsDataType>();
+  const [tagData, setTagData] = useState<ResponseWithPaginationType<ProjectTagType[]>>();
   const listTagsRef = useRef<HTMLUListElement>(null);
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const handleChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {

@@ -2,7 +2,8 @@ import { statusList } from "@/api/project.api";
 import Input from "@/common/components/Input";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
-import { ResponseTagsDataType, ProjectTagType } from "@/types/project.type";
+import { ResponseWithPaginationType } from "@/types/base.type";
+import { ProjectTagType } from "@/types/project.type";
 import { TaskType } from "@/types/task.type";
 import { faBullseye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -21,7 +22,7 @@ const TaskStatus: React.FC<TaskStatusProps> = ({ task, status, setStatus }) => {
   const [openStatusList, setOpenStatusList] = useState(false);
   const [keyword, setKeyword] = useState<string>('');
   const [debounceKeyword, setDebounceKeyword] = useState<string>('');
-  const [statusData, setStatusData] = useState<ResponseTagsDataType>();
+  const [statusData, setStatusData] = useState<ResponseWithPaginationType<ProjectTagType[]>>();
   const handleChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setKeyword('');
