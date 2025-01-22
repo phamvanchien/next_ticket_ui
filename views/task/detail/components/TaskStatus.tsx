@@ -2,7 +2,7 @@ import { statusList } from "@/api/project.api";
 import Input from "@/common/components/Input";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
-import { ResponseTagsDataType, ResponseTagType } from "@/types/project.type";
+import { ResponseTagsDataType, ProjectTagType } from "@/types/project.type";
 import { TaskType } from "@/types/task.type";
 import { faBullseye } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,8 +11,8 @@ import { useSelector } from "react-redux";
 
 interface TaskStatusProps {
   task: TaskType
-  status?: ResponseTagType
-  setStatus: (status?: ResponseTagType) => void
+  status?: ProjectTagType
+  setStatus: (status?: ProjectTagType) => void
 }
 
 const TaskStatus: React.FC<TaskStatusProps> = ({ task, status, setStatus }) => {

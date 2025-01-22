@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import TaskAssignee from "../components/TaskAssignee";
-import { ProjectType, ResponseTagType } from "@/types/project.type";
+import { ProjectType, ProjectTagType } from "@/types/project.type";
 import { ResponseUserDataType } from "@/types/user.type";
 import TaskTag from "../components/TaskTag";
 import TaskStatus from "../components/TaskStatus";
@@ -34,7 +34,7 @@ import ErrorAlert from "@/common/components/ErrorAlert";
 interface CreateTaskViewProps {
   open: boolean
   project: ProjectType
-  inputStatus?: ResponseTagType
+  inputStatus?: ProjectTagType
   task?: TaskType
   setOpen: (open: boolean) => void
   setTaskResponse: (task: TaskType) => void
@@ -47,8 +47,8 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
   const [validateError, setValidateError] = useState<AppErrorType[] | []>([]);
   const [description, setDescription] = useState<string>(task ? task.description : '');
   const [assignee, setAssignee] = useState<ResponseUserDataType[]>(task ? task.assign : []);
-  const [tags, setTags] = useState<ResponseTagType[]>(task ? task.tags : []);
-  const [status, setStatus] = useState<ResponseTagType | undefined>(task ? task.status : undefined);
+  const [tags, setTags] = useState<ProjectTagType[]>(task ? task.tags : []);
+  const [status, setStatus] = useState<ProjectTagType | undefined>(task ? task.status : undefined);
   const [priority, setPriority] = useState<TaskPriorityType | undefined>(task ? task.priority : priorities[0]);
   const [title, setTitle] = useState<string | undefined>(task ? task.title : 'Your task title here');
   const [dueDate, setDueDate] = useState<Date | null>(task ? new Date(task.due) : new Date());

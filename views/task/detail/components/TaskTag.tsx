@@ -2,7 +2,7 @@ import { tagsList } from "@/api/project.api";
 import Input from "@/common/components/Input";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
-import { ResponseTagsDataType, ResponseTagType } from "@/types/project.type";
+import { ResponseTagsDataType, ProjectTagType } from "@/types/project.type";
 import { TaskType } from "@/types/task.type";
 import { faPlus, faTags, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -11,8 +11,8 @@ import { useSelector } from "react-redux";
 
 interface TaskTagProps {
   projectId: number
-  tags: ResponseTagType[]
-  setTags: (tags: ResponseTagType[]) => void
+  tags: ProjectTagType[]
+  setTags: (tags: ProjectTagType[]) => void
 }
 
 const TaskTag: React.FC<TaskTagProps> = ({ projectId, tags, setTags }) => {
@@ -29,13 +29,13 @@ const TaskTag: React.FC<TaskTagProps> = ({ projectId, tags, setTags }) => {
       setKeyword(event.target.value);
     }
   }
-  const handleSelectTag = (tag: ResponseTagType) => {
+  const handleSelectTag = (tag: ProjectTagType) => {
     const added = tags.find(a => a.id === tag.id);
     if (!added) {
       setTags([...tags, tag]);
     }
   }
-  const handleRemoveTag = (tag: ResponseTagType) => {
+  const handleRemoveTag = (tag: ProjectTagType) => {
     setTags(tags.filter(a => a.id !== tag.id));
   }
   const loadTags = async () => {
