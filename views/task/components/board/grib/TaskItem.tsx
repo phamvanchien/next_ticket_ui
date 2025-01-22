@@ -23,8 +23,8 @@ interface TaskItemProps {
 export const getTypeClass = (id: number) => {
   if (id === 1 || id === 2) return 'primary';
   if (id === 3 || id === 5) return 'success';
-  if (id === 4) return 'danger'
-  if (id === 6) return 'warning'
+  if (id === 4) return 'danger';
+  if (id === 6) return 'warning';
   return 'default';
 };
 export const getTypeIcon = (id: number, className?: string) => {

@@ -9,8 +9,8 @@ import ModalHeader from "@/common/modal/ModalHeader";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
 import { catchError } from "@/services/base.service";
-import { AppErrorType, BaseResponseType } from "@/types/base.type";
-import { ResponseProjectInviteDataType } from "@/types/project.type";
+import { AppErrorType, BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
+import { ProjectInviteType } from "@/types/project.type";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -22,7 +22,7 @@ interface ProjectInvitationModalProps {
 
 const ProjectInvitationModal: React.FC<ProjectInvitationModalProps> = ({ openModal, setOpenModal, loadProjects }) => {
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
-  const [inviteData, setInviteData] = useState<ResponseProjectInviteDataType>();
+  const [inviteData, setInviteData] = useState<ResponseWithPaginationType<ProjectInviteType[]>>();
   const [error, setError] = useState<AppErrorType | null>(null);
   const [errorProjectItem, setErrorProjectItem] = useState<AppErrorType | null>(null);
   const [joinLoading, setJoinLoading] = useState(false);

@@ -1,261 +1,379 @@
-import MainLayout from "./main";
 import './css/pages/home.css';
 
 export default function Home() {
   return <>
-  <>
-  {/* Navigation*/}
-  <a className="menu-toggle rounded" href="#">
-    <i className="fas fa-bars" />
-  </a>
-  <nav id="sidebar-wrapper">
-    <ul className="sidebar-nav">
-      <li className="sidebar-brand">
-        <a href="#page-top">Start Bootstrap</a>
-      </li>
-      <li className="sidebar-nav-item">
-        <a href="#page-top">Home</a>
-      </li>
-      <li className="sidebar-nav-item">
-        <a href="#about">About</a>
-      </li>
-      <li className="sidebar-nav-item">
-        <a href="#services">Services</a>
-      </li>
-      <li className="sidebar-nav-item">
-        <a href="#portfolio">Portfolio</a>
-      </li>
-      <li className="sidebar-nav-item">
-        <a href="#contact">Contact</a>
-      </li>
-    </ul>
-  </nav>
-  {/* Header*/}
-  <header className="masthead d-flex align-items-center">
-    <div className="container px-4 px-lg-5 text-center">
-      <h1 className="mb-1">Stylish Portfolio</h1>
-      <h3 className="mb-5">
-        <em>A Free Bootstrap Theme by Start Bootstrap</em>
-      </h3>
-      <a className="btn btn-primary btn-xl" href="#about">
-        Find Out More
-      </a>
-    </div>
-  </header>
-  {/* About*/}
-  <section className="content-section bg-light" id="about">
-    <div className="container px-4 px-lg-5 text-center">
-      <div className="row gx-4 gx-lg-5 justify-content-center">
-        <div className="col-lg-10">
-          <h2>Stylish Portfolio is the perfect theme for your next project!</h2>
-          <p className="lead mb-5">
-            This theme features a flexible, UX friendly sidebar menu and stock
-            photos from our friends at
-            <a href="https://unsplash.com/">Unsplash</a>!
-          </p>
-          <a className="btn btn-dark btn-xl" href="#services">
-            What We Offer
-          </a>
+    <div className="container">
+      <header className="blog-header py-3">
+        <div className="row flex-nowrap justify-content-between align-items-center">
+          <div className="col-4 pt-1">
+            <a className="text-muted" href="#">Subscribe</a>
+          </div>
+          <div className="col-4 text-center">
+            <a className="blog-header-logo text-dark" href="#">Large</a>
+          </div>
+          <div className="col-4 d-flex justify-content-end align-items-center">
+            <a className="text-muted" href="#">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" className="mx-3"><circle cx="10.5" cy="10.5" r="7.5"></circle><line x1="21" y1="21" x2="15.8" y2="15.8"></line></svg>
+            </a>
+            <a className="btn btn-sm btn-outline-secondary" href="#">Sign in</a>
+          </div>
         </div>
+      </header>
+      
+      <div className="nav-scroller py-1 mb-2">
+        <nav className="nav d-flex justify-content-between">
+          <a className="p-2 text-muted" href="#">World</a>
+          <a className="p-2 text-muted" href="#">U.S.</a>
+          <a className="p-2 text-muted" href="#">Technology</a>
+          <a className="p-2 text-muted" href="#">Design</a>
+          <a className="p-2 text-muted" href="#">Culture</a>
+          <a className="p-2 text-muted" href="#">Business</a>
+          <a className="p-2 text-muted" href="#">Politics</a>
+          <a className="p-2 text-muted" href="#">Opinion</a>
+          <a className="p-2 text-muted" href="#">Science</a>
+          <a className="p-2 text-muted" href="#">Health</a>
+          <a className="p-2 text-muted" href="#">Style</a>
+          <a className="p-2 text-muted" href="#">Travel</a>
+        </nav>
       </div>
-    </div>
-  </section>
-  {/* Services*/}
-  <section
-    className="content-section bg-primary text-white text-center"
-    id="services"
-  >
-    <div className="container px-4 px-lg-5">
-      <div className="content-section-heading">
-        <h3 className="text-secondary mb-0">Services</h3>
-        <h2 className="mb-5">What We Offer</h2>
-      </div>
-      <div className="row gx-4 gx-lg-5">
-        <div className="col-lg-3 col-md-6 mb-5 mb-lg-0">
-          <span className="service-icon rounded-circle mx-auto mb-3">
-            <i className="icon-screen-smartphone" />
-          </span>
-          <h4>
-            <strong>Responsive</strong>
-          </h4>
-          <p className="text-faded mb-0">Looks great on any screen size!</p>
-        </div>
-        <div className="col-lg-3 col-md-6 mb-5 mb-lg-0">
-          <span className="service-icon rounded-circle mx-auto mb-3">
-            <i className="icon-pencil" />
-          </span>
-          <h4>
-            <strong>Redesigned</strong>
-          </h4>
-          <p className="text-faded mb-0">Freshly redesigned for Bootstrap 5.</p>
-        </div>
-        <div className="col-lg-3 col-md-6 mb-5 mb-md-0">
-          <span className="service-icon rounded-circle mx-auto mb-3">
-            <i className="icon-like" />
-          </span>
-          <h4>
-            <strong>Favorited</strong>
-          </h4>
-          <p className="text-faded mb-0">
-            Millions of users
-            <i className="fas fa-heart" />
-            Start Bootstrap!
-          </p>
-        </div>
-        <div className="col-lg-3 col-md-6">
-          <span className="service-icon rounded-circle mx-auto mb-3">
-            <i className="icon-mustache" />
-          </span>
-          <h4>
-            <strong>Question</strong>
-          </h4>
-          <p className="text-faded mb-0">I mustache you a question...</p>
-        </div>
-      </div>
-    </div>
-  </section>
-  {/* Callout*/}
-  <section className="callout">
-    <div className="container px-4 px-lg-5 text-center">
-      <h2 className="mx-auto mb-5">
-        Welcome to
-        <em>your</em>
-        next website!
-      </h2>
-      <a
-        className="btn btn-primary btn-xl"
-        href="https://startbootstrap.com/theme/stylish-portfolio/"
-      >
-        Download Now!
-      </a>
-    </div>
-  </section>
-  {/* Portfolio*/}
-  <section className="content-section" id="portfolio">
-    <div className="container px-4 px-lg-5">
-      <div className="content-section-heading text-center">
-        <h3 className="text-secondary mb-0">Portfolio</h3>
-        <h2 className="mb-5">Recent Projects</h2>
-      </div>
-      <div className="row gx-0">
-        <div className="col-lg-6">
-          <a className="portfolio-item" href="#!">
-            <div className="caption">
-              <div className="caption-content">
-                <div className="h2">Stationary</div>
-                <p className="mb-0">
-                  A yellow pencil with envelopes on a clean, blue backdrop!
-                </p>
-              </div>
-            </div>
-            <img
-              className="img-fluid"
-              src="/img/banners/portfolio-1.jpg"
-              alt="..."
-            />
-          </a>
-        </div>
-        <div className="col-lg-6">
-          <a className="portfolio-item" href="#!">
-            <div className="caption">
-              <div className="caption-content">
-                <div className="h2">Ice Cream</div>
-                <p className="mb-0">
-                  A dark blue background with a colored pencil, a clip, and a
-                  tiny ice cream cone!
-                </p>
-              </div>
-            </div>
-            <img
-              className="img-fluid"
-              src="/img/banners/portfolio-2.jpg"
-              alt="..."
-            />
-          </a>
-        </div>
-        <div className="col-lg-6">
-          <a className="portfolio-item" href="#!">
-            <div className="caption">
-              <div className="caption-content">
-                <div className="h2">Strawberries</div>
-                <p className="mb-0">
-                  Strawberries are such a tasty snack, especially with a little
-                  sugar on top!
-                </p>
-              </div>
-            </div>
-            <img
-              className="img-fluid"
-              src="/img/banners/portfolio-3.jpg"
-              alt="..."
-            />
-          </a>
-        </div>
-        <div className="col-lg-6">
-          <a className="portfolio-item" href="#!">
-            <div className="caption">
-              <div className="caption-content">
-                <div className="h2">Workspace</div>
-                <p className="mb-0">
-                  A yellow workspace with some scissors, pencils, and other
-                  objects.
-                </p>
-              </div>
-            </div>
-            <img
-              className="img-fluid"
-              src="/img/banners/portfolio-4.jpg"
-              alt="..."
-            />
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-  {/* Call to Action*/}
-  <section className="content-section bg-primary text-white">
-    <div className="container px-4 px-lg-5 text-center">
-      <h2 className="mb-4">The buttons below are impossible to resist...</h2>
-      <a className="btn btn-xl btn-light me-4" href="#!">
-        Click Me!
-      </a>
-      <a className="btn btn-xl btn-dark" href="#!">
-        Look at Me!
-      </a>
-    </div>
-  </section>
-  {/* Map*/}
-  <div className="map" id="contact">
-    <iframe src="https://maps.google.com/maps?f=q&source=s_q&hl=en&geocode=&q=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&aq=0&oq=twitter&sll=28.659344,-81.187888&sspn=0.128789,0.264187&ie=UTF8&hq=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&t=m&z=15&iwloc=A&output=embed" />
-    <br />
-    <small>
-      <a href="https://maps.google.com/maps?f=q&source=embed&hl=en&geocode=&q=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&aq=0&oq=twitter&sll=28.659344,-81.187888&sspn=0.128789,0.264187&ie=UTF8&hq=Twitter,+Inc.,+Market+Street,+San+Francisco,+CA&t=m&z=15&iwloc=A" />
-    </small>
-  </div>
-  {/* Footer*/}
-  <footer className="footer text-center">
-    <div className="container px-4 px-lg-5">
-      <ul className="list-inline mb-5">
-        <li className="list-inline-item">
-          <a className="social-link rounded-circle text-white mr-3" href="#!">
-            <i className="icon-social-facebook" />
-          </a>
-        </li>
-        <li className="list-inline-item">
-          <a className="social-link rounded-circle text-white mr-3" href="#!">
-            <i className="icon-social-twitter" />
-          </a>
-        </li>
-        <li className="list-inline-item">
-          <a className="social-link rounded-circle text-white" href="#!">
-            <i className="icon-social-github" />
-          </a>
-        </li>
-      </ul>
-      <p className="text-muted small mb-0">Copyright © Your Website 2023</p>
-    </div>
-  </footer>
-</>
 
+      {/* <div className="jumbotron p-3 p-md-5 text-white rounded bg-dark">
+        <div className="col-md-6 px-0">
+          <h1 className="display-4 font-italic">Title of a longer featured blog post</h1>
+          <p className="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.</p>
+          <p className="lead mb-0"><a href="#" className="text-white font-weight-bold">Continue reading...</a></p>
+        </div>
+      </div> */}
+
+      <div className="row mb-2">
+        <div className="col-md-8 col-12">
+          <div className="card">
+            <img className="card-img-top" src="/img/banners/portfolio-1.jpg" alt="Card image cap" style={{height: 350}} />
+            <div className="card-body p-10">
+              <strong className="d-inline-block mb-2 text-primary">World</strong>
+              <h5 className="mb-0">
+                <a className="text-dark" href="#">Featured post</a>
+              </h5>
+              <div className="mb-1 text-muted">Nov 12</div>
+              <p className="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+              <a href="#">Continue reading</a>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-4 col-12">
+          <div className="card">
+            <div className='card-body p-unset'>
+              <img src="/img/banners/portfolio-1.jpg" className='float-left w-20' alt="Card image cap" />
+              <h6 className='float-left w-80 text-dark pl-2 mt-2'>Blog title 21.01.2025</h6>
+            </div>
+          </div>
+          <div className="card">
+            <div className='card-body p-unset'>
+              <img src="/img/banners/portfolio-1.jpg" className='float-left w-20' alt="Card image cap" />
+              <h6 className='float-left w-80 text-dark pl-2 mt-2'>Blog title 21.01.2025</h6>
+            </div>
+          </div>
+          <div className="card">
+            <div className='card-body p-unset'>
+              <img src="/img/banners/portfolio-1.jpg" className='float-left w-20' alt="Card image cap" />
+              <h6 className='float-left w-80 text-dark pl-2 mt-2'>Blog title 21.01.2025</h6>
+            </div>
+          </div>
+          <div className="card">
+            <div className='card-body p-unset'>
+              <img src="/img/banners/portfolio-1.jpg" className='float-left w-20' alt="Card image cap" />
+              <h6 className='float-left w-80 text-dark pl-2 mt-2'>Blog title 21.01.2025</h6>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr/>
+      <div className="row mb-2">
+        <div className="col-md-4 col-6">
+          <div className="card">
+            <img className="card-img-top" src="/img/banners/portfolio-1.jpg" alt="Card image cap" />
+            <div className="card-body p-10">
+              <strong className="d-inline-block mb-2 text-primary">World</strong>
+              <h5 className="mb-0">
+                <a className="text-dark" href="#">Featured post</a>
+              </h5>
+              <div className="mb-1 text-muted">Nov 12</div>
+              <p className="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+              <a href="#">Continue reading</a>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-4 col-6">
+          <div className="card">
+            <img className="card-img-top" src="/img/banners/portfolio-1.jpg" alt="Card image cap" />
+            <div className="card-body p-10">
+              <strong className="d-inline-block mb-2 text-primary">World</strong>
+              <h5 className="mb-0">
+                <a className="text-dark" href="#">Featured post</a>
+              </h5>
+              <div className="mb-1 text-muted">Nov 12</div>
+              <p className="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+              <a href="#">Continue reading</a>
+            </div>
+          </div>
+        </div>
+        <div className="col-md-4 col-6">
+          <div className="card">
+            <img className="card-img-top" src="/img/banners/portfolio-1.jpg" alt="Card image cap" />
+            <div className="card-body p-10">
+              <strong className="d-inline-block mb-2 text-primary">World</strong>
+              <h5 className="mb-0">
+                <a className="text-dark" href="#">Featured post</a>
+              </h5>
+              <div className="mb-1 text-muted">Nov 12</div>
+              <p className="card-text mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+              <a href="#">Continue reading</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <main role="main" className="container">
+      <div className="row">
+        <div className="col-md-8 blog-main">
+          <h3 className="pb-3 mb-4 font-italic border-bottom">
+            From the Firehose
+          </h3>
+          <div className="blog-post">
+            <h2 className="blog-post-title">Sample blog post</h2>
+            <p className="blog-post-meta">
+              January 1, 2014 by <a href="#">Mark</a>
+            </p>
+            <p>
+              This blog post shows a few different types of content that's
+              supported and styled with Bootstrap. Basic typography, images, and
+              code are all supported.
+            </p>
+            <hr />
+            <p>
+              Cum sociis natoque penatibus et magnis{" "}
+              <a href="#">dis parturient montes</a>, nascetur ridiculus mus.
+              Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis
+              vestibulum. Sed posuere consectetur est at lobortis. Cras mattis
+              consectetur purus sit amet fermentum.
+            </p>
+            <blockquote>
+              <p>
+                Curabitur blandit tempus porttitor.{" "}
+                <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu
+                leo. Nullam id dolor id nibh ultricies vehicula ut id elit.
+              </p>
+            </blockquote>
+            <p>
+              Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis
+              consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla
+              sed consectetur.
+            </p>
+            <h2>Heading</h2>
+            <p>
+              Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
+              auctor. Duis mollis, est non commodo luctus, nisi erat porttitor
+              ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac
+              consectetur ac, vestibulum at eros.
+            </p>
+            <h3>Sub-heading</h3>
+            <p>
+              Cum sociis natoque penatibus et magnis dis parturient montes,
+              nascetur ridiculus mus.
+            </p>
+            <pre>
+              <code>Example code block</code>
+            </pre>
+            <p>
+              Aenean lacinia bibendum nulla sed consectetur. Etiam porta sem
+              malesuada magna mollis euismod. Fusce dapibus, tellus ac cursus
+              commodo, tortor mauris condimentum nibh, ut fermentum massa.
+            </p>
+            <h3>Sub-heading</h3>
+            <p>
+              Cum sociis natoque penatibus et magnis dis parturient montes,
+              nascetur ridiculus mus. Aenean lacinia bibendum nulla sed
+              consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce
+              dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
+              ut fermentum massa justo sit amet risus.
+            </p>
+            <ul>
+              <li>
+                Praesent commodo cursus magna, vel scelerisque nisl consectetur
+                et.
+              </li>
+              <li>Donec id elit non mi porta gravida at eget metus.</li>
+              <li>Nulla vitae elit libero, a pharetra augue.</li>
+            </ul>
+            <p>
+              Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit
+              libero, a pharetra augue.
+            </p>
+            <ol>
+              <li>Vestibulum id ligula porta felis euismod semper.</li>
+              <li>
+                Cum sociis natoque penatibus et magnis dis parturient montes,
+                nascetur ridiculus mus.
+              </li>
+              <li>
+                Maecenas sed diam eget risus varius blandit sit amet non magna.
+              </li>
+            </ol>
+            <p>
+              Cras mattis consectetur purus sit amet fermentum. Sed posuere
+              consectetur est at lobortis.
+            </p>
+          </div>
+          {/* /.blog-post */}
+          <div className="blog-post">
+            <h2 className="blog-post-title">Another blog post</h2>
+            <p className="blog-post-meta">
+              December 23, 2013 by <a href="#">Jacob</a>
+            </p>
+            <p>
+              Cum sociis natoque penatibus et magnis{" "}
+              <a href="#">dis parturient montes</a>, nascetur ridiculus mus.
+              Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis
+              vestibulum. Sed posuere consectetur est at lobortis. Cras mattis
+              consectetur purus sit amet fermentum.
+            </p>
+            <blockquote>
+              <p>
+                Curabitur blandit tempus porttitor.{" "}
+                <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu
+                leo. Nullam id dolor id nibh ultricies vehicula ut id elit.
+              </p>
+            </blockquote>
+            <p>
+              Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis
+              consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla
+              sed consectetur.
+            </p>
+            <p>
+              Vivamus sagittis lacus vel augue laoreet rutrum faucibus dolor
+              auctor. Duis mollis, est non commodo luctus, nisi erat porttitor
+              ligula, eget lacinia odio sem nec elit. Morbi leo risus, porta ac
+              consectetur ac, vestibulum at eros.
+            </p>
+          </div>
+          {/* /.blog-post */}
+          <div className="blog-post">
+            <h2 className="blog-post-title">New feature</h2>
+            <p className="blog-post-meta">
+              December 14, 2013 by <a href="#">Chris</a>
+            </p>
+            <p>
+              Cum sociis natoque penatibus et magnis dis parturient montes,
+              nascetur ridiculus mus. Aenean lacinia bibendum nulla sed
+              consectetur. Etiam porta sem malesuada magna mollis euismod. Fusce
+              dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh,
+              ut fermentum massa justo sit amet risus.
+            </p>
+            <ul>
+              <li>
+                Praesent commodo cursus magna, vel scelerisque nisl consectetur
+                et.
+              </li>
+              <li>Donec id elit non mi porta gravida at eget metus.</li>
+              <li>Nulla vitae elit libero, a pharetra augue.</li>
+            </ul>
+            <p>
+              Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis
+              consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla
+              sed consectetur.
+            </p>
+            <p>
+              Donec ullamcorper nulla non metus auctor fringilla. Nulla vitae elit
+              libero, a pharetra augue.
+            </p>
+          </div>
+          {/* /.blog-post */}
+          <nav className="blog-pagination">
+            <a className="btn btn-outline-primary" href="#">
+              Older
+            </a>
+            <a className="btn btn-outline-secondary disabled" href="#">
+              Newer
+            </a>
+          </nav>
+        </div>
+        {/* /.blog-main */}
+        <aside className="col-md-4 blog-sidebar">
+          <div className="p-3 mb-3 bg-light rounded">
+            <h4 className="font-italic">About</h4>
+            <p className="mb-0">
+              Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis
+              consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla
+              sed consectetur.
+            </p>
+          </div>
+          <div className="p-3">
+            <h4 className="font-italic">Archives</h4>
+            <ol className="list-unstyled mb-0">
+              <li>
+                <a href="#">March 2014</a>
+              </li>
+              <li>
+                <a href="#">February 2014</a>
+              </li>
+              <li>
+                <a href="#">January 2014</a>
+              </li>
+              <li>
+                <a href="#">December 2013</a>
+              </li>
+              <li>
+                <a href="#">November 2013</a>
+              </li>
+              <li>
+                <a href="#">October 2013</a>
+              </li>
+              <li>
+                <a href="#">September 2013</a>
+              </li>
+              <li>
+                <a href="#">August 2013</a>
+              </li>
+              <li>
+                <a href="#">July 2013</a>
+              </li>
+              <li>
+                <a href="#">June 2013</a>
+              </li>
+              <li>
+                <a href="#">May 2013</a>
+              </li>
+              <li>
+                <a href="#">April 2013</a>
+              </li>
+            </ol>
+          </div>
+          <div className="p-3">
+            <h4 className="font-italic">Elsewhere</h4>
+            <ol className="list-unstyled">
+              <li>
+                <a href="#">GitHub</a>
+              </li>
+              <li>
+                <a href="#">Twitter</a>
+              </li>
+              <li>
+                <a href="#">Facebook</a>
+              </li>
+            </ol>
+          </div>
+        </aside>
+        {/* /.blog-sidebar */}
+      </div>
+    </main>
+    <footer className="blog-footer">
+      <p>
+        Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a>{" "}
+        by <a href="https://twitter.com/mdo">@mdo</a>.
+      </p>
+      <p>
+        <a href="#">Back to top</a>
+      </p>
+    </footer>
   </>
 }

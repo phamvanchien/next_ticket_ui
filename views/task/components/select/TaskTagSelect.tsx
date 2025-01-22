@@ -2,24 +2,25 @@ import { tagsList } from "@/api/project.api";
 import Input from "@/common/components/Input";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
-import { ResponseTagsDataType, ResponseTagType } from "@/types/project.type";
+import { ResponseWithPaginationType } from "@/types/base.type";
+import { ProjectTagType } from "@/types/project.type";
 import { faTag, faTimes, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
 interface TaskTagSelectProps {
-  tags: ResponseTagType[]
+  tags: ProjectTagType[]
   className?: string
   projectId: number
-  setTags: (tags: ResponseTagType[]) => void
+  setTags: (tags: ProjectTagType[]) => void
 }
 
 const TaskTagSelect: React.FC<TaskTagSelectProps> = ({ tags, className, projectId, setTags }) => {
   const [openTagList, setOpenTagList] = useState(false);
   const [keyword, setKeyword] = useState<string>('');
   const [debounceKeyword, setDebounceKeyword] = useState<string>('');
-  const [tagData, setTagData] = useState<ResponseTagsDataType>();
+  const [tagData, setTagData] = useState<ResponseWithPaginationType<ProjectTagType[]>>();
   const [totalTag, setTotalTag] = useState<number>();
   const listTagsRef = useRef<HTMLDivElement>(null);
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
@@ -30,13 +31,13 @@ const TaskTagSelect: React.FC<TaskTagSelectProps> = ({ tags, className, projectI
       setKeyword(event.target.value);
     }
   }
-  const handleSelectTag = (tag: ResponseTagType) => {
+  const handleSelectTag = (tag: ProjectTagType) => {
     const added = tags.find(a => a.id === tag.id);
     if (!added) {
       setTags([...tags, tag]);
     }
   }
-  const handleRemoveTag = (tag: ResponseTagType) => {
+  const handleRemoveTag = (tag: ProjectTagType) => {
     setTags(tags.filter(a => a.id !== tag.id));
   }
   const loadTags = async () => {

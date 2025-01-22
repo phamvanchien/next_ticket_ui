@@ -1,4 +1,5 @@
 import { ResponseUserDataType } from "@/types/user.type";
+import { WorkspaceUserType } from "@/types/workspace.type";
 import { faMinusCircle, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";

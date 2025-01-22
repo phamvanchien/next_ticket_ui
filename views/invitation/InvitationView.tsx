@@ -5,16 +5,16 @@ import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import { inviteList } from "@/api/workspace.api";
 import { API_CODE } from "@/enums/api.enum";
-import { AppErrorType, BaseResponseType } from "@/types/base.type";
+import { AppErrorType, BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import { catchError } from "@/services/base.service";
 import ErrorPage from "@/common/layouts/ErrorPage";
-import { ResponseInviteListDataType } from "@/types/workspace.type";
 import Loading from "@/common/components/Loading";
+import { InviteType } from "@/types/workspace.type";
 
 const InvitationView = () => {
   const [error, setError] = useState<AppErrorType | null>(null);
   const [loading, setLoading] = useState(true);
-  const [inviteData, setInviteData] = useState<ResponseInviteListDataType>();
+  const [inviteData, setInviteData] = useState<ResponseWithPaginationType<InviteType[]>>();
   const loadInvite = async () => {
     try {
       const response = await inviteList(1, 5);

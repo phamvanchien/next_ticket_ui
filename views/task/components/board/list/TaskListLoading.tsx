@@ -10,7 +10,7 @@ const TaskListLoading = () => {
             <tbody>
               {
                 randomNumber(7).map(number => (
-                  <tr>
+                  <tr key={number}>
                     <td style={{minWidth: 350, cursor: 'pointer'}}>
                       <SkeletonLoading heigth={50} />
                     </td>

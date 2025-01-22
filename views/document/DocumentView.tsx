@@ -6,12 +6,13 @@ import Button from "@/common/components/Button";
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { documents } from "@/api/document.api";
 import { API_CODE } from "@/enums/api.enum";
-import { DocumentsDataType, DocumentType } from "@/types/document.type";
+import { DocumentType } from "@/types/document.type";
 import Loading from "@/common/components/Loading";
 import DocumentItem from "./components/DocumentItem";
 import Link from "next/link";
 import DocumentUpdate from "./components/DocumentUpdate";
 import Input from "@/common/components/Input";
+import { ResponseWithPaginationType } from "@/types/base.type";
 
 interface DocumentViewProps {
   workspaceId: number
@@ -20,7 +21,7 @@ interface DocumentViewProps {
 const DocumentView: React.FC<DocumentViewProps> = ({ workspaceId }) => {
   const defaultPageSize = 12;
   const [openCreate, setOpenCreate] = useState(false);
-  const [documentData, setDocumentData] = useState<DocumentsDataType>();
+  const [documentData, setDocumentData] = useState<ResponseWithPaginationType<DocumentType[]>>();
   const [loading, setLoading] = useState(true);
   const [pageSize, setPageSize] = useState(defaultPageSize);
   const [loadingViewMore, setLoadingViewMore] = useState(false);

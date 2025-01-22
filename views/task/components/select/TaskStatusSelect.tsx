@@ -2,24 +2,25 @@ import { statusList } from "@/api/project.api";
 import Input from "@/common/components/Input";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
-import { ResponseTagsDataType, ResponseTagType } from "@/types/project.type";
+import { ResponseWithPaginationType } from "@/types/base.type";
+import { ProjectTagType } from "@/types/project.type";
 import { faCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
 interface TaskStatusSelectProps {
-  status?: ResponseTagType
+  status?: ProjectTagType
   className?: string
   projectId: number
-  setStatus: (status?: ResponseTagType) => void
+  setStatus: (status?: ProjectTagType) => void
 }
 
 const TaskStatusSelect: React.FC<TaskStatusSelectProps> = ({ status, className, projectId, setStatus }) => {
   const [openStatusList, setOpenStatusList] = useState(false);
   const [keyword, setKeyword] = useState<string>('');
   const [debounceKeyword, setDebounceKeyword] = useState<string>('');
-  const [statusData, setStatusData] = useState<ResponseTagsDataType>();
+  const [statusData, setStatusData] = useState<ResponseWithPaginationType<ProjectTagType[]>>();
   const listStatusRef = useRef<HTMLDivElement>(null);
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const handleChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {

@@ -2,11 +2,8 @@ import { ProjectType } from "@/types/project.type";
 import { faAngleDoubleDown, faInfoCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from "react";
-import ProjectInvitationModal from "../../components/ProjectInvitationModal";
 import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
-import { members } from "@/api/workspace.api";
-import { ResponseMemberWorkspaceDataType } from "@/types/workspace.type";
 import { membersList, removeMember } from "@/api/project.api";
 import { API_CODE } from "@/enums/api.enum";
 import MemberSettingItem from "./MemberSettingItem";
@@ -17,7 +14,7 @@ import Button from "@/common/components/Button";
 import Loading from "@/common/components/Loading";
 import { ResponseUserDataType } from "@/types/user.type";
 import { notify } from "@/utils/helper.util";
-import { BaseResponseType } from "@/types/base.type";
+import { BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import AddMemberModal from "../../components/AddMemberModal";
 
 interface ProjectMemberSettingProps {
@@ -27,7 +24,7 @@ interface ProjectMemberSettingProps {
 const ProjectMemberSetting: React.FC<ProjectMemberSettingProps> = ({ project }) => {
   const defaultPageSize = 10;
   const [openInvite, setOpenInvite] = useState(false);
-  const [membersData, setMembersData] = useState<ResponseMemberWorkspaceDataType>();
+  const [membersData, setMembersData] = useState<ResponseWithPaginationType<ResponseUserDataType[]>>();
   const [keyword, setKeyword] = useState<string>('');
   const [debounceKeyword, setDebounceKeyword] = useState<string>('');
   const [memberDelete, setMemberDelete] = useState<ResponseUserDataType>();

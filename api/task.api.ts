@@ -1,10 +1,10 @@
 import { API_METHOD_ENUM } from "@/enums/api.enum";
 import { request } from "./base.api";
 import { APP_CONFIG } from "@/config/app.config";
-import { RequestCreateTaskType, RequestGetTaskType, RequestUpdateTaskType, ResponseHistoryType, ResponseTaskBoardType, ResponseTasksType, ResponseTaskType } from "@/types/task.type";
-import { BaseResponseType, RequestWithPaginationType } from "@/types/base.type";
+import { HistoryType, RequestCreateTaskType, RequestGetTaskType, RequestUpdateTaskType, ResponseTaskBoardDataType, TaskType } from "@/types/task.type";
+import { BaseResponseType, RequestWithPaginationType, ResponseWithPaginationType } from "@/types/base.type";
 
-export const create = async (workspaceId: number, projectId: number, payload: RequestCreateTaskType): Promise<ResponseTaskType> => {
+export const create = async (workspaceId: number, projectId: number, payload: RequestCreateTaskType): Promise<BaseResponseType<TaskType>> => {
   return request({
     method: API_METHOD_ENUM.POST,
     url: APP_CONFIG.API.PREFIX.task.url + '/' + workspaceId + '/' + projectId,
@@ -12,7 +12,7 @@ export const create = async (workspaceId: number, projectId: number, payload: Re
   });
 }
 
-export const tasks = async (workspaceId: number, projectId: number, payload: RequestGetTaskType): Promise<ResponseTasksType> => {
+export const tasks = async (workspaceId: number, projectId: number, payload: RequestGetTaskType): Promise<BaseResponseType<ResponseWithPaginationType<TaskType[]>>> => {
   return request({
     method: API_METHOD_ENUM.GET,
     url: APP_CONFIG.API.PREFIX.task.url + '/' + workspaceId + '/' + projectId,
@@ -20,7 +20,7 @@ export const tasks = async (workspaceId: number, projectId: number, payload: Req
   });
 }
 
-export const tasksBoard = async (workspaceId: number, projectId: number, payload: RequestGetTaskType): Promise<ResponseTaskBoardType> => {
+export const tasksBoard = async (workspaceId: number, projectId: number, payload: RequestGetTaskType): Promise<BaseResponseType<ResponseTaskBoardDataType[]>> => {
   return request({
     method: API_METHOD_ENUM.GET,
     url: APP_CONFIG.API.PREFIX.task.url + '/' + workspaceId + '/' + projectId + '/board',
@@ -28,7 +28,7 @@ export const tasksBoard = async (workspaceId: number, projectId: number, payload
   });
 }
 
-export const update = async (workspaceId: number, projectId: number, taskId: number, payload: RequestUpdateTaskType): Promise<ResponseTaskType> => {
+export const update = async (workspaceId: number, projectId: number, taskId: number, payload: RequestUpdateTaskType): Promise<BaseResponseType<TaskType>> => {
   return request({
     method: API_METHOD_ENUM.PATCH,
     url: APP_CONFIG.API.PREFIX.task.url + '/' + workspaceId + '/' + projectId + '/' + taskId,
@@ -36,14 +36,14 @@ export const update = async (workspaceId: number, projectId: number, taskId: num
   });
 }
 
-export const task = async (workspaceId: number, projectId: number, taskId: number): Promise<ResponseTaskType> => {
+export const task = async (workspaceId: number, projectId: number, taskId: number): Promise<BaseResponseType<TaskType>> => {
   return request({
     method: API_METHOD_ENUM.GET,
     url: APP_CONFIG.API.PREFIX.task.url + '/' + workspaceId + '/' + projectId + '/' + taskId
   });
 }
 
-export const subTask = async (workspaceId: number, projectId: number, taskId: number, payload: RequestGetTaskType): Promise<ResponseTasksType> => {
+export const subTask = async (workspaceId: number, projectId: number, taskId: number, payload: RequestGetTaskType): Promise<BaseResponseType<ResponseWithPaginationType<TaskType[]>>> => {
   return request({
     method: API_METHOD_ENUM.GET,
     url: APP_CONFIG.API.PREFIX.task.url + '/' + workspaceId + '/' + projectId + '/' + taskId + '/subtask',
@@ -65,7 +65,7 @@ export const removeTask = async (workspaceId: number, projectId: number, taskId:
   });
 }
 
-export const taskHistory = async (workspaceId: number, projectId: number, taskId: number, payload: RequestWithPaginationType): Promise<ResponseHistoryType> => {
+export const taskHistory = async (workspaceId: number, projectId: number, taskId: number, payload: RequestWithPaginationType): Promise<BaseResponseType<ResponseWithPaginationType<HistoryType[]>>> => {
   return request({
     method: API_METHOD_ENUM.GET,
     url: APP_CONFIG.API.PREFIX.task.url + '/' + workspaceId + '/' + projectId + '/' + taskId + '/history',

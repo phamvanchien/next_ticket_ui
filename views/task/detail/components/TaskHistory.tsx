@@ -1,4 +1,4 @@
-import { ResponseHistoryDataType, TaskType } from "@/types/task.type";
+import { HistoryType, TaskType } from "@/types/task.type";
 import { formatTime } from "@/utils/helper.util";
 import { faAngleDoubleDown, faHistory } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -6,9 +6,10 @@ import React, { MouseEvent, useState } from "react";
 import TaskHistoryItem from "./TaskHistoryItem";
 import Link from "next/link";
 import Loading from "@/common/components/Loading";
+import { ResponseWithPaginationType } from "@/types/base.type";
 
 interface TaskHistoryProps {
-  historyData?: ResponseHistoryDataType
+  historyData?: ResponseWithPaginationType<HistoryType[]>
   task: TaskType
   loadingViewMore: boolean
   pageSize: number

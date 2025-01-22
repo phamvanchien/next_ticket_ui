@@ -9,8 +9,8 @@ import { API_CODE } from "@/enums/api.enum";
 import { APP_ERROR } from "@/enums/app.enum";
 import { RootState } from "@/reduxs/store.redux";
 import { catchError } from "@/services/base.service";
-import { BaseResponseType } from "@/types/base.type";
-import { ResponseTagsDataType, ResponseTagType } from "@/types/project.type";
+import { BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
+import { ProjectTagType } from "@/types/project.type";
 import { notify } from "@/utils/helper.util";
 import { faCheck, faCheckCircle, faCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -18,12 +18,12 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 interface SelectStatusModalProps {
-  statusList?: ResponseTagsDataType
+  statusList?: ResponseWithPaginationType<ProjectTagType[]>
   openModal: boolean
-  taskStatus: ResponseTagType
+  taskStatus: ProjectTagType
   taskId: number
   projectId: number
-  setTaskStatus: (taskStatus: ResponseTagType) => void
+  setTaskStatus: (taskStatus: ProjectTagType) => void
   setOpenModal: (openModal: boolean) => void
   setSearchStatus: (searchStatus: string) => void
 }
@@ -49,7 +49,7 @@ const SelectStatusModal: React.FC<SelectStatusModalProps> = ({
       setKeyword(event.target.value);
     }
   }
-  const updateStatusTask = async (status: ResponseTagType) => {
+  const updateStatusTask = async (status: ProjectTagType) => {
     try {
       if (!workspace || !status) {
         return;
@@ -97,7 +97,7 @@ const SelectStatusModal: React.FC<SelectStatusModalProps> = ({
           <div className="col-12 mt-2">
             {
               statusList && statusList.items.map(item => (
-                <div className="card-header p-unset border-unset mb-2">
+                <div className="card-header p-unset border-unset mb-2" key={item.id}>
                   <h6 
                     className="card-title status-label w-100" 
                     style={{ background: item.color, fontSize: 12, padding: 5, cursor: 'pointer' }}

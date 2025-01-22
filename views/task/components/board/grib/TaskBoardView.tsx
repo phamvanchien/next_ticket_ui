@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { ResponseTaskBoardDataType, TaskPriorityType, TaskType, TaskTypeItem } from "@/types/task.type";
-import { ProjectType, ResponseTagType } from "@/types/project.type";
+import { ProjectTagType, ProjectType } from "@/types/project.type";
 import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
 import { tasksBoard } from "@/api/task.api";
@@ -22,12 +22,12 @@ interface TaskBoardViewProps {
   keyword: string
   totalTask?: number,
   setOpenCreate: (openCreate: boolean) => void
-  setInputStatusCreate: (inputStatusCreate?: ResponseTagType) => void,
+  setInputStatusCreate: (inputStatusCreate?: ProjectTagType) => void,
   setTotalTask: (totalTask: number) => void,
   assignee: ResponseUserDataType[]
   creator: ResponseUserDataType[]
   priority: TaskPriorityType[]
-  tags: ResponseTagType[]
+  tags: ProjectTagType[]
   type: TaskTypeItem[]
   prioritySort?: "DESC" | "ASC"
   dueSort?: "DESC" | "ASC"
@@ -65,7 +65,7 @@ const TaskBoardView: React.FC<TaskBoardViewProps> = ({
   const scrollStartX = useRef(0);
   const scrollLeft = useRef(0);
 
-  const handleOpenCreate = (status: ResponseTagType) => {
+  const handleOpenCreate = (status: ProjectTagType) => {
     setInputStatusCreate(status);
     setOpenCreate(true);
   }

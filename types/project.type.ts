@@ -15,27 +15,7 @@ export interface RequestUpdateProjectType {
   is_public?: boolean
 }
 
-export interface ResponseProjectItemType extends BaseResponseType {
-  data: ProjectType
-}
-
-export interface ResponseProjectsType extends BaseResponseType {
-  data: ResponseProjectsDataType
-}
-
-export interface ResponseProjectsDataType extends ResponseWithPaginationType {
-  items: ProjectType[]
-}
-
-export interface ResponseProjectInviteType extends BaseResponseType {
-  data: ResponseProjectInviteDataType
-}
-
-export interface ResponseProjectInviteDataType extends ResponseWithPaginationType {
-  items: ResponseProjectInviteType[]
-}
-
-export interface ResponseProjectInviteType {
+export interface ProjectInviteType {
   id: number
   project: ProjectType
 }
@@ -73,19 +53,7 @@ export interface RequestUpdateTagType {
   color?: string
 }
 
-export interface ResponseTagsType extends BaseResponseType {
-  data: ResponseTagsDataType
-}
-
-export interface ResponseTagsDataType extends ResponseWithPaginationType {
-  items: ResponseTagType[]
-}
-
-export interface ResponseTagItemType extends BaseResponseType {
-  data: ResponseTagType;
-}
-
-export interface ResponseTagType {
+export interface ProjectTagType {
   id: number
   name: string
   color: string
@@ -94,4 +62,21 @@ export interface ResponseTagType {
 
 export interface RequestStatusListType extends RequestWithPaginationType {
   prioritySort?: "DESC" | "ASC"
+}
+
+export interface ReportStatusType {
+  id: string
+  name: string
+  color: string
+  total_tasks: number
+  percent_tasks: number
+}
+
+export interface ReportAssigneeType {
+  id: number
+  first_name: string
+  last_name: string
+  avatar: string | null
+  total_tasks: number
+  percent_tasks: number
 }

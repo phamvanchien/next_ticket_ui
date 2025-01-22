@@ -2,7 +2,7 @@ import { updateTag } from "@/api/project.api";
 import Input from "@/common/components/Input";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
-import { RequestUpdateTagType, ResponseTagType } from "@/types/project.type";
+import { ProjectTagType, RequestUpdateTagType } from "@/types/project.type";
 import { colorRange, notify } from "@/utils/helper.util";
 import { faCheckCircle, faPencil, faTag, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 interface TagSettingItemProps {
   position: number
   projectId: number
-  tag: ResponseTagType
+  tag: ProjectTagType
   setTagDeleteId: (tagId?: number) => void
 }
 

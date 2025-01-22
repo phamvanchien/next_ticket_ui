@@ -9,13 +9,12 @@ import Modal from "@/common/modal/Modal";
 import ModalBody from "@/common/modal/ModalBody";
 import ModalHeader from "@/common/modal/ModalHeader";
 import { API_CODE } from "@/enums/api.enum";
-import { APP_LOCALSTORAGE, APP_VALIDATE_TYPE } from "@/enums/app.enum";
+import { APP_VALIDATE_TYPE } from "@/enums/app.enum";
 import { PROJECT_VALIDATE_ENUM } from "@/enums/project.enum";
 import { RootState } from "@/reduxs/store.redux";
 import { catchError, hasError, validateInput } from "@/services/base.service";
-import { AppErrorType, BaseResponseType } from "@/types/base.type";
+import { AppErrorType, BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import { ResponseUserDataType } from "@/types/user.type";
-import { ResponseInviteListDataType, ResponseMemberWorkspaceDataType } from "@/types/workspace.type";
 import { faEnvelope, faTimesCircle, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
@@ -28,7 +27,7 @@ interface CreateProjectModalProps {
 }
 
 const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ openModal, setOpenModal, loadProjects }) => {
-  const [memberData, setMemberData] = useState<ResponseMemberWorkspaceDataType>();
+  const [memberData, setMemberData] = useState<ResponseWithPaginationType<ResponseUserDataType[]>>();
   const [error, setError] = useState<AppErrorType | null>(null);
   const [keyword, setKeyword] = useState<string>('');
   const [debounceKeyword, setDebounceKeyword] = useState<string>('');

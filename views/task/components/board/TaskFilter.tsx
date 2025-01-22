@@ -1,4 +1,4 @@
-import { ProjectType, ResponseTagType } from "@/types/project.type";
+import { ProjectTagType, ProjectType } from "@/types/project.type";
 import { ResponseUserDataType } from "@/types/user.type";
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import { TaskPriorityType, TaskTypeItem } from "@/types/task.type";
@@ -21,8 +21,8 @@ interface TaskFilterProps {
   setCreator: (creator: ResponseUserDataType[]) => void,
   priority: TaskPriorityType[]
   setPriority: (priority: TaskPriorityType[]) => void,
-  tags: ResponseTagType[]
-  setTags: (tags: ResponseTagType[]) => void,
+  tags: ProjectTagType[]
+  setTags: (tags: ProjectTagType[]) => void,
   type: TaskTypeItem[]
   setType: (type: TaskTypeItem[]) => void,
   setDueDate: (dueDate?: Date[]) => void

@@ -2,24 +2,25 @@ import Input from "@/common/components/Input";
 import { faCircle, faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { ResponseTagsDataType, ResponseTagType } from "@/types/project.type";
 import { statusList } from "@/api/project.api";
 import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
 import { API_CODE } from "@/enums/api.enum";
 import CreateStatusModal from "../create/components/CreateStatusModal";
+import { ProjectTagType } from "@/types/project.type";
+import { ResponseWithPaginationType } from "@/types/base.type";
 
 interface TaskStatusProps {
   projectId: number
-  status?: ResponseTagType,
-  setStatus: (status?: ResponseTagType) => void
+  status?: ProjectTagType,
+  setStatus: (status?: ProjectTagType) => void
 }
 
 const TaskStatus: React.FC<TaskStatusProps> = ({ projectId, status, setStatus }) => {
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const [showList, setShowList] = useState(true);
   const [openCreate, setOpenCreate] = useState(false);
-  const [statusData, setStatusData] = useState<ResponseTagsDataType>();
+  const [statusData, setStatusData] = useState<ResponseWithPaginationType<ProjectTagType[]>>();
   const [keyword, setKeyword] = useState<string>('');
   const [debounceKeyword, setDebounceKeyword] = useState<string>('');
   const handleChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {
@@ -29,7 +30,7 @@ const TaskStatus: React.FC<TaskStatusProps> = ({ projectId, status, setStatus })
       setKeyword(event.target.value);
     }
   }
-  const handleSelectStatus = (status: ResponseTagType) => {
+  const handleSelectStatus = (status: ProjectTagType) => {
     setStatus(status);
   }
   const loadStatus = async () => {

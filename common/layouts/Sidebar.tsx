@@ -1,5 +1,4 @@
 "use client"
-import ImageIcon from "@/common/components/ImageIcon";
 import { APP_AUTH, APP_LINK } from "@/enums/app.enum";
 import { setSidebarSelected } from "@/reduxs/menu.redux";
 import { RootState, useAppDispatch } from "@/reduxs/store.redux";
@@ -8,7 +7,7 @@ import { setWorkspace } from "@/reduxs/workspace.redux";
 import { WorkspaceType } from "@/types/workspace.type";
 import { getCookie, removeCookie } from "@/utils/cookie.util";
 import InviteMemberView from "@/views/invite-member/InviteMemberView";
-import { faAngleRight, faBullseye, faCalendarCheck, faCalendarDay, faCubes, faFileText, faGear, faSignOut, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { faAngleRight, faBullseye, faCalendarDay, faCubes, faFileText, faGear, faSignOut, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
@@ -120,12 +119,6 @@ const Sidebar: React.FC<SidebarProps> = ({ workspace }) => {
       icon: <FontAwesomeIcon icon={faGear} className="text-secondary mr-2" />,
       link: APP_LINK.WORKSPACE + '/' + workspace?.id + '/setting',
       show: workspace?.user_id === userLogged?.id
-    },
-    {
-      title: 'Logout',
-      icon: <FontAwesomeIcon icon={faSignOut} className="text-secondary mr-2" />,
-      link: 'logout',
-      show: true
     }
   ];
 

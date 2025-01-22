@@ -3,7 +3,7 @@ import Input from "@/common/components/Input";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
 import { BaseResponseType } from "@/types/base.type";
-import { RequestCreateTagType, RequestUpdateTagType, ResponseTagType } from "@/types/project.type";
+import { ProjectTagType, RequestCreateTagType, RequestUpdateTagType } from "@/types/project.type";
 import { colorRange, notify } from "@/utils/helper.util";
 import { faArrows, faCheckCircle, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -13,9 +13,9 @@ import { useSelector } from "react-redux";
 interface StatusSettingItemProps {
   position: number
   projectId: number
-  status: ResponseTagType
+  status: ProjectTagType
   setDraggedIndex: (draggedIndex: number | null) => void
-  setStatusDragged: (statusDragged?: ResponseTagType) => void
+  setStatusDragged: (statusDragged?: ProjectTagType) => void
   handleDragOver: (e: React.DragEvent<HTMLDivElement>, index: number) => void
   setDeleteId: (deleteId: number | undefined) => void
 }
@@ -38,7 +38,7 @@ const StatusSettingItem: React.FC<StatusSettingItemProps> = ({
   const divStatusRef = useRef<HTMLDivElement>(null);
   const statusNameRef = useRef<HTMLInputElement>(null);
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>, index: number) => {
-    const status: ResponseTagType = JSON.parse(e.currentTarget.dataset.value as string);
+    const status: ProjectTagType = JSON.parse(e.currentTarget.dataset.value as string);
     setStatusDragged(status);
     setDraggedIndex(index);
   };

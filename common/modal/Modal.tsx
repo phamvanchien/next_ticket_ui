@@ -18,7 +18,7 @@ const Modal: React.FC<ModalProps> = ({ children, isOpen, className }) => {
   }, [isOpen]);
 
   return <>
-    <div className={`modal fade ${isOpen ? 'show display-block' : ''}`} id="modal" ref={modalDivRef}>
+    <div className={`modal fade ${isOpen ? 'show modal-display' : ''}`} id="modal" ref={modalDivRef}>
       <div className="modal-dialog">
         <div className={`modal-content ${className ? className : ''}`}>
           {children}

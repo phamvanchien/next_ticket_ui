@@ -1,6 +1,6 @@
 import { members, removeMember } from "@/api/workspace.api";
 import { API_CODE } from "@/enums/api.enum";
-import { ResponseMemberWorkspaceDataType, WorkspaceType } from "@/types/workspace.type";
+import { WorkspaceType, WorkspaceUserType } from "@/types/workspace.type";
 import { faAngleDoubleDown, faInfoCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from "react";
@@ -12,7 +12,7 @@ import Modal from "@/common/modal/Modal";
 import ModalBody from "@/common/modal/ModalBody";
 import Button from "@/common/components/Button";
 import { notify } from "@/utils/helper.util";
-import { BaseResponseType } from "@/types/base.type";
+import { BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import InviteMemberView from "@/views/invite-member/InviteMemberView";
 
 interface MemberWorkspaceSettingProps {
@@ -25,7 +25,7 @@ const MemberWorkspaceSetting: React.FC<MemberWorkspaceSettingProps> = ({ workspa
   const [debounceKeyword, setDebounceKeyword] = useState<string>("");
   const [pageSize, setPageSize] = useState(defaultPageSize);
   const [loadingViewMore, setLoadingViewMore] = useState(false);
-  const [workspaceData, setWorkspaceData] = useState<ResponseMemberWorkspaceDataType>();
+  const [workspaceData, setWorkspaceData] = useState<ResponseWithPaginationType<ResponseUserDataType[]>>();
   const [memberDelete, setMemberDelete] = useState<ResponseUserDataType>();
   const [loadingDelete, setLoadingDelete] = useState(false);
   const [openInvite, setOpenInvite] = useState(false);

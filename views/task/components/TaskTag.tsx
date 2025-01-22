@@ -8,33 +8,34 @@ import { faCheck, faCheckCircle, faCircle, faPlus, faTimes, faTimesCircle } from
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import CreateTagModal from "../create/components/CreateTagModal";
-import { ResponseTagsDataType, ResponseTagType } from "@/types/project.type";
 import { tagsList } from "@/api/project.api";
 import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
 import { API_CODE } from "@/enums/api.enum";
+import { ProjectTagType } from "@/types/project.type";
+import { ResponseWithPaginationType } from "@/types/base.type";
 
 interface TaskTagProps {
   projectId: number
-  tags: ResponseTagType[],
-  setTags: (tags: ResponseTagType[]) => void
+  tags: ProjectTagType[],
+  setTags: (tags: ProjectTagType[]) => void
 }
 
 const TaskTag: React.FC<TaskTagProps> = ({ projectId, tags, setTags }): JSX.Element => {
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const [showList, setShowList] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
-  const [tagData, setTagData] = useState<ResponseTagsDataType>();
+  const [tagData, setTagData] = useState<ResponseWithPaginationType<ProjectTagType[]>>();
   const [keyword, setKeyword] = useState<string>('');
   const [debounceKeyword, setDebounceKeyword] = useState<string>('');
   const listTagsRef = useRef<HTMLUListElement>(null);
-  const handleSelectTag = (tag: ResponseTagType) => {
+  const handleSelectTag = (tag: ProjectTagType) => {
     const added = tags.find(t => t.id === tag.id);
     if (!added) {
       setTags([...tags, tag]);
     }
   }
-  const handleRemoveTag = (tag: ResponseTagType) => {
+  const handleRemoveTag = (tag: ProjectTagType) => {
     setTags(tags.filter(t => t.id !== tag.id));
   }
   const handleChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {

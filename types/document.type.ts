@@ -5,7 +5,7 @@ import { ResponseUserDataType } from "./user.type";
 export interface CreateDocumentRequestType {
   title: string;
   content: string;
-  public?: boolean
+  public?: boolean;
   user_share?: {
     id: number
     permission: number
@@ -23,18 +23,6 @@ export interface UpdateDocumentRequestType {
     permission: number
   }[]
   project_share?: number[]
-}
-
-export interface DocumentsResponse extends BaseResponseType {
-  data: DocumentsDataType
-}
-
-export interface DocumentsDataType extends ResponseWithPaginationType {
-  items: DocumentType[]
-}
-
-export interface DocumentResponse extends BaseResponseType {
-  data: DocumentType
 }
 
 export interface DocumentType {

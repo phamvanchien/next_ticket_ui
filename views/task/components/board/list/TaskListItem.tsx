@@ -3,7 +3,7 @@ import { dateToString } from "@/utils/helper.util";
 import { faCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { MouseEvent, useEffect, useState } from "react";
-import { ProjectType, ResponseTagsDataType } from "@/types/project.type";
+import { ProjectTagType, ProjectType } from "@/types/project.type";
 import CreateTaskView from "@/views/task/create/CreateTaskView";
 import SelectStatusModal from "./SelectStatusModal";
 import { getIconPriority, getTypeClass, getTypeIcon } from "../grib/TaskItem";
@@ -11,9 +11,10 @@ import Link from "next/link";
 import { APP_LINK, APP_LOCALSTORAGE } from "@/enums/app.enum";
 import { useRouter } from "next/navigation";
 import TaskListLoading from "./TaskListLoading";
+import { ResponseWithPaginationType } from "@/types/base.type";
 
 interface TaskListItemProps {
-  statusList?: ResponseTagsDataType
+  statusList?: ResponseWithPaginationType<ProjectTagType[]>
   task: TaskType
   index: number
   project: ProjectType

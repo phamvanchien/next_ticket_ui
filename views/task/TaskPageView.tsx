@@ -3,9 +3,9 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { TaskPriorityType, TaskType, TaskTypeItem } from "@/types/task.type";
 import Button from "@/common/components/Button";
 import CreateTaskView from "./create/CreateTaskView";
-import { ProjectType, ResponseTagType } from "@/types/project.type";
+import { ProjectTagType, ProjectType } from "@/types/project.type";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckSquare, faFilter, faFilterCircleXmark, faGear, faList, faPlus, faSearch, faSearchMinus, faSearchPlus, faSort, faSortAmountAsc, faSortAmountDesc, faTable, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCheckSquare, faFilter, faFilterCircleXmark, faGear, faList, faPieChart, faPlus, faSearchMinus, faSearchPlus, faSort, faSortAmountAsc, faSortAmountDesc, faTable, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import TaskBoardView from "./components/board/grib/TaskBoardView";
 import { APP_LOCALSTORAGE } from "@/enums/app.enum";
 import Input from "@/common/components/Input";
@@ -16,6 +16,7 @@ import { ResponseUserDataType } from "@/types/user.type";
 import ProjectSettingView from "../project/setting/ProjectSettingView";
 import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
+import ProjectReportView from "../project/report/ProjectReportView";
 
 interface TaskPageViewProps {
   project: ProjectType
@@ -27,7 +28,7 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
   const [typeShow, setTypeShow] = useState(1);
   const [openCreate, setOpenCreate] = useState(false);
   const [taskData, setTaskData] = useState<TaskType>();
-  const [inputStatusCreate, setInputStatusCreate] = useState<ResponseTagType>();
+  const [inputStatusCreate, setInputStatusCreate] = useState<ProjectTagType>();
   const [keyword, setKeyword] = useState<string>('');
   const [debounceKeyword, setDebounceKeyword] = useState<string>('');
   const [openFilter, setOpenFilter] = useState(false);
@@ -35,7 +36,7 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
   const [assignee, setAssignee] = useState<ResponseUserDataType[]>([]);
   const [creator, setCreator] = useState<ResponseUserDataType[]>([]);
   const [priority, setPriority] = useState<TaskPriorityType[]>([]);
-  const [tags, setTags] = useState<ResponseTagType[]>([]);
+  const [tags, setTags] = useState<ProjectTagType[]>([]);
   const [type, setType] = useState<TaskTypeItem[]>([]);
   const [openSearch, setOpenSearch] = useState(false);
   const [totalTask, setTotalTask] = useState<number>(0);
@@ -132,15 +133,20 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
       <div className="row">
         <div className="col-12">
           <h3>
-            {
-              typeShow === 3 ? <><FontAwesomeIcon icon={faGear} className="text-secondary" /> Project setting</> :
-              <><FontAwesomeIcon icon={faCheckSquare} className="text-secondary" /> Tasks</>
-            }
+            {typeShow === 3 && <><FontAwesomeIcon icon={faGear} className="text-secondary" /> Project setting</>}
+            {[1, 2].includes(typeShow) && <><FontAwesomeIcon icon={faCheckSquare} className="text-secondary" /> Tasks</>}
+            {typeShow === 4 && <><FontAwesomeIcon icon={faPieChart} className="text-secondary" /> Project report</>}
           </h3>
           {
             (isSetting && typeShow !== 3) &&
             <Button color="secondary" className="btn-no-border" outline onClick={() => setTypeShow (3)}>
               <FontAwesomeIcon icon={faGear} /> Settings
+            </Button>
+          }
+          {
+            (typeShow !== 4 && totalTask > 1) &&
+            <Button color="secondary" className="btn-no-border" outline onClick={() => setTypeShow (4)}>
+              <FontAwesomeIcon icon={faPieChart} /> Reports
             </Button>
           }
         </div>
@@ -157,7 +163,7 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
               </Button>
           }
           {
-            (totalTask > maxTaskShowFilter && typeShow !== 3) &&
+            (totalTask > maxTaskShowFilter && typeShow !== 3 && typeShow !== 4) &&
               <>
               <Button color="secondary" outline className="float-left create-btn btn-no-border mr-2" onClick={() => setOpenFilter (true)}>
                 <FontAwesomeIcon icon={openFilter ? faFilterCircleXmark : faFilter} />
@@ -171,13 +177,13 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
               </>
           }
           {
-            (totalTask > maxTaskShowFilter && typeShow !== 3) && 
+            (totalTask > maxTaskShowFilter && typeShow !== 3 && typeShow !== 4) && 
             <Button color="secondary" outline className="float-left btn-no-border create-btn mr-2" onClick={() => setOpenSearch (openSearch ? false : true)}>
               <FontAwesomeIcon icon={openSearch ? faSearchMinus : faSearchPlus} />
             </Button>
           }
           {
-            typeShow !== 3 &&
+            (typeShow !== 3 && typeShow !== 4) &&
             <Button
               color="primary"
               className="float-right create-btn"
@@ -206,7 +212,7 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
           </div>
         }
         {
-          (openSearch && typeShow !== 3) &&
+          (openSearch && typeShow !== 3 && typeShow !== 4) &&
           <div className="col-12 col-lg-3 mt-2">
             <Input 
               type="search" 
@@ -255,6 +261,9 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
       }
       {
         typeShow === 3 && <ProjectSettingView project={project} />
+      }
+      {
+        typeShow === 4 && <ProjectReportView project={project} />
       }
     </>
 };

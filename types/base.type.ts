@@ -1,7 +1,7 @@
-export interface BaseResponseType {
+export interface BaseResponseType<T = any> {
   code: number,
   message: string,
-  data: any,
+  data: T,
   error: AppErrorType | null
 }
 
@@ -11,10 +11,10 @@ export interface RequestWithPaginationType {
   keyword?: string
 }
 
-export interface ResponseWithPaginationType {
+export interface ResponseWithPaginationType<T = any> {
   total: number
   totalPage: number
-  items: any[]
+  items: T
 }
 
 export interface AppErrorType {
@@ -27,4 +27,21 @@ export interface AppPagingType {
   page: number
   limit: number
   totalPage: number
+}
+
+export interface PieChartType {
+  title: string
+  value: number
+  color: string
+}
+
+export interface ColumnChartType {
+  labels: string[]
+  datasets: {
+    label?: string
+    data: number[],
+    backgroundColor: string[]
+    borderColor: string[]
+    borderWidth: number
+  }[]
 }

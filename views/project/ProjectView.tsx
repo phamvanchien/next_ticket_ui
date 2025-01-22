@@ -7,8 +7,7 @@ import CreateProjectModal from "./components/CreateProjectModal";
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import ProjectTableHead from "./components/ProjectTableHead";
 import ProjectTableItem from "./components/ProjectTableItem";
-import { ResponseProjectsDataType } from "@/types/project.type";
-import { AppErrorType, BaseResponseType } from "@/types/base.type";
+import { AppErrorType, BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import { catchError } from "@/services/base.service";
 import { projects } from "@/api/project.api";
 import { API_CODE } from "@/enums/api.enum";
@@ -16,6 +15,7 @@ import ErrorPage from "@/common/layouts/ErrorPage";
 import ProjectInvitationModal from "./components/ProjectInvitationModal";
 import { WorkspaceType } from "@/types/workspace.type";
 import Loading from "@/common/components/Loading";
+import { ProjectType } from "@/types/project.type";
 
 interface ProjectViewProps {
   workspace: WorkspaceType
@@ -25,7 +25,7 @@ const ProjectView: React.FC<ProjectViewProps> = ({ workspace }) => {
   const defaultPageSize = 10;
   const [pageSize, setPageSize] = useState(defaultPageSize);
   const [openModal, setOpenModal] = useState(false);
-  const [projectData, setProjectData] = useState<ResponseProjectsDataType>();
+  const [projectData, setProjectData] = useState<ResponseWithPaginationType<ProjectType[]>>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<AppErrorType | null>(null);
   const [keyword, setKeyword] = useState<string>('');

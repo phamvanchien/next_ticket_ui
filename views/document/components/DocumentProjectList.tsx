@@ -2,7 +2,8 @@ import { projects } from "@/api/project.api";
 import Input from "@/common/components/Input";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
-import { ProjectType, ResponseProjectsDataType } from "@/types/project.type";
+import { ResponseWithPaginationType } from "@/types/base.type";
+import { ProjectType } from "@/types/project.type";
 import { faCircle, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ChangeEvent, useEffect, useState } from "react";
@@ -16,7 +17,7 @@ interface DocumentProjectListProps {
 const DocumentProjectList: React.FC<DocumentProjectListProps> = ({ projectShared, setProjectShared }) => {
   const [keyword, setKeyword] = useState<string>('');
   const [debounceKeyword, setDebounceKeyword] = useState<string>('');
-  const [projectData, setProjectData] = useState<ResponseProjectsDataType>();
+  const [projectData, setProjectData] = useState<ResponseWithPaginationType<ProjectType[]>>();
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const handleSelectProject = (project: ProjectType) => {
     const added = projectShared.find(p => p.id === project.id);

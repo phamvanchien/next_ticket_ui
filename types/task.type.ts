@@ -1,4 +1,3 @@
-import { BaseResponseType, ResponseWithPaginationType } from "./base.type";
 import { ProjectType, ResponseTagType } from "./project.type";
 import { ResponseUserDataType } from "./user.type";
 import { WorkspaceType } from "./workspace.type";
@@ -44,22 +43,6 @@ export interface RequestGetTaskType {
   sortPriority?: "DESC" | "ASC";
   sortDue?: "DESC" | "ASC";
   sortCreatedAt?: "DESC" | "ASC";
-}
-
-export interface ResponseTasksType extends BaseResponseType {
-  data: ResponseTasksDataType
-}
-
-export interface ResponseTasksDataType extends ResponseWithPaginationType {
-  items: TaskType[]
-}
-
-export interface ResponseTaskType extends BaseResponseType {
-  data: TaskType
-}
-
-export interface ResponseTaskBoardType extends BaseResponseType {
-  data: ResponseTaskBoardDataType[]
 }
 
 export interface ResponseTaskBoardDataType {
@@ -108,14 +91,6 @@ export interface TaskPriorityType {
   id: number
   title: string
   color: string
-}
-
-export interface ResponseHistoryType extends BaseResponseType {
-  data: ResponseHistoryDataType
-}
-
-export interface ResponseHistoryDataType extends ResponseWithPaginationType {
-  items: HistoryType[]
 }
 
 export interface HistoryType {

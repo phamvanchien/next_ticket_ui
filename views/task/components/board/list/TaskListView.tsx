@@ -2,9 +2,9 @@ import { tasks } from "@/api/task.api";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
 import { catchError } from "@/services/base.service";
-import { AppErrorType, BaseResponseType } from "@/types/base.type";
-import { ProjectType, ResponseTagsDataType, ResponseTagType } from "@/types/project.type";
-import { ResponseTasksDataType, TaskPriorityType, TaskType, TaskTypeItem } from "@/types/task.type";
+import { AppErrorType, BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
+import { ProjectTagType, ProjectType } from "@/types/project.type";
+import { TaskPriorityType, TaskType, TaskTypeItem } from "@/types/task.type";
 import React, { MouseEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import TaskListItem from "./TaskListItem";
@@ -23,7 +23,7 @@ interface TaskListViewProps {
   assignee: ResponseUserDataType[]
   creator: ResponseUserDataType[]
   priority: TaskPriorityType[]
-  tags: ResponseTagType[]
+  tags: ProjectTagType[]
   type: TaskTypeItem[]
   prioritySort?: "DESC" | "ASC"
   dueSort?: "DESC" | "ASC"
@@ -47,11 +47,11 @@ const TaskListView: React.FC<TaskListViewProps> = ({
 }) => {
   const defaultPagesize = 10;
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
-  const [tasksData, setTasksData] = useState<ResponseTasksDataType>();
+  const [tasksData, setTasksData] = useState<ResponseWithPaginationType<TaskType[]>>();
   const [error, setError] = useState<AppErrorType | null>(null);
   const [pageSize, setPageSize] = useState<number>(defaultPagesize);
   const [loadingViewMore, setLoadingViewMore] = useState(false);
-  const [statusData, setStatusData] = useState<ResponseTagsDataType>();
+  const [statusData, setStatusData] = useState<ResponseWithPaginationType<ProjectTagType[]>>();
   const [searchStatus, setSearchStatus] = useState<string>('');
   const [loading, setLoading] = useState(true);
   const handleViewMore = (event: MouseEvent<HTMLAnchorElement>) => {

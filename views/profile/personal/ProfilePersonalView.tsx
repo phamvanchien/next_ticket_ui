@@ -13,7 +13,7 @@ import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { ResponseUserDataType } from "@/types/user.type";
 import { getCookie, removeCookie, setCookie } from "@/utils/cookie.util";
 import { notify } from "@/utils/helper.util";
-import { faAngleDoubleLeft, faAngleDoubleRight, faLock, faPhone, faUser, faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDoubleLeft, faAngleDoubleRight, faLock, faPhone, faSignOut, faUser, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -134,6 +134,12 @@ const ProfilePersonalView = () => {
     if (checkbox) {
       checkbox.checked = false;
     }
+  }
+  const handleLogout = (event: any) => {
+    event.preventDefault();
+    removeCookie(APP_AUTH.COOKIE_AUTH_KEY);
+    removeCookie(APP_AUTH.COOKIE_AUTH_USER);
+    router.replace(APP_LINK.LOGIN);
   }
   useEffect(() => {
     const userAuth = getCookie(APP_AUTH.COOKIE_AUTH_USER);
@@ -307,6 +313,12 @@ const ProfilePersonalView = () => {
           </div>
         </>
       }
+      <div className="col-12 mt-4 text-secondary">
+        <FontAwesomeIcon icon={faSignOut} className="mr-2" />
+        <Link href={'#'} className="text-secondary" onClick={handleLogout}>
+          Logout
+        </Link>
+      </div>
     </div>
   );
 }

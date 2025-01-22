@@ -1,13 +1,12 @@
 "use client"
 import Input from "@/common/components/Input";
-import { ResponseHistoryDataType, TaskPriorityType, TaskType, TaskTypeItem } from "@/types/task.type";
+import { HistoryType, TaskPriorityType, TaskType, TaskTypeItem } from "@/types/task.type";
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDoubleLeft, faCaretDown, faCaretUp, faCheck, faTimes, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import DateInput from "@/common/components/DateInput";
 import { ResponseUserDataType } from "@/types/user.type";
-import { ResponseTagType } from "@/types/project.type";
-import { AppErrorType, BaseResponseType } from "@/types/base.type";
+import { AppErrorType, BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
 import { create, removeTask, taskHistory, update } from "@/api/task.api";
@@ -33,6 +32,7 @@ import Modal from "@/common/modal/Modal";
 import ModalBody from "@/common/modal/ModalBody";
 import Link from "next/link";
 import ErrorAlert from "@/common/components/ErrorAlert";
+import { ProjectTagType } from "@/types/project.type";
 
 interface TaskDetailViewProps {
   task: TaskType
@@ -42,14 +42,14 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
   const defaultPageSizeHistory = 5;
   const [dueDate, setDueDate] = useState<Date | null>(task ? new Date(task.due) : new Date());
   const [assignee, setAssignee] = useState<ResponseUserDataType[]>(task ? task.assign : []);
-  const [status, setStatus] = useState<ResponseTagType | undefined>(task ? task.status : undefined);
-  const [tags, setTags] = useState<ResponseTagType[]>(task ? task.tags : []);
+  const [status, setStatus] = useState<ProjectTagType | undefined>(task ? task.status : undefined);
+  const [tags, setTags] = useState<ProjectTagType[]>(task ? task.tags : []);
   const [priority, setPriority] = useState<TaskPriorityType | undefined>(task ? task.priority : undefined);
   const [type, setType] = useState<TaskTypeItem | undefined>(task ? task.type : undefined);
   const [description, setDescription] = useState<string>(task ? task.description : '');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<AppErrorType | null>(null);
-  const [historyData, setHistoryData] = useState<ResponseHistoryDataType>();
+  const [historyData, setHistoryData] = useState<ResponseWithPaginationType<HistoryType[]>>();
   const [pageSize, setPageSize] = useState(defaultPageSizeHistory);
   const [loadingViewMore, setLoadingViewMore] = useState(false);
   const [openHistory, setOpenHistory] = useState(false);
@@ -61,6 +61,8 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
   const router = useRouter();
+  const cloneModalId = "cloneModal";
+  const deleteModalId = "deleteModal";
   const handleUpdateTask = async () => {
     try {
       if (!workspace || !title || title === '' || !dueDate || !status || !type || !priority) {
@@ -151,8 +153,9 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
       if (!workspace) {
         return;
       }
-      const response = await removeTask (workspace.id, task.project_id, task.id);
       setLoading(true);
+      const response = await removeTask (workspace.id, task.project_id, task.id);
+      setLoading(false);
       if (response && response.code === API_CODE.OK) {
         router.push(`${APP_LINK.WORKSPACE}/${workspace.id}/project/${task.project_id}`);
         return;

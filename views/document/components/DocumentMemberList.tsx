@@ -2,9 +2,10 @@ import { members } from "@/api/workspace.api";
 import Input from "@/common/components/Input";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
+import { ResponseWithPaginationType } from "@/types/base.type";
 import { MemberShareType } from "@/types/document.type";
 import { ResponseUserDataType } from "@/types/user.type";
-import { ResponseMemberWorkspaceDataType } from "@/types/workspace.type";
+import { WorkspaceUserType } from "@/types/workspace.type";
 import { faCircle, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ChangeEvent, useEffect, useState } from "react";
@@ -16,7 +17,7 @@ interface DocumentMemberListProps {
 }
 
 const DocumentMemberList: React.FC<DocumentMemberListProps> = ({ setMemberShared, memberShared }) => {
-  const [workspaceMembers, setWorkspaceMembers] = useState<ResponseMemberWorkspaceDataType>();
+  const [workspaceMembers, setWorkspaceMembers] = useState<ResponseWithPaginationType<ResponseUserDataType[]>>();
   const [keywordMember, setKeywordMember] = useState<string>('');
   const [debounceKeywordMember, setDebounceKeywordMember] = useState<string>('');
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;

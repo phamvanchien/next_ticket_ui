@@ -1,11 +1,12 @@
-import { RequestCreateProjectType, RequestUpdateProjectType, ResponseProjectItemType, ResponseProjectInviteType, ResponseProjectsType, RequestCreateTagType, ResponseTagItemType, ResponseTagsType, RequestStatusListType, RequestUpdateTagType } from "@/types/project.type";
+import { RequestCreateProjectType, RequestUpdateProjectType, RequestCreateTagType, RequestStatusListType, RequestUpdateTagType, ProjectTagType, ProjectType, ProjectInviteType, ReportStatusType, ReportAssigneeType } from "@/types/project.type";
 import { request } from "./base.api";
 import { API_METHOD_ENUM } from "@/enums/api.enum";
 import { APP_CONFIG } from "@/config/app.config";
-import { BaseResponseType, RequestWithPaginationType } from "@/types/base.type";
-import { ResponseMemberWorkspaceType, ResponseUserInviteWorkspaceType } from "@/types/workspace.type";
+import { BaseResponseType, RequestWithPaginationType, ResponseWithPaginationType } from "@/types/base.type";
+import { ResponseUserDataType } from "@/types/user.type";
+import { WorkspaceUserType } from "@/types/workspace.type";
 
-export const create = async (workspaceId: number, payload: RequestCreateProjectType): Promise<ResponseProjectItemType> => {
+export const create = async (workspaceId: number, payload: RequestCreateProjectType): Promise<BaseResponseType<ProjectType>> => {
   return request({
     method: API_METHOD_ENUM.POST,
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId,
@@ -13,7 +14,7 @@ export const create = async (workspaceId: number, payload: RequestCreateProjectT
   });
 }
 
-export const projects = async (workspaceId: number, payload: RequestWithPaginationType): Promise<ResponseProjectsType> => {
+export const projects = async (workspaceId: number, payload: RequestWithPaginationType): Promise<BaseResponseType<ResponseWithPaginationType<ProjectType[]>>> => {
   return request({
     method: API_METHOD_ENUM.GET,
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId,
@@ -36,7 +37,7 @@ export const remove = async (workspaceId: number, projectId: number): Promise<Ba
   });
 }
 
-export const userInvite = async (workspaceId: number, projectId: number, keyword?: string): Promise<ResponseUserInviteWorkspaceType> => {
+export const userInvite = async (workspaceId: number, projectId: number, keyword?: string): Promise<BaseResponseType<ResponseUserDataType[]>> => {
   return request({
     method: API_METHOD_ENUM.GET,
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/user-invite',
@@ -56,7 +57,7 @@ export const sendInvite = async (workspaceId: number, projectId: number, payload
   });
 }
 
-export const inviteList = async (workspaceId: number, page: number, size: number, keyword?: string): Promise<ResponseProjectInviteType> => {
+export const inviteList = async (workspaceId: number, page: number, size: number, keyword?: string): Promise<BaseResponseType<ResponseWithPaginationType<ProjectInviteType[]>>> => {
   return request({
     method: API_METHOD_ENUM.GET,
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/invite-list',
@@ -82,7 +83,7 @@ export const removeInvite = async (workspaceId: number, projectId: number): Prom
   });
 }
 
-export const membersList = async (workspaceId: number, projectId: number, page: number, size: number, keyword?: string): Promise<ResponseMemberWorkspaceType> => {
+export const membersList = async (workspaceId: number, projectId: number, page: number, size: number, keyword?: string): Promise<BaseResponseType<ResponseWithPaginationType<ResponseUserDataType[]>>> => {
   return request({
     method: API_METHOD_ENUM.GET,
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/member-list',
@@ -94,7 +95,7 @@ export const membersList = async (workspaceId: number, projectId: number, page: 
   });
 }
 
-export const createTag = async (workspaceId: number, projectId: number, payload: RequestCreateTagType): Promise<ResponseTagItemType> => {
+export const createTag = async (workspaceId: number, projectId: number, payload: RequestCreateTagType): Promise<BaseResponseType<ProjectTagType>> => {
   return request({
     method: API_METHOD_ENUM.POST,
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/create-tag',
@@ -102,7 +103,7 @@ export const createTag = async (workspaceId: number, projectId: number, payload:
   });
 }
 
-export const tagsList = async (workspaceId: number, projectId: number, payload: RequestWithPaginationType): Promise<ResponseTagsType> => {
+export const tagsList = async (workspaceId: number, projectId: number, payload: RequestWithPaginationType): Promise<BaseResponseType<ResponseWithPaginationType<ProjectTagType[]>>> => {
   return request({
     method: API_METHOD_ENUM.GET,
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/tag-list',
@@ -110,7 +111,7 @@ export const tagsList = async (workspaceId: number, projectId: number, payload: 
   });
 }
 
-export const createStatus = async (workspaceId: number, projectId: number, payload: RequestCreateTagType): Promise<ResponseTagItemType> => {
+export const createStatus = async (workspaceId: number, projectId: number, payload: RequestCreateTagType): Promise<BaseResponseType<ProjectTagType>> => {
   return request({
     method: API_METHOD_ENUM.POST,
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/create-status',
@@ -118,7 +119,7 @@ export const createStatus = async (workspaceId: number, projectId: number, paylo
   });
 }
 
-export const statusList = async (workspaceId: number, projectId: number, payload: RequestStatusListType): Promise<ResponseTagsType> => {
+export const statusList = async (workspaceId: number, projectId: number, payload: RequestStatusListType): Promise<BaseResponseType<ResponseWithPaginationType<ProjectTagType[]>>> => {
   return request({
     method: API_METHOD_ENUM.GET,
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/status-list',
@@ -168,5 +169,40 @@ export const removeMember = async (workspaceId: number, projectId: number, membe
   return request({
     method: API_METHOD_ENUM.DELETE,
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/' + memberId + '/remove-member'
+  });
+}
+
+export const reportByStatus = async (workspaceId: number, projectId: number): Promise<BaseResponseType<ReportStatusType[]>> => {
+  return request({
+    method: API_METHOD_ENUM.GET,
+    url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/report-by-status'
+  });
+}
+
+export const reportByAssignee = async (workspaceId: number, projectId: number): Promise<BaseResponseType<ReportAssigneeType[]>> => {
+  return request({
+    method: API_METHOD_ENUM.GET,
+    url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/report-by-assignee'
+  });
+}
+
+export const reportByPriority = async (workspaceId: number, projectId: number): Promise<BaseResponseType<ReportStatusType[]>> => {
+  return request({
+    method: API_METHOD_ENUM.GET,
+    url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/report-by-priority'
+  });
+}
+
+export const reportByType = async (workspaceId: number, projectId: number): Promise<BaseResponseType<ReportStatusType[]>> => {
+  return request({
+    method: API_METHOD_ENUM.GET,
+    url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/report-by-type'
+  });
+}
+
+export const reportByTag = async (workspaceId: number, projectId: number): Promise<BaseResponseType<ReportStatusType[]>> => {
+  return request({
+    method: API_METHOD_ENUM.GET,
+    url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/report-by-tag'
   });
 }

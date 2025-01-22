@@ -1,11 +1,12 @@
-import { RequestCreateWorkspaceType, ResponseInviteType, ResponseMemberWorkspaceType, ResponseSendInviteWorkspaceType, ResponseUserInviteWorkspaceType, ResponseWorkspacesType, ResponseWorkspaceType } from "@/types/workspace.type";
+import { InviteType, RequestCreateWorkspaceType,WorkspaceType, WorkspaceUserType } from "@/types/workspace.type";
 import { request } from "./base.api";
 import { API_METHOD_ENUM } from "@/enums/api.enum";
 import { APP_CONFIG } from "@/config/app.config";
-import { BaseResponseType } from "@/types/base.type";
-import { ResponseTasksType } from "@/types/task.type";
+import { BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
+import { TaskType } from "@/types/task.type";
+import { ResponseUserDataType } from "@/types/user.type";
 
-export const create = async (payload: RequestCreateWorkspaceType): Promise<ResponseWorkspaceType> => {
+export const create = async (payload: RequestCreateWorkspaceType): Promise<BaseResponseType<WorkspaceType>> => {
   return request({
     method: API_METHOD_ENUM.POST,
     url: APP_CONFIG.API.PREFIX.workspace.url,
@@ -13,7 +14,7 @@ export const create = async (payload: RequestCreateWorkspaceType): Promise<Respo
   });
 }
 
-export const update = async (workspaceId: number, payload: RequestCreateWorkspaceType): Promise<ResponseWorkspaceType> => {
+export const update = async (workspaceId: number, payload: RequestCreateWorkspaceType): Promise<BaseResponseType<WorkspaceType>> => {
   return request({
     method: API_METHOD_ENUM.PATCH,
     url: APP_CONFIG.API.PREFIX.workspace.url + '/' + workspaceId,
@@ -21,7 +22,7 @@ export const update = async (workspaceId: number, payload: RequestCreateWorkspac
   });
 }
 
-export const workspaces = async (page: number = 1, size: number = 10, keyword?: string): Promise<ResponseWorkspacesType> => {
+export const workspaces = async (page: number = 1, size: number = 10, keyword?: string): Promise<BaseResponseType<ResponseWithPaginationType<WorkspaceType[]>>> => {
   return request({
     method: API_METHOD_ENUM.GET,
     url: APP_CONFIG.API.PREFIX.workspace.url,
@@ -33,14 +34,14 @@ export const workspaces = async (page: number = 1, size: number = 10, keyword?: 
   });
 }
 
-export const workspace = async (workspaceId: number): Promise<ResponseWorkspaceType> => {
+export const workspace = async (workspaceId: number): Promise<BaseResponseType<WorkspaceType>> => {
   return request({
     method: API_METHOD_ENUM.GET,
     url: APP_CONFIG.API.PREFIX.workspace.url + '/' + workspaceId,
   });
 }
 
-export const sendInvite = async (workspaceId: number, email: string): Promise<ResponseSendInviteWorkspaceType> => {
+export const sendInvite = async (workspaceId: number, email: string): Promise<BaseResponseType<string[]>> => {
   return request({
     method: API_METHOD_ENUM.POST,
     url: APP_CONFIG.API.PREFIX.workspace.url + '/' + workspaceId + '/send-invite',
@@ -50,7 +51,7 @@ export const sendInvite = async (workspaceId: number, email: string): Promise<Re
   });
 }
 
-export const userInvite = async (workspaceId: number, keyword?: string): Promise<ResponseUserInviteWorkspaceType> => {
+export const userInvite = async (workspaceId: number, keyword?: string): Promise<BaseResponseType<ResponseUserDataType[]>> => {
   return request({
     method: API_METHOD_ENUM.GET,
     url: APP_CONFIG.API.PREFIX.workspace.url + '/' + workspaceId + '/user-invite',
@@ -62,7 +63,7 @@ export const userInvite = async (workspaceId: number, keyword?: string): Promise
   });
 }
 
-export const inviteList = async (page: number, size: number): Promise<ResponseInviteType> => {
+export const inviteList = async (page: number, size: number): Promise<BaseResponseType<ResponseWithPaginationType<InviteType[]>>> => {
   return request({
     method: API_METHOD_ENUM.GET,
     url: APP_CONFIG.API.PREFIX.workspace.url + '/invite-list',
@@ -87,7 +88,7 @@ export const removeInvite = async (workspaceId: number, inviteId: number): Promi
   });
 }
 
-export const members = async (workspaceId: number, page: number = 1, size: number = 10, keyword?: string): Promise<ResponseMemberWorkspaceType> => {
+export const members = async (workspaceId: number, page: number = 1, size: number = 10, keyword?: string): Promise<BaseResponseType<ResponseWithPaginationType<ResponseUserDataType[]>>> => {
   return request({
     method: API_METHOD_ENUM.GET,
     url: APP_CONFIG.API.PREFIX.workspace.url + '/' + workspaceId + '/member',
@@ -113,7 +114,7 @@ export const removeWorkspace = async (workspaceId: number): Promise<BaseResponse
   });
 }
 
-export const getTasksByIds = async (workspaceId: number, taskIds: string): Promise<ResponseTasksType> => {
+export const getTasksByIds = async (workspaceId: number, taskIds: string): Promise<BaseResponseType<ResponseWithPaginationType<TaskType[]>>> => {
   return request({
     method: API_METHOD_ENUM.GET,
     url: APP_CONFIG.API.PREFIX.workspace.url + '/' + workspaceId + '/get-tasks-by-id',

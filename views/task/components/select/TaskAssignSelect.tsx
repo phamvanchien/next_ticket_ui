@@ -4,10 +4,10 @@ import Input from "@/common/components/Input";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
 import { catchError } from "@/services/base.service";
-import { AppErrorType, BaseResponseType } from "@/types/base.type";
+import { AppErrorType, BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import { ProjectType } from "@/types/project.type";
 import { ResponseUserDataType } from "@/types/user.type";
-import { ResponseMemberWorkspaceDataType } from "@/types/workspace.type";
+import { WorkspaceUserType } from "@/types/workspace.type";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
@@ -22,7 +22,7 @@ interface TaskAssignSelectProps {
 }
 
 const TaskAssignSelect: React.FC<TaskAssignSelectProps> = ({ assignee, project, className, label, setAssignee }) => {
-  const [membersData, setMembersData] = useState<ResponseMemberWorkspaceDataType>();
+  const [membersData, setMembersData] = useState<ResponseWithPaginationType<ResponseUserDataType[]>>();
   const [error, setError] = useState<AppErrorType | null>(null);
   const [openMemberList, setOpenMemberList] = useState(false);
   const [keyword, setKeyword] = useState<string>('');

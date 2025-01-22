@@ -291,6 +291,20 @@ body:not(.layout-fixed) .main-sidebar {
     overflow-x: unset !important;
 }
 
+@keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+}
+
+.modal-display {
+    display: block;
+    animation: fadeIn 0.5s forwards;
+}
+
 @media (max-width: 768px) {
     .open-sidebar {
         width: 100% !important;

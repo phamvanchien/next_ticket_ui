@@ -1,6 +1,6 @@
 "use client"
 import { APP_LINK } from "@/enums/app.enum";
-import { faAngleDoubleDown, faAngleDoubleLeft, faAngleDoubleRight, faCubes, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDoubleDown, faCubes, faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,12 +9,12 @@ import Input from "@/common/components/Input";
 import Button from "@/common/components/Button";
 import { ChangeEvent, useEffect, useState } from "react";
 import { workspaces } from "@/api/workspace.api";
-import { AppErrorType, BaseResponseType } from "@/types/base.type";
+import { AppErrorType, BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import { API_CODE } from "@/enums/api.enum";
 import { catchError } from "@/services/base.service";
-import { ResponseWorkspacesDataType } from "@/types/workspace.type";
 import ErrorPage from "@/common/layouts/ErrorPage";
 import Loading from "@/common/components/Loading";
+import { WorkspaceType } from "@/types/workspace.type";
 
 const GoToWorkspaceView = () => {
   const router = useRouter();
@@ -25,7 +25,7 @@ const GoToWorkspaceView = () => {
   const [viewMoreLoading, setViewMoreLoading] = useState(false);
   const [pageSize, setPageSize] = useState(defaultPageSize);
   const [error, setError] = useState<AppErrorType | null>(null);
-  const [workspacesData, setWorkspacesData] = useState<ResponseWorkspacesDataType>();
+  const [workspacesData, setWorkspacesData] = useState<ResponseWithPaginationType<WorkspaceType[]>>();
   const handleChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setKeyword('');

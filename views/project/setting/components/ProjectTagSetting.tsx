@@ -5,7 +5,7 @@ import { useSelector } from "react-redux";
 import { removeStatus, removeTag, tagsList } from "@/api/project.api";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
-import { ProjectType, ResponseTagsDataType } from "@/types/project.type";
+import { ProjectTagType, ProjectType } from "@/types/project.type";
 import Input from "@/common/components/Input";
 import Loading from "@/common/components/Loading";
 import Modal from "@/common/modal/Modal";
@@ -13,7 +13,7 @@ import ModalBody from "@/common/modal/ModalBody";
 import Button from "@/common/components/Button";
 import { notify } from "@/utils/helper.util";
 import { catchError } from "@/services/base.service";
-import { BaseResponseType } from "@/types/base.type";
+import { BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import CreateTagModal from "@/views/task/create/components/CreateTagModal";
 import TagSettingItem from "./TagSettingItem";
 
@@ -23,7 +23,7 @@ interface ProjectTagSettingProps {
 
 const ProjectTagSetting: React.FC<ProjectTagSettingProps> = ({ project }) => {
   const defaultPageSize = 10;
-  const [tagData, setTagData] = useState<ResponseTagsDataType>();
+  const [tagData, setTagData] = useState<ResponseWithPaginationType<ProjectTagType[]>>();
   const [keyword, setKeyword] = useState<string>("");
   const [debounceKeyword, setDebounceKeyword] = useState<string>("");
   const [pageSize, setPageSize] = useState(defaultPageSize);

@@ -2,21 +2,19 @@ import { comments, create } from "@/api/comment.api";
 import Button from "@/common/components/Button";
 import EditorArea from "@/common/components/EditorArea";
 import Loading from "@/common/components/Loading";
-import Textarea from "@/common/components/Textarea";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
 import { catchError } from "@/services/base.service";
-import { AppErrorType, BaseResponseType } from "@/types/base.type";
-import { ResponseCommentsDataType } from "@/types/comment.type";
+import { AppErrorType, BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import { TaskType } from "@/types/task.type";
-import { formatTime } from "@/utils/helper.util";
 import { faAngleDoubleDown, faPencil } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import React, { ChangeEvent, MouseEvent, useEffect, useState } from "react";
+import React, { MouseEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import CommentItem from "./components/CommentItem";
 import ErrorAlert from "@/common/components/ErrorAlert";
+import { CommentType } from "@/types/comment.type";
 
 interface CommentViewProps {
   task: TaskType
@@ -28,7 +26,7 @@ const CommentView: React.FC<CommentViewProps> = ({ task }) => {
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const [content, setContent] = useState<string>('');
   const [createForm, setCreateForm] = useState(false);
-  const [commentData, setCommentData] = useState<ResponseCommentsDataType>();
+  const [commentData, setCommentData] = useState<ResponseWithPaginationType<CommentType[]>>();
   const [pageSize, setPageSize] = useState<number>(pageSizeDefault);
   const [error, setError] = useState<AppErrorType | null>(null);
   const [loading, setLoading] = useState(false);

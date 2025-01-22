@@ -1,11 +1,11 @@
-import { faAngleDoubleDown, faArrows, faInfoCircle, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDoubleDown, faInfoCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { changePositionStatus, removeStatus, statusList } from "@/api/project.api";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
-import { ProjectType, ResponseTagsDataType, ResponseTagType } from "@/types/project.type";
+import { ProjectTagType, ProjectType} from "@/types/project.type";
 import Input from "@/common/components/Input";
 import Loading from "@/common/components/Loading";
 import CreateStatusModal from "@/views/task/create/components/CreateStatusModal";
@@ -14,7 +14,7 @@ import ModalBody from "@/common/modal/ModalBody";
 import Button from "@/common/components/Button";
 import { notify } from "@/utils/helper.util";
 import { catchError } from "@/services/base.service";
-import { BaseResponseType } from "@/types/base.type";
+import { BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import StatusSettingItem from "./StatusSettingItem";
 
 interface ProjectStatusSettingProps {
@@ -23,7 +23,7 @@ interface ProjectStatusSettingProps {
 
 const ProjectStatusSetting: React.FC<ProjectStatusSettingProps> = ({ project }) => {
   const defaultPageSize = 10;
-  const [statusData, setStatusData] = useState<ResponseTagsDataType>();
+  const [statusData, setStatusData] = useState<ResponseWithPaginationType<ProjectTagType[]>>();
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const [keyword, setKeyword] = useState<string>("");
   const [debounceKeyword, setDebounceKeyword] = useState<string>("");
@@ -31,9 +31,10 @@ const ProjectStatusSetting: React.FC<ProjectStatusSettingProps> = ({ project }) 
   const [loadingViewMore, setLoadingViewMore] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
   const [statusDeleteId, setStatusDeleteId] = useState<number>();
-  const [statusDragged, setStatusDragged] = useState<ResponseTagType>();
+  const [statusDragged, setStatusDragged] = useState<ProjectTagType>();
   const [loadingDelete, setLoadingDelete] = useState(false);
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
+  const deleteStatusModal = "deleteProjectStatus";
 
   const handleChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -108,7 +109,7 @@ const ProjectStatusSetting: React.FC<ProjectStatusSettingProps> = ({ project }) 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>, index: number) => {
     e.preventDefault();
     if (draggedIndex === null || draggedIndex === index) return;
-    const status: ResponseTagType = JSON.parse(e.currentTarget.dataset.value as string);
+    const status: ProjectTagType = JSON.parse(e.currentTarget.dataset.value as string);
     const updatedItems = [...(statusData?.items || [])];
     const [draggedItem] = updatedItems.splice(draggedIndex, 1);
     updatedItems.splice(index, 0, draggedItem);
@@ -209,7 +210,7 @@ const ProjectStatusSetting: React.FC<ProjectStatusSettingProps> = ({ project }) 
           </div>
         </div>
       }
-      <Modal className="clone-modal" isOpen={statusDeleteId ? true : false}>
+      <Modal className="delete-status-modal" isOpen={statusDeleteId ? true : false}>
         <ModalBody>
           <div className="row">
             <div className="col-12 mb-2">
