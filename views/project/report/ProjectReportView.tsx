@@ -1,4 +1,3 @@
-import { PieChart } from 'react-minimal-pie-chart';
 import ProjectStatusReport from './components/ProjectStatusReport';
 import { ProjectType } from '@/types/project.type';
 import React from 'react';

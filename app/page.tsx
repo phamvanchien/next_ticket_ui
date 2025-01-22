@@ -1,4 +1,4 @@
-import './css/pages/home.css';
+import "./css/pages/home.css";
 
 export default function Home() {
   return <>
@@ -40,7 +40,7 @@ export default function Home() {
       {/* <div className="jumbotron p-3 p-md-5 text-white rounded bg-dark">
         <div className="col-md-6 px-0">
           <h1 className="display-4 font-italic">Title of a longer featured blog post</h1>
-          <p className="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what's most interesting in this post's contents.</p>
+          <p className="lead my-3">Multiple lines of text that form the lede, informing new readers quickly and efficiently about what"s most interesting in this post"s contents.</p>
           <p className="lead mb-0"><a href="#" className="text-white font-weight-bold">Continue reading...</a></p>
         </div>
       </div> */}
@@ -62,27 +62,27 @@ export default function Home() {
         </div>
         <div className="col-md-4 col-12">
           <div className="card">
-            <div className='card-body p-unset'>
-              <img src="/img/banners/portfolio-1.jpg" className='float-left w-20' alt="Card image cap" />
-              <h6 className='float-left w-80 text-dark pl-2 mt-2'>Blog title 21.01.2025</h6>
+            <div className="card-body p-unset">
+              <img src="/img/banners/portfolio-1.jpg" className="float-left w-20" alt="Card image cap" />
+              <h6 className="float-left w-80 text-dark pl-2 mt-2">Blog title 21.01.2025</h6>
             </div>
           </div>
           <div className="card">
-            <div className='card-body p-unset'>
-              <img src="/img/banners/portfolio-1.jpg" className='float-left w-20' alt="Card image cap" />
-              <h6 className='float-left w-80 text-dark pl-2 mt-2'>Blog title 21.01.2025</h6>
+            <div className="card-body p-unset">
+              <img src="/img/banners/portfolio-1.jpg" className="float-left w-20" alt="Card image cap" />
+              <h6 className="float-left w-80 text-dark pl-2 mt-2">Blog title 21.01.2025</h6>
             </div>
           </div>
           <div className="card">
-            <div className='card-body p-unset'>
-              <img src="/img/banners/portfolio-1.jpg" className='float-left w-20' alt="Card image cap" />
-              <h6 className='float-left w-80 text-dark pl-2 mt-2'>Blog title 21.01.2025</h6>
+            <div className="card-body p-unset">
+              <img src="/img/banners/portfolio-1.jpg" className="float-left w-20" alt="Card image cap" />
+              <h6 className="float-left w-80 text-dark pl-2 mt-2">Blog title 21.01.2025</h6>
             </div>
           </div>
           <div className="card">
-            <div className='card-body p-unset'>
-              <img src="/img/banners/portfolio-1.jpg" className='float-left w-20' alt="Card image cap" />
-              <h6 className='float-left w-80 text-dark pl-2 mt-2'>Blog title 21.01.2025</h6>
+            <div className="card-body p-unset">
+              <img src="/img/banners/portfolio-1.jpg" className="float-left w-20" alt="Card image cap" />
+              <h6 className="float-left w-80 text-dark pl-2 mt-2">Blog title 21.01.2025</h6>
             </div>
           </div>
         </div>
@@ -145,13 +145,13 @@ export default function Home() {
               January 1, 2014 by <a href="#">Mark</a>
             </p>
             <p>
-              This blog post shows a few different types of content that's
+              This blog post shows a few different types of content thats
               supported and styled with Bootstrap. Basic typography, images, and
               code are all supported.
             </p>
             <hr />
             <p>
-              Cum sociis natoque penatibus et magnis{" "}
+              Cum sociis natoque penatibus et magnis
               <a href="#">dis parturient montes</a>, nascetur ridiculus mus.
               Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis
               vestibulum. Sed posuere consectetur est at lobortis. Cras mattis
@@ -159,7 +159,7 @@ export default function Home() {
             </p>
             <blockquote>
               <p>
-                Curabitur blandit tempus porttitor.{" "}
+                Curabitur blandit tempus porttitor.
                 <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu
                 leo. Nullam id dolor id nibh ultricies vehicula ut id elit.
               </p>
@@ -224,14 +224,13 @@ export default function Home() {
               consectetur est at lobortis.
             </p>
           </div>
-          {/* /.blog-post */}
           <div className="blog-post">
             <h2 className="blog-post-title">Another blog post</h2>
             <p className="blog-post-meta">
               December 23, 2013 by <a href="#">Jacob</a>
             </p>
             <p>
-              Cum sociis natoque penatibus et magnis{" "}
+              Cum sociis natoque penatibus et magnis
               <a href="#">dis parturient montes</a>, nascetur ridiculus mus.
               Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis
               vestibulum. Sed posuere consectetur est at lobortis. Cras mattis
@@ -239,7 +238,7 @@ export default function Home() {
             </p>
             <blockquote>
               <p>
-                Curabitur blandit tempus porttitor.{" "}
+                Curabitur blandit tempus porttitor.
                 <strong>Nullam quis risus eget urna mollis</strong> ornare vel eu
                 leo. Nullam id dolor id nibh ultricies vehicula ut id elit.
               </p>
@@ -256,7 +255,6 @@ export default function Home() {
               consectetur ac, vestibulum at eros.
             </p>
           </div>
-          {/* /.blog-post */}
           <div className="blog-post">
             <h2 className="blog-post-title">New feature</h2>
             <p className="blog-post-meta">
@@ -287,7 +285,6 @@ export default function Home() {
               libero, a pharetra augue.
             </p>
           </div>
-          {/* /.blog-post */}
           <nav className="blog-pagination">
             <a className="btn btn-outline-primary" href="#">
               Older
@@ -297,7 +294,6 @@ export default function Home() {
             </a>
           </nav>
         </div>
-        {/* /.blog-main */}
         <aside className="col-md-4 blog-sidebar">
           <div className="p-3 mb-3 bg-light rounded">
             <h4 className="font-italic">About</h4>
@@ -363,12 +359,11 @@ export default function Home() {
             </ol>
           </div>
         </aside>
-        {/* /.blog-sidebar */}
       </div>
     </main>
     <footer className="blog-footer">
       <p>
-        Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a>{" "}
+        Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a>
         by <a href="https://twitter.com/mdo">@mdo</a>.
       </p>
       <p>
