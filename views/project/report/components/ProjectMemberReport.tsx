@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { Bar } from 'react-chartjs-2';
+import React, { useEffect, useState } from "react";
+import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -8,13 +8,13 @@ import {
   Title,
   Tooltip,
   Legend,
-} from 'chart.js';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faBarChart, faNoteSticky } from '@fortawesome/free-solid-svg-icons';
-import { ProjectType, ReportAssigneeType } from '@/types/project.type';
-import { reportByAssignee } from '@/api/project.api';
-import { API_CODE } from '@/enums/api.enum';
-import { ColumnChartType } from '@/types/base.type';
+} from "chart.js";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faBarChart, faNoteSticky } from "@fortawesome/free-solid-svg-icons";
+import { ProjectType, ReportAssigneeType } from "@/types/project.type";
+import { reportByAssignee } from "@/api/project.api";
+import { API_CODE } from "@/enums/api.enum";
+import { ColumnChartType } from "@/types/base.type";
 
 ChartJS.register(
   CategoryScale,
@@ -44,10 +44,10 @@ const ProjectMemberReport: React.FC<ProjectMemberReportProps> = ({ project }) =>
               {
                 data: response.data.map(value => value.total_tasks),
                 backgroundColor: [
-                  '#cfe2ff'
+                  "#cfe2ff"
                 ],
                 borderColor: [
-                  '#6ea8fe',
+                  "#6ea8fe",
                 ],
                 borderWidth: 1,
               }
@@ -71,22 +71,22 @@ const ProjectMemberReport: React.FC<ProjectMemberReportProps> = ({ project }) =>
 
   return (
     <div className="row">
-      <div className='col-12 mb-2'>
+      <div className="col-12 mb-2">
         <hr/>
-        <h5 className='text-secondary'><FontAwesomeIcon icon={faBarChart} /> Task reporting {chartData.labels.length > 1 ? 'chart' : ''} by members</h5>
+        <h5 className="text-secondary"><FontAwesomeIcon icon={faBarChart} /> Task reporting {chartData.labels.length > 1 ? "chart" : ""} by members</h5>
       </div>
       {
         chartData.labels.length > 1 &&
         <div className="col-12">
           <div className="card">
-            <div className='card-body'>
+            <div className="card-body">
               <Bar
                 data={chartData}
                 options={{
                   responsive: true,
                   plugins: {
                     legend: {
-                      position: 'top',
+                      position: "top",
                       display: false
                     }
                   },
@@ -96,10 +96,10 @@ const ProjectMemberReport: React.FC<ProjectMemberReportProps> = ({ project }) =>
           </div>
         </div>
       }
-      <div className='col-12'>
+      <div className="col-12">
         <div className="card">
           <div className="card-body p-10">
-            <table className='table'>
+            <table className="table">
               <thead>
                 <tr>
                   <th scope="col" style={{width: 300}}>Member</th>
@@ -111,16 +111,16 @@ const ProjectMemberReport: React.FC<ProjectMemberReportProps> = ({ project }) =>
                   <tr key={value.id}>
                     <td style={{minWidth: 200}}>
                       <img 
-                        className='img-circle mr-2'
+                        className="img-circle mr-2"
                         width={25}
                         height={25}
-                        src={value.avatar ?? '/img/icon/user-loading.png'} 
-                        onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} 
+                        src={value.avatar ?? "/img/icon/user-loading.png"} 
+                        onError={(e) => e.currentTarget.src = "/img/icon/user-loading.png"} 
                       />
                       {value.first_name} {value.last_name}
                     </td>
                     <td>
-                      <b className='text-secondary'>{value.total_tasks} task</b> - <b className='text-primary'>{value.percent_tasks}%</b>
+                      <b className="text-secondary">{value.total_tasks} task</b> - <b className="text-primary">{value.percent_tasks}%</b>
                     </td>
                   </tr>
                 ))
