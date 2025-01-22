@@ -4,12 +4,13 @@ import { APP_CONFIG } from "@/config/app.config";
 import { API_CODE, API_METHOD_ENUM } from "@/enums/api.enum";
 import { APP_AUTH } from "@/enums/app.enum";
 import { catchError, responseError } from "@/services/base.service";
-import { ResponseWorkspaceType } from "@/types/workspace.type";
 import DocumentView from "@/views/document/DocumentView";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 import React, { use } from "react";
 import '../../../css/pages/document.css';
+import { BaseResponseType } from "@/types/base.type";
+import { WorkspaceType } from "@/types/workspace.type";
 
 interface DocumentPageProps {
   params: {
@@ -34,7 +35,7 @@ const DocumentPage: React.FC<DocumentPageProps> = ({ params }) => {
   );
 }
 
-const fetchWorkspace = async (workspaceId: number): Promise<ResponseWorkspaceType> => {
+const fetchWorkspace = async (workspaceId: number): Promise<BaseResponseType<WorkspaceType>> => {
   try {
     const apiResponse = await fetch(APP_CONFIG.API.URL + APP_CONFIG.API.PREFIX.workspace.url + '/' + workspaceId.toString(), {
       method: API_METHOD_ENUM.GET,

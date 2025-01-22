@@ -2,7 +2,6 @@ import MainLayout from "@/app/main";
 import ErrorPage from "@/common/layouts/ErrorPage";
 import { APP_CONFIG } from "@/config/app.config";
 import { API_CODE, API_METHOD_ENUM } from "@/enums/api.enum";
-import { ResponseProjectItemType } from "@/types/project.type";
 import TaskPageView from "@/views/task/TaskPageView";
 import { cookies } from "next/headers";
 import React, { Suspense, use } from "react";
@@ -10,6 +9,8 @@ import '../../../../css/pages/task.css';
 import { catchError, responseError } from "@/services/base.service";
 import { Metadata } from "next";
 import { APP_AUTH } from "@/enums/app.enum";
+import { BaseResponseType } from "@/types/base.type";
+import { ProjectType } from "@/types/project.type";
 
 interface ProjectBoardProps {
   params: {
@@ -36,7 +37,7 @@ const ProjectBoard: React.FC<ProjectBoardProps> = ({ params }) => {
   </MainLayout>
 }
 
-const fetchProject = async (workspaceId: number, projectId: number): Promise<ResponseProjectItemType> => {
+const fetchProject = async (workspaceId: number, projectId: number): Promise<BaseResponseType<ProjectType>> => {
   try {
     const apiResponse = await fetch(APP_CONFIG.API.URL + APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId.toString() + '/' + projectId.toString(), {
       method: API_METHOD_ENUM.GET,

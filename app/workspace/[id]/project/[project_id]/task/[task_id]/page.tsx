@@ -4,12 +4,13 @@ import { APP_CONFIG } from "@/config/app.config";
 import { API_CODE, API_METHOD_ENUM } from "@/enums/api.enum";
 import { APP_AUTH } from "@/enums/app.enum";
 import { catchError, responseError } from "@/services/base.service";
-import { ResponseTaskType } from "@/types/task.type";
 import TaskDetailView from "@/views/task/detail/TaskDetailView";
 import { Metadata } from "next";
 import { cookies } from "next/headers";
 import React, { use } from "react";
 import '../../../../../../css/pages/task_detail.css';
+import { BaseResponseType } from "@/types/base.type";
+import { TaskType } from "@/types/task.type";
 
 interface TaskDetailPageProps {
   params: {
@@ -38,7 +39,7 @@ const fetchTask = async (
   workspaceId: number, 
   projectId: number, 
   taskId: number
-): Promise<ResponseTaskType> => {
+): Promise<BaseResponseType<TaskType>> => {
   try {
     const apiResponse = await fetch(
       APP_CONFIG.API.URL + APP_CONFIG.API.PREFIX.task.url + '/' + workspaceId.toString() + '/' + projectId.toString() + '/' + taskId.toString(), {

@@ -3,13 +3,14 @@ import MainLayout from "@/app/main";
 import ErrorPage from "@/common/layouts/ErrorPage";
 import { APP_CONFIG } from "@/config/app.config";
 import { API_CODE, API_METHOD_ENUM } from "@/enums/api.enum";
-import { ResponseWorkspaceType } from "@/types/workspace.type";
 import { cookies } from "next/headers";
 import React, { use } from "react";
 import '../../../css/pages/project.css';
 import { catchError, responseError } from "@/services/base.service";
 import { Metadata } from "next";
 import { APP_AUTH } from "@/enums/app.enum";
+import { BaseResponseType } from "@/types/base.type";
+import { WorkspaceType } from "@/types/workspace.type";
 
 interface ProjectPageProps {
   params: {
@@ -33,7 +34,7 @@ const ProjectPage: React.FC<ProjectPageProps> = ({ params }) => {
   </MainLayout>
 }
 
-const fetchWorkspace = async (workspaceId: number): Promise<ResponseWorkspaceType> => {
+const fetchWorkspace = async (workspaceId: number): Promise<BaseResponseType<WorkspaceType>> => {
   try {
     const apiResponse = await fetch(APP_CONFIG.API.URL + APP_CONFIG.API.PREFIX.workspace.url + '/' + workspaceId.toString(), {
       method: API_METHOD_ENUM.GET,
