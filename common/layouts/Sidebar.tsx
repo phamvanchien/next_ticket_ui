@@ -140,7 +140,7 @@ const Sidebar: React.FC<SidebarProps> = ({ workspace }) => {
           <ul className="nav nav-pills nav-sidebar flex-column">
             {
               sidebarData.filter(s => s.show === true).map((sidebar, index) => (
-                <li className={`nav-item sidebar-item ${(index + 1 < sidebarData.length) ? 'mt-2' : ''}`} key={index} style={ (index + 1 === sidebarData.length) ? {marginTop: 590} : undefined }>
+                <li className={`nav-item sidebar-item ${(index + 1 < sidebarData.length) ? 'mt-2' : ''}`} key={index}>
                   <Link 
                     href={sidebar.link ?? ''} 
                     className={`nav-link ${(menuRedux.sidebar === sidebar.link || (sidebar.link && window.location.href.indexOf(sidebar.link ?? '') !== -1)) ? 'active' : ''}`} 
