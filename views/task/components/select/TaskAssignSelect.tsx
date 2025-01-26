@@ -2,6 +2,7 @@ import { membersList } from "@/api/project.api";
 import { members } from "@/api/workspace.api";
 import Input from "@/common/components/Input";
 import { API_CODE } from "@/enums/api.enum";
+import { IMAGE_DEFAULT } from "@/enums/app.enum";
 import { RootState } from "@/reduxs/store.redux";
 import { catchError } from "@/services/base.service";
 import { AppErrorType, BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
@@ -107,13 +108,13 @@ const TaskAssignSelect: React.FC<TaskAssignSelectProps> = ({ assignee, project, 
         {
           assignee.length === 0 &&
           <span className="badge badge-light mr-2">
-            <img className="img-circle" onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} src={'/img/icon/user-loading.png'} width={25} height={25} /> Empty 
+            <img className="img-circle" onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} src={IMAGE_DEFAULT.NO_USER} width={25} height={25} /> Empty 
           </span>
         }
         {
           assignee.map((member, index) => (
             <span className="badge badge-light mr-2" key={index}>
-              <img className="img-circle" onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} src={member.avatar ?? '/img/icon/user-loading.png'} width={25} height={25} /> Chien 
+              <img className="img-circle" onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} src={member.avatar ?? IMAGE_DEFAULT.NO_USER} width={25} height={25} /> Chien 
               <FontAwesomeIcon icon={faTimes} className="mt-2 ml-2 text-secondary" onClick={() => handleRemoveAssignee (member)} />
             </span>
           ))
@@ -129,7 +130,7 @@ const TaskAssignSelect: React.FC<TaskAssignSelectProps> = ({ assignee, project, 
                 !assignee.find(a => a.id === project.user.id) &&
                 <li className="list-group-item border-unset p-unset" onClick={() => handleSelectAssignee (project.user)}>
                   <span className="badge badge-default w-100 text-left">
-                    <img className="img-circle" src={project.user.avatar ?? '/img/icon/user-loading.png'} onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} width={25} height={25} /> {project.user.first_name} {project.user.last_name} (Project owner)
+                    <img className="img-circle" src={project.user.avatar ?? IMAGE_DEFAULT.NO_USER} onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} width={25} height={25} /> {project.user.first_name} {project.user.last_name} (Project owner)
                   </span>
                 </li>
               }
@@ -137,7 +138,7 @@ const TaskAssignSelect: React.FC<TaskAssignSelectProps> = ({ assignee, project, 
                 membersData && membersData.items.filter(m => !assignee.map(a => a.id).includes(m.id)).map((member, index) => (
                   <li className="list-group-item border-unset p-unset" key={index} onClick={() => handleSelectAssignee (member)}>
                     <span className="badge badge-default w-100 text-left">
-                      <img className="img-circle" src={member.avatar ?? '/img/icon/user-loading.png'} onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} width={25} height={25} /> {member.first_name} {member.last_name}
+                      <img className="img-circle" src={member.avatar ?? IMAGE_DEFAULT.NO_USER} onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} width={25} height={25} /> {member.first_name} {member.last_name}
                     </span>
                   </li>
                 ))

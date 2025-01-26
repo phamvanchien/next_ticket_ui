@@ -15,6 +15,7 @@ import { ProjectType, ReportAssigneeType } from "@/types/project.type";
 import { reportByAssignee } from "@/api/project.api";
 import { API_CODE } from "@/enums/api.enum";
 import { ColumnChartType } from "@/types/base.type";
+import { IMAGE_DEFAULT } from "@/enums/app.enum";
 
 ChartJS.register(
   CategoryScale,
@@ -114,8 +115,8 @@ const ProjectMemberReport: React.FC<ProjectMemberReportProps> = ({ project }) =>
                         className="img-circle mr-2"
                         width={25}
                         height={25}
-                        src={value.avatar ?? "/img/icon/user-loading.png"} 
-                        onError={(e) => e.currentTarget.src = "/img/icon/user-loading.png"} 
+                        src={value.avatar ?? IMAGE_DEFAULT.NO_USER} 
+                        onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} 
                       />
                       {value.first_name} {value.last_name}
                     </td>

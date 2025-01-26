@@ -1,5 +1,6 @@
 import { reportByPriority, reportByStatus, reportByTag, reportByType } from "@/api/project.api";
 import Button from "@/common/components/Button";
+import Loading from "@/common/components/Loading";
 import { API_CODE } from "@/enums/api.enum";
 import { PieChartType } from "@/types/base.type";
 import { ProjectType, ReportStatusType } from "@/types/project.type";
@@ -137,31 +138,31 @@ const ProjectStatusReport: React.FC<ProjectStatusReportProps> = ({ project }) =>
         <div className="col-6 col-lg-4">
           <div className="card">
             <div className="card-body text-center">
-              <PieChart
-                className="pie-chart-report"
-                data={chartData}
-                label={({ dataEntry }) => `${dataEntry.title} (${dataEntry.value}%)`}
-                labelStyle={{
-                  fontSize: "3px",
-                  fontFamily: "sans-serif",
-                  fill: "#fff",
-                }}
-                labelPosition={75}
-              />
+              {
+                chartData ?
+                  <PieChart
+                    className="pie-chart-report"
+                    data={chartData}
+                    label={({ dataEntry }) => `${dataEntry.title} (${dataEntry.value}%)`}
+                    labelStyle={{
+                      fontSize: "3px",
+                      fontFamily: "sans-serif",
+                      fill: "#fff",
+                    }}
+                    labelPosition={75}
+                  /> : 
+                  <center><Loading color="primary" /></center>
+              }
             </div>
           </div>
         </div>
       }
       <div className="col-6 col-lg-8">
-        <div className="card">
-          <div className="card-body p-10">
-            {
-              reportData && reportData.map(value => (
-                <p key={value.id}><FontAwesomeIcon icon={faSquare} style={{ color: value.color}} /> {value.name}: <b>{value.total_tasks}</b></p>
-              ))
-            }
-          </div>
-        </div>
+        {
+          reportData && reportData.map(value => (
+            <p key={value.id}><FontAwesomeIcon icon={faSquare} style={{ color: value.color}} /> {value.name}: <b>{value.total_tasks}</b></p>
+          ))
+        }
       </div>
     </div>
   )

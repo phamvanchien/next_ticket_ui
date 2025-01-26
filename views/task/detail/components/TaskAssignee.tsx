@@ -12,6 +12,7 @@ import Input from "@/common/components/Input";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { ProjectType } from "@/types/project.type";
+import { IMAGE_DEFAULT } from "@/enums/app.enum";
 
 interface TaskAssigneeProps {
   project: ProjectType
@@ -119,7 +120,7 @@ const TaskAssignee: React.FC<TaskAssigneeProps> = ({
               {
                 assignee.map(item => (
                   <span className="badge badge-default float-left mr-2" key={item.id} onClick={() => setOpenMemberList (true)}>
-                    <img src={item.avatar} width={25} height={25} className="img-circle mr-2" onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} />
+                    <img src={item.avatar ?? IMAGE_DEFAULT.NO_USER} width={25} height={25} className="img-circle mr-2" onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} />
                     {item.first_name} {item.last_name} <FontAwesomeIcon icon={faTimesCircle} onClick={() => handleRemoveAssignee (item)} />
                   </span>
                 ))
@@ -134,14 +135,14 @@ const TaskAssignee: React.FC<TaskAssigneeProps> = ({
             {
               !assignee.find(a => a.id === project.user.id) &&
               <li className="list-group-item p-10 assignee-item" style={{ cursor: 'pointer' }} onClick={() => handleSelectAssignee (project.user)}>
-                {project.user.avatar ? <img src={project.user.avatar} width={22} height={22} className="img-circle mr-2" onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} /> : <FontAwesomeIcon icon={faUserCircle} className="mr-2" style={{fontSize: 22}} />} 
+                {project.user.avatar ? <img src={project.user.avatar ?? IMAGE_DEFAULT.NO_USER} width={22} height={22} className="img-circle mr-2" onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} /> : <FontAwesomeIcon icon={faUserCircle} className="mr-2" style={{fontSize: 22}} />} 
                 {project.user.first_name} {project.user.last_name} (Project owner)
               </li>
             }
             {
               membersData && membersData.items.filter(m => !assignee.map(a => a.id).includes(m.id)).map(member => (
                 <li key={member.id} className={`list-group-item p-10 ${!openMemberList ? 'border-unset' : ''}`} onClick={() => handleSelectAssignee (member)}>
-                  <img src={member.avatar} width={25} height={25} className="img-circle" onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} /> {member.first_name} {member.last_name}
+                  <img src={member.avatar ?? IMAGE_DEFAULT.NO_USER} width={25} height={25} className="img-circle" onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} /> {member.first_name} {member.last_name}
                 </li>
               ))
             }

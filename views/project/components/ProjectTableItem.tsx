@@ -16,7 +16,7 @@ import { useSelector } from "react-redux";
 import RemoveProjectModal from "./RemoveProjectModal";
 import AddMemberModal from "./AddMemberModal";
 import { useRouter } from "next/navigation";
-import { APP_LINK } from "@/enums/app.enum";
+import { APP_LINK, IMAGE_DEFAULT } from "@/enums/app.enum";
 
 interface ProjectTableItemProps {
   project: ProjectType
@@ -124,7 +124,7 @@ const ProjectTableItem: React.FC<ProjectTableItemProps> = ({ project, loadProjec
             {
               project.members.map(member => (
                 <li className="list-inline-item" key={member.id} title={member.email} onClick={() => router.push(APP_LINK.PROFILE + '/' + member.id)}>
-                  <img className="img-circle table-avatar" width={30} height={30} src={member.avatar ?? '/img/icon/user-loading.png'} onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} />
+                  <img className="img-circle table-avatar" width={30} height={30} src={member.avatar ?? IMAGE_DEFAULT.NO_USER} onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} />
                 </li>
               ))
             }

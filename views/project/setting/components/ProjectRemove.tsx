@@ -113,13 +113,11 @@ const ProjectRemove: React.FC<ProjectRemoveProps> = ({ projectId, projectName })
               </div>
             }
           </div>
-          <div className="col-6">
-            <Button color="danger" fullWidth onClick={handleDeleteProject} disabled={loadingDelete}>
-              OK {loadingDelete && <Loading color="light" />}
+          <div className="col-12 mt-2">
+            <Button color="primary" className="float-right" onClick={handleDeleteProject} disabled={loadingDelete}>
+              Delete {loadingDelete && <Loading color="light" />}
             </Button>
-          </div>
-          <div className="col-6">
-            <Button color="danger" fullWidth outline disabled={loadingDelete} onClick={() => setConfirmDelete (false)}>
+            <Button color="secondary" className="float-right btn-no-border mr-2" outline disabled={loadingDelete} onClick={() => setConfirmDelete (false)}>
               Cancel
             </Button>
           </div>

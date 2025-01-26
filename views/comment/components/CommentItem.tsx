@@ -3,7 +3,7 @@ import Button from "@/common/components/Button";
 import EditorArea from "@/common/components/EditorArea";
 import Loading from "@/common/components/Loading";
 import { API_CODE } from "@/enums/api.enum";
-import { APP_LINK } from "@/enums/app.enum";
+import { APP_LINK, IMAGE_DEFAULT } from "@/enums/app.enum";
 import { RootState } from "@/reduxs/store.redux";
 import { catchError } from "@/services/base.service";
 import { BaseResponseType } from "@/types/base.type";
@@ -75,14 +75,14 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
   return (
     <div className="col-12" key={comment.id}>
       <img 
-        src={comment.user.avatar ?? '/img/icon/user-loading.png'} 
+        src={comment.user.avatar ?? IMAGE_DEFAULT.NO_USER} 
         width={25} height={25} 
         className="img-circle float-left mr-2" 
-        onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} 
+        onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} 
         onClick={() => router.push(APP_LINK.PROFILE + '/' + (userLogged?.id === comment.user.id ? '' : comment.user.id))} 
       />
       <span className="text-muted" style={{cursor: 'pointer'}} onClick={() => router.push(APP_LINK.PROFILE + '/' + (userLogged?.id === comment.user.id ? '' : comment.user.id))}>
-        <b>{comment.user.first_name} {comment.user.last_name}</b> <span style={{ fontSize: 12 }}>{formatTime(new Date(comment.created_at))}</span>
+        <b>{comment.user.first_name} {comment.user.last_name}</b> <span className="float-right" style={{ fontSize: 12 }}>{formatTime(new Date(comment.created_at))}</span>
       </span>
       <div className="card mt-2">
         <div 
@@ -91,7 +91,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
           {edit ? <>
             <EditorArea value={contentEdit} setValue={setContentEdit} placeholder="Description about your task..." />
             <Button color="secondary" outline className="float-right mt-2" onClick={handleCancelEdit} disabled={loadingUpdate}>Cancel</Button>
-            <Button color="secondary" className="float-right mr-2 mt-2" disabled={loadingUpdate || (contentEdit.length === content.length)} onClick={() => handleUpdateComment ({content: contentEdit})}>
+            <Button color="primary" className="float-right mr-2 mt-2" disabled={loadingUpdate || (contentEdit.length === content.length)} onClick={() => handleUpdateComment ({content: contentEdit})}>
               {loadingUpdate ? <Loading color="light" /> : 'Save'}
             </Button>
           </> : (
@@ -102,7 +102,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
                   <FontAwesomeIcon icon={faTrash} className="text-muted" style={{ fontSize: 14, cursor: 'pointer' }} onClick={() => handleUpdateComment ({deleted: 1}, callbackDeleteComment)} />
                 </>
               }
-              <p className={deleted ? 'text-muted m-unset' : ''} dangerouslySetInnerHTML={{ __html: (readMore || content.length < maxContentSize) ? content : content.substring(0, maxContentSize) + '...' }}></p>
+              <p className={deleted ? 'text-muted m-unset' : 'm-unset'} dangerouslySetInnerHTML={{ __html: (readMore || content.length < maxContentSize) ? content : content.substring(0, maxContentSize) + '...' }}></p>
             </>
           )}
           {

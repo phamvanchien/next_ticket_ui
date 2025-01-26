@@ -150,18 +150,16 @@ const ProjectMemberSetting: React.FC<ProjectMemberSettingProps> = ({ project }) 
     <Modal className="clone-modal" isOpen={memberDelete ? true : false}>
       <ModalBody>
         <div className="row">
-          <div className="col-12 mb-2">
+          <div className="col-12 mb-2 mt-2">
             <h6 className="text-muted">
-             You will remove {memberDelete?.first_name} {memberDelete?.last_name} from this project.
+             You will delete {memberDelete?.first_name} {memberDelete?.last_name} from this project.
             </h6>
           </div>
-          <div className="col-6">
-            <Button color="danger" fullWidth onClick={handleDeleteMember} disabled={loadingDelete}>
-              OK {loadingDelete && <Loading color="light" />}
+          <div className="col-12 mb-2">
+            <Button color="primary" className="float-right" onClick={handleDeleteMember} disabled={loadingDelete}>
+              Delete {loadingDelete && <Loading color="light" />}
             </Button>
-          </div>
-          <div className="col-6">
-            <Button color="danger" fullWidth outline disabled={loadingDelete} onClick={() => setMemberDelete (undefined)}>
+            <Button color="secondary" className="btn-no-border float-right mr-2" outline disabled={loadingDelete} onClick={() => setMemberDelete (undefined)}>
               Cancel
             </Button>
           </div>

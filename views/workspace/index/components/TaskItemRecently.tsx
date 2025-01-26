@@ -1,4 +1,4 @@
-import { APP_LINK } from "@/enums/app.enum";
+import { APP_LINK, IMAGE_DEFAULT } from "@/enums/app.enum";
 import { TaskType } from "@/types/task.type";
 import { dateToString } from "@/utils/helper.util";
 import { getIconPriority, getTypeClass, getTypeIcon } from "@/views/task/components/board/grib/TaskItem";
@@ -29,7 +29,7 @@ const TaskItemRecently: React.FC<TaskItemRecentlyProps> = ({ task }) => {
         </h6>
         <div>
           <p className="text-secondary task-due">Due: {dateToString(new Date(task.due))}</p>
-          <img src={task.user.avatar ?? '/img/icon/user-loading.png'} className="img-circle mr-2" width={25} height={25} onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} />
+          <img src={task.user.avatar ?? IMAGE_DEFAULT.NO_USER} className="img-circle mr-2" width={25} height={25} onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} />
           <span className="text-muted created-by">{task.user.first_name} {task.user.last_name}</span>
           <p className="mt-4">
             {getIconPriority(task.priority.id)}

@@ -7,6 +7,7 @@ import TaskHistoryItem from "./TaskHistoryItem";
 import Link from "next/link";
 import Loading from "@/common/components/Loading";
 import { ResponseWithPaginationType } from "@/types/base.type";
+import { IMAGE_DEFAULT } from "@/enums/app.enum";
 
 interface TaskHistoryProps {
   historyData?: ResponseWithPaginationType<HistoryType[]>
@@ -22,13 +23,13 @@ const TaskHistory: React.FC<TaskHistoryProps> = ({ historyData, task, loadingVie
       historyData && historyData.items.map((history, index) => (
         <div className="col-12" key={index}>
           <img 
-            src={history.user.avatar ?? '/img/icon/user-loading.png'} 
-            onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'}  
+            src={history.user.avatar ?? IMAGE_DEFAULT.NO_USER} 
+            onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER}  
             width={25} 
             height={25} 
             className="img-circle"
           /> {history.user.first_name} {history.user.last_name} 
-          <span className="text-muted float-right">- {formatTime(new Date(history.created_at))}</span>
+          <span className="text-muted float-right history-item-time">- {formatTime(new Date(history.created_at))}</span>
             {
               history.content.map((value, index) => (
                 <TaskHistoryItem history={value} key={index} />
@@ -49,13 +50,13 @@ const TaskHistory: React.FC<TaskHistoryProps> = ({ historyData, task, loadingVie
       (historyData && pageSize >= historyData.total) &&
       <div className="col-12">
         <img 
-          src={task.user.avatar ?? '/img/icon/user-loading.png'} 
-          onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'}  
+          src={task.user.avatar ?? IMAGE_DEFAULT.NO_USER} 
+          onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER}  
           width={25} 
           height={25}
           className="img-circle"
         /> {task.user.first_name} {task.user.last_name} 
-        <span className="text-muted float-right">- {formatTime(new Date(task.created_at))}</span>
+        <span className="text-muted float-right history-item-time">- {formatTime(new Date(task.created_at))}</span>
         <div className="card mt-2">
           <div className="card-body p-5">
             Created task

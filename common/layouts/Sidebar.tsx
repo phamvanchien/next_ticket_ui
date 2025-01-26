@@ -1,5 +1,5 @@
 "use client"
-import { APP_AUTH, APP_LINK } from "@/enums/app.enum";
+import { APP_AUTH, APP_LINK, IMAGE_DEFAULT } from "@/enums/app.enum";
 import { setSidebarSelected } from "@/reduxs/menu.redux";
 import { RootState, useAppDispatch } from "@/reduxs/store.redux";
 import { setUser } from "@/reduxs/user.redux";
@@ -131,7 +131,7 @@ const Sidebar: React.FC<SidebarProps> = ({ workspace }) => {
           width={35} 
           height={35} 
           className="img-circle mr-2" 
-          onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} 
+          onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} 
         /> 
         {workspace && (workspace?.name.length > 12 ? workspace?.name.substring(0, 12) + '...' : workspace?.name)}
       </Link>

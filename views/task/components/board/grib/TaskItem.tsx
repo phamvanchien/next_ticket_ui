@@ -6,7 +6,7 @@ import { ProjectType } from "@/types/project.type";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown, faArrowUp, faBug, faCheckSquare, faClone, faEquals, faExclamationCircle, faLineChart, faPlusSquare } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
-import { APP_LINK, APP_LOCALSTORAGE } from "@/enums/app.enum";
+import { APP_LINK, APP_LOCALSTORAGE, IMAGE_DEFAULT } from "@/enums/app.enum";
 import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
 import { useRouter } from "next/navigation";
@@ -114,7 +114,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, statusKey, draggingTask, proj
           </h6>
           <div onClick={() => setOpenEdit(true)}>
             <p className="text-secondary task-due">Due: {dateToString(new Date(taskData.due))}</p>
-            <img src={taskData.user.avatar} className="img-circle mr-2" width={25} height={25} onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} />
+            <img src={taskData.user.avatar ?? IMAGE_DEFAULT.NO_USER} className="img-circle mr-2" width={25} height={25} onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} />
             <span className="text-muted created-by">{taskData.user.first_name} {taskData.user.last_name}</span>
             <p className="mt-4">
               {getIconPriority(taskData.priority.id)}

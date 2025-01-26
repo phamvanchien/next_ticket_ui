@@ -58,11 +58,10 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
   const [confirmClone, setConfirmClone] = useState(false);
   const [confirmDelete, setConfirmDelete] = useState(false);
   const titleRef = useRef<HTMLInputElement>(null);
+  const colTitleRef = useRef<HTMLDivElement>(null);
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
   const router = useRouter();
-  const cloneModalId = "cloneModal";
-  const deleteModalId = "deleteModal";
   const handleUpdateTask = async () => {
     try {
       if (!workspace || !title || title === '' || !dueDate || !status || !type || !priority) {
@@ -174,7 +173,7 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
   }, [priority, status, type, assignee, tags, dueDate, description, title]);
   useEffect(() => {
     const handleClickOutside = async (event: any) => {
-      if (titleRef.current && !titleRef.current.contains(event.target as Node)) {
+      if (colTitleRef.current && !colTitleRef.current.contains(event.target as Node)) {
         setOpenUpdateTitle(false);
       }
     };
@@ -198,26 +197,29 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
           <FontAwesomeIcon icon={faAngleDoubleLeft} /> Back to board
         </Link>
       </div>
-      <div className="col-12 mb-2">
+      <div className="col-12 mb-2" ref={colTitleRef}>
+        {!openUpdateTitle && <h4 className="mt-2" onClick={() => setOpenUpdateTitle (true)}>{title}</h4>}
+        {
+          openUpdateTitle &&
+          <Input 
+            type="text" 
+            defaultValue={title} 
+            className="input-title" 
+            readOnly={openUpdateTitle ? false : true} 
+            ref={titleRef}
+          />
+        }
         {
           openUpdateTitle &&
           <>
-          <Button color="secondary" outline className="float-left mt-2 mr-2" onClick={() => setOpenUpdateTitle (false)}>
+          <Button color="secondary" outline className="float-left mr-2" onClick={() => setOpenUpdateTitle (false)}>
             <FontAwesomeIcon icon={faTimes} />
           </Button>
-          <Button color="primary" className="float-left mt-2" onClick={handleSaveTitle}>
+          <Button color="primary" className="float-left" outline onClick={handleSaveTitle}>
             <FontAwesomeIcon icon={faCheck} />
           </Button>
           </>
         }
-        <Input 
-          type="text" 
-          defaultValue={task.title} 
-          className="input-title" 
-          readOnly={openUpdateTitle ? false : true} 
-          ref={titleRef}
-          onClick={() => setOpenUpdateTitle (true)} 
-        />
       </div>
       <div className="col-12 mb-2">
         <Dropdown title="Action" className="float-left">
@@ -232,11 +234,11 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
           }
         </Dropdown>
       </div>
-      <div className="col-lg-5 col-12">
+      <div className="col-lg-4 col-12">
         <div className="card">
           <div className="card-header p-10">
             <div className="card-title">
-              <h6 className="text-secondary">Details:</h6>
+              <h6 className="text-secondary m-unset">Details:</h6>
             </div>
           </div>
           <div className="card-body p-10 text-secondary">
@@ -278,14 +280,9 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
           </div>
         </div>
         <div className="card">
-          <div className="card-body p-10 text-secondary">
-            <SubTask task={task} />
-          </div>
-        </div>
-        <div className="card">
           <div className="card-header p-10 text-secondary">
             <div className="card-title">
-              <h6 className="text-secondary">History:</h6>
+              <h6 className="text-secondary m-unset">History:</h6>
             </div>
             {
               openHistory ? 
@@ -308,7 +305,12 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
           }
         </div>
       </div>
-      <div className="col-lg-7 col-12">
+      <div className="col-lg-8 col-12">
+        <div className="card mb-4">
+          <div className="card-body p-10 text-secondary">
+            <SubTask task={task} />
+          </div>
+        </div>
         <TaskDescription description={description} setDescription={setDescription} />
         <CommentView task={task} />
       </div>

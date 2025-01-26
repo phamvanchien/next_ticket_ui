@@ -42,6 +42,11 @@ export interface AppConfigType {
       },
       document: {
         url: string
+      },
+      post: {
+        url: string
+        category: string
+        top: string
       }
     }
   }

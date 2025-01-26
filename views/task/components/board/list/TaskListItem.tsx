@@ -8,7 +8,7 @@ import CreateTaskView from "@/views/task/create/CreateTaskView";
 import SelectStatusModal from "./SelectStatusModal";
 import { getIconPriority, getTypeClass, getTypeIcon } from "../grib/TaskItem";
 import Link from "next/link";
-import { APP_LINK, APP_LOCALSTORAGE } from "@/enums/app.enum";
+import { APP_LINK, APP_LOCALSTORAGE, IMAGE_DEFAULT } from "@/enums/app.enum";
 import { useRouter } from "next/navigation";
 import TaskListLoading from "./TaskListLoading";
 import { ResponseWithPaginationType } from "@/types/base.type";
@@ -79,7 +79,7 @@ const TaskListItem: React.FC<TaskListItemProps> = ({ task, index, project, statu
         </div>
       </td>
       <td style={{minWidth: 150}}>
-        <img src={taskData.user.avatar} className="img-circle mr-2" width={25} height={25} onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} />
+        <img src={taskData.user.avatar ?? IMAGE_DEFAULT.NO_USER} className="img-circle mr-2" width={25} height={25} onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} />
         <span className="text-muted created-by">{taskData.user.first_name} {taskData.user.last_name}</span>
       </td>
       <td style={{minWidth: 150}} className="text-secondary">Due: {dateToString(new Date(taskData.due))}</td>

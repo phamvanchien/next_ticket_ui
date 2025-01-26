@@ -133,7 +133,8 @@ input {
 }
 
 .modal-header, .modal-body {
-    padding: 10px !important;
+    padding: 20px !important;
+    padding-bottom: unset !important;
 }
 
 .modal-header {

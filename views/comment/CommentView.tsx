@@ -15,6 +15,7 @@ import { useSelector } from "react-redux";
 import CommentItem from "./components/CommentItem";
 import ErrorAlert from "@/common/components/ErrorAlert";
 import { CommentType } from "@/types/comment.type";
+import { IMAGE_DEFAULT } from "@/enums/app.enum";
 
 interface CommentViewProps {
   task: TaskType
@@ -90,13 +91,13 @@ const CommentView: React.FC<CommentViewProps> = ({ task }) => {
       {
         createForm ? <>
           <div className="col-12 mb-2">
-            <img src={userLogged?.avatar ?? '/img/icon/user-loading.png'} width={25} height={25} className="img-circle float-left mr-2" onError={(e) => e.currentTarget.src = '/img/icon/user-loading.png'} />
+            <img src={userLogged?.avatar ?? IMAGE_DEFAULT.NO_USER} width={25} height={25} className="img-circle float-left mr-2" onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} />
             <span className="text-muted">
               Write a new comment <FontAwesomeIcon icon={faPencil} />
             </span>
           </div>
           <div className="col-12 mb-2">
-            <EditorArea placeholder="Enter your content" value={content} setValue={setContent} />
+            <EditorArea placeholder="Enter your comment" value={content} setValue={setContent} />
           </div>
           <div className="col-12">
             <Button color="primary" className="float-right ml-2" onClick={handleSubmitComment} disabled={loading}>
@@ -115,12 +116,18 @@ const CommentView: React.FC<CommentViewProps> = ({ task }) => {
     </div>
     <div className="row mt-4 mb-4">
       {
-        commentData && commentData.items.map(comment => (
+        loading &&
+        <div className="col-12 text-center">
+          <Loading color="primary" size={30} />
+        </div>
+      }
+      {
+        (!loading && commentData) && commentData.items.map(comment => (
           <CommentItem key={comment.id} comment={comment} />
         ))
       }
       {
-        (commentData && commentData.total > pageSize) &&
+        (!loading && commentData && commentData.total > pageSize) &&
         <div className="col-12">
           <Link href={'#'} className="text-secondary" style={{ cursor: 'pointer' }} onClick={!loadingViewMore ? handleViewMore : undefined}>
             View more {loading ? <Loading color="secondary" /> : <FontAwesomeIcon icon={faAngleDoubleDown} />}

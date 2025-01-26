@@ -1,5 +1,5 @@
 "use client"
-import { APP_AUTH } from "@/enums/app.enum";
+import { APP_AUTH, IMAGE_DEFAULT } from "@/enums/app.enum";
 import { RootState, useAppDispatch } from "@/reduxs/store.redux";
 import { setUser } from "@/reduxs/user.redux";
 import { getCookie, setCookie } from "@/utils/cookie.util";
@@ -29,7 +29,7 @@ const HeaderProfile = () => {
           <div className="widget-user-image user-avatar-header">
             <img 
               className="img-circle elevation-2" 
-              src={loading ? '/img/icon/user-loading.png' : ((userLogged && userLogged.avatar) ? userLogged.avatar : '/img/unnamed.png')}
+              src={loading ? IMAGE_DEFAULT.NO_USER : ((userLogged && userLogged.avatar) ? userLogged.avatar : '/img/unnamed.png')}
               width={40} height={40} 
               alt="User Avatar" 
             />

@@ -6,7 +6,7 @@ interface ModalBodyProps {
 
 const ModalBody: React.FC<ModalBodyProps> = ({ children }) => {
   return (
-    <div className="modal-body">
+    <div className="modal-body p-20">
       {children}
     </div>
   )
