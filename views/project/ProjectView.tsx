@@ -1,12 +1,10 @@
 "use client"
 import Button from "@/common/components/Button";
 import Input from "@/common/components/Input";
-import { faAngleDoubleDown, faBullseye, faEnvelope, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDoubleDown, faBullseye, faCircleCheck, faEnvelope, faPlus, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CreateProjectModal from "./components/CreateProjectModal";
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from "react";
-import ProjectTableHead from "./components/ProjectTableHead";
-import ProjectTableItem from "./components/ProjectTableItem";
 import { AppErrorType, BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import { catchError } from "@/services/base.service";
 import { projects } from "@/api/project.api";
@@ -16,6 +14,9 @@ import ProjectInvitationModal from "./components/ProjectInvitationModal";
 import { WorkspaceType } from "@/types/workspace.type";
 import Loading from "@/common/components/Loading";
 import { ProjectType } from "@/types/project.type";
+import Link from "next/link";
+import { IMAGE_DEFAULT } from "@/enums/app.enum";
+import ProjectItem from "./components/ProjectItem";
 
 interface ProjectViewProps {
   workspace: WorkspaceType
@@ -80,7 +81,7 @@ const ProjectView: React.FC<ProjectViewProps> = ({ workspace }) => {
   return <>
     <div className="row">
       <div className="col-12">
-          <h3><FontAwesomeIcon icon={faBullseye} className="text-primary" /> Projects</h3>
+        <h3><FontAwesomeIcon icon={faBullseye} className="text-primary" /> Projects</h3>
       </div>
     </div>
     <div className="row mt-4">
@@ -99,47 +100,26 @@ const ProjectView: React.FC<ProjectViewProps> = ({ workspace }) => {
         </div>
       }
     </div>
-    <div className="row">
-      <div className="col-12 col-lg-12">
-        <div className="table-responsive">
-          <table className="table">
-            <ProjectTableHead />
-            <tbody>
-              {
-                loading &&
-                <tr>
-                  <td colSpan={6} className="text-center">
-                    <Loading color="primary" size={40} />
-                  </td>
-                </tr>
-              }
-              {
-                (!loading && projectData && projectData.total > 0) && projectData.items.map(project => (
-                  <ProjectTableItem key={project.id} project={project} loadProjects={loadProjects} />
-                ))
-              }
-              {
-                (!loading && projectData && projectData.total === 0) &&
-                <tr>
-                  <td colSpan={6}>
-                    <h6 className="text-muted text-center">Your projects will be show here</h6>
-                  </td>
-                </tr>
-              }
-              {
-                (!loading && projectData && projectData.total > pageSize) &&
-                <tr>
-                  <td colSpan={6} className="text-left">
-                    <a href="#" className="text-secondary" onClick={handleViewMoreProjects}>
-                      View more <FontAwesomeIcon icon={faAngleDoubleDown} />
-                    </a>
-                  </td>
-                </tr>
-              }
-            </tbody>
-          </table>
+    <div className="row mt-4">
+      {
+        (!loading && projectData && projectData.total > 0) && projectData.items.map(project => (
+          <ProjectItem project={project} key={project.id} />
+        ))
+      }
+      {
+        (!loading && projectData && projectData.total === 0) &&
+        <div className="col-12 text-center">
+          <h6 className="text-muted">Your projects will be show here</h6>
         </div>
-      </div>
+      }
+      {
+        (!loading && projectData && projectData.total > pageSize) &&
+        <div className="col-12 text-center">
+          <a href="#" className="text-secondary" onClick={handleViewMoreProjects}>
+            View more <FontAwesomeIcon icon={faAngleDoubleDown} />
+          </a>
+        </div>
+      }
     </div>
     <ProjectInvitationModal 
       openModal={inviteModal} 

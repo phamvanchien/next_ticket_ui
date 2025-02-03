@@ -32,7 +32,7 @@ const TaskStatusSelect: React.FC<TaskStatusSelectProps> = ({ status, className, 
   }
   const loadStatus = async () => {
     try {
-      if (!workspace || !openStatusList) {
+      if (!workspace) {
         return;
       }
       const response = await statusList(workspace.id, projectId, {
@@ -51,7 +51,7 @@ const TaskStatusSelect: React.FC<TaskStatusSelectProps> = ({ status, className, 
   }
   useEffect(() => {
     loadStatus();
-  }, [workspace, openStatusList, debounceKeyword]);
+  }, [workspace, debounceKeyword]);
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebounceKeyword(keyword);

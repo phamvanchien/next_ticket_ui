@@ -1,4 +1,4 @@
-import { RequestCreateProjectType, RequestUpdateProjectType, RequestCreateTagType, RequestStatusListType, RequestUpdateTagType, ProjectTagType, ProjectType, ProjectInviteType, ReportStatusType, ReportAssigneeType } from "@/types/project.type";
+import { RequestCreateProjectType, RequestUpdateProjectType, RequestCreateTagType, RequestStatusListType, RequestUpdateTagType, ProjectTagType, ProjectType, ProjectInviteType, ReportStatusType, ReportAssigneeType, RequestCloneProjectType } from "@/types/project.type";
 import { request } from "./base.api";
 import { API_METHOD_ENUM } from "@/enums/api.enum";
 import { APP_CONFIG } from "@/config/app.config";
@@ -204,5 +204,13 @@ export const reportByTag = async (workspaceId: number, projectId: number): Promi
   return request({
     method: API_METHOD_ENUM.GET,
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/report-by-tag'
+  });
+}
+
+export const cloneProject = async (workspaceId: number, projectId: number, payload: RequestCloneProjectType): Promise<BaseResponseType> => {
+  return request({
+    method: API_METHOD_ENUM.POST,
+    url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/clone',
+    data: payload
   });
 }

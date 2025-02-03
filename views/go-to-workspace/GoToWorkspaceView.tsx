@@ -15,6 +15,8 @@ import { catchError } from "@/services/base.service";
 import ErrorPage from "@/common/layouts/ErrorPage";
 import Loading from "@/common/components/Loading";
 import { WorkspaceType } from "@/types/workspace.type";
+import LanguageSwitcher from "@/common/components/LanguageSwitcher";
+import { useTranslations } from "next-intl";
 
 const GoToWorkspaceView = () => {
   const router = useRouter();
@@ -70,6 +72,7 @@ const GoToWorkspaceView = () => {
   if (error) {
     return <ErrorPage errorCode={500} />
   }
+  const t = useTranslations();
   return (
     <div className="row">
       <div className="col-12">

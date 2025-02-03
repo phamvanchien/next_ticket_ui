@@ -42,7 +42,7 @@ const TaskTagSelect: React.FC<TaskTagSelectProps> = ({ tags, className, projectI
   }
   const loadTags = async () => {
     try {
-      if (!workspace || !openTagList) {
+      if (!workspace) {
         return;
       }
       const response = await tagsList(workspace.id, projectId, {
@@ -72,7 +72,7 @@ const TaskTagSelect: React.FC<TaskTagSelectProps> = ({ tags, className, projectI
   }, [keyword]);
   useEffect(() => {
     loadTags();
-  }, [workspace, openTagList, debounceKeyword]);
+  }, [workspace, debounceKeyword]);
   useEffect(() => {
     const handleClickOutside = async (event: MouseEvent) => {
       if (listTagsRef.current && !listTagsRef.current.contains(event.target as Node)) {

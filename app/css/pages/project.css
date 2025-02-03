@@ -30,6 +30,17 @@
     width: 50%;
 }
 
+.title-project {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.just-create {
+    border: 1px solid #3d8bfd !important;
+}
+
 @media (max-width: 576px) {
     .input-search {
         border-radius: 20px;

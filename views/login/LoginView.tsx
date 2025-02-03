@@ -9,8 +9,7 @@ import Link from "next/link";
 import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { API_CODE } from "@/enums/api.enum";
 import { catchError, hasError, printError, validateForm, validateInput } from "@/services/base.service";
-import { AUTHENTICATE_ENUM } from "@/enums/authenticate.enum";
-import { APP_AUTH, APP_LINK, APP_LOCALSTORAGE, APP_VALIDATE_TYPE } from "@/enums/app.enum";
+import { APP_AUTH, APP_LINK, APP_VALIDATE_TYPE } from "@/enums/app.enum";
 import { authenticate, fetchEmail, loginWithGoogle } from "@/api/authenticate.api";
 import { useRouter, useSearchParams } from "next/navigation";
 import { setCookie } from "@/utils/cookie.util";
@@ -18,8 +17,11 @@ import { APP_CONFIG } from "@/config/app.config";
 import Loading from "@/common/components/Loading";
 import GoogleAuth from "./components/GoogleAuth";
 import ErrorAlert from "@/common/components/ErrorAlert";
+import { useTranslations } from "next-intl";
+import LanguageSwitcher from "@/common/components/LanguageSwitcher";
 
 const LoginView = () => {
+  const t = useTranslations();
   const router = useRouter();
   const searchParams = useSearchParams();
   const code = searchParams.get('code');
@@ -41,8 +43,8 @@ const LoginView = () => {
   }
 
   const handleValidateEmail = (value: string = emailInput ?? '') => {
-    const requiredEmail = validateInput('email', value ?? '', AUTHENTICATE_ENUM.EMAIL_IS_EMPTY, APP_VALIDATE_TYPE.REQUIRED, validateError, setValidateError);
-    const isEmail = validateInput('email', value ?? '',AUTHENTICATE_ENUM.EMAIL_IS_INVALID, APP_VALIDATE_TYPE.IS_EMAIL, validateError, setValidateError);
+    const requiredEmail = validateInput('email', value ?? '', t('authenticate_message.email_is_required'), APP_VALIDATE_TYPE.REQUIRED, validateError, setValidateError);
+    const isEmail = validateInput('email', value ?? '',t('authenticate_message.email_is_valid'), APP_VALIDATE_TYPE.IS_EMAIL, validateError, setValidateError);
     if (!requiredEmail || !isEmail) {
       return false;
     }
@@ -50,7 +52,7 @@ const LoginView = () => {
   }
 
   const handleValidatePassword = (value: string = passwordInput ?? '') => {
-    const requiredPassword = validateInput('password', value ?? '', AUTHENTICATE_ENUM.PASSWORD_IS_EMPTY, APP_VALIDATE_TYPE.REQUIRED, validateError, setValidateError);
+    const requiredPassword = validateInput('password', value ?? '', t('authenticate_message.password_is_required'), APP_VALIDATE_TYPE.REQUIRED, validateError, setValidateError);
     if (!requiredPassword) {
       return false;
     }
@@ -115,7 +117,7 @@ const LoginView = () => {
       {
         value: emailInput,
         validateType: APP_VALIDATE_TYPE.REQUIRED,
-        validateMessage: AUTHENTICATE_ENUM.EMAIL_IS_EMPTY
+        validateMessage: t('authenticate_message.email_is_required')
       }
     ];
 
@@ -146,6 +148,7 @@ const LoginView = () => {
 
   return (
     <div className="login-box auth-box">
+      <LanguageSwitcher className="mb-4" />
       <div className="login-logo">
         <Link href="/">
           <img src="/img/logo.png" alt="AdminLTE Logo" width={130} height={90} />
@@ -163,10 +166,10 @@ const LoginView = () => {
             /> :
             <>
               <Button color="default" fullWidth onClick={authenticateWithGoogle} className="google-btn mb-2" disabled={authGoogleLoading || loading}>
-                <ImageIcon icon="google" width={18} height={18} /> {authGoogleLoading ? <Loading color="primary" /> : 'Login with Google'}
+                <ImageIcon icon="google" width={18} height={18} /> {authGoogleLoading ? <Loading color="primary" /> : t('login.login_google_btn')}
               </Button>
               <center>
-                <span className="text-muted mt-4 mb-4">Or</span>
+                <span className="text-muted mt-4 mb-4">{t('login.or_text')}</span>
               </center>
               <ErrorAlert error={error} />
               <form onSubmit={emailVerified ? handleSubmitLogin : handleFetchEmail} className="mt-2">
@@ -174,7 +177,7 @@ const LoginView = () => {
                   !emailVerified && <div className="input-group mb-2">
                     <Input 
                       type="text" 
-                      placeholder="Enter your email address" 
+                      placeholder={t('login.input_email')}
                       minLength={3}
                       maxLength={100}
                       id="email"
@@ -198,7 +201,7 @@ const LoginView = () => {
                   emailVerified && <div className="input-group mb-3">
                   <Input 
                     type={passwordShow ? 'text' : 'password'} 
-                    placeholder="Password" 
+                    placeholder={t('login.input_password')} 
                     minLength={5} 
                     maxLength={10}
                     onChange={handlePasswordInputChange}
@@ -221,20 +224,20 @@ const LoginView = () => {
                   {
                     !emailVerified ? 
                     <Button type="submit" color="primary" fullWidth disabled={loading || authGoogleLoading}>
-                      {loading ? <Loading color="light" /> : 'Continue'}
+                      {loading ? <Loading color="light" /> : t('login.continue_btn')}
                     </Button> :
                     <Button type="submit" color="primary" fullWidth disabled={loading || authGoogleLoading}>
-                      {loading ? <Loading color="light" /> : <><FontAwesomeIcon icon={faSignIn} /> Sign in</>}
+                      {loading ? <Loading color="light" /> : <><FontAwesomeIcon icon={faSignIn} /> {t('login.sign_in_btn')}</>}
                     </Button>
                   }
                 </div>
               </form>
               <p className="mb-1">
-                <Link className="text-secondary" href={APP_LINK.FORGOT_PASSWORD}>Forgot password</Link>
+                <Link className="text-secondary" href={APP_LINK.FORGOT_PASSWORD}>{t('login.forgot_password_link')}</Link>
               </p>
               <p className="mb-0">
                 <Link href={APP_LINK.REGISTER} className="text-center text-secondary">
-                  Create a account
+                  {t('login.create_account_btn')}
                 </Link>
               </p>
             </>

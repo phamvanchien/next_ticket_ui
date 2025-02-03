@@ -32,7 +32,7 @@ const TaskAssignSelect: React.FC<TaskAssignSelectProps> = ({ assignee, project, 
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const loadMembers = async () => {
     try {
-      if (!workspace || !openMemberList) {
+      if (!workspace) {
         return;
       }
 
@@ -73,10 +73,8 @@ const TaskAssignSelect: React.FC<TaskAssignSelectProps> = ({ assignee, project, 
     setAssignee(assignee.filter(a => a.id !== member.id));
   }
   useEffect(() => {
-    if (openMemberList) {
-      loadMembers();
-    }
-  }, [workspace, debounceKeyword, openMemberList]);
+    loadMembers();
+  }, [workspace, debounceKeyword]);
   useEffect(() => {
     const handler = setTimeout(() => {
       setDebounceKeyword(keyword);

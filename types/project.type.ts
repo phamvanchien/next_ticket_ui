@@ -80,3 +80,8 @@ export interface ReportAssigneeType {
   total_tasks: number
   percent_tasks: number
 }
+
+export interface RequestCloneProjectType {
+  project_name_clone: string
+  is_public_clone?: boolean
+}

@@ -1,0 +1,17 @@
+{
+    "login": {
+        "login_google_btn": "Googleでログイン",
+        "or_text": "または",
+        "input_email": "メールアドレスを入力してください",
+        "continue_btn": "続ける",
+        "sign_in_btn": "サインイン",
+        "forgot_password_link": "パスワードを忘れましたか？",
+        "create_account_btn": "アカウントを作成",
+        "input_password": "パスワード"
+    },
+    "authenticate_message": {
+        "email_is_required": "メールアドレスは必須です",
+        "email_is_valid": "無効なメールアドレスです",
+        "password_is_required": "パスワードは必須です"
+    }
+}

@@ -292,6 +292,10 @@ body:not(.layout-fixed) .main-sidebar {
     overflow-x: unset !important;
 }
 
+.lang-select {
+    border: 2px solid #3d8bfd !important;
+}
+
 @keyframes fadeIn {
     from {
       opacity: 0;

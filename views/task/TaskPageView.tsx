@@ -5,7 +5,7 @@ import Button from "@/common/components/Button";
 import CreateTaskView from "./create/CreateTaskView";
 import { ProjectTagType, ProjectType } from "@/types/project.type";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckSquare, faFilter, faFilterCircleXmark, faGear, faList, faPieChart, faPlus, faSearchMinus, faSearchPlus, faSort, faSortAmountAsc, faSortAmountDesc, faTable, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCheckSquare, faCopy, faFilter, faFilterCircleXmark, faGear, faList, faPieChart, faPlus, faSearchMinus, faSearchPlus, faSort, faSortAmountAsc, faSortAmountDesc, faTable, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import TaskBoardView from "./components/board/grib/TaskBoardView";
 import { APP_LOCALSTORAGE } from "@/enums/app.enum";
 import Input from "@/common/components/Input";
@@ -17,6 +17,7 @@ import ProjectSettingView from "../project/setting/ProjectSettingView";
 import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
 import ProjectReportView from "../project/report/ProjectReportView";
+import CloneProjectModal from "../project/components/CloneProjectModal";
 
 interface TaskPageViewProps {
   project: ProjectType
@@ -46,6 +47,7 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
   const [openSort, setOpenSort] = useState(false);
   const [dueDateFilter, setDueDateFilter] = useState<Date[]>();
   const [createdDateFilter, setCreatedDateFilter] = useState<Date[]>();
+  const [openClone, setOpenClone] = useState(false);
 
   const searchParams = useSearchParams();
   const createParam = searchParams.get('create');
@@ -113,6 +115,11 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
         inputStatus={inputStatusCreate} 
         setTaskResponse={setTaskData} 
       />
+      <CloneProjectModal
+        project={project}
+        openModal={openClone}
+        setOpenModal={setOpenClone}
+      />
       <TaskFilter 
         open={openFilter} 
         setOpen={setOpenFilter} 
@@ -149,6 +156,9 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
               <FontAwesomeIcon icon={faPieChart} /> Reports
             </Button>
           }
+          <Button color="secondary" className="btn-no-border" outline onClick={() => setOpenClone (true)}>
+            <FontAwesomeIcon icon={faCopy} /> Clone
+          </Button>
         </div>
       </div>
       <div className="row mt-2 mb-2">

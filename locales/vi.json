@@ -1,0 +1,17 @@
+{
+    "login": {
+        "login_google_btn": "Đăng nhập bằng Google",
+        "or_text": "Hoặc",
+        "input_email": "Nhập email của bạn",
+        "continue_btn": "Tiếp tục",
+        "sign_in_btn": "Đăng nhập",
+        "forgot_password_link": "Bạn quên mật khẩu ?",
+        "create_account_btn": "Tạo tài khoản",
+        "input_password": "Mật khẩu"
+    },
+    "authenticate_message": {
+        "email_is_required": "Email không thể trống",
+        "email_is_valid": "Email không hợp lệ",
+        "password_is_required": "Mật khẩu không thể trống"
+    }
+}  

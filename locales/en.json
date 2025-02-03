@@ -1,0 +1,17 @@
+{
+    "login": {
+        "login_google_btn": "Login with Google",
+        "or_text": "Or",
+        "input_email": "Enter your email address",
+        "continue_btn": "Continue",
+        "sign_in_btn": "Sign In",
+        "forgot_password_link": "Forgot password",
+        "create_account_btn": "Create a account",
+        "input_password": "Password"
+    },
+    "authenticate_message": {
+        "email_is_required": "Email is required",
+        "email_is_valid": "Email is invalid",
+        "password_is_required": "Password is required"
+    }
+}  
