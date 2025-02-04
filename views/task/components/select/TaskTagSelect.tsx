@@ -6,6 +6,7 @@ import { ResponseWithPaginationType } from "@/types/base.type";
 import { ProjectTagType } from "@/types/project.type";
 import { faTag, faTimes, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTranslations } from "next-intl";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -24,6 +25,7 @@ const TaskTagSelect: React.FC<TaskTagSelectProps> = ({ tags, className, projectI
   const [totalTag, setTotalTag] = useState<number>();
   const listTagsRef = useRef<HTMLDivElement>(null);
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
+  const t = useTranslations();
   const handleChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setKeyword('');
@@ -90,13 +92,13 @@ const TaskTagSelect: React.FC<TaskTagSelectProps> = ({ tags, className, projectI
   return (
     <div className={`row text-secondary ${className ?? ''}`}>
       <div className="col-4 lh-40">
-        Tags:
+        {t('tasks.tags_label')}:
       </div>
       <div className="col-8 text-secondary" onClick={() => setOpenTagList (true)} ref={listTagsRef}>
         {
           tags.length === 0 &&
           <span className="badge badge-light lh-20 mb-2 mr-2">
-            <FontAwesomeIcon icon={faTag} /> Empty
+            <FontAwesomeIcon icon={faTag} /> {t('empty_label')}
           </span>
         }
         {
@@ -114,10 +116,10 @@ const TaskTagSelect: React.FC<TaskTagSelectProps> = ({ tags, className, projectI
               {
                 (totalTag && totalTag > 0) ?
                 <li className="list-group-item border-unset p-unset">
-                  <Input type="search" className="w-100" onChange={handleChangeKeyword} />
+                  <Input type="search" className="w-100" placeholder={t('tasks.placeholder_search_tags')} onChange={handleChangeKeyword} />
                 </li> : 
                 <li className="list-group-item p-5 border-unset p-unset text-muted">
-                  No matches found
+                  {t('tasks.tags_not_found')}
                 </li>
               }
               {

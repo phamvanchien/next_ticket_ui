@@ -30,6 +30,7 @@ import TaskStatusSelect from "../components/select/TaskStatusSelect";
 import TaskPrioritySelect from "../components/select/TaskPrioritySelect";
 import TaskTypeSelect from "../components/select/TaskTypeSelect";
 import ErrorAlert from "@/common/components/ErrorAlert";
+import { useTranslations } from "next-intl";
 
 interface CreateTaskViewProps {
   open: boolean
@@ -44,13 +45,14 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const types = taskType();
   const priorities = priorityRange();
+  const t = useTranslations();
   const [validateError, setValidateError] = useState<AppErrorType[] | []>([]);
   const [description, setDescription] = useState<string>(task ? task.description : '');
   const [assignee, setAssignee] = useState<ResponseUserDataType[]>(task ? task.assign : []);
   const [tags, setTags] = useState<ProjectTagType[]>(task ? task.tags : []);
   const [status, setStatus] = useState<ProjectTagType | undefined>(task ? task.status : undefined);
   const [priority, setPriority] = useState<TaskPriorityType | undefined>(task ? task.priority : priorities[0]);
-  const [title, setTitle] = useState<string | undefined>(task ? task.title : 'Your task title here');
+  const [title, setTitle] = useState<string | undefined>(task ? task.title : t('tasks.task_title_default'));
   const [dueDate, setDueDate] = useState<Date | null>(task ? new Date(task.due) : new Date());
   const [type, setType] = useState<TaskTypeItem | undefined>(task ? task.type : types[0]);
   const [loading, setLoading] = useState(false);
@@ -97,7 +99,7 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
         setStatus(undefined);
         setType(types[0]);
         setPriority(priorities[0]);
-        setTitle('Your task title here');
+        setTitle(t('tasks.task_title_default'));
         setDueDate(new Date());
         return;
       }
@@ -148,11 +150,11 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
                 href={APP_LINK.WORKSPACE + '/' + workspace?.id + '/project/' + project.id + '/task/' + task.id} 
                 className="float-right" style={{ marginTop: 3 }}
               >
-                View task <FontAwesomeIcon icon={faExternalLink} />
+                {t('tasks.btn_view_task')} <FontAwesomeIcon icon={faExternalLink} />
               </Link>
             }
             <Button color="primary" className="float-right mr-2" disabled={loading} onClick={handleCreateTask}>
-              {loading ? <Loading color="light" /> : 'Save'}
+              {loading ? <Loading color="light" /> : t('btn_save')}
             </Button>
           </div>
         </div>
@@ -171,7 +173,7 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
               className="task-title-create"
               id="taskName"
               inputType="text"
-              inputPlaceholder="Your task title here"
+              inputPlaceholder={t('tasks.task_title_default')}
               inputValue={title}
               setInputValue={setTitle}
               error={validateError}
@@ -180,7 +182,7 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
               validates={[
                 {
                   validateType: APP_VALIDATE_TYPE.REQUIRED,
-                  validateMessage: TASK_ENUM.TASK_TITLE_EMPTY
+                  validateMessage: t('tasks.task_title_required')
                 }
               ]}
             />
@@ -193,7 +195,7 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
         />
         <div className="row mt-2 text-secondary">
           <div className="col-4 lh-40">
-            Due:
+            {t('tasks.due_label')}:
           </div>
           <div className={`col-8`}>
             <DateInput selected={dueDate} setSelected={setDueDate} id="dueDate" className="ml-2" />
@@ -226,7 +228,7 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
         />
         <div className="row" style={{marginBottom: 30}}>
           <div className="col-12 mt-4">
-            <EditorArea value={description} setValue={setDescription} placeholder="Description about your task..." />
+            <EditorArea value={description} setValue={setDescription} placeholder={t('tasks.placeholder_task_description')} />
           </div>
         </div>
       </div>

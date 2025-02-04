@@ -1,4 +1,7 @@
 {
+    "error_alert": {
+        "error": "Error"
+    },
     "login": {
         "login_google_btn": "Login with Google",
         "or_text": "Or",
@@ -13,5 +16,143 @@
         "email_is_required": "Email is required",
         "email_is_valid": "Email is invalid",
         "password_is_required": "Password is required"
-    }
+    },
+    "forgot_password": {
+        "page_title_first": "Enter your email that you are registered",
+        "page_title_second": "to receive the link and reset your password",
+        "input_email": "Enter your email address",
+        "go_to_login": "Go to login"
+    },
+    "google_auth": {
+        "verifying": "Verifying Google account",
+        "verified": "Verified Google account"
+    },
+    "register": {
+        "page_title_first": "Create an account on Next Ticket",
+        "or": "or",
+        "login_link": "go to login",
+        "page_title_second": "if you have an account",
+        "label_input_first_name": "First name",
+        "placeholder_input_first_name": "Enter your first name",
+        "firstname_is_required": "First name is required",
+        "label_input_last_name": "Last name",
+        "placeholder_input_last_name": "Enter your last name",
+        "lastname_is_required": "Last name is required",
+        "placeholder_input_email": "Enter your email",
+        "email_is_required": "Email is required",
+        "label_input_password": "Password",
+        "placeholder_input_password": "Enter your password",
+        "password_is_required": "Password is required",
+        "placeholder_input_confirm_password": "Confirm your password",
+        "confirm_password_is_required": "Confirm password is required",
+        "confirm_passowrd_is_mismacth": "Confirm password is mismatch"
+    },
+    "register_success": {
+        "created_account": "Account created",
+        "alert_verify_first": "Please check your email",
+        "alert_verify_second": "to verify your account"
+    },
+    "send_link_reset_password": {
+        "page_title_first": "Sent link for you",
+        "page_title_second": "Please check your email",
+        "page_title_third": "to reset password"
+    },
+    "reset_password": {
+        "page_title_main": "Reset your new password here",
+        "page_title_sub": "After resetting your new password, you can log in using the newly created password",
+        "label_input_password": "Password",
+        "placeholder_input_password": "Enter password",
+        "password_is_required": "Please enter a password",
+        "placeholder_input_confirm_password": "Re-enter password",
+        "confirm_password_is_required": "Please re-enter your password",
+        "confirm_passowrd_is_mismacth": "The re-entered password does not match"
+    },
+    "reset_password_success": {
+        "success_message": "Successfully reset your password",
+        "redirect_message": "Redirecting to the login page"
+    },
+    "workspaces": {
+        "page_title": "Workspaces",
+        "page_title_join": "Join to a workspace or",
+        "page_title_create": "Create a new workspace",
+        "placeholder_input_search": "Search your workspaces"
+    },
+    "btn_view_more": "View more",
+    "top_menu": {
+        "invitation": "Invitation",
+        "workspace": "Workspaces",
+        "profile": "Profile",
+        "calendar": "Calendar"
+    },
+    "create_workspace": {
+        "page_title": "Create Workspaces",
+        "input_workspace_name": "Enter your workspace name",
+        "workspace_name_required": "Workspace name is not empty",
+        "placeholder_workspace_description": "Workspace description"
+    },
+    "btn_create": "Create",
+    "btn_back": "Back",
+    "btn_new": "New",
+    "btn_cancel": "Cancel",
+    "btn_send": "Send",
+    "sidebar": {
+        "workspace": "Workspaces",
+        "project": "Projects",
+        "invite_member": "Invite members",
+        "document": "Documents",
+        "calendar": "Calendar",
+        "setting": "Setting"
+    },
+    "projects": {
+        "page_title": "Projects",
+        "invitation": "Invitation",
+        "placeholder_input_search": "Search projects",
+        "project_empty_message": "Your projects will be show here",
+        "created_by_text": "Created by"
+    },
+    "private_check": "Private",
+    "public_check": "Public",
+    "create_project": {
+        "page_title": "Create project",
+        "placeholder_input_project_name": "Enter project name",
+        "placeholder_project_description": "Description about project",
+        "add_members_text": "Add members",
+        "send_to_text": "Send to",
+        "no_member_message": "No member",
+        "project_name_required": "Project name is required",
+        "placeholder_input_search_member": "Enter name or email"
+    },
+    "add_member_project": {
+        "page_title": "Thêm thành viên"
+    },
+    "tasks": {
+        "page_title_task": "Tasks",
+        "page_title_project_setting": "Project setting",
+        "page_title_project_report": "Project report",
+        "setting": "Settings",
+        "report": "Report",
+        "clone": "Clone",
+        "board": "Board",
+        "list": "List",
+        "priority_sort": "Priority",
+        "due_sort": "Due",
+        "placeholder_input_search": "Search tasks",
+        "task_empty_message": "Your tasks will be show here",
+        "due_label": "Due",
+        "placeholder_search_assigner": "Search assigner",
+        "assignee_label": "Assignee",
+        "project_owner_label": "Project owner",
+        "btn_view_task": "View task",
+        "task_title_required": "Task title is required",
+        "task_title_default": "Your task title here",
+        "tags_label": "Tags",
+        "placeholder_search_tags": "Search tags",
+        "tags_not_found": "No matches found",
+        "priority_label": "Priority",
+        "type_label": "Loại",
+        "placeholder_task_description": "Description about your task...",
+        "btn_create_task": "Create task"
+    },
+    "empty_label": "Empty",
+    "btn_save": "Save"
 }  

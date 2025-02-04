@@ -56,14 +56,14 @@ const WorkspaceIndexView: React.FC<WorkspaceIndexViewProps> = ({ workspace }) =>
     }
   }
   useEffect(() => {
-    setTimeText('Hi')
+    setTimeText('Hi');
     if (hour > 3 && hour < 13) {
       setTimeText('Good morning');
     }
-    if (hour >= 13 || hour < 18) {
+    if (hour >= 13 && hour < 18) {
       setTimeText('Good afternoon');
     }
-    if (hour >= 18 || hour <= 3) {
+    if (hour >= 18 && hour <= 3) {
       setTimeText('Good evening');
     }
     const tasksStorage = localStorage.getItem(APP_LOCALSTORAGE.TASK_RECENTLY);

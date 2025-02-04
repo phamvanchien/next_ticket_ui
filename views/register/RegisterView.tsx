@@ -13,8 +13,11 @@ import { create } from "@/api/user.api";
 import { API_CODE } from "@/enums/api.enum";
 import RegisterSuccess from "./components/RegisterSuccess";
 import Loading from "@/common/components/Loading";
+import { useTranslations } from "next-intl";
+import ErrorAlert from "@/common/components/ErrorAlert";
 
 const RegisterView = () => {
+  const t = useTranslations();
   const [validateError, setValidateError] = useState<AppErrorType[] | []>([]);
   const [error, setError] = useState<AppErrorType | null>();
   const [firstName, setFirstName] = useState<string>();
@@ -113,19 +116,17 @@ const RegisterView = () => {
           {createSuccess && <RegisterSuccess />}
           {
             !createSuccess && <>
-              <h6 className="text-dark">Create an account on Next Ticket</h6>
-              <h6 className="text-secondary">or <Link href={APP_LINK.LOGIN} className="mt-2">go to login</Link> if you have an account</h6>
+              <h6 className="text-dark">{t('register.page_title_first')}</h6>
+              <h6 className="text-secondary">{t('register.or')} <Link href={APP_LINK.LOGIN} className="mt-2">{t('register.login_link')}</Link> {t('register.page_title_second')}</h6>
               {
-                (error) && <div className="alert alert-light mt-4 alert-error">
-                  <b className="text-danger mt-2">Error: </b> {error.message}
-                </div>
+                (error) && <ErrorAlert error={error} className="mt-4" />
               }
-              <form className="mt-2" onSubmit={handleSubmitRegister}>
+              <form className="mt-4" onSubmit={handleSubmitRegister}>
                 <InputForm
-                  label="First name"
+                  label={t('register.label_input_first_name')}
                   id="first_name"
                   inputType="text"
-                  inputPlaceholder="Enter your first name"
+                  inputPlaceholder={t('register.placeholder_input_first_name')}
                   inputIcon={<FontAwesomeIcon icon={faUser} />}
                   inputValue={firstName}
                   setInputValue={setFirstName}
@@ -134,15 +135,15 @@ const RegisterView = () => {
                   validates={[
                     {
                       validateType: APP_VALIDATE_TYPE.REQUIRED,
-                      validateMessage: AUTHENTICATE_ENUM.FIRST_NAME_IS_EMPTY
+                      validateMessage: t('register.firstname_is_required')
                     }
                   ]}
                 />
                 <InputForm
-                  label="Last name"
+                  label={t('register.label_input_last_name')}
                   id="last_name"
                   inputType="text"
-                  inputPlaceholder="Enter your last name"
+                  inputPlaceholder={t('register.placeholder_input_last_name')}
                   inputIcon={<FontAwesomeIcon icon={faUser} />}
                   inputValue={lastName}
                   setInputValue={setLastName}
@@ -151,7 +152,7 @@ const RegisterView = () => {
                   validates={[
                     {
                       validateType: APP_VALIDATE_TYPE.REQUIRED,
-                      validateMessage: AUTHENTICATE_ENUM.LAST_NAME_IS_EMPTY
+                      validateMessage: t('register.lastname_is_required')
                     }
                   ]}
                 />
@@ -159,7 +160,7 @@ const RegisterView = () => {
                   label="Email"
                   id="email"
                   inputType="text"
-                  inputPlaceholder="Enter your email"
+                  inputPlaceholder={t('register.placeholder_input_email')}
                   inputIcon={<FontAwesomeIcon icon={faEnvelope} />}
                   inputValue={email}
                   setInputValue={setEmail}
@@ -168,15 +169,15 @@ const RegisterView = () => {
                   validates={[
                     {
                       validateType: APP_VALIDATE_TYPE.REQUIRED,
-                      validateMessage: AUTHENTICATE_ENUM.EMAIL_IS_EMPTY
+                      validateMessage: t('register.email_is_required')
                     }
                   ]}
                 />
                 <InputForm
-                  label="Password"
+                  label={t('register.label_input_password')}
                   id="password"
                   inputType="password"
-                  inputPlaceholder="Enter your password"
+                  inputPlaceholder={t('register.placeholder_input_password')}
                   inputIcon={<FontAwesomeIcon icon={faLock} />}
                   inputValue={password}
                   setInputValue={setPassword}
@@ -185,14 +186,14 @@ const RegisterView = () => {
                   validates={[
                     {
                       validateType: APP_VALIDATE_TYPE.REQUIRED,
-                      validateMessage: AUTHENTICATE_ENUM.PASSWORD_IS_EMPTY
+                      validateMessage: t('register.password_is_required')
                     }
                   ]}
                 />
                 <InputForm
                   id="confirm_password"
                   inputType="password"
-                  inputPlaceholder="Confirm your password"
+                  inputPlaceholder={t('register.placeholder_input_confirm_password')}
                   inputIcon={<FontAwesomeIcon icon={faLock} />}
                   inputValue={confirmPassword}
                   setInputValue={setConfirmPassword}
@@ -202,17 +203,17 @@ const RegisterView = () => {
                   validates={[
                     {
                       validateType: APP_VALIDATE_TYPE.REQUIRED,
-                      validateMessage: AUTHENTICATE_ENUM.CONFIRM_PASSWORD_IS_EMPTY
+                      validateMessage: t('register.confirm_password_is_required')
                     },
                     {
                       validateType: APP_VALIDATE_TYPE.MATCH,
-                      validateMessage: AUTHENTICATE_ENUM.CONFIRM_PASSWORD_MISMATCH
+                      validateMessage: t('register.confirm_passowrd_is_mismacth')
                     }
                   ]}
                 />
                 <div className="social-auth-links text-center mb-3">
                   <Button type="submit" color="primary" className="mb-2" fullWidth disabled={hasError(validateError)}>
-                    {loading ? <Loading color="light" /> : 'Send'}
+                    {loading ? <Loading color="light" /> : t('btn_send')}
                   </Button>
                 </div>
               </form>

@@ -1,4 +1,4 @@
-import { cloneProject, create } from "@/api/project.api";
+import { cloneProject } from "@/api/project.api";
 import Button from "@/common/components/Button";
 import ErrorAlert from "@/common/components/ErrorAlert";
 import Input from "@/common/components/Input";
@@ -62,13 +62,13 @@ const CloneProjectModal: React.FC<CloneProjectModalProps> = ({ openModal, projec
             </div>
           }
           <div className="col-12">
-            <Input type="text" defaultValue={`${project.name} - Copy`} ref={projectNameRef} />
+            <Input type="text" defaultValue={`${project.name} - Copy`} ref={projectNameRef} disabled={loading} />
           </div>
           <div className="col-12 mt-3">
-            <span className="mr-4 pointer" onClick={() => setIsPublic (true)}>
+            <span className="mr-4 pointer" onClick={!loading ? () => setIsPublic (true) : undefined}>
               <FontAwesomeIcon icon={isPublic ? faCheckCircle : faCircle} className={`text-${isPublic ? 'primary' : 'secondary'}`} /> Public
             </span>
-            <span className="pointer" onClick={() => setIsPublic (false)}>
+            <span className="pointer" onClick={!loading ? () => setIsPublic (false) : undefined}>
               <FontAwesomeIcon icon={!isPublic ? faCheckCircle : faCircle} className={`text-${!isPublic ? 'primary' : 'secondary'}`} /> Private
             </span>
           </div>

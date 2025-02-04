@@ -4,8 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect } from "react";
 import { APP_LINK } from "@/enums/app.enum";
 import NavItem from "./NavItem";
+import { useTranslations } from "next-intl";
 
 const Header = () => {
+  const t = useTranslations();
   const handleOpenMenu = () => {
     const body = document.getElementsByTagName('body') as HTMLCollectionOf<HTMLBodyElement>;
     body[0].classList.remove('sidebar-collapse');
@@ -37,13 +39,13 @@ const Header = () => {
         <FontAwesomeIcon className="navbar-brand d-block d-lg-none text-dark btn-bars pt-unset" icon={faBars} size="2x" onClick={clickOpenMenu} />
         <ul className="navbar-nav navbar-no-expand float-right">
           <NavItem href={APP_LINK.INVITATION} className="icon-menu border-right-header">
-            <FontAwesomeIcon icon={faEnvelopeOpen} /> Invitation
+            <FontAwesomeIcon icon={faEnvelopeOpen} /> {t('top_menu.invitation')}
           </NavItem>
           <NavItem href={APP_LINK.GO_TO_WORKSPACE} className="icon-menu border-right-header">
-            <FontAwesomeIcon icon={faCubes} /> Workspaces
+            <FontAwesomeIcon icon={faCubes} /> {t('top_menu.workspace')}
           </NavItem>
           <NavItem href={APP_LINK.PROFILE} className="icon-menu">
-            <FontAwesomeIcon icon={faUser} /> Profile
+            <FontAwesomeIcon icon={faUser} /> {t('top_menu.profile')}
           </NavItem>
         </ul>
       </div>

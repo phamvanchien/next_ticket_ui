@@ -108,7 +108,6 @@ const TaskStatusWrap: React.FC<TaskStatusWrapProps> = ({
             });
             if (response && response.code === API_CODE.OK) {
               setStatusName(inputStatusNameRef.current.value);
-              notify('Status is updated', 'success');
               return;
             }
             notify(response.error?.message ?? APP_ERROR.SERVER_MAINTAIN, 'error');

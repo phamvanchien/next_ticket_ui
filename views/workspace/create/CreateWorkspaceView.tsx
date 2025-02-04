@@ -1,12 +1,10 @@
 "use client"
 import { APP_LINK, APP_LOCALSTORAGE, APP_VALIDATE_TYPE } from "@/enums/app.enum";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import Input from "@/common/components/Input";
 import Button from "@/common/components/Button";
 import Textarea from "@/common/components/Textarea";
 import { ChangeEvent, FormEvent, useState } from "react";
-import { WORKSPACE_ENUM } from "@/enums/workspace.enum";
 import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { catchError, hasError, printError, validateInput } from "@/services/base.service";
 import { create } from "@/api/workspace.api";
@@ -15,16 +13,18 @@ import Loading from "@/common/components/Loading";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import ErrorAlert from "@/common/components/ErrorAlert";
+import { useTranslations } from "next-intl";
 
 const CreateWorkspaceView = () => {
   const router = useRouter();
+  const t = useTranslations();
   const [name, setName] = useState<string>();
   const [loading, setLoading] = useState(false);
   const [description, setDescription] = useState<string>();
   const [error, setError] = useState<AppErrorType | null>(null);
   const [validateError, setValidateError] = useState<AppErrorType[] | []>([]);
   const handleValidateName = (value: string = name ?? '') => {
-    const required = validateInput('name', value ?? '', WORKSPACE_ENUM.NAME_IS_EMPTY, APP_VALIDATE_TYPE.REQUIRED, validateError, setValidateError);
+    const required = validateInput('name', value ?? '', t('create_workspace.workspace_name_required'), APP_VALIDATE_TYPE.REQUIRED, validateError, setValidateError);
     if (!required) {
       return false;
     }
@@ -67,7 +67,7 @@ const CreateWorkspaceView = () => {
   return (
     <div className="row">
       <div className="col-12 text-secondary">
-        <h3><FontAwesomeIcon icon={faPlus} /> Create Workspaces</h3>
+        <h3><FontAwesomeIcon icon={faPlus} /> {t('create_workspace.page_title')}</h3>
       </div>
       {
         (error) && 
@@ -82,7 +82,7 @@ const CreateWorkspaceView = () => {
               type="text" 
               minLength={3} 
               maxLength={100} 
-              placeholder="Enter your workspace name" 
+              placeholder={t('create_workspace.input_workspace_name')} 
               onChange={handleWorkspaceNameChange} 
               invalid={hasError(validateError, 'name')}
               disabled={loading}
@@ -97,16 +97,16 @@ const CreateWorkspaceView = () => {
           <div className="col-12">
             <Textarea 
               className="mt-2" 
-              placeholder="Workspace description" 
+              placeholder={t('create_workspace.placeholder_workspace_description')} 
               onChange={handleWorkspaceDescriotionChange} 
               disabled={loading}></Textarea>
           </div>
           <div className="col-12">
             <Button type="submit" color="primary" className="float-right mt-2 ml-2" disabled={loading}>
-              {loading ? <Loading color="light" /> : 'Create'}
+              {loading ? <Loading color="light" /> : t('btn_create')}
             </Button>
             <Button type="button" color="secondary" outline className="float-right mt-2 btn-no-border" onClick={() => router.push (APP_LINK.GO_TO_WORKSPACE)} disabled={loading}>
-              Back
+              {t('btn_back')}
             </Button>
           </div>
         </div>

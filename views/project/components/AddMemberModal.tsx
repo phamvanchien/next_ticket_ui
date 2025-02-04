@@ -13,6 +13,7 @@ import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { ResponseUserDataType } from "@/types/user.type";
 import { faEnvelope, faTimesCircle, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTranslations } from "next-intl";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -23,6 +24,7 @@ interface AddMemberModalProps {
 }
 
 const AddMemberModal: React.FC<AddMemberModalProps> = ({ openModal, setOpenModal, projectId }) => {
+  const t = useTranslations();
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<AppErrorType | null>(null);
@@ -106,7 +108,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({ openModal, setOpenModal
   return (
     <Modal className="invite-modal" isOpen={openModal ? true : false}>
       <ModalHeader 
-        title="Add members"
+        title={t('add_member_project.page_title')}
         setShow={setOpenModal}
       />
       <ModalBody>
@@ -121,14 +123,14 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({ openModal, setOpenModal
             userSendData.map((user, index) => (
               <div className="col-12 mt-2" key={index}>
                 <span className="badge badge-secondary send-to-item w-100 text-left">
-                  Send to: <i>{user.email}</i>
+                  {t('create_project.send_to_text')}: <i>{user.email}</i>
                   <FontAwesomeIcon icon={faTimesCircle} className="ml-2 float-right" style={{ fontSize: 17 }} onClick={() => handleRemoveUserSend (user)} />
                 </span>
               </div>
             ))
           }
-          <div className="col-12">
-            <Input type="text" id="searchMember" placeholder="Enter name or email" onChange={handleChangeKeyword} />
+          <div className="col-12 mt-2">
+            <Input type="text" id="searchMember" placeholder={t('create_project.placeholder_input_search_member')} onChange={handleChangeKeyword} />
             {loadingList && <center><Loading color="secondary" className="mt-2" /></center>}
             {
               (memberData && keyword && keyword !== '') &&
@@ -145,9 +147,9 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({ openModal, setOpenModal
           </div>
           <div className="col-12 mt-2">
             <Button color="primary" className="float-right" disabled={loading} onClick={handleSubmitSendInvite}>
-              {loading ? <Loading color="light" /> : 'Send'}
+              {loading ? <Loading color="light" /> : t('btn_send')}
             </Button>
-            <Button color="secondary" className="float-right mr-2 btn-no-border" outline disabled={loading} onClick={() => setOpenModal (false)}>Cancel</Button>
+            <Button color="secondary" className="float-right mr-2 btn-no-border" outline disabled={loading} onClick={() => setOpenModal (false)}>{t('btn_cancel')}</Button>
           </div>
         </div>
       </ModalBody>

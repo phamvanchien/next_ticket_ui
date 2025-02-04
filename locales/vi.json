@@ -1,4 +1,7 @@
 {
+    "error_alert": {
+        "error": "Lỗi"
+    },
     "login": {
         "login_google_btn": "Đăng nhập bằng Google",
         "or_text": "Hoặc",
@@ -13,5 +16,143 @@
         "email_is_required": "Email không thể trống",
         "email_is_valid": "Email không hợp lệ",
         "password_is_required": "Mật khẩu không thể trống"
-    }
+    },
+    "forgot_password": {
+        "page_title_first": "Nhập email mà bạn đã đăng ký",
+        "page_title_second": "để nhận liên kết và khôi phục mật khẩu của bạn",
+        "input_email": "Nhập email của bạn",
+        "go_to_login": "Quay lại đăng nhập"
+    },
+    "google_auth": {
+        "verifying": "Đang xác thực tài khoản Google",
+        "verified": "Đã xác thực tài khoản Google"
+    },
+    "register": {
+        "page_title_first": "Tạo tài khoản trên Next Ticket",
+        "or": "hoặc",
+        "login_link": "quay về đăng nhập",
+        "page_title_second": "nếu bạn đã có tài khoản",
+        "label_input_first_name": "Họ đệm",
+        "placeholder_input_first_name": "Nhập họ đệm",
+        "firstname_is_required": "Vui lòng nhập họ đệm",
+        "label_input_last_name": "Tên",
+        "placeholder_input_last_name": "Nhập tên",
+        "lastname_is_required": "Vui lòng nhập tên của bạn",
+        "placeholder_input_email": "Nhập email",
+        "email_is_required": "Vui lòng nhập email",
+        "label_input_password": "Mật khẩu",
+        "placeholder_input_password": "Nhập mật khẩu",
+        "password_is_required": "Vui lòng nhập mật khẩu",
+        "placeholder_input_confirm_password": "Nhập lại mật khẩu",
+        "confirm_password_is_required": "Vui lòng nhập lại mật khẩu",
+        "confirm_passowrd_is_mismacth": "Mật khẩu nhập lại chưa khớp"
+    },
+    "register_success": {
+        "created_account": "Đã tạo tài khoản",
+        "alert_verify_first": "Vui lòng kiểm tra email",
+        "alert_verify_second": "để xác thực tài khoản vừa đăng ký"
+    },
+    "send_link_reset_password": {
+        "page_title_first": "Đã gửi liên kết cho bạn",
+        "page_title_second": "Vui lòng kiểm tra trong email",
+        "page_title_third": "để khôi phục mật khẩu"
+    },
+    "reset_password": {
+        "page_title_main": "Đặt lại mật khẩu mới tại đây",
+        "page_title_sub": "Sau khi đặt lại mật khẩu mới, bạn có thể đăng nhập bằng mật khẩu vừa tạo",
+        "label_input_password": "Mật khẩu",
+        "placeholder_input_password": "Nhập mật khẩu",
+        "password_is_required": "Vui lòng nhập mật khẩu",
+        "placeholder_input_confirm_password": "Nhập lại mật khẩu",
+        "confirm_password_is_required": "Vui lòng nhập lại mật khẩu",
+        "confirm_passowrd_is_mismacth": "Mật khẩu nhập lại chưa khớp"
+    },
+    "reset_password_success": {
+        "success_message": "Đặt lại mật khẩu mới thành công",
+        "redirect_message": "Đang chuyển hướng về trang đăng nhập"
+    },
+    "workspaces": {
+        "page_title": "Phòng làm việc",
+        "page_title_join": "Vào một phòng làm việc hoặc",
+        "page_title_create": "Tạo một phòng làm việc mới",
+        "placeholder_input_search": "Tìm phòng của bạn"
+    },
+    "btn_view_more": "Xem thêm",
+    "top_menu": {
+        "invitation": "Lời mời",
+        "workspace": "Phòng",
+        "profile": "Hồ sơ",
+        "calendar": "Lịch"
+    },
+    "create_workspace": {
+        "page_title": "Tạo phòng làm việc",
+        "input_workspace_name": "Nhập tên phòng làm việc",
+        "workspace_name_required": "Vui lòng nhập tên phòng làm việc",
+        "placeholder_workspace_description": "Mô tả cho phòng này"
+    },
+    "btn_create": "Tạo",
+    "btn_back": "Quay lại",
+    "btn_new": "Tạo mới",
+    "btn_cancel": "Hủy",
+    "btn_send": "Gửi",
+    "sidebar": {
+        "workspace": "Phòng của bạn",
+        "project": "Dự án",
+        "invite_member": "Mời thành viên",
+        "document": "Tài liệu",
+        "calendar": "Lịch trình",
+        "setting": "Cài đặt"
+    },
+    "projects": {
+        "page_title": "Dự án",
+        "invitation": "Lời mời tham gia",
+        "placeholder_input_search": "Tìm dự án",
+        "project_empty_message": "Dự án của bạn sẽ hiện ở đây",
+        "created_by_text": "Tạo bởi"
+    },
+    "private_check": "Riêng tư",
+    "public_check": "Công khai",
+    "create_project": {
+        "page_title": "Tạo dự án mới",
+        "placeholder_input_project_name": "Nhập tên dự án",
+        "placeholder_project_description": "Mô tả về dự án này",
+        "add_members_text": "Thêm thành viên",
+        "send_to_text": "Gửi đến",
+        "no_member_message": "Không có thành viên nào",
+        "project_name_required": "Vui lòng nhập tên dự án",
+        "placeholder_input_search_member": "Nhập tên hoặc email"
+    },
+    "add_member_project": {
+        "page_title": "Thêm thành viên"
+    },
+    "tasks": {
+        "page_title_task": "Quản lý vé",
+        "page_title_project_setting": "Cài đặt dự án",
+        "page_title_project_report": "Báo cáo tiến độ",
+        "setting": "Cài đặt",
+        "report": "Báo cáo",
+        "clone": "Nhân bản",
+        "board": "Dạng bảng",
+        "list": "Danh sách",
+        "priority_sort": "Độ ưu tiên",
+        "due_sort": "Hạn chót",
+        "placeholder_input_search": "Tìm kiếm vé",
+        "task_empty_message": "Vé của bạn sẽ hiện ở đây",
+        "due_label": "Hạn chót",
+        "placeholder_search_assigner": "Tìm người phân công",
+        "assignee_label": "Phân công",
+        "project_owner_label": "Chủ dự án",
+        "btn_view_task": "Xem vé",
+        "task_title_required": "Vui lòng nhập tiêu đề vé",
+        "task_title_default": "Tiêu đề vé ở đây",
+        "tags_label": "Thẻ",
+        "placeholder_search_tags": "Tìm thẻ",
+        "tags_not_found": "Không có thẻ nào",
+        "priority_label": "Độ ưu tiên",
+        "type_label": "Loại vé",
+        "placeholder_task_description": "Mô tả cho vé này...",
+        "btn_create_task": "Tạo vé"
+    },
+    "empty_label": "Trống",
+    "btn_save": "Lưu"
 }  

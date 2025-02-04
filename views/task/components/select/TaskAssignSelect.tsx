@@ -11,6 +11,7 @@ import { ResponseUserDataType } from "@/types/user.type";
 import { WorkspaceUserType } from "@/types/workspace.type";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTranslations } from "next-intl";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -29,6 +30,7 @@ const TaskAssignSelect: React.FC<TaskAssignSelectProps> = ({ assignee, project, 
   const [keyword, setKeyword] = useState<string>('');
   const [debounceKeyword, setDebounceKeyword] = useState<string>('');
   const listMembersRef = useRef<HTMLDivElement>(null);
+  const t = useTranslations();
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const loadMembers = async () => {
     try {
@@ -100,13 +102,13 @@ const TaskAssignSelect: React.FC<TaskAssignSelectProps> = ({ assignee, project, 
   return (
     <div className={`row text-secondary ${className ?? ''}`}>
       <div className="col-4 lh-40">
-        {label ?? 'Assignee'}:
+        {label ?? t('tasks.assignee_label')}:
       </div>
       <div className="col-8" onClick={() => setOpenMemberList (true)} ref={listMembersRef}>
         {
           assignee.length === 0 &&
           <span className="badge badge-light mr-2">
-            <img className="img-circle" onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} src={IMAGE_DEFAULT.NO_USER} width={25} height={25} /> Empty 
+            <img className="img-circle" onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} src={IMAGE_DEFAULT.NO_USER} width={25} height={25} /> {t('empty_label')} 
           </span>
         }
         {
@@ -122,13 +124,13 @@ const TaskAssignSelect: React.FC<TaskAssignSelectProps> = ({ assignee, project, 
           <>
             <ul className="list-group select-search-task">
               <li className="list-group-item border-unset p-unset">
-                <Input type="search" className="w-100" onChange={handleChangeKeyword} />
+                <Input type="search" className="w-100" placeholder={t('tasks.placeholder_search_assigner')} onChange={handleChangeKeyword} />
               </li>
               {
                 !assignee.find(a => a.id === project.user.id) &&
                 <li className="list-group-item border-unset p-unset" onClick={() => handleSelectAssignee (project.user)}>
                   <span className="badge badge-default w-100 text-left">
-                    <img className="img-circle" src={project.user.avatar ?? IMAGE_DEFAULT.NO_USER} onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} width={25} height={25} /> {project.user.first_name} {project.user.last_name} (Project owner)
+                    <img className="img-circle" src={project.user.avatar ?? IMAGE_DEFAULT.NO_USER} onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} width={25} height={25} /> {project.user.first_name} {project.user.last_name} ({t('tasks.project_owner_label')})
                   </span>
                 </li>
               }

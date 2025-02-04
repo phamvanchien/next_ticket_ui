@@ -2,6 +2,7 @@ import { TaskTypeItem } from "@/types/task.type";
 import { taskType } from "@/utils/helper.util";
 import React, { useEffect, useRef, useState } from "react";
 import { getTypeClass, getTypeIcon } from "../board/grib/TaskItem";
+import { useTranslations } from "next-intl";
 
 interface TaskTypeSelectProps {
   type?: TaskTypeItem
@@ -11,6 +12,7 @@ interface TaskTypeSelectProps {
 
 const TaskTypeSelect: React.FC<TaskTypeSelectProps> = ({ type, setType, className }) => {
   const types = taskType();
+  const t = useTranslations();
   const listPriorityRef = useRef<HTMLDivElement>(null);
   const [openTypeList, setOpenTypeList] = useState(false);
   useEffect(() => {
@@ -29,7 +31,7 @@ const TaskTypeSelect: React.FC<TaskTypeSelectProps> = ({ type, setType, classNam
   return (
     <div className={`row text-secondary ${className ?? ''}`}>
       <div className="col-4 lh-40">
-        Type:
+        {t('tasks.type_label')}:
       </div>
       <div className="col-8 text-secondary" onClick={() => setOpenTypeList (true)} ref={listPriorityRef}>
         {

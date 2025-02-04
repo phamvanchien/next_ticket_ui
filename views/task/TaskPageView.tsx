@@ -18,6 +18,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
 import ProjectReportView from "../project/report/ProjectReportView";
 import CloneProjectModal from "../project/components/CloneProjectModal";
+import { useTranslations } from "next-intl";
 
 interface TaskPageViewProps {
   project: ProjectType
@@ -52,6 +53,7 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
   const searchParams = useSearchParams();
   const createParam = searchParams.get('create');
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
+  const t = useTranslations();
   const handleSetTypeShow = (type: number) => {
     setTypeShow(type);
     localStorage.setItem(APP_LOCALSTORAGE.TASK_BOARD_TYPE_SHOW, type.toString());
@@ -140,36 +142,36 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
       <div className="row">
         <div className="col-12">
           <h3>
-            {typeShow === 3 && <><FontAwesomeIcon icon={faGear} className="text-secondary" /> Project setting</>}
-            {[1, 2].includes(typeShow) && <><FontAwesomeIcon icon={faCheckSquare} className="text-secondary" /> Tasks</>}
-            {typeShow === 4 && <><FontAwesomeIcon icon={faPieChart} className="text-secondary" /> Project report</>}
+            {typeShow === 3 && <><FontAwesomeIcon icon={faGear} className="text-secondary" /> {t('tasks.page_title_project_setting')}</>}
+            {[1, 2].includes(typeShow) && <><FontAwesomeIcon icon={faCheckSquare} className="text-secondary" /> {t('tasks.page_title_task')}</>}
+            {typeShow === 4 && <><FontAwesomeIcon icon={faPieChart} className="text-secondary" /> {t('tasks.page_title_project_report')}</>}
           </h3>
           {
             (isSetting && typeShow !== 3) &&
             <Button color="secondary" className="btn-no-border" outline onClick={() => setTypeShow (3)}>
-              <FontAwesomeIcon icon={faGear} /> Settings
+              <FontAwesomeIcon icon={faGear} /> {t('tasks.setting')}
             </Button>
           }
           {
             (typeShow !== 4 && totalTask > 1) &&
             <Button color="secondary" className="btn-no-border" outline onClick={() => setTypeShow (4)}>
-              <FontAwesomeIcon icon={faPieChart} /> Reports
+              <FontAwesomeIcon icon={faPieChart} /> {t('tasks.report')}
             </Button>
           }
           <Button color="secondary" className="btn-no-border" outline onClick={() => setOpenClone (true)}>
-            <FontAwesomeIcon icon={faCopy} /> Clone
+            <FontAwesomeIcon icon={faCopy} /> {t('tasks.clone')}
           </Button>
         </div>
       </div>
       <div className="row mt-2 mb-2">
         <div className="col-12 filter-bar">
           <Button color="secondary" className={`float-left btn-layout-type${typeShow === 1 ? '-active' : ''} create-btn mr-2`} onClick={() => handleSetTypeShow (1)}>
-            <FontAwesomeIcon icon={faTable} /> Board
+            <FontAwesomeIcon icon={faTable} /> {t('tasks.board')}
           </Button>
           {
             (totalTask > 0) &&
               <Button color="secondary" className={`float-left btn-layout-type${typeShow === 2 ? '-active' : ''} create-btn mr-2`} onClick={() => handleSetTypeShow (2)}>
-                <FontAwesomeIcon icon={faList} /> List
+                <FontAwesomeIcon icon={faList} /> {t('tasks.list')}
               </Button>
           }
           {
@@ -199,7 +201,7 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
               className="float-right create-btn"
               onClick={() => setOpenCreate(true)}
             >
-              New <FontAwesomeIcon icon={faPlus} />
+              {t('btn_new')} <FontAwesomeIcon icon={faPlus} />
             </Button>
           }
         </div>
@@ -207,16 +209,16 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
           (openSort && [1, 2].includes(typeShow)) &&
           <div className="col-12 mt-2">
             <Button color="secondary" className="float-left create-btn mr-2" outline={prioritySort !== 'ASC'} onClick={() => handleSelectFilter ('priority', "ASC")}>
-              <FontAwesomeIcon icon={faSortAmountAsc} /> Priority
+              <FontAwesomeIcon icon={faSortAmountAsc} /> {t('tasks.priority_sort')}
             </Button>
             <Button color="secondary" className="float-left create-btn mr-2" outline={prioritySort !== 'DESC'} onClick={() => handleSelectFilter ('priority', "DESC")}>
-              <FontAwesomeIcon icon={faSortAmountDesc} /> Priority
+              <FontAwesomeIcon icon={faSortAmountDesc} /> {t('tasks.priority_sort')}
             </Button>
             <Button color="secondary" className="float-left create-btn mr-2" outline={dueSort !== 'ASC'} onClick={() => handleSelectFilter ('due', 'ASC')}>
-              <FontAwesomeIcon icon={faSortAmountAsc} /> Due
+              <FontAwesomeIcon icon={faSortAmountAsc} /> {t('tasks.due_sort')}
             </Button>
             <Button color="secondary" className="float-left create-btn mr-2" outline={dueSort !== 'DESC'} onClick={() => handleSelectFilter ('due', 'DESC')}>
-              <FontAwesomeIcon icon={faSortAmountDesc} /> Due
+              <FontAwesomeIcon icon={faSortAmountDesc} /> {t('tasks.due_sort')}
             </Button>
             <FontAwesomeIcon icon={faTimesCircle} className="text-muted" style={{ fontSize: 20, marginTop: 5 }} onClick={handleCancelSort} />
           </div>
@@ -227,7 +229,7 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
             <Input 
               type="search" 
               className="input-search-tasks" 
-              placeholder="Search tasks" 
+              placeholder={t('tasks.placeholder_input_search')} 
               onChange={handleChangeKeyword} 
             />
           </div>

@@ -14,12 +14,15 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { FormEvent, useState } from "react";
 import ResetPasswordSuccess from "./components/ResetPasswordSuccess";
+import { useTranslations } from "next-intl";
+import ErrorAlert from "@/common/components/ErrorAlert";
 
 const ResetPasswordView = () => {
   const searchParams = useSearchParams();
   const hash = searchParams.get('hash');
   const email = searchParams.get('email');
   const router = useRouter();
+  const t = useTranslations();
   const [passwordInput, setPasswordInput] = useState<string>();
   const [passwordConfirmInput, setPasswordConfirmInput] = useState<string>();
   const [error, setError] = useState<AppErrorType | null>(null);
@@ -85,19 +88,17 @@ const ResetPasswordView = () => {
         <div className="card-body login-card-body">
           {success ? <ResetPasswordSuccess /> : (
           <form onSubmit={handleSubmitSetPassword}>
-            <h6 className="text-dark">Please set your new password here</h6>
-            <h6 className="text-secondary">After setting a new password, you can log in with the password you just set.</h6>
+            <h6 className="text-dark">{t('reset_password.page_title_main')}</h6>
+            <h6 className="text-secondary">{t('reset_password.page_title_sub')}</h6>
             <hr/>
             {
-              (error) && <div className="alert alert-light">
-                <b className="text-danger mt-2">Error: </b> {error.message}
-              </div>
+              (error) && <ErrorAlert error={error} />
             }
             <InputForm
-              label="Password"
+              label={t('reset_password.label_input_password')}
               id="password"
               inputType="password"
-              inputPlaceholder="Enter new password"
+              inputPlaceholder={t('reset_password.placeholder_input_password')}
               inputIcon={<FontAwesomeIcon icon={faLock} />}
               inputValue={passwordInput}
               setInputValue={setPasswordInput}
@@ -106,14 +107,14 @@ const ResetPasswordView = () => {
               validates={[
                 {
                   validateType: APP_VALIDATE_TYPE.REQUIRED,
-                  validateMessage: AUTHENTICATE_ENUM.PASSWORD_IS_EMPTY
+                  validateMessage: t('reset_password.password_is_required')
                 }
               ]}
             />
             <InputForm
               id="confirm_password"
               inputType="password"
-              inputPlaceholder="Confirm your password"
+              inputPlaceholder={t('reset_password.placeholder_input_confirm_password')}
               inputIcon={<FontAwesomeIcon icon={faLock} />}
               inputValue={passwordConfirmInput}
               setInputValue={setPasswordConfirmInput}
@@ -123,17 +124,17 @@ const ResetPasswordView = () => {
               validates={[
                 {
                   validateType: APP_VALIDATE_TYPE.REQUIRED,
-                  validateMessage: AUTHENTICATE_ENUM.CONFIRM_PASSWORD_IS_EMPTY
+                  validateMessage: t('reset_password.confirm_password_is_required')
                 },
                 {
                   validateType: APP_VALIDATE_TYPE.MATCH,
-                  validateMessage: AUTHENTICATE_ENUM.CONFIRM_PASSWORD_MISMATCH
+                  validateMessage: t('reset_password.confirm_passowrd_is_mismacth')
                 }
               ]}
             />
             <div className="social-auth-links text-center mb-3">
               <Button type="submit" color="primary" fullWidth disabled={loading || hasError(validateError)}>
-                {loading ? <Loading color="light" /> : 'Send'}
+                {loading ? <Loading color="light" /> : t('btn_send')}
               </Button>
             </div>
           </form>

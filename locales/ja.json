@@ -13,5 +13,146 @@
         "email_is_required": "メールアドレスは必須です",
         "email_is_valid": "無効なメールアドレスです",
         "password_is_required": "パスワードは必須です"
-    }
+    },
+    "forgot_password": {
+        "page_title_first": "登録したメールアドレスを入力してください",
+        "page_title_second": "リンクを受け取り、パスワードをリセットするために",
+        "input_email": "メールアドレスを入力してください",
+        "btn_send": "送信",
+        "go_to_login": "ログイン画面へ戻る"
+    },
+    "google_auth": {
+        "verifying": "Googleアカウントを認証中",
+        "verified": "Googleアカウントが認証されました"
+    },
+    "register": {
+        "page_title_first": "Next Ticketでアカウントを作成",
+        "or": "または",
+        "login_link": "ログイン画面に戻る",
+        "page_title_second": "すでにアカウントをお持ちの場合",
+        "label_input_first_name": "姓",
+        "placeholder_input_first_name": "姓を入力してください",
+        "firstname_is_required": "姓を入力してください",
+        "label_input_last_name": "名",
+        "placeholder_input_last_name": "名を入力してください",
+        "lastname_is_required": "名を入力してください",
+        "placeholder_input_email": "メールアドレスを入力してください",
+        "email_is_required": "メールアドレスを入力してください",
+        "label_input_password": "パスワード",
+        "placeholder_input_password": "パスワードを入力してください",
+        "password_is_required": "パスワードを入力してください",
+        "placeholder_input_confirm_password": "パスワードを再入力してください",
+        "confirm_password_is_required": "パスワードを再入力してください",
+        "confirm_passowrd_is_mismacth": "再入力したパスワードが一致しません",
+        "btn_send": "送信"
+    },
+    "register_success": {
+        "created_account": "アカウントが作成されました",
+        "alert_verify_first": "メールを確認してください",
+        "alert_verify_second": "登録したアカウントを認証するために"
+    },
+    "send_link_reset_password": {
+        "page_title_first": "リセットリンクが送信されました",
+        "page_title_second": "メールを確認してください",
+        "page_title_third": "パスワードをリセットするために"
+    },
+    "reset_password": {
+        "page_title_main": "新しいパスワードを設定してください",
+        "page_title_sub": "新しいパスワードを設定した後、作成したパスワードでログインできます",
+        "label_input_password": "パスワード",
+        "placeholder_input_password": "パスワードを入力してください",
+        "password_is_required": "パスワードを入力してください",
+        "placeholder_input_confirm_password": "パスワードを再入力してください",
+        "confirm_password_is_required": "パスワードを再入力してください",
+        "confirm_passowrd_is_mismacth": "再入力したパスワードが一致しません",
+        "btn_send": "送信"
+    },
+    "reset_password_success": {
+        "success_message": "パスワードのリセットが成功しました",
+        "redirect_message": "ログインページにリダイレクト中"
+    },
+    "workspaces": {
+        "page_title": "ワークスペース",
+        "page_title_join": "ワークスペースに参加する または",
+        "page_title_create": "新しいワークスペースを作成",
+        "placeholder_input_search": "ワークスペースを検索"
+    },
+    "btn_view_more": "もっと見る",
+    "top_menu": {
+        "invitation": "招待",
+        "workspace": "ワークスペース",
+        "profile": "プロフィール",
+        "calendar": "カレンダー"
+    },
+    "create_workspace": {
+        "page_title": "ワークスペースを作成",
+        "input_workspace_name": "ワークスペース名を入力",
+        "workspace_name_required": "ワークスペース名は空にできません",
+        "placeholder_workspace_description": "ワークスペースの説明"
+    },
+    "btn_create": "作成",
+    "btn_back": "戻る",
+    "btn_new": "新規",
+    "btn_cancel": "キャンセル",
+    "btn_send": "送信",
+    "sidebar": {
+        "workspace": "ワークスペース",
+        "project": "プロジェクト",
+        "invite_member": "メンバーを招待",
+        "document": "ドキュメント",
+        "calendar": "カレンダー",
+        "setting": "設定"
+    },
+    "projects": {
+        "page_title": "プロジェクト",
+        "invitation": "招待",
+        "placeholder_input_search": "プロジェクトを検索",
+        "project_empty_message": "あなたのプロジェクトはここに表示されます",
+        "created_by_text": "作成者"
+    },
+    "private_check": "非公開",
+    "public_check": "公開",
+    "create_project": {
+        "page_title": "新しいプロジェクトを作成",
+        "placeholder_input_project_name": "プロジェクト名を入力",
+        "placeholder_project_description": "このプロジェクトの説明",
+        "add_members_text": "メンバーを追加",
+        "send_to_text": "送信先",
+        "no_member_message": "メンバーがいません",
+        "project_name_required": "プロジェクト名を入力してください",
+        "placeholder_input_search_member": "名前またはメールアドレスを入力"
+    },
+    "add_member_project": {
+        "page_title": "メンバーを追加"
+    },
+    "tasks": {
+        "page_title_task": "チケット管理",
+        "page_title_project_setting": "プロジェクト設定",
+        "page_title_project_report": "進捗レポート",
+        "setting": "設定",
+        "report": "レポート",
+        "clone": "複製",
+        "board": "ボード",
+        "list": "リスト",
+        "priority_sort": "優先度",
+        "due_sort": "期限",
+        "placeholder_input_search": "チケットを検索",
+        "task_empty_message": "ここにチケットが表示されます",
+        "due_label": "期限",
+        "placeholder_search_assigner": "担当者を検索",
+        "assignee_label": "担当者",
+        "project_owner_label": "プロジェクトオーナー",
+        "btn_view_task": "チケットを見る",
+        "task_title_required": "チケットのタイトルを入力してください",
+        "task_title_default": "ここにチケットのタイトルを入力",
+        "tags_label": "タグ",
+        "placeholder_search_tags": "タグを検索",
+        "tags_not_found": "タグがありません",
+        "priority_label": "優先度",
+        "type_label": "チケットタイプ",
+        "placeholder_task_description": "このチケットの説明...",
+        "btn_create_task": "チケットの作成"
+    },
+    "empty_label": "空",
+    "btn_save": "保存"
 }

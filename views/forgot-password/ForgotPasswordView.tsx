@@ -14,8 +14,10 @@ import Link from "next/link";
 import { FormEvent, useState } from "react";
 import SendLinkSuccess from "./components/SendLinkSuccess";
 import ErrorAlert from "@/common/components/ErrorAlert";
+import { useTranslations } from "next-intl";
 
 const ForgotPasswordView = () => {
+  const t = useTranslations();
   const [error, setError] = useState<AppErrorType | null>(null);
   const [validateError, setValidateError] = useState<AppErrorType[] | []>([]);
   const [loading, setLoading] = useState(false);
@@ -70,14 +72,14 @@ const ForgotPasswordView = () => {
         <div className="card-body login-card-body">
           {
             sent ? <SendLinkSuccess /> : <>
-              <h6 className="text-dark">Enter your email that you are registered</h6>
-              <h6 className="text-secondary mb-2">to receive the link and reset your password</h6>
+              <h6 className="text-dark">{t('forgot_password.page_title_first')}</h6>
+              <h6 className="text-secondary mb-2">{t('forgot_password.page_title_second')}</h6>
               <ErrorAlert error={error} />
               <form className="mt-4" onSubmit={handleSubmitSendLinkReset}>
                 <InputForm
                   id="email"
                   inputType="text"
-                  inputPlaceholder="Enter your email"
+                  inputPlaceholder={t('forgot_password.input_email')}
                   inputIcon={<FontAwesomeIcon icon={faEnvelope} />}
                   inputValue={emailInput}
                   setInputValue={setEmailInput}
@@ -92,12 +94,12 @@ const ForgotPasswordView = () => {
                 />
                 <div className="social-auth-links text-center mb-3">
                   <Button type="submit" color="primary" className="mb-2" fullWidth disabled={loading || hasError(validateError)}>
-                    {loading ? <Loading color="light" /> : 'Send'}
+                    {loading ? <Loading color="light" /> : t('btn_send')}
                   </Button>
                 </div>
               </form>
               <p className="mb-1">
-                <Link className="text-secondary" href={APP_LINK.LOGIN}>Go to login</Link>
+                <Link className="text-secondary" href={APP_LINK.LOGIN}>{t('forgot_password.go_to_login')}</Link>
               </p>
             </>
           }

@@ -97,7 +97,7 @@ const TaskStatusSelect: React.FC<TaskStatusSelectProps> = ({ status, className, 
           <>
             <ul className="list-group select-search-task">
               <li className="list-group-item border-unset p-unset">
-                <Input type="search" className="w-100" onChange={handleChangeKeyword} />
+                <Input type="search" className="w-100" placeholder="Search status" onChange={handleChangeKeyword} />
               </li>
               {
                 statusData && statusData.items.filter(m => status?.id !== m.id).map((status, index) => (

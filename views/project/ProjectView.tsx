@@ -1,7 +1,7 @@
 "use client"
 import Button from "@/common/components/Button";
 import Input from "@/common/components/Input";
-import { faAngleDoubleDown, faBullseye, faCircleCheck, faEnvelope, faPlus, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDoubleDown, faBullseye, faEnvelope, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import CreateProjectModal from "./components/CreateProjectModal";
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from "react";
@@ -14,9 +14,8 @@ import ProjectInvitationModal from "./components/ProjectInvitationModal";
 import { WorkspaceType } from "@/types/workspace.type";
 import Loading from "@/common/components/Loading";
 import { ProjectType } from "@/types/project.type";
-import Link from "next/link";
-import { IMAGE_DEFAULT } from "@/enums/app.enum";
 import ProjectItem from "./components/ProjectItem";
+import { useTranslations } from "next-intl";
 
 interface ProjectViewProps {
   workspace: WorkspaceType
@@ -24,6 +23,7 @@ interface ProjectViewProps {
 
 const ProjectView: React.FC<ProjectViewProps> = ({ workspace }) => {
   const defaultPageSize = 10;
+  const t = useTranslations();
   const [pageSize, setPageSize] = useState(defaultPageSize);
   const [openModal, setOpenModal] = useState(false);
   const [projectData, setProjectData] = useState<ResponseWithPaginationType<ProjectType[]>>();
@@ -81,26 +81,34 @@ const ProjectView: React.FC<ProjectViewProps> = ({ workspace }) => {
   return <>
     <div className="row">
       <div className="col-12">
-        <h3><FontAwesomeIcon icon={faBullseye} className="text-primary" /> Projects</h3>
+        <h3><FontAwesomeIcon icon={faBullseye} className="text-primary" /> {t('projects.page_title')}</h3>
       </div>
     </div>
-    <div className="row mt-4">
-      <div className="col-6 col-lg-6 mb-2">
-        <Button color="primary" className="create-btn mt-2 mr-2" onClick={() => setOpenModal (true)}>
-          New <FontAwesomeIcon icon={faPlus} />
-        </Button>
+    <div className="row mt-2">
+      <div className="col-12 mb-2">
         <Button color="secondary" className="letter-btn mt-2 btn-no-border" outline onClick={() => setInviteModal (true)}>
-          <FontAwesomeIcon icon={faEnvelope} /> Invitation
+          <FontAwesomeIcon icon={faEnvelope} /> {t('projects.invitation')}
         </Button>
       </div>
       {
         (projectData) &&
         <div className="col-6 col-lg-6">
-          <Input type="search" placeholder="Search projects" className="float-right input-search mt-2" onChange={handleChangeKeyword} />
+          <Input type="search" placeholder={t('projects.placeholder_input_search')} className="float-left input-search mt-2" onChange={handleChangeKeyword} />
         </div>
       }
+      <div className="col-6 col-lg-6 mb-2">
+        <Button color="primary" className="create-btn mt-2 mr-2 float-right" onClick={() => setOpenModal (true)}>
+          {t('btn_new')} <FontAwesomeIcon icon={faPlus} />
+        </Button>
+      </div>
     </div>
     <div className="row mt-4">
+      {
+        loading &&
+        <div className="col-12 text-center mt-4">
+          <Loading color="primary" size={50} />
+        </div>
+      }
       {
         (!loading && projectData && projectData.total > 0) && projectData.items.map(project => (
           <ProjectItem project={project} key={project.id} />
@@ -109,14 +117,14 @@ const ProjectView: React.FC<ProjectViewProps> = ({ workspace }) => {
       {
         (!loading && projectData && projectData.total === 0) &&
         <div className="col-12 text-center">
-          <h6 className="text-muted">Your projects will be show here</h6>
+          <h6 className="text-muted">{t('projects.project_empty_message')}</h6>
         </div>
       }
       {
         (!loading && projectData && projectData.total > pageSize) &&
         <div className="col-12 text-center">
           <a href="#" className="text-secondary" onClick={handleViewMoreProjects}>
-            View more <FontAwesomeIcon icon={faAngleDoubleDown} />
+            {t('btn_view_more')} <FontAwesomeIcon icon={faAngleDoubleDown} />
           </a>
         </div>
       }

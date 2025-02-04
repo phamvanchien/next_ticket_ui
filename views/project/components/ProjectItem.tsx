@@ -10,12 +10,14 @@ import AddMemberModal from "./AddMemberModal";
 import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
 import { formatTime } from "@/utils/helper.util";
+import { useTranslations } from "next-intl";
 
 interface ProjectItemProps {
   project: ProjectType
 }
 
 const ProjectItem: React.FC<ProjectItemProps> = ({ project }) => {
+  const t = useTranslations();
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
   const [modalAddMember, setModalAddmember] = useState<boolean>(false);
   const [projectMembers, setProjectMembers] = useState<WorkspaceUserType[]>();
@@ -32,7 +34,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project }) => {
             </Link>
           </h6>
           <p className="text-muted" style={{ fontSize: 13 }}>
-            <FontAwesomeIcon icon={faUser} /> Created by {project.user.first_name} {project.user.last_name}
+            <FontAwesomeIcon icon={faUser} /> {t('projects.created_by_text')} {project.user.first_name} {project.user.last_name}
           </p>
           <ul className="list-inline mt-2">
             {
@@ -65,13 +67,13 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project }) => {
           {
             project.is_public &&
             <span className="text-success">
-              <FontAwesomeIcon icon={faCircleCheck} /> Public
+              <FontAwesomeIcon icon={faCircleCheck} /> {t('public_check')}
             </span>
           }
           {
             !project.is_public &&
             <span className="text-primary">
-              <FontAwesomeIcon icon={faCircle} /> Private
+              <FontAwesomeIcon icon={faCircle} /> {t('private_check')}
             </span>
           }
         </div>

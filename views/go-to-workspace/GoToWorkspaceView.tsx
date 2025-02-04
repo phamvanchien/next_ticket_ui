@@ -15,12 +15,12 @@ import { catchError } from "@/services/base.service";
 import ErrorPage from "@/common/layouts/ErrorPage";
 import Loading from "@/common/components/Loading";
 import { WorkspaceType } from "@/types/workspace.type";
-import LanguageSwitcher from "@/common/components/LanguageSwitcher";
 import { useTranslations } from "next-intl";
 
 const GoToWorkspaceView = () => {
   const router = useRouter();
   const defaultPageSize = 4;
+  const t = useTranslations();
   const [keyword, setKeyword] = useState<string>('');
   const [debounceKeyword, setDebounceKeyword] = useState<string>('');
   const [loading, setLoading] = useState(true);
@@ -72,20 +72,19 @@ const GoToWorkspaceView = () => {
   if (error) {
     return <ErrorPage errorCode={500} />
   }
-  const t = useTranslations();
   return (
     <div className="row">
       <div className="col-12">
         <div className="row">
           <div className="col-12 col-lg-7 text-secondary">
-            <h3><FontAwesomeIcon icon={faCubes} className="text-primary" /> Workspaces</h3>
-            <h6 className="text-dark">Join to a workspace or</h6>
-            <h6 className="text-secondary">Create a new workspace</h6>
+            <h3><FontAwesomeIcon icon={faCubes} className="text-primary" /> {t('workspaces.page_title')}</h3>
+            <h6 className="text-dark">{t('workspaces.page_title_join')}</h6>
+            <h6 className="text-secondary">{t('workspaces.page_title_create')}</h6>
           </div>
           {
             (!loading && workspacesData) &&
             <div className="col-12 col-lg-5">
-              <Input type="search" className="input-search float-right" placeholder="Search your workspaces" onChange={handleChangeKeyword} disabled={viewMoreLoading} />
+              <Input type="search" className="input-search float-right" placeholder={t('workspaces.placeholder_input_search')} onChange={handleChangeKeyword} disabled={viewMoreLoading} />
             </div>
           }
         </div>
@@ -114,7 +113,7 @@ const GoToWorkspaceView = () => {
           <div className="row mt-2">
             <div className="col-12 text-center">
               <Button color="secondary" rounded outline onClick={handleViewMore} disabled={viewMoreLoading}>
-                {viewMoreLoading ? <Loading color="secondary" /> : <>View more <FontAwesomeIcon icon={faAngleDoubleDown} /></>}
+                {viewMoreLoading ? <Loading color="secondary" /> : <>{t('btn_view_more')} <FontAwesomeIcon icon={faAngleDoubleDown} /></>}
               </Button>
             </div>
           </div>

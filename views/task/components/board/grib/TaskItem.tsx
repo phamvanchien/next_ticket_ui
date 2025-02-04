@@ -10,6 +10,7 @@ import { APP_LINK, APP_LOCALSTORAGE, IMAGE_DEFAULT } from "@/enums/app.enum";
 import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 interface TaskItemProps {
   task: TaskType
@@ -45,6 +46,7 @@ export const getIconPriority = (id: number, className?: string) => {
 const TaskItem: React.FC<TaskItemProps> = ({ task, statusKey, draggingTask, project, setDraggingTask, setDragOverStatus }) => {
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const router = useRouter();
+  const t = useTranslations();
   const [taskData, setTaskData] = useState(task);
   const [taskTitle, setTaskTitle] = useState(task.title);
   const [openEdit, setOpenEdit] = useState(false);
@@ -113,7 +115,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, statusKey, draggingTask, proj
             </Link>
           </h6>
           <div onClick={() => setOpenEdit(true)}>
-            <p className="text-secondary task-due">Due: {dateToString(new Date(taskData.due))}</p>
+            <p className="text-secondary task-due">{t('tasks.due_label')}: {dateToString(new Date(taskData.due))}</p>
             <img src={taskData.user.avatar ?? IMAGE_DEFAULT.NO_USER} className="img-circle mr-2" width={25} height={25} onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} />
             <span className="text-muted created-by">{taskData.user.first_name} {taskData.user.last_name}</span>
             <p className="mt-4">

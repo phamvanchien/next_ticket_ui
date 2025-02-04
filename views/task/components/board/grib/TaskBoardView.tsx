@@ -15,6 +15,7 @@ import TaskStatusWrap from "../TaskStatusWrap";
 import TaskItem from "./TaskItem";
 import { ResponseUserDataType } from "@/types/user.type";
 import { maxTaskShowFilter } from "@/views/task/TaskPageView";
+import { useTranslations } from "next-intl";
 
 interface TaskBoardViewProps {
   taskData?: TaskType
@@ -64,6 +65,8 @@ const TaskBoardView: React.FC<TaskBoardViewProps> = ({
   const isScrolling = useRef(false);
   const scrollStartX = useRef(0);
   const scrollLeft = useRef(0);
+
+  const t = useTranslations();
 
   const handleOpenCreate = (status: ProjectTagType) => {
     setInputStatusCreate(status);
@@ -184,7 +187,7 @@ const TaskBoardView: React.FC<TaskBoardViewProps> = ({
     return (
       <div className="row mt-4">
         <div className="col-12">
-          <h6 className="text-center text-muted">Your task will be show here</h6>
+          <h6 className="text-center text-muted">{t('tasks.task_empty_message')}</h6>
         </div>
       </div>
     )
@@ -230,7 +233,7 @@ const TaskBoardView: React.FC<TaskBoardViewProps> = ({
                 onClick={() => handleOpenCreate (status)}
               >
                 <div className="card-body create-task-status" style={{ padding: 15 }}>
-                  Create task <FontAwesomeIcon icon={faPlus} />
+                  {t('tasks.btn_create_task')} <FontAwesomeIcon icon={faPlus} />
                 </div>
               </div>
             </TaskStatusWrap>

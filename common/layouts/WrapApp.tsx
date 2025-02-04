@@ -5,12 +5,14 @@ import NavItem from "./NavItem";
 import { APP_LINK } from "@/enums/app.enum";
 import React from "react";
 import Sidebar from "./Sidebar";
+import { useTranslations } from "next-intl";
 
 interface WrapAppProps {
   children: React.ReactNode
 }
 
 const WrapApp: React.FC<WrapAppProps> = ({ children }) => {
+  const t = useTranslations();
   const handleOpenMenu = () => {
     const body = document.getElementsByTagName('body') as HTMLCollectionOf<HTMLBodyElement>;
     body[0].classList.remove('sidebar-collapse');
@@ -36,16 +38,16 @@ const WrapApp: React.FC<WrapAppProps> = ({ children }) => {
         <div className="container">
           <ul className="navbar-nav navbar-no-expand float-right">
             <NavItem href={APP_LINK.INVITATION} className="icon-menu text-center border-right-header">
-              <FontAwesomeIcon icon={faEnvelopeOpen} /> Invitation
+              <FontAwesomeIcon icon={faEnvelopeOpen} /> {t('top_menu.invitation')}
             </NavItem>
             <NavItem href={APP_LINK.GO_TO_WORKSPACE} className="icon-menu text-center border-right-header">
-              <FontAwesomeIcon icon={faCubes} /> Workspaces
+              <FontAwesomeIcon icon={faCubes} /> {t('top_menu.workspace')}
             </NavItem>
             <NavItem href={APP_LINK.PROFILE} className="icon-menu text-center">
-              <FontAwesomeIcon icon={faUser} /> Profile
+              <FontAwesomeIcon icon={faUser} /> {t('top_menu.profile')}
             </NavItem>
             <NavItem href={APP_LINK.CALENDAR} className="icon-menu text-center">
-              <FontAwesomeIcon icon={faCalendarDay} /> Calendar
+              <FontAwesomeIcon icon={faCalendarDay} /> {t('top_menu.calendar')}
             </NavItem>
           </ul>
         </div>

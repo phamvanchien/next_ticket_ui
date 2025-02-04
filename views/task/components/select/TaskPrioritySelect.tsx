@@ -2,6 +2,7 @@ import { TaskPriorityType } from "@/types/task.type";
 import { priorityRange } from "@/utils/helper.util";
 import React, { useEffect, useRef, useState } from "react";
 import { getIconPriority } from "../board/grib/TaskItem";
+import { useTranslations } from "next-intl";
 
 interface TaskPrioritySelectProps {
   priority?: TaskPriorityType
@@ -12,6 +13,7 @@ interface TaskPrioritySelectProps {
 const TaskPrioritySelect: React.FC<TaskPrioritySelectProps> = ({ priority, className, setPriority}) => {
   const priorities = priorityRange();
   const listPriorityRef = useRef<HTMLDivElement>(null);
+  const t = useTranslations();
   const [openPriorityList, setOpenPriorityList] = useState(false);
   useEffect(() => {
     const handleClickOutside = async (event: MouseEvent) => {
@@ -29,7 +31,7 @@ const TaskPrioritySelect: React.FC<TaskPrioritySelectProps> = ({ priority, class
   return (
     <div className={`row text-secondary ${className ?? ''}`}>
       <div className="col-4 lh-40">
-        Priority:
+        {t('tasks.priority_label')}:
       </div>
       <div className="col-8 text-secondary" onClick={() => setOpenPriorityList (true)} ref={listPriorityRef}>
         {
