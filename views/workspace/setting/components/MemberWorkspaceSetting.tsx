@@ -14,6 +14,7 @@ import Button from "@/common/components/Button";
 import { notify } from "@/utils/helper.util";
 import { BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import InviteMemberView from "@/views/invite-member/InviteMemberView";
+import { useTranslations } from "next-intl";
 
 interface MemberWorkspaceSettingProps {
   workspace: WorkspaceType
@@ -21,6 +22,7 @@ interface MemberWorkspaceSettingProps {
 
 const MemberWorkspaceSetting: React.FC<MemberWorkspaceSettingProps> = ({ workspace }) => {
   const defaultPageSize = 10;
+  const t = useTranslations();
   const [keyword, setKeyword] = useState<string>("");
   const [debounceKeyword, setDebounceKeyword] = useState<string>("");
   const [pageSize, setPageSize] = useState(defaultPageSize);
@@ -95,9 +97,9 @@ const MemberWorkspaceSetting: React.FC<MemberWorkspaceSettingProps> = ({ workspa
   return <>
     <div className="row">
       <div className="col-12 col-lg-4 col-sm-6 mt-4">
-        <h5 className="text-muted">Members</h5>
+        <h5 className="text-muted">{t('member_label')}</h5>
         <i className="text-muted">
-          <FontAwesomeIcon icon={faInfoCircle} /> You can add or remove members of the workspace here.
+          <FontAwesomeIcon icon={faInfoCircle} /> {t('workspace_setting.setting_member_message')}
         </i>
       </div>
     </div>
@@ -113,13 +115,13 @@ const MemberWorkspaceSetting: React.FC<MemberWorkspaceSettingProps> = ({ workspa
           }}
           onClick={() => setOpenInvite (true)}
         >
-          Add new <FontAwesomeIcon icon={faPlus} />
+          {t('add_member_project.page_title')} <FontAwesomeIcon icon={faPlus} />
         </div>
       </div>
     </div>
     <div className="row">
       <div className="col-12 col-lg-4 col-sm-6">
-        <Input type="search" placeholder="Enter status title" style={{
+        <Input type="search" placeholder={t('create_project.placeholder_input_search_member')} style={{
             padding: "8px",
             borderRadius: "5px"
           }}
@@ -139,7 +141,7 @@ const MemberWorkspaceSetting: React.FC<MemberWorkspaceSettingProps> = ({ workspa
       <div className="row mt-2">
         <div className="col-12 col-lg-4 col-sm-6">
           <span className="link mt-4 mb-2 text-secondary" style={{cursor: 'pointer'}} onClick={!loadingViewMore ? handleViewMore : undefined}>
-            View more {loadingViewMore ? <Loading color="secondary" /> : <FontAwesomeIcon icon={faAngleDoubleDown} />}
+            {t('btn_view_more')} {loadingViewMore ? <Loading color="secondary" /> : <FontAwesomeIcon icon={faAngleDoubleDown} />}
           </span>
         </div>
       </div>
@@ -149,17 +151,15 @@ const MemberWorkspaceSetting: React.FC<MemberWorkspaceSettingProps> = ({ workspa
         <div className="row">
           <div className="col-12 mb-2">
             <h6 className="text-muted">
-              You will remove {memberDelete?.first_name} {memberDelete?.last_name} from this workspace.
+              {t('workspace_setting.setting_delete_message_start')} {memberDelete?.first_name} {memberDelete?.last_name} {t('workspace_setting.setting_delete_message_end')}
             </h6>
           </div>
-          <div className="col-6">
-            <Button color="danger" fullWidth onClick={handleDeleteMember} disabled={loadingDelete}>
-              OK {loadingDelete && <Loading color="light" />}
+          <div className="col-12">
+            <Button color="primary" className="float-right" onClick={handleDeleteMember} disabled={loadingDelete}>
+              {t('btn_ok')} {loadingDelete && <Loading color="light" />}
             </Button>
-          </div>
-          <div className="col-6">
-            <Button color="danger" fullWidth outline disabled={loadingDelete} onClick={() => setMemberDelete (undefined)}>
-              Cancel
+            <Button color="default" className="float-right mr-2 btn-no-border" outline disabled={loadingDelete} onClick={() => setMemberDelete (undefined)}>
+              {t('btn_cancel')}
             </Button>
           </div>
         </div>

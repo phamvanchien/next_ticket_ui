@@ -15,6 +15,7 @@ import { statusList } from "@/api/project.api";
 import { ResponseUserDataType } from "@/types/user.type";
 import TaskListLoading from "./TaskListLoading";
 import { dateToStamptimeString } from "@/utils/helper.util";
+import { useTranslations } from "next-intl";
 
 interface TaskListViewProps {
   project: ProjectType
@@ -54,6 +55,7 @@ const TaskListView: React.FC<TaskListViewProps> = ({
   const [statusData, setStatusData] = useState<ResponseWithPaginationType<ProjectTagType[]>>();
   const [searchStatus, setSearchStatus] = useState<string>('');
   const [loading, setLoading] = useState(true);
+  const t = useTranslations();
   const handleViewMore = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     setLoadingViewMore(true);
@@ -151,7 +153,7 @@ const TaskListView: React.FC<TaskListViewProps> = ({
                 <tr>
                   <td colSpan={5} className="text-left">
                     <a href="#" className="link" onClick={!loadingViewMore ? handleViewMore : undefined}>
-                      {loadingViewMore ? <>Loading <Loading color="primary" /></> : <>View more <FontAwesomeIcon icon={faAngleDoubleDown} /></>}
+                      {loadingViewMore ? <>Loading <Loading color="primary" /></> : <>{t('btn_view_more')} <FontAwesomeIcon icon={faAngleDoubleDown} /></>}
                     </a>
                   </td>
                 </tr>

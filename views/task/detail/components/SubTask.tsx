@@ -14,6 +14,7 @@ import { TaskType } from "@/types/task.type";
 import { notify } from "@/utils/helper.util";
 import { faPencil, faPlus, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import React, { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -26,6 +27,7 @@ const SubTask: React.FC<SubTaskProps> = ({ task }) => {
   const defaultPagesize = 7;
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
+  const t = useTranslations();
   const [openCreate, setOpenCreate] = useState(false);
   const [loadingCreate, setLoadingCreate] = useState(false);
   const [validateError, setValidateError] = useState<AppErrorType[] | []>([]);
@@ -154,13 +156,13 @@ const SubTask: React.FC<SubTaskProps> = ({ task }) => {
   return <>
     <div className="row mt-4-4">
       <div className="col-12">
-        <h6 className="text-muted">Sub tasks:</h6>
+        <h6 className="text-muted">{t('tasks.subtask_label')}:</h6>
       </div>
       <div className="col-12">
         {
           !openCreate &&
           <span style={{cursor: 'pointer'}} className="text-secondary" onClick={() => setOpenCreate (true)}>
-            <FontAwesomeIcon icon={faPlus} /> Add sub tasks
+            <FontAwesomeIcon icon={faPlus} /> {t('tasks.add_subtask_label')}
           </span>
         }
       </div>
@@ -180,7 +182,7 @@ const SubTask: React.FC<SubTaskProps> = ({ task }) => {
               className="subtask-title-create"
               id="subTaskName"
               inputType="text"
-              inputPlaceholder="Enter sub task"
+              inputPlaceholder={t('tasks.placeholder_input_subtask')}
               inputValue={subTaskTitle}
               setInputValue={setSubTaskTitle}
               error={validateError}
@@ -189,17 +191,17 @@ const SubTask: React.FC<SubTaskProps> = ({ task }) => {
               validates={[
                 {
                   validateType: APP_VALIDATE_TYPE.REQUIRED,
-                  validateMessage: TASK_ENUM.SUBTASK_TITLE_EMPTY
+                  validateMessage: t('tasks.subtask_title_required')
                 }
               ]}
             />
           </div>
           <div className="col-12">
             <Button color="secondary" className="btn-no-border" outline disabled={loadingCreate} onClick={() => setOpenCreate (false)}>
-              Cancel
+              {t('btn_cancel')}
             </Button>
             <Button color="primary" className="ml-2" disabled={loadingCreate} onClick={handleCreateSubtask}>
-              {loadingCreate ? <Loading color="light" /> : 'Save'}
+              {loadingCreate ? <Loading color="light" /> : t('btn_save')}
             </Button>
           </div>
         </>
@@ -207,7 +209,7 @@ const SubTask: React.FC<SubTaskProps> = ({ task }) => {
       {
         (subTaskData && subTaskData.total > 0) &&
         <div className="col-12 mt-4">
-          <Input type="search" placeholder="Search subtask" onChange={handleChangeKeyword} />
+          <Input type="search" placeholder={t('tasks.placeholder_search_subtask')} onChange={handleChangeKeyword} />
         </div>
       }
       <div className="col-12 mt-2">
@@ -234,7 +236,7 @@ const SubTask: React.FC<SubTaskProps> = ({ task }) => {
         (subTaskData && subTaskData.total > pageSize) &&
         <div className="col-12">
           <Link href={'#'} className="text-muted" onClick={!loadingViewMore ? handleViewMore : undefined}>
-            View more {loadingViewMore && <Loading color="secondary" />}
+            {t('btn_view_more')} {loadingViewMore && <Loading color="secondary" />}
           </Link>
         </div>
       }

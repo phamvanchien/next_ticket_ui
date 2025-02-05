@@ -6,6 +6,7 @@ import { PieChartType } from "@/types/base.type";
 import { ProjectType, ReportStatusType } from "@/types/project.type";
 import { faPieChart, faSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { PieChart } from "react-minimal-pie-chart";
 
@@ -21,6 +22,7 @@ const ProjectStatusReport: React.FC<ProjectStatusReportProps> = ({ project }) =>
   const [reportDataTag, setReportDataTag] = useState<ReportStatusType[]>();
   const [chartData, setChartData] = useState<PieChartType[]>([]);
   const [chartType, setChartType] = useState<number>(1);
+  const t = useTranslations();
   useEffect(() => {
     const loadReportTag = async () => {
       try {
@@ -105,31 +107,31 @@ const ProjectStatusReport: React.FC<ProjectStatusReportProps> = ({ project }) =>
     <div className="row">
       <div className="col-12 mb-2">
         <hr/>
-        <h5 className="text-secondary"><FontAwesomeIcon icon={faPieChart} /> Task reporting chart by status</h5>
+        <h5 className="text-secondary"><FontAwesomeIcon icon={faPieChart} /> {t('project_report.pie_chart_title')}</h5>
       </div>
       <div className="col-12 mb-2">
         {
           (reportDataStatus && reportDataStatus.length > 0) &&
           <Button color="secondary" className="float-left mr-2" outline={chartType === 2 || chartType === 3 || chartType === 4} onClick={() => setChartType (1)}>
-            Status
+            {t('tasks.status_label')}
           </Button>
         }
         {
           (reportDataPriority && reportDataPriority.length > 0) &&
           <Button color="secondary" className="float-left mr-2" outline={chartType === 1 || chartType === 3 || chartType === 4} onClick={() => setChartType (2)}>
-            Priority
+            {t('tasks.priority_label')}
           </Button>
         }
         {
           (reportDataType && reportDataType.length > 0) &&
           <Button color="secondary" className="float-left mr-2" outline={chartType === 2 || chartType === 1 || chartType === 4} onClick={() => setChartType (3)}>
-            Type
+            {t('tasks.type_label')}
           </Button>
         }
         {
           (reportDataTag && reportDataTag.length > 0) &&
           <Button color="secondary" className="float-left mr-2" outline={chartType === 2 || chartType === 1 || chartType === 3} onClick={() => setChartType (4)}>
-            Tag
+            {t('tasks.tags_label')}
           </Button>
         }
       </div>

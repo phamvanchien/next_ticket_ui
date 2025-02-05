@@ -6,6 +6,7 @@ import { ResponseWithPaginationType } from "@/types/base.type";
 import { ProjectTagType } from "@/types/project.type";
 import { faCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTranslations } from "next-intl";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -23,6 +24,7 @@ const TaskStatusSelect: React.FC<TaskStatusSelectProps> = ({ status, className, 
   const [statusData, setStatusData] = useState<ResponseWithPaginationType<ProjectTagType[]>>();
   const listStatusRef = useRef<HTMLDivElement>(null);
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
+  const t = useTranslations();
   const handleChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setKeyword('');
@@ -77,7 +79,7 @@ const TaskStatusSelect: React.FC<TaskStatusSelectProps> = ({ status, className, 
   return (
     <div className={`row text-secondary ${className ?? ''}`}>
       <div className="col-4 lh-40">
-        Status:
+        {t('tasks.status_label')}:
       </div>
       <div className="col-8 text-secondary" onClick={() => setOpenStatusList (true)} ref={listStatusRef}>
         {
@@ -97,7 +99,7 @@ const TaskStatusSelect: React.FC<TaskStatusSelectProps> = ({ status, className, 
           <>
             <ul className="list-group select-search-task">
               <li className="list-group-item border-unset p-unset">
-                <Input type="search" className="w-100" placeholder="Search status" onChange={handleChangeKeyword} />
+                <Input type="search" className="w-100" placeholder={t('tasks.placeholder_search_status')} onChange={handleChangeKeyword} />
               </li>
               {
                 statusData && statusData.items.filter(m => status?.id !== m.id).map((status, index) => (

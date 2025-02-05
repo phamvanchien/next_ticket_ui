@@ -16,6 +16,7 @@ import { ResponseUserDataType } from "@/types/user.type";
 import { notify } from "@/utils/helper.util";
 import { BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import AddMemberModal from "../../components/AddMemberModal";
+import { useTranslations } from "next-intl";
 
 interface ProjectMemberSettingProps {
   project: ProjectType
@@ -32,6 +33,7 @@ const ProjectMemberSetting: React.FC<ProjectMemberSettingProps> = ({ project }) 
   const [pageSize, setPageSize] = useState(defaultPageSize);
   const [loadingViewMore, setLoadingViewMore] = useState(false);
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
+  const t = useTranslations();
   const handleChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setKeyword('');
@@ -91,9 +93,9 @@ const ProjectMemberSetting: React.FC<ProjectMemberSettingProps> = ({ project }) 
   return <>
     <div className="row">
       <div className="col-12 col-lg-4 col-sm-6 mt-4">
-        <h5 className="text-muted">Members</h5>
+        <h5 className="text-muted">{t('projects.member_label')}</h5>
         <i className="text-muted">
-          <FontAwesomeIcon icon={faInfoCircle} /> You can add or remove members from the project right here.
+          <FontAwesomeIcon icon={faInfoCircle} /> {t('project_setting.setting_member_title')}
         </i>
       </div>
     </div>
@@ -109,13 +111,13 @@ const ProjectMemberSetting: React.FC<ProjectMemberSettingProps> = ({ project }) 
           }}
           onClick={() => setOpenInvite (true)}
         >
-          Add member <FontAwesomeIcon icon={faPlus} />
+          {t('add_member_project.page_title')} <FontAwesomeIcon icon={faPlus} />
         </div>
       </div>
     </div>
     <div className="row">
       <div className="col-12 col-lg-4 col-sm-6">
-        <Input type="search" placeholder="Enter member name or email" style={{
+        <Input type="search" placeholder={t('create_project.placeholder_input_search_member')} style={{
             padding: "8px",
             borderRadius: "5px"
           }}
@@ -137,7 +139,7 @@ const ProjectMemberSetting: React.FC<ProjectMemberSettingProps> = ({ project }) 
       <div className="row mt-2">
         <div className="col-12 col-lg-4 col-sm-6">
           <span className="link mt-4 mb-2 text-secondary" style={{cursor: 'pointer'}} onClick={!loadingViewMore ? handleViewMore : undefined}>
-            View more {loadingViewMore ? <Loading color="secondary" /> : <FontAwesomeIcon icon={faAngleDoubleDown} />}
+            {t('btn_view_more')} {loadingViewMore ? <Loading color="secondary" /> : <FontAwesomeIcon icon={faAngleDoubleDown} />}
           </span>
         </div>
       </div>
@@ -152,15 +154,15 @@ const ProjectMemberSetting: React.FC<ProjectMemberSettingProps> = ({ project }) 
         <div className="row">
           <div className="col-12 mb-2 mt-2">
             <h6 className="text-muted">
-             You will delete {memberDelete?.first_name} {memberDelete?.last_name} from this project.
+             {t('project_setting.message_delete_member_start')} {memberDelete?.first_name} {memberDelete?.last_name} {t('project_setting.message_delete_member_end')}
             </h6>
           </div>
           <div className="col-12 mb-2">
             <Button color="primary" className="float-right" onClick={handleDeleteMember} disabled={loadingDelete}>
-              Delete {loadingDelete && <Loading color="light" />}
+              {t('btn_delete')} {loadingDelete && <Loading color="light" />}
             </Button>
             <Button color="secondary" className="btn-no-border float-right mr-2" outline disabled={loadingDelete} onClick={() => setMemberDelete (undefined)}>
-              Cancel
+              {t('btn_cancel')}
             </Button>
           </div>
         </div>

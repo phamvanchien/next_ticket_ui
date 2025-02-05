@@ -15,6 +15,7 @@ import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { ResponseUserDataType } from "@/types/user.type";
 import { faCheckCircle, faEnvelope, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTranslations } from "next-intl";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -26,6 +27,7 @@ interface InviteMemberViewProps {
 const InviteMemberView: React.FC<InviteMemberViewProps> = ({ openModal, setOpenModal }) => {
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
+  const t = useTranslations();
   const [userData, setUserData] = useState<ResponseUserDataType[]>();
   const [error, setError] = useState<AppErrorType | null>(null);
   const [errorSend, setErrorSend] = useState<AppErrorType | null>(null);
@@ -120,7 +122,7 @@ const InviteMemberView: React.FC<InviteMemberViewProps> = ({ openModal, setOpenM
   return (
     <Modal className="invite-modal" isOpen={openModal ? true : false}>
       <ModalHeader 
-        title="Invite members"
+        title={t('add_member_project.page_title')}
         setShow={setOpenModal}
       />
       <ModalBody>
@@ -134,7 +136,7 @@ const InviteMemberView: React.FC<InviteMemberViewProps> = ({ openModal, setOpenM
                 userSendData.map((email, index) => (
                   <div className="col-12 mb-2" key={index}>
                     <span className="badge badge-secondary send-to-item w-100 text-left">
-                      Send to: <i>{email}</i>
+                      {t('create_project.send_to_text')}: <i>{email}</i>
                       <FontAwesomeIcon icon={faTimesCircle} className="ml-2 float-right" style={{ fontSize: 17 }} onClick={() => handleRemoveUserSend (email)} />
                     </span>
                   </div>
@@ -145,14 +147,14 @@ const InviteMemberView: React.FC<InviteMemberViewProps> = ({ openModal, setOpenM
                 emailSent.map((email, index) => (
                   <div className="col-12 mb-2" key={index}>
                     <span className="badge badge-success send-to-item w-100 text-left">
-                      Sent to: <i>{email}</i>
+                      <i>{email}</i>
                       <FontAwesomeIcon icon={faCheckCircle} className="ml-2 float-right" style={{ fontSize: 17 }} />
                     </span>
                   </div>
                 ))
               }
               <div className="col-12 mb-2">
-                <Input type="text" id="searchMember" placeholder="Enter name or email" onChange={handleChangeKeyword} disabled={loading} />
+                <Input type="text" id="searchMember" placeholder={t('create_project.placeholder_input_search_member')} onChange={handleChangeKeyword} disabled={loading} />
                 {
                   (keyword && keyword !== '') &&
                   <ul className="list-group invite-group">
@@ -168,9 +170,9 @@ const InviteMemberView: React.FC<InviteMemberViewProps> = ({ openModal, setOpenM
               </div>
               <div className="col-12">
                 <Button color="primary" className="float-right ml-2" onClick={handleSubmitSend} disabled={loading}>
-                  {loading ? <Loading color="light" /> : 'Send'}
+                  {loading ? <Loading color="light" /> : t('btn_send')}
                 </Button>
-                <Button color="secondary" className="float-right btn-no-border" outline onClick={handleCancelModal} disabled={loading}>Cancel</Button>
+                <Button color="secondary" className="float-right btn-no-border" outline onClick={handleCancelModal} disabled={loading}>{t('btn_cancel')}</Button>
               </div>
             </>
           }

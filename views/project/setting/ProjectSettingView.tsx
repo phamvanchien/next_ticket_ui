@@ -12,6 +12,7 @@ import { API_CODE } from "@/enums/api.enum";
 import { notify } from "@/utils/helper.util";
 import { catchError } from "@/services/base.service";
 import ErrorAlert from "@/common/components/ErrorAlert";
+import { useTranslations } from "next-intl";
 
 interface ProjectSettingViewProps {
   project: ProjectType
@@ -21,6 +22,7 @@ const ProjectSettingView: React.FC<ProjectSettingViewProps> = ({ project }) => {
   const [error, setError] = useState<AppErrorType | null>(null);
   const [projectName, setProjectName] = useState(project.name);
   const projectNameRef = useRef<HTMLInputElement>(null);
+  const t = useTranslations();
 
   useEffect(() => {
     const handleClickOutside = async (event: MouseEvent) => {
@@ -33,7 +35,7 @@ const ProjectSettingView: React.FC<ProjectSettingViewProps> = ({ project }) => {
             });
             if (response && response.code === API_CODE.OK) {
               setProjectName(projectNameRef.current.value);
-              notify('Project is updated', 'success');
+              notify(t('project_setting.message_update'), 'success');
               return;
             }
             setError(catchError(response));

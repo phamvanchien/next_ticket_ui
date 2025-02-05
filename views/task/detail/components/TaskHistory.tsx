@@ -8,6 +8,7 @@ import Link from "next/link";
 import Loading from "@/common/components/Loading";
 import { ResponseWithPaginationType } from "@/types/base.type";
 import { IMAGE_DEFAULT } from "@/enums/app.enum";
+import { useTranslations } from "next-intl";
 
 interface TaskHistoryProps {
   historyData?: ResponseWithPaginationType<HistoryType[]>
@@ -18,6 +19,7 @@ interface TaskHistoryProps {
 }
 
 const TaskHistory: React.FC<TaskHistoryProps> = ({ historyData, task, loadingViewMore, pageSize, handleViewMoreHistory }) => {
+  const t = useTranslations();
   return <>
     {
       historyData && historyData.items.map((history, index) => (
@@ -42,7 +44,7 @@ const TaskHistory: React.FC<TaskHistoryProps> = ({ historyData, task, loadingVie
       (historyData && historyData.total > pageSize) &&
       <div className="col-12">
         <Link href={'#'} className="text-muted" onClick={!loadingViewMore ? handleViewMoreHistory : undefined}>
-          View more {loadingViewMore ? <Loading color="secondary" /> : <FontAwesomeIcon icon={faAngleDoubleDown} />}
+          {t('btn_view_more')} {loadingViewMore ? <Loading color="secondary" /> : <FontAwesomeIcon icon={faAngleDoubleDown} />}
         </Link>
       </div>
     }

@@ -1,6 +1,7 @@
 "use client"
 import { changePassword, setPassword, update } from "@/api/user.api";
 import Button from "@/common/components/Button";
+import ErrorAlert from "@/common/components/ErrorAlert";
 import Input from "@/common/components/Input";
 import InputForm from "@/common/components/InputForm";
 import Loading from "@/common/components/Loading";
@@ -12,14 +13,15 @@ import { catchError, hasError, printError, validateInput } from "@/services/base
 import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { ResponseUserDataType } from "@/types/user.type";
 import { getCookie, removeCookie, setCookie } from "@/utils/cookie.util";
-import { notify } from "@/utils/helper.util";
-import { faAngleDoubleLeft, faAngleDoubleRight, faLock, faPhone, faSignOut, faUser, faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { faLock, faSignOut, faUser, faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ChangeEvent, useEffect, useState } from "react";
 
 const ProfilePersonalView = () => {
+  const t = useTranslations();
   const router = useRouter();
   const [user, setUser] = useState<ResponseUserDataType>();
   const [error, setError] = useState<AppErrorType | null>(null);
@@ -155,30 +157,24 @@ const ProfilePersonalView = () => {
   return (
     <div className="row">
       <div className="col-12 mb-4 text-secondary">
-        <h3><FontAwesomeIcon icon={faUserCircle} className="text-primary" /> Profile</h3>
+        <h3><FontAwesomeIcon icon={faUserCircle} className="text-primary" /> {t('personal_profile.page_title')}</h3>
       </div>
       {
         (error) && 
         <div className="col-12 mb-2">
-          <div className="alert alert-light mt-4 alert-error">
-            <b className="text-danger mt-2">Error: </b> {error.message}
-          </div>
+          <ErrorAlert error={error} className="mt-4" />
         </div>
       }
       <div className="col-12">
         <label className="label-field-register mr-2" htmlFor="phone">Email: </label>
         {user?.email}
       </div>
-      <div className="col-12">
-        <label className="label-field-register mr-2" htmlFor="phone">Status: </label>
-        <b className="text-success">Verified</b>
-      </div>
       <div className="col-6">
         <InputForm
-          label="First name"
+          label={t('register.label_input_first_name')}
           id="first_name"
           inputType="text"
-          inputPlaceholder="Enter your first name"
+          inputPlaceholder={t('register.placeholder_input_first_name')}
           inputIcon={<FontAwesomeIcon icon={faUser} />}
           inputValue={firstName}
           defaultValue={firstName}
@@ -188,17 +184,17 @@ const ProfilePersonalView = () => {
           validates={[
             {
               validateType: APP_VALIDATE_TYPE.REQUIRED,
-              validateMessage: AUTHENTICATE_ENUM.FIRST_NAME_IS_EMPTY
+              validateMessage: t('register.firstname_is_required')
             }
           ]}
         />
       </div>
       <div className="col-6">
         <InputForm
-          label="last name"
+          label={t('register.label_input_last_name')}
           id="last_name"
           inputType="text"
-          inputPlaceholder="Enter your last name"
+          inputPlaceholder={t('register.placeholder_input_last_name')}
           inputIcon={<FontAwesomeIcon icon={faUser} />}
           inputValue={lastName}
           defaultValue={lastName}
@@ -208,16 +204,16 @@ const ProfilePersonalView = () => {
           validates={[
             {
               validateType: APP_VALIDATE_TYPE.REQUIRED,
-              validateMessage: AUTHENTICATE_ENUM.LAST_NAME_IS_EMPTY
+              validateMessage: t('register.lastname_is_required')
             }
           ]}
         />
       </div>
       <div className="col-12">
-        <label className="label-field-register" htmlFor="phone">Phone</label>
+        <label className="label-field-register" htmlFor="phone">{t('personal_profile.phone_label')}</label>
         <Input
           type="text"
-          placeholder="Your phone"
+          placeholder={t('personal_profile.placeholder_input_phone')}
           id="phone"
           defaultValue={phone}
           onChange={handleEmailInputChange}
@@ -232,13 +228,13 @@ const ProfilePersonalView = () => {
       </div>
       <div className="col-12 mt-4">
         <Button color="primary" onClick={handleUpdateProfile} disabled={loadingUpdate || loadingChangePassword}>
-          {loadingUpdate ? <Loading color="light" /> : 'Save'}
+          {loadingUpdate ? <Loading color="light" /> : t('btn_save')}
         </Button>
       </div>
       <div className="col-12 mt-4">
         <div className="custom-control custom-checkbox">
           <Input type="checkbox" className="custom-control-input" id="changePassword" onChange={handleOpenChangePassword} />
-          <label htmlFor="changePassword" className="custom-control-label">{loginType === 'common' ? 'Change' : 'Set'} password</label>
+          <label htmlFor="changePassword" className="custom-control-label">{loginType === 'common' ? t('personal_profile.change_password_label') : t('personal_profile.set_password_label')} {t('personal_profile.password_label_end')}</label>
         </div>
       </div>
       {
@@ -247,10 +243,10 @@ const ProfilePersonalView = () => {
             loginType === "common" &&
             <div className="col-12 mt-2">
               <InputForm
-                label="Password"
+                label={t('register.label_input_password')}
                 id="password"
                 inputType="password"
-                inputPlaceholder="Enter current password"
+                inputPlaceholder={t('personal_profile.placeholder_current_password')}
                 inputIcon={<FontAwesomeIcon icon={faLock} />}
                 inputValue={password}
                 setInputValue={setPasswordOld}
@@ -259,7 +255,7 @@ const ProfilePersonalView = () => {
                 validates={[
                   {
                     validateType: APP_VALIDATE_TYPE.REQUIRED,
-                    validateMessage: AUTHENTICATE_ENUM.PASSWORD_IS_EMPTY
+                    validateMessage: t('register.password_is_required')
                   }
                 ]}
               />
@@ -278,7 +274,7 @@ const ProfilePersonalView = () => {
               validates={[
                 {
                   validateType: APP_VALIDATE_TYPE.REQUIRED,
-                  validateMessage: AUTHENTICATE_ENUM.NEW_PASSWORD_IS_REQUIRED
+                  validateMessage: t('personal_profile.new_passoword_required')
                 }
               ]}
             />
@@ -287,7 +283,7 @@ const ProfilePersonalView = () => {
             <InputForm
               id="confirm_password"
               inputType="password"
-              inputPlaceholder={`Confirm ${loginType === 'common' ? 'new' : ''} password`}
+              inputPlaceholder={t('personal_profile.confirm_password_label')}
               inputIcon={<FontAwesomeIcon icon={faLock} />}
               inputValue={confirmNewPassword}
               setInputValue={setConfirmNewPassword}
@@ -297,18 +293,18 @@ const ProfilePersonalView = () => {
               validates={[
                 {
                   validateType: APP_VALIDATE_TYPE.REQUIRED,
-                  validateMessage: AUTHENTICATE_ENUM.CONFIRM_PASSWORD_IS_EMPTY
+                  validateMessage: t('register.confirm_password_is_required')
                 },
                 {
                   validateType: APP_VALIDATE_TYPE.MATCH,
-                  validateMessage: AUTHENTICATE_ENUM.CONFIRM_PASSWORD_MISMATCH
+                  validateMessage: t('register.confirm_passowrd_is_mismacth')
                 }
               ]}
             />
           </div>
           <div className="col-12 mt-2">
             <Button color="primary" disabled={loadingUpdate || loadingChangePassword} onClick={loginType === "google_only" ? handleSetPassword : handleChangePassword}>
-              {loadingChangePassword ? <Loading color="light" /> : 'Change password'}
+              {loadingChangePassword ? <Loading color="light" /> : t('btn_save')}
             </Button>
           </div>
         </>
@@ -316,7 +312,7 @@ const ProfilePersonalView = () => {
       <div className="col-12 mt-4 text-secondary">
         <FontAwesomeIcon icon={faSignOut} className="mr-2" />
         <Link href={'#'} className="text-secondary" onClick={handleLogout}>
-          Logout
+          {t('btn_logout')}
         </Link>
       </div>
     </div>

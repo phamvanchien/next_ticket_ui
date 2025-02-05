@@ -16,6 +16,7 @@ import { reportByAssignee } from "@/api/project.api";
 import { API_CODE } from "@/enums/api.enum";
 import { ColumnChartType } from "@/types/base.type";
 import { IMAGE_DEFAULT } from "@/enums/app.enum";
+import { useTranslations } from "next-intl";
 
 ChartJS.register(
   CategoryScale,
@@ -33,6 +34,7 @@ interface ProjectMemberReportProps {
 const ProjectMemberReport: React.FC<ProjectMemberReportProps> = ({ project }) => {
   const [chartData, setChartData] = useState<ColumnChartType>();
   const [reportData, setReportData] = useState<ReportAssigneeType[]>();
+  const t = useTranslations();
   useEffect(() => {
     const loadReport = async () => {
       try {
@@ -74,7 +76,7 @@ const ProjectMemberReport: React.FC<ProjectMemberReportProps> = ({ project }) =>
     <div className="row">
       <div className="col-12 mb-2">
         <hr/>
-        <h5 className="text-secondary"><FontAwesomeIcon icon={faBarChart} /> Task reporting {chartData.labels.length > 1 ? "chart" : ""} by members</h5>
+        <h5 className="text-secondary"><FontAwesomeIcon icon={faBarChart} /> {t('project_report.bar_chart_title')}</h5>
       </div>
       {
         chartData.labels.length > 1 &&
@@ -103,8 +105,8 @@ const ProjectMemberReport: React.FC<ProjectMemberReportProps> = ({ project }) =>
             <table className="table">
               <thead>
                 <tr>
-                  <th scope="col" style={{width: 300}}>Member</th>
-                  <th scope="col">Total</th>
+                  <th scope="col" style={{width: 300}}>{t('member_label')}</th>
+                  <th scope="col">{t('project_report.data_label')}</th>
                 </tr>
               </thead>
               {
@@ -121,7 +123,7 @@ const ProjectMemberReport: React.FC<ProjectMemberReportProps> = ({ project }) =>
                       {value.first_name} {value.last_name}
                     </td>
                     <td>
-                      <b className="text-secondary">{value.total_tasks} task</b> - <b className="text-primary">{value.percent_tasks}%</b>
+                      <b className="text-secondary">{value.total_tasks} {t('task_label')}</b> - <b className="text-primary">{value.percent_tasks}%</b>
                     </td>
                   </tr>
                 ))

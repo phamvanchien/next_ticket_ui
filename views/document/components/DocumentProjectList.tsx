@@ -6,6 +6,7 @@ import { ResponseWithPaginationType } from "@/types/base.type";
 import { ProjectType } from "@/types/project.type";
 import { faCircle, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTranslations } from "next-intl";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -19,6 +20,7 @@ const DocumentProjectList: React.FC<DocumentProjectListProps> = ({ projectShared
   const [debounceKeyword, setDebounceKeyword] = useState<string>('');
   const [projectData, setProjectData] = useState<ResponseWithPaginationType<ProjectType[]>>();
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
+  const t = useTranslations();
   const handleSelectProject = (project: ProjectType) => {
     const added = projectShared.find(p => p.id === project.id);
     if (!added) {
@@ -64,7 +66,7 @@ const DocumentProjectList: React.FC<DocumentProjectListProps> = ({ projectShared
   }, [keyword]);
   return (
     <div className="col-12 mt-2">
-      <Input type="search" placeholder="Search projects" className="w-100" onChange={handleChangeKeyword} />
+      <Input type="search" placeholder={t('projects.placeholder_input_search')} className="w-100" onChange={handleChangeKeyword} />
       <ul className="list-group invite-group">
         {
           projectData && projectData.items.map(project => (

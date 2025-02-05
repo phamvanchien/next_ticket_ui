@@ -16,6 +16,7 @@ import { catchError } from "@/services/base.service";
 import { BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import CreateTagModal from "@/views/task/create/components/CreateTagModal";
 import TagSettingItem from "./TagSettingItem";
+import { useTranslations } from "next-intl";
 
 interface ProjectTagSettingProps {
   project: ProjectType;
@@ -31,6 +32,7 @@ const ProjectTagSetting: React.FC<ProjectTagSettingProps> = ({ project }) => {
   const [openCreate, setOpenCreate] = useState(false);
   const [tagDeleteId, setTagDeleteId] = useState<number>();
   const [loadingDelete, setLoadingDelete] = useState(false);
+  const t = useTranslations();
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
 
   const handleChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {
@@ -112,9 +114,9 @@ const ProjectTagSetting: React.FC<ProjectTagSettingProps> = ({ project }) => {
       />
       <div className="row">
         <div className="col-12 col-lg-4 col-sm-6 mt-4">
-          <h5 className="text-muted">Tags</h5>
+          <h5 className="text-muted">{t('tasks.tags_label')}</h5>
           <i className="text-muted">
-            <FontAwesomeIcon icon={faInfoCircle} /> You can manage and create new tags here.
+            <FontAwesomeIcon icon={faInfoCircle} /> {t('project_setting.setting_tag_title')}
           </i>
         </div>
       </div>
@@ -130,13 +132,13 @@ const ProjectTagSetting: React.FC<ProjectTagSettingProps> = ({ project }) => {
             }}
             onClick={() => setOpenCreate (true)}
           >
-            Create new <FontAwesomeIcon icon={faPlus} />
+            {t('project_setting.btn_create_new')} <FontAwesomeIcon icon={faPlus} />
           </div>
         </div>
       </div>
       <div className="row">
         <div className="col-12 col-lg-4 col-sm-6">
-          <Input type="search" placeholder="Enter tag title" style={{
+          <Input type="search" placeholder={t('project_setting.placeholder_input_tag')} style={{
               padding: "8px",
               borderRadius: "5px"
             }}
@@ -162,7 +164,7 @@ const ProjectTagSetting: React.FC<ProjectTagSettingProps> = ({ project }) => {
         <div className="row mt-2">
           <div className="col-12 col-lg-4 col-sm-6">
             <span className="link mt-4 mb-2 text-secondary" style={{cursor: 'pointer'}} onClick={!loadingViewMore ? handleViewMore : undefined}>
-              View more {loadingViewMore ? <Loading color="secondary" /> : <FontAwesomeIcon icon={faAngleDoubleDown} />}
+              {t('btn_view_more')} {loadingViewMore ? <Loading color="secondary" /> : <FontAwesomeIcon icon={faAngleDoubleDown} />}
             </span>
           </div>
         </div>
@@ -172,17 +174,15 @@ const ProjectTagSetting: React.FC<ProjectTagSettingProps> = ({ project }) => {
           <div className="row">
             <div className="col-12 mb-2">
               <h6 className="text-muted">
-                You will delete this status including all related data.
+                {t('project_setting.message_delete_tag')}
               </h6>
             </div>
-            <div className="col-6">
-              <Button color="danger" fullWidth onClick={handleDeleteTag} disabled={loadingDelete}>
-                OK {loadingDelete && <Loading color="light" />}
+            <div className="col-12">
+              <Button color="primary" className="float-right" onClick={handleDeleteTag} disabled={loadingDelete}>
+                {t('btn_ok')} {loadingDelete && <Loading color="light" />}
               </Button>
-            </div>
-            <div className="col-6">
-              <Button color="danger" fullWidth outline disabled={loadingDelete} onClick={() => setTagDeleteId (undefined)}>
-                Cancel
+              <Button color="default" className="float-right btn-no-border" outline disabled={loadingDelete} onClick={() => setTagDeleteId (undefined)}>
+                {t('btn_cancel')}
               </Button>
             </div>
           </div>

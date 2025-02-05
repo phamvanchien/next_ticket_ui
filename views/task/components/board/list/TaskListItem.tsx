@@ -12,6 +12,7 @@ import { APP_LINK, APP_LOCALSTORAGE, IMAGE_DEFAULT } from "@/enums/app.enum";
 import { useRouter } from "next/navigation";
 import TaskListLoading from "./TaskListLoading";
 import { ResponseWithPaginationType } from "@/types/base.type";
+import { useTranslations } from "next-intl";
 
 interface TaskListItemProps {
   statusList?: ResponseWithPaginationType<ProjectTagType[]>
@@ -28,6 +29,7 @@ const TaskListItem: React.FC<TaskListItemProps> = ({ task, index, project, statu
   const [openUpdateStatus, setOpenUpdateStatus] = useState(false);
   const [taskStatus, setTaskStatus] = useState(taskData.status);
   const router = useRouter();
+  const t = useTranslations();
   const redirectDetailTask = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     const tasksStorage = localStorage.getItem(APP_LOCALSTORAGE.TASK_RECENTLY);
@@ -82,7 +84,7 @@ const TaskListItem: React.FC<TaskListItemProps> = ({ task, index, project, statu
         <img src={taskData.user.avatar ?? IMAGE_DEFAULT.NO_USER} className="img-circle mr-2" width={25} height={25} onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} />
         <span className="text-muted created-by">{taskData.user.first_name} {taskData.user.last_name}</span>
       </td>
-      <td style={{minWidth: 150}} className="text-secondary">Due: {dateToString(new Date(taskData.due))}</td>
+      <td style={{minWidth: 150}} className="text-secondary">{t('tasks.due_label')}: {dateToString(new Date(taskData.due))}</td>
       <td>
         {getIconPriority(taskData.priority.id, `mr-2 text-${getIconPriority(taskData.priority.id)}`)}
       </td>

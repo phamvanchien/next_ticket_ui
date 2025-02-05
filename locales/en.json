@@ -108,7 +108,15 @@
         "invitation": "Invitation",
         "placeholder_input_search": "Search projects",
         "project_empty_message": "Your projects will be show here",
-        "created_by_text": "Created by"
+        "created_by_text": "Created by",
+        "create_status_title": "Create new status",
+        "status_name_label": "Status name",
+        "placeholder_input_status_name": "Enter status name",
+        "create_tag_title": "Create new tag",
+        "placeholder_input_tag_name": "Enter tag name",
+        "tag_name_label": "Tag name",
+        "member_label": "Project members",
+        "clone_project_title": "Clone this project"
     },
     "private_check": "Private",
     "public_check": "Public",
@@ -123,7 +131,7 @@
         "placeholder_input_search_member": "Enter name or email"
     },
     "add_member_project": {
-        "page_title": "Thêm thành viên"
+        "page_title": "Add members"
     },
     "tasks": {
         "page_title_task": "Tasks",
@@ -151,8 +159,116 @@
         "priority_label": "Priority",
         "type_label": "Loại",
         "placeholder_task_description": "Description about your task...",
-        "btn_create_task": "Create task"
+        "btn_create_task": "Create task",
+        "status_label": "Status",
+        "placeholder_search_status": "Search status",
+        "btn_clear_filter": "Clear filter",
+        "creator_label": "Creator",
+        "placeholder_search_member": "Search members",
+        "created_at_label": "Created at",
+        "from_date_label": "From date",
+        "to_date_label": "To date",
+        "back_to_board": "Back to board",
+        "action_label": "Action",
+        "detail_label": "Details",
+        "history_label": "History",
+        "clone_task_message": "You will delete this task and related data.",
+        "delete_task_message": "You will delete this task and related data.",
+        "subtask_label": "Sub tasks",
+        "add_subtask_label": "Add sub task",
+        "placeholder_search_subtask": "Search sub tasks",
+        "placeholder_input_subtask": "Enter sub task title",
+        "subtask_title_required": "Subtask title is required",
+        "description_label": "description",
+        "edit_label": "Edit",
+        "write_label": "Write",
+        "write_comment_label": "Write a new comment",
+        "placeholder_comment": "Enter your comment",
+        "deleted_comment_message": "This comment is deleted"
     },
+    "project_setting": {
+        "message_update": "Project is updated",
+        "setting_public_title": "When private mode is enabled, only new members can access your project",
+        "setting_status_title": "You can change the position of the status by dragging and dropping or create a new status here.",
+        "btn_create_new": "Create new",
+        "placeholder_input_status": "Enter status name",
+        "message_delete_status": "You will delete this status including all related data.",
+        "setting_tag_title": "You can manage and create new tags here.",
+        "placeholder_input_tag": "Enter tag name",
+        "message_delete_tag": "You will delete this tag including all related data.",
+        "setting_member_title": "You can add or remove members from the project right here.",
+        "message_delete_member_start": "You will delete",
+        "message_delete_member_end": "from this project",
+        "setting_delete_project_title": "Delete project",
+        "setting_delete_project_message": "Deleting this project will also delete the related data and it cannot be recovered.",
+        "label_delete_project": "Type in the project name and delete it"
+    },
+    "btn_ok": "OK",
     "empty_label": "Empty",
-    "btn_save": "Save"
+    "btn_save": "Save",
+    "btn_delete": "Delete",
+    "project_report": {
+        "pie_chart_title": "Progress report in pie chart format",
+        "bar_chart_title": "Statistics for each member in the project",
+        "data_label": "Data"
+    },
+    "member_label": "Members",
+    "task_label": "ticket",
+    "btn_clone": "Clone",
+    "btn_read_more": "Read more",
+    "btn_hide_read_more": "Hide less",
+    "documents": {
+        "page_title": "Documents",
+        "placeholder_search_document": "Search documents",
+        "share_in_project_label": "Share in project",
+        "share_with_member": "Share with member",
+        "just_you": "or just you",
+        "share_member_message": "If you do not select any members, only you will be able to view this document",
+        "permission_label": "All permission",
+        "placeholder_document": "Document text here",
+        "document_title_default": "New document",
+        "last_modify_label": "Last modify by"
+    },
+    "workspace_setting": {
+        "page_title": "Workspace setting",
+        "setting_member_message": "You can add or remove members of the workspace here.",
+        "setting_delete_message_start": "You will delete",
+        "setting_delete_message_end": "from this workspace",
+        "setting_delete_title": "Delete workspace",
+        "setting_delete_message": "Deleting this project will also delete the related data and it cannot be recovered.",
+        "modal_delete_message": "Type in the workspace name and delete it"
+    },
+    "personal_profile": {
+        "page_title": "Profile",
+        "status_label": "Status",
+        "phone_label": "Phone",
+        "placeholder_input_phone": "Enter your phone",
+        "change_password_label": "Change",
+        "set_password_label": "Set",
+        "password_label_end": "password",
+        "placeholder_current_password": "Enter current password",
+        "new_passoword_required": "New password is required",
+        "new_password_label": "new"
+    },
+    "btn_logout": "Logout",
+    "user_profile": {
+        "name_label": "Name",
+        "join_at_label": "Joined at"
+    },
+    "workspace_index": {
+        "manage_project_title": "Manage your projects",
+        "manage_project_message": "Create new or edit or create tickets, and manage project progress",
+        "btn_start_now": "Start now",
+        "btn_go_now": "Go now",
+        "manage_document_title": "Manage your documents",
+        "manage_document_message": "Create and store and manage your internal documents here",
+        "manage_setting_title": "Workspace settings",
+        "manage_setting_message": "Edit workspace information or add new members and other settings here",
+        "manage_invitation_title": "Invitation to join workspace",
+        "manage_invitation_message": "You can view and accept invitations to join the new workspace here",
+        "task_recently_label": "Tasks recently"
+    },
+    "good_morning_label": "Good morning",
+    "good_afternood_label": "Good afternoon",
+    "good_evening": "Good evening"
 }  

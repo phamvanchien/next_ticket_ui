@@ -15,6 +15,7 @@ import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { colorRange } from "@/utils/helper.util";
 import { faCheckCircle, faTag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -28,6 +29,7 @@ interface CreateTagModalProps {
 const CreateTagModal: React.FC<CreateTagModalProps> = ({ openCreate, projectId, setOpenCreate, loadTags }) => {
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const colors = colorRange().filter(c => c.level === 200);
+  const t = useTranslations();
   const [tagColor, setTagColor] = useState<string>(colors[0].code);
   const [validateError, setValidateError] = useState<AppErrorType[] | []>([]);
   const [name, setName] = useState<string>();
@@ -70,7 +72,7 @@ const CreateTagModal: React.FC<CreateTagModalProps> = ({ openCreate, projectId, 
   return (
     <Modal className="create-modal" isOpen={openCreate}>
       <ModalHeader 
-        title="Create tag"
+        title={t('projects.create_tag_title')}
         setShow={setOpenCreate}
       />
       <ModalBody>
@@ -82,10 +84,10 @@ const CreateTagModal: React.FC<CreateTagModalProps> = ({ openCreate, projectId, 
           }
           <div className="col-12">
             <InputForm
-              label="Tag name"
+              label={t('projects.tag_name_label')}
               id="name"
               inputType="text"
-              inputPlaceholder="Enter tag name"
+              inputPlaceholder={t('projects.placeholder_input_tag_name')}
               inputIcon={<FontAwesomeIcon icon={faTag} />}
               inputValue={name}
               setInputValue={setName}
@@ -110,10 +112,10 @@ const CreateTagModal: React.FC<CreateTagModalProps> = ({ openCreate, projectId, 
           </div>
           <div className="col-12 mt-4">
             <Button color="primary" className="float-right ml-2" disabled={hasError(validateError) || loading} onClick={handleCreateTag}>
-              {loading ? <Loading color="light" /> : 'Save'}
+              {loading ? <Loading color="light" /> : t('btn_save')}
             </Button>
             <Button color="secondary" outline className="float-right btn-no-border" disabled={loading} onClick={() => setOpenCreate (false)}>
-              Cancel
+              {t('btn_cancel')}
             </Button>
           </div>
         </div>

@@ -14,6 +14,7 @@ import { ProjectTagType } from "@/types/project.type";
 import { notify } from "@/utils/helper.util";
 import { faCheck, faCheckCircle, faCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTranslations } from "next-intl";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -41,6 +42,7 @@ const SelectStatusModal: React.FC<SelectStatusModalProps> = ({
   const [keyword, setKeyword] = useState<string>('');
   const [loading, setLoading] = useState(false);
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
+  const t = useTranslations();
 
   const handleChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -92,7 +94,7 @@ const SelectStatusModal: React.FC<SelectStatusModalProps> = ({
       <ModalBody>
         <div className="row mb-2">
           <div className="col-12">
-            <Input type="search" placeholder="Search status" className="input-search w-100" onChange={handleChangeKeyword} disabled={loading} />
+            <Input type="search" placeholder={t('tasks.placeholder_search_status')} className="input-search w-100" onChange={handleChangeKeyword} disabled={loading} />
           </div>
           <div className="col-12 mt-2">
             {

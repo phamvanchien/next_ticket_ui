@@ -15,6 +15,7 @@ import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { colorRange } from "@/utils/helper.util";
 import { faCheckCircle, faTag } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTranslations } from "next-intl";
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -31,6 +32,7 @@ const CreateStatusModal: React.FC<CreateStatusModalProps> = ({
   setOpenCreate, 
   loadStatus 
 }) => {
+  const t = useTranslations();
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const colors = colorRange().filter(c => c.level === 200);
   const [statusColor, setStatusColor] = useState<string>(colors[0].code);
@@ -77,7 +79,7 @@ const CreateStatusModal: React.FC<CreateStatusModalProps> = ({
   return (
     <Modal className="create-modal" isOpen={openCreate}>
       <ModalHeader 
-        title="Create status"
+        title={t('projects.create_status_title')}
         setShow={setOpenCreate}
       />
       <ModalBody>
@@ -89,10 +91,10 @@ const CreateStatusModal: React.FC<CreateStatusModalProps> = ({
           }
           <div className="col-12">
             <InputForm
-              label="Status name"
+              label={t('projects.status_name_label')}
               id="statusName"
               inputType="text"
-              inputPlaceholder="Enter status name"
+              inputPlaceholder={t('projects.placeholder_input_status_name')}
               inputIcon={<FontAwesomeIcon icon={faTag} />}
               inputValue={name}
               setInputValue={setName}
@@ -122,10 +124,10 @@ const CreateStatusModal: React.FC<CreateStatusModalProps> = ({
           </div>
           <div className="col-12 mt-4">
             <Button color="primary" className="float-right ml-2" disabled={hasError(validateError) || loading} onClick={handleCreateStatus}>
-              {loading ? <Loading color="light" /> : 'Save'}
+              {loading ? <Loading color="light" /> : t('btn_save')}
             </Button>
             <Button color="secondary" outline className="float-right btn-no-border" disabled={loading} onClick={() => setOpenCreate (false)}>
-              Cancel
+              {t('btn_cancel')}
             </Button>
           </div>
         </div>

@@ -124,7 +124,7 @@ const TaskAssignSelect: React.FC<TaskAssignSelectProps> = ({ assignee, project, 
           <>
             <ul className="list-group select-search-task">
               <li className="list-group-item border-unset p-unset">
-                <Input type="search" className="w-100" placeholder={t('tasks.placeholder_search_assigner')} onChange={handleChangeKeyword} />
+                <Input type="search" className="w-100" placeholder={t('tasks.placeholder_search_member')} onChange={handleChangeKeyword} />
               </li>
               {
                 !assignee.find(a => a.id === project.user.id) &&

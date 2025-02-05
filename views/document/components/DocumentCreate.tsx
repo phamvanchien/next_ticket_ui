@@ -26,6 +26,7 @@ import DocumentMemberShared from "./DocumentMemberShared";
 import DocumentShareType from "./DocumentShareType";
 import Loading from "@/common/components/Loading";
 import ErrorAlert from "@/common/components/ErrorAlert";
+import { useTranslations } from "next-intl";
 
 interface DocumentCreateProps {
   openCreate: boolean
@@ -44,6 +45,7 @@ const DocumentCreate: React.FC<DocumentCreateProps> = ({ openCreate, setOpenCrea
   const [memberShare, setMemberShare] = useState<MemberShareType[]>([]);
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const titleRef = useRef<HTMLInputElement>(null);
+  const t = useTranslations();
   const handleCreateDocument = async () => {
     try {
       if (!workspace || !content || content === '' || !titleRef.current || (titleRef.current && titleRef.current.value && titleRef.current.value === '')) {
@@ -78,7 +80,7 @@ const DocumentCreate: React.FC<DocumentCreateProps> = ({ openCreate, setOpenCrea
         setContent('');
         const inputTitle = document.getElementById('documentTitle') as HTMLInputElement;
         if (inputTitle) {
-          inputTitle.value = "New document " + dateToString(new Date());
+          inputTitle.value = t('documents.document_title_default') +" " + dateToString(new Date());
         }
         setOpenModal(false);
         setOpenCreate(false);
@@ -102,17 +104,17 @@ const DocumentCreate: React.FC<DocumentCreateProps> = ({ openCreate, setOpenCrea
         <div className="row mt-4">
           <div className="col-12 mb-2">
             <Button color="secondary" className="float-left mr-2 btn-no-border" outline onClick={() => setOpenCreate (false)}>
-              Cancel
+              {t('btn_cancel')}
             </Button>
             <Button color="primary" className="float-left" onClick={() => setOpenModal (true)}>
-              Save
+              {t('btn_save')}
             </Button>
           </div>
           <div className="col-12 mb-2">
-            <Input type="text" className="input-title" id="documentTitle" defaultValue={'New document ' + dateToString(new Date())} ref={titleRef} />
+            <Input type="text" className="input-title" id="documentTitle" defaultValue={t('documents.document_title_default') + ' ' + dateToString(new Date())} ref={titleRef} />
           </div>
           <div className="col-12">
-            <EditorArea setValue={setContent} value={content} toolbarExtra placeholder="Document text here ..." />
+            <EditorArea setValue={setContent} value={content} toolbarExtra placeholder={t('documents.placeholder_document')} />
           </div>
           <Modal className="invite-modal" isOpen={openModal ? true : false}>
             <ModalBody>
@@ -126,14 +128,14 @@ const DocumentCreate: React.FC<DocumentCreateProps> = ({ openCreate, setOpenCrea
                     className={`text-${documentPublic ? 'primary' : 'secondary'}`}
                     style={{ cursor: 'pointer' }}
                     onClick={() => setDocumentPublic (true)}
-                  /> Public
+                  /> {t('public_check')}
                   <br/>
                   <FontAwesomeIcon 
                     icon={!documentPublic ? faCircleCheck : faCircle} 
                     className={`text-${!documentPublic ? 'primary' : 'secondary'} mt-2`} 
                     style={{ cursor: 'pointer' }}
                     onClick={() => setDocumentPublic (false)}
-                  /> Private
+                  /> {t('private_check')}
                 </div>
                 {
                   !documentPublic &&
@@ -176,10 +178,10 @@ const DocumentCreate: React.FC<DocumentCreateProps> = ({ openCreate, setOpenCrea
                 }
                 <div className="col-12 mt-4">
                   <Button color="primary" className="float-right ml-2" disabled={loading} onClick={handleCreateDocument}>
-                    {loading ? <Loading color="light" /> : 'Save'}
+                    {loading ? <Loading color="light" /> : t('btn_save')}
                   </Button>
                   <Button color="secondary" className="float-right btn-no-border" outline onClick={() => setOpenModal (false)} disabled={loading}>
-                    Cancel
+                    {t('btn_cancel')}
                   </Button>
                 </div>
               </div>

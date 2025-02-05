@@ -1,19 +1,16 @@
 "use client"
-import { APP_LINK } from "@/enums/app.enum";
 import { ResponseUserDataType } from "@/types/user.type";
 import { formatTime } from "@/utils/helper.util";
-import { faAngleDoubleLeft, faAngleDoubleRight, faUserCircle } from "@fortawesome/free-solid-svg-icons";
+import { faUserCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { formatDate } from "react-datepicker/dist/date_utils";
+import { useTranslations } from "next-intl";
 
 interface ProfileUserViewProps {
   user: ResponseUserDataType
 }
 
 const ProfileUserView: React.FC<ProfileUserViewProps> = ({ user }) => {
-  const router = useRouter();
+  const t = useTranslations();
   return <>
     <div className="row">
       <div className="col-12 text-secondary">
@@ -23,7 +20,7 @@ const ProfileUserView: React.FC<ProfileUserViewProps> = ({ user }) => {
     <hr/>
     <div className="row">
       <div className="col-12 mt-2">
-        <label className="label-field-register mr-2" htmlFor="phone">Name: </label>
+        <label className="label-field-register mr-2" htmlFor="phone">{t('user_profile.name_label')}: </label>
         {user.first_name} {user.last_name}
       </div>
       <div className="col-12 mt-2">
@@ -31,15 +28,15 @@ const ProfileUserView: React.FC<ProfileUserViewProps> = ({ user }) => {
         {user.email}
       </div>
       <div className="col-12 mt-2">
-        <label className="label-field-register mr-2" htmlFor="phone">Phone: </label>
+        <label className="label-field-register mr-2" htmlFor="phone">{t('personal_profile.phone_label')}: </label>
         {user.phone ?? 'Not update'}
       </div>
       <div className="col-12 mt-2">
-        <label className="label-field-register mr-2" htmlFor="phone">Status: </label>
+        <label className="label-field-register mr-2" htmlFor="phone">{t('personal_profile.status_label')}: </label>
         <b className="text-success">Verified</b>
       </div>
       <div className="col-12 mt-2">
-        <label className="label-field-register mr-2" htmlFor="phone">Joined at: </label>
+        <label className="label-field-register mr-2" htmlFor="phone">{t('user_profile.join_at_label')}: </label>
         {formatTime(new Date(user.created_at))}
       </div>
     </div>

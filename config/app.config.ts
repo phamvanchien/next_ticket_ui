@@ -1,10 +1,10 @@
 import { AppConfigType } from "@/types/config.type";
 
 export const APP_CONFIG: AppConfigType = {
-  TOKEN_EXPIRE_TIME: 23,
+  TOKEN_EXPIRE_TIME: 28 * (24 * 60 * 60 * 1000),
   URL: process.env.NEXT_PUBLIC_URL,
   API: {
-    TIMEOUT: 30 * (24 * 60 * 60 * 1000),
+    TIMEOUT: 28 * (24 * 60 * 60 * 1000),
     URL: process.env.NEXT_PUBLIC_API_URL as string,
     PREFIX: {
       authenticate: {

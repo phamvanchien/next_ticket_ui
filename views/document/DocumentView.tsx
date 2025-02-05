@@ -13,12 +13,14 @@ import Link from "next/link";
 import DocumentUpdate from "./components/DocumentUpdate";
 import Input from "@/common/components/Input";
 import { ResponseWithPaginationType } from "@/types/base.type";
+import { useTranslations } from "next-intl";
 
 interface DocumentViewProps {
   workspaceId: number
 }
 
 const DocumentView: React.FC<DocumentViewProps> = ({ workspaceId }) => {
+  const t = useTranslations();
   const defaultPageSize = 12;
   const [openCreate, setOpenCreate] = useState(false);
   const [documentData, setDocumentData] = useState<ResponseWithPaginationType<DocumentType[]>>();
@@ -64,15 +66,15 @@ const DocumentView: React.FC<DocumentViewProps> = ({ workspaceId }) => {
   return <>
     <div className="row mb-4">
       <div className="col-12">
-        <h3><FontAwesomeIcon icon={faFileText} className="text-primary" /> Documents</h3>
+        <h3><FontAwesomeIcon icon={faFileText} className="text-primary" /> {t('documents.page_title')}</h3>
       </div>
       <div className="col-6 mt-2">
         <Button color="primary" onClick={() => setOpenCreate (true)}>
-          New <FontAwesomeIcon icon={faPlus} />
+          {t('btn_new')} <FontAwesomeIcon icon={faPlus} />
         </Button>
       </div>
       <div className="col-6 mt-2">
-        <Input type="search" className="input-search float-right" placeholder="Search documents" onChange={handleChangeKeyword} />
+        <Input type="search" className="input-search float-right" placeholder={t('documents.placeholder_search_document')} onChange={handleChangeKeyword} />
       </div>
     </div>
     <DocumentCreate 
@@ -113,7 +115,7 @@ const DocumentView: React.FC<DocumentViewProps> = ({ workspaceId }) => {
           (!loading && documentData && documentData.total > pageSize) &&
           <div className="col-12 mt-2 text-left">
             <Link href="#" className="text-secondary" onClick={!loadingViewMore ? handleViewMore : undefined}>
-              View more {loadingViewMore ? <Loading color="secondary" /> : <FontAwesomeIcon icon={faAngleDoubleDown} />}
+              {t('btn_view_more')} {loadingViewMore ? <Loading color="secondary" /> : <FontAwesomeIcon icon={faAngleDoubleDown} />}
             </Link>
           </div>
         }

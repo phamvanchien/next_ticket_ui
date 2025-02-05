@@ -8,6 +8,7 @@ import { ResponseUserDataType } from "@/types/user.type";
 import { WorkspaceUserType } from "@/types/workspace.type";
 import { faCircle, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTranslations } from "next-intl";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
@@ -21,6 +22,7 @@ const DocumentMemberList: React.FC<DocumentMemberListProps> = ({ setMemberShared
   const [keywordMember, setKeywordMember] = useState<string>('');
   const [debounceKeywordMember, setDebounceKeywordMember] = useState<string>('');
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
+  const t = useTranslations();
   const handleChangeKeywordMember = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setKeywordMember('');
@@ -68,7 +70,7 @@ const DocumentMemberList: React.FC<DocumentMemberListProps> = ({ setMemberShared
   }, [workspace, debounceKeywordMember]);
   return (
     <div className="col-12 mt-2">
-      <Input type="search" placeholder="Search members" className="w-100" onChange={handleChangeKeywordMember} />
+      <Input type="search" placeholder={t('tasks.placeholder_search_member')} className="w-100" onChange={handleChangeKeywordMember} />
       <ul className="list-group invite-group">
           {
           workspaceMembers && workspaceMembers.items.map(member => (

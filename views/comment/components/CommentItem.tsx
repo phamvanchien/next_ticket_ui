@@ -11,6 +11,7 @@ import { CommentType } from "@/types/comment.type";
 import { formatTime, notify } from "@/utils/helper.util";
 import { faAngleDoubleLeft, faAngleDoubleRight, faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -20,6 +21,7 @@ interface CommentItemProps {
 }
 
 const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
+  const t = useTranslations();
   const maxContentSize = 600;
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
@@ -89,11 +91,11 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
           className="card-body p-10" 
         >
           {edit ? <>
-            <EditorArea value={contentEdit} setValue={setContentEdit} placeholder="Description about your task..." />
-            <Button color="secondary" outline className="float-right mt-2" onClick={handleCancelEdit} disabled={loadingUpdate}>Cancel</Button>
+            <EditorArea value={contentEdit} setValue={setContentEdit} placeholder={t('tasks.placeholder_comment')} />
             <Button color="primary" className="float-right mr-2 mt-2" disabled={loadingUpdate || (contentEdit.length === content.length)} onClick={() => handleUpdateComment ({content: contentEdit})}>
-              {loadingUpdate ? <Loading color="light" /> : 'Save'}
+              {loadingUpdate ? <Loading color="light" /> : t('btn_save')}
             </Button>
+            <Button color="default" outline className="float-right mt-2 mr-2 btn-no-border" onClick={handleCancelEdit} disabled={loadingUpdate}>{t('btn_cancel')}</Button>
           </> : (
             clientRendered && <>
               {
@@ -102,16 +104,16 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment }) => {
                   <FontAwesomeIcon icon={faTrash} className="text-muted" style={{ fontSize: 14, cursor: 'pointer' }} onClick={() => handleUpdateComment ({deleted: 1}, callbackDeleteComment)} />
                 </>
               }
-              <p className={deleted ? 'text-muted m-unset' : 'm-unset'} dangerouslySetInnerHTML={{ __html: (readMore || content.length < maxContentSize) ? content : content.substring(0, maxContentSize) + '...' }}></p>
+              <p className={deleted ? 'text-muted m-unset' : 'm-unset'} dangerouslySetInnerHTML={{ __html: deleted ? t('tasks.deleted_comment_message') : (readMore || content.length < maxContentSize) ? content : content.substring(0, maxContentSize) + '...' }}></p>
             </>
           )}
           {
             (!edit && content.length > maxContentSize && !readMore) && 
-            <span style={{ cursor: 'pointer' }} className="text-secondary" onClick={() => setReadMore (true)}>Read more <FontAwesomeIcon icon={faAngleDoubleRight} /></span>
+            <span style={{ cursor: 'pointer' }} className="text-secondary" onClick={() => setReadMore (true)}>{t('btn_read_more')} <FontAwesomeIcon icon={faAngleDoubleRight} /></span>
           }
           {
             (!edit && content.length > maxContentSize && readMore) && 
-            <span style={{ cursor: 'pointer' }} className="text-secondary" onClick={() => setReadMore (false)}><FontAwesomeIcon icon={faAngleDoubleLeft} /> Hide</span>
+            <span style={{ cursor: 'pointer' }} className="text-secondary" onClick={() => setReadMore (false)}><FontAwesomeIcon icon={faAngleDoubleLeft} /> {t('btn_hide_read_more')}</span>
           }
         </div>
       </div>

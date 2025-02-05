@@ -10,6 +10,7 @@ import { faCalendar, faTimes } from "@fortawesome/free-solid-svg-icons";
 import DateInput from "@/common/components/DateInput";
 import TaskAssignSelect from "../select/TaskAssignSelect";
 import TaskTagSelect from "../select/TaskTagSelect";
+import { useTranslations } from "next-intl";
 
 interface TaskFilterProps {
   open: boolean
@@ -51,6 +52,7 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
   const [createdDateFilterFrom, setCreatedDateFilterFrom] = useState<Date | null>(null);
   const [createdDateFilterTo, setCreatedDateFilterTo] = useState<Date | null>(null);
   const taskDivRef = useRef<HTMLDivElement>(null);
+  const t = useTranslations();
   const handleClose = (event: MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     setOpen(false);
@@ -117,7 +119,7 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
         <div className="row mb-4">
           <div className="col-6">
             <Link className="text-primary" href={'#'} onClick={handleClearFilter}>
-              Clear filter
+              {t('tasks.btn_clear_filter')}
             </Link>
           </div>
         </div>
@@ -126,7 +128,7 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
           setAssignee={setCreator}
           project={project}
           className="mb-2"
-          label="Creator"
+          label={t('tasks.creator_label')}
         />
         <TaskAssignSelect
           assignee={assignee}
@@ -144,13 +146,13 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
         <TaskTypeFilter type={type} setType={setType} />
         <div className="row mt-4 text-muted">
           <div className="col-12 mb-2">
-            <FontAwesomeIcon icon={faCalendar} /> Due:
+            <FontAwesomeIcon icon={faCalendar} /> {t('tasks.due_label')}:
           </div>
           <div className="col-3">
-            <DateInput selected={dueDateFilterTo} setSelected={setDueDateFilterTo} id="dueDateTo" className="float-left" placeholder="Due date from" />
+            <DateInput selected={dueDateFilterTo} setSelected={setDueDateFilterTo} id="dueDateTo" className="float-left" placeholder={t('tasks.from_date_label')} />
           </div>
           <div className="col-3">
-            <DateInput selected={dueDateFilterFrom} setSelected={setDueDateFilterFrom} id="dueDateFrom" className="float-left" placeholder="Due date to" />
+            <DateInput selected={dueDateFilterFrom} setSelected={setDueDateFilterFrom} id="dueDateFrom" className="float-left" placeholder={t('tasks.to_date_label')} />
           </div>
           {
             (dueDateFilterFrom && dueDateFilterTo) &&
@@ -161,13 +163,13 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
         </div>
         <div className="row mt-4 text-muted">
           <div className="col-12 mb-2">
-            <FontAwesomeIcon icon={faCalendar} /> Created at:
+            <FontAwesomeIcon icon={faCalendar} /> {t('tasks.created_at_label')}:
           </div>
           <div className="col-3">
-            <DateInput selected={createdDateFilterTo} setSelected={setCreatedDateFilterTo} id="dueDateTo" className="float-left" placeholder="Due date from" />
+            <DateInput selected={createdDateFilterTo} setSelected={setCreatedDateFilterTo} id="dueDateTo" className="float-left" placeholder={t('tasks.from_date_label')} />
           </div>
           <div className="col-3">
-            <DateInput selected={createdDateFilterFrom} setSelected={setCreatedDateFilterFrom} id="dueDateFrom" className="float-left" placeholder="Due date to" />
+            <DateInput selected={createdDateFilterFrom} setSelected={setCreatedDateFilterFrom} id="dueDateFrom" className="float-left" placeholder={t('tasks.to_date_label')} />
           </div>
           {
             (createdDateFilterFrom && createdDateFilterTo) &&

@@ -14,6 +14,7 @@ import TaskItemRecently from "./components/TaskItemRecently";
 import Carousel from 'react-multi-carousel';
 import { getTasksByIds } from "@/api/workspace.api";
 import { API_CODE } from "@/enums/api.enum";
+import { useTranslations } from "next-intl";
 
 interface WorkspaceIndexViewProps {
   workspace: WorkspaceType
@@ -23,6 +24,7 @@ const WorkspaceIndexView: React.FC<WorkspaceIndexViewProps> = ({ workspace }) =>
   const [taskRecently, setTaskRecently] = useState<TaskType[]>();
   const [timeText, setTimeText] = useState<string>('');
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
+  const t = useTranslations();
   const hour: number = new Date().getHours();
   const router = useRouter();
   const responsive = {
@@ -58,13 +60,13 @@ const WorkspaceIndexView: React.FC<WorkspaceIndexViewProps> = ({ workspace }) =>
   useEffect(() => {
     setTimeText('Hi');
     if (hour > 3 && hour < 13) {
-      setTimeText('Good morning');
+      setTimeText(t('good_morning_label'));
     }
     if (hour >= 13 && hour < 18) {
-      setTimeText('Good afternoon');
+      setTimeText(t('good_afternood_label'));
     }
     if (hour >= 18 && hour <= 3) {
-      setTimeText('Good evening');
+      setTimeText(t('good_evening'));
     }
     const tasksStorage = localStorage.getItem(APP_LOCALSTORAGE.TASK_RECENTLY);
     if (tasksStorage) {
@@ -85,11 +87,11 @@ const WorkspaceIndexView: React.FC<WorkspaceIndexViewProps> = ({ workspace }) =>
           <ImageIcon icon="project" className="float-left img-wp-home" width={70} height={70} />
           <div className="card float-left card-wp-home">
             <div className="card-body p-10 card-body-wp-home">
-              <h6>Manage your projects</h6>
-              <p className="text-muted m-unset" style={{fontSize: 13}}>Create new or edit or create tickets, and manage project progress</p>
+              <h6>{t('workspace_index.manage_project_title')}</h6>
+              <p className="text-muted m-unset" style={{fontSize: 13}}>{t('workspace_index.manage_project_message')}</p>
             </div>
             <div className="card-footer p-10 pointer text-primary" style={{fontSize: 15}} onClick={() => router.push(APP_LINK.WORKSPACE + '/' + workspace.id + '/project')}>
-              <span className="float-left">Start now</span> <FontAwesomeIcon className="float-right mt-1" icon={faAngleRight} />
+              <span className="float-left">{t('workspace_index.btn_start_now')}</span> <FontAwesomeIcon className="float-right mt-1" icon={faAngleRight} />
             </div>
           </div>
         </div>
@@ -97,11 +99,11 @@ const WorkspaceIndexView: React.FC<WorkspaceIndexViewProps> = ({ workspace }) =>
           <ImageIcon icon="document" className="float-left img-wp-home" width={70} height={70} />
           <div className="card float-left card-wp-home">
             <div className="card-body p-10 card-body-wp-home">
-              <h6>Manage your documents</h6>
-              <p className="text-muted m-unset" style={{fontSize: 13}}>Create, store and manage your text documents here</p>
+              <h6>{t('workspace_index.manage_document_title')}</h6>
+              <p className="text-muted m-unset" style={{fontSize: 13}}>{t('workspace_index.manage_document_message')}</p>
             </div>
             <div className="card-footer p-10 pointer text-primary" style={{fontSize: 15}} onClick={() => router.push(APP_LINK.WORKSPACE + '/' + workspace.id + '/document')}>
-              <span className="float-left">Start now</span> <FontAwesomeIcon className="float-right mt-1" icon={faAngleRight} />
+              <span className="float-left">{t('workspace_index.btn_start_now')}</span> <FontAwesomeIcon className="float-right mt-1" icon={faAngleRight} />
             </div>
           </div>
         </div>
@@ -109,11 +111,11 @@ const WorkspaceIndexView: React.FC<WorkspaceIndexViewProps> = ({ workspace }) =>
           <ImageIcon icon="setting" className="float-left img-wp-home" width={70} height={70} />
           <div className="card float-left card-wp-home">
             <div className="card-body p-10 card-body-wp-home">
-              <h6>Workspace settings</h6>
-              <p className="text-muted m-unset" style={{fontSize: 13}}>Edit workspace information or add new members and other settings here</p>
+              <h6>{t('workspace_index.manage_setting_title')}</h6>
+              <p className="text-muted m-unset" style={{fontSize: 13}}>{t('workspace_index.manage_setting_message')}</p>
             </div>
             <div className="card-footer p-10 pointer text-primary" style={{fontSize: 15}} onClick={() => router.push(APP_LINK.WORKSPACE + '/' + workspace.id + '/setting')}>
-              <span className="float-left">Go now</span> <FontAwesomeIcon className="float-right mt-1" icon={faAngleRight} />
+              <span className="float-left">{t('workspace_index.btn_go_now')}</span> <FontAwesomeIcon className="float-right mt-1" icon={faAngleRight} />
             </div>
           </div>
         </div>
@@ -121,11 +123,11 @@ const WorkspaceIndexView: React.FC<WorkspaceIndexViewProps> = ({ workspace }) =>
           <ImageIcon icon="invite" className="float-left img-wp-home" width={70} height={70} />
           <div className="card float-left card-wp-home">
             <div className="card-body p-10 card-body-wp-home">
-              <h6>Invitation to join workspace</h6>
-              <p className="text-muted m-unset" style={{fontSize: 13}}>You can view and accept invitations to join the new workspace here</p>
+              <h6>{t('workspace_index.manage_invitation_title')}</h6>
+              <p className="text-muted m-unset" style={{fontSize: 13}}>{t('workspace_index.manage_invitation_message')}</p>
             </div>
             <div className="card-footer p-10 pointer text-primary" style={{fontSize: 15}} onClick={() => router.push(APP_LINK.WORKSPACE + '/' + workspace.id + '/setting')}>
-              <span className="float-left">Go now</span> <FontAwesomeIcon className="float-right mt-1" icon={faAngleRight} />
+              <span className="float-left">{t('workspace_index.btn_go_now')}</span> <FontAwesomeIcon className="float-right mt-1" icon={faAngleRight} />
             </div>
           </div>
         </div>
@@ -136,7 +138,7 @@ const WorkspaceIndexView: React.FC<WorkspaceIndexViewProps> = ({ workspace }) =>
           <hr/>
           <div className="row mt-4">
             <div className="col-12">
-              <h4><FontAwesomeIcon icon={faCheckSquare} className="text-success" /> Tasks recently</h4>
+              <h4><FontAwesomeIcon icon={faCheckSquare} className="text-success" /> {t('workspace_index.task_recently_label')}</h4>
             </div>
           </div>
           <div className="row mt-2">

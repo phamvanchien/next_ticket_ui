@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import MemberWorkspaceSetting from "./components/MemberWorkspaceSetting";
 import ErrorAlert from "@/common/components/ErrorAlert";
+import { useTranslations } from "next-intl";
 
 interface WorkspaceSettingViewProps {
   workspace: WorkspaceType
@@ -32,6 +33,7 @@ const WorkspaceSettingView: React.FC<WorkspaceSettingViewProps> = ({ workspace }
   const [loadingDelete, setLoadingDelete] = useState(false);
   const workspaceNameRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const t = useTranslations();
   const handleDeleteWorkspace = async () => {
     try {
       if (hasError(validateError) || inputValue !== workspaceName) {
@@ -90,7 +92,7 @@ const WorkspaceSettingView: React.FC<WorkspaceSettingViewProps> = ({ workspace }
             });
             if (response && response.code === API_CODE.OK) {
               setWorkspaceName(workspaceNameRef.current.value);
-              notify('Workspace is updated', 'success');
+              // notify('Workspace is updated', 'success');
               return;
             }
             setError(catchError(response));
@@ -110,7 +112,7 @@ const WorkspaceSettingView: React.FC<WorkspaceSettingViewProps> = ({ workspace }
     <div className="row text-secondary">
       <div className="col-12">
         <h4>
-          <FontAwesomeIcon icon={faGear} /> Workspace setting
+          <FontAwesomeIcon icon={faGear} /> {t('workspace_setting.page_title')}
         </h4>
       </div>
     </div>
@@ -128,15 +130,15 @@ const WorkspaceSettingView: React.FC<WorkspaceSettingViewProps> = ({ workspace }
     <MemberWorkspaceSetting workspace={workspace} />
     <div className="row">
       <div className="col-12 col-lg-4 col-sm-6 mt-4">
-        <h5 className="text-muted">Delete workspace</h5>
+        <h5 className="text-muted">{t('workspace_setting.setting_delete_title')}</h5>
         <i className="text-muted">
-          <FontAwesomeIcon icon={faInfoCircle} /> Deleting this project will also delete the related data and it cannot be recovered.
+          <FontAwesomeIcon icon={faInfoCircle} /> {t('workspace_setting.setting_delete_message')}
         </i>
       </div>
     </div>
     <div className="row mt-2 mb-2">
       <div className="col-12 col-lg-4 col-sm-6">
-        <Button color="danger" onClick={() => setDeleteWorkspace (true)}>Delete workspace</Button>
+        <Button color="danger" onClick={() => setDeleteWorkspace (true)}>{t('workspace_setting.setting_delete_title')}</Button>
       </div>
     </div>
     <Modal className="clone-modal" isOpen={deleteWorkspace ? true : false}>
@@ -144,7 +146,7 @@ const WorkspaceSettingView: React.FC<WorkspaceSettingViewProps> = ({ workspace }
         <div className="row">
           <div className="col-12 mb-2">
             <h6 className="text-muted">
-              Type in the workspace name and delete it - ({workspaceName})
+              {t('workspace_setting.modal_delete_message')} - ({workspaceName})
             </h6>
           </div>
           {
@@ -168,14 +170,12 @@ const WorkspaceSettingView: React.FC<WorkspaceSettingViewProps> = ({ workspace }
               </div>
             }
           </div>
-          <div className="col-6">
-            <Button color="danger" fullWidth onClick={handleDeleteWorkspace} disabled={loadingDelete}>
-              OK {loadingDelete && <Loading color="light" />}
+          <div className="col-12 mt-2">
+            <Button color="primary" className="float-right" onClick={handleDeleteWorkspace} disabled={loadingDelete}>
+              {t('btn_ok')} {loadingDelete && <Loading color="light" />}
             </Button>
-          </div>
-          <div className="col-6">
-            <Button color="danger" fullWidth outline disabled={loadingDelete} onClick={handleCancelPopupDelete}>
-              Cancel
+            <Button color="default" className="float-right mr-2 btn-no-border" outline disabled={loadingDelete} onClick={handleCancelPopupDelete}>
+              {t('btn_cancel')}
             </Button>
           </div>
         </div>

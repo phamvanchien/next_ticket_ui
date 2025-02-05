@@ -4,6 +4,7 @@ import { faAdjust, faPlus, faTimes, faTimesCircle } from "@fortawesome/free-soli
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
 import { getIconPriority } from "../../components/board/grib/TaskItem";
+import { useTranslations } from "next-intl";
 
 interface TaskPriorityProps {
   priority: TaskPriorityType[]
@@ -11,6 +12,7 @@ interface TaskPriorityProps {
 }
 
 const TaskPriorityFilter: React.FC<TaskPriorityProps> = ({ priority, setPriority }) => {
+  const t = useTranslations();
   const priorities = priorityRange();
   const listPriorityRef = useRef<HTMLDivElement>(null);
   const [openPriorityList, setOpenPriorityList] = useState(false);
@@ -42,13 +44,13 @@ const TaskPriorityFilter: React.FC<TaskPriorityProps> = ({ priority, setPriority
   return (
     <div className="row text-secondary">
       <div className="col-4 lh-40">
-        Priority:
+        {t('tasks.priority_label')}:
       </div>
       <div className="col-8 text-secondary" onClick={() => setOpenPriorityList (true)} ref={listPriorityRef}>
         {
           (priority.length === 0) &&
           <span className="badge badge-light lh-20 mb-2 mr-2">
-            <FontAwesomeIcon icon={faPlus} /> Add filter
+            <FontAwesomeIcon icon={faPlus} />
           </span>
         }
         {

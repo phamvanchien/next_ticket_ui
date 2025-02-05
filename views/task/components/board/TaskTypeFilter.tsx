@@ -4,6 +4,7 @@ import { faPlus, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
 import { getTypeClass, getTypeIcon } from "../../components/board/grib/TaskItem";
+import { useTranslations } from "next-intl";
 
 interface TaskTypeFilterProps {
   type: TaskTypeItem[]
@@ -11,6 +12,7 @@ interface TaskTypeFilterProps {
 }
 
 const TaskTypeFilter: React.FC<TaskTypeFilterProps> = ({ type, setType }) => {
+  const t = useTranslations();
   const types = taskType();
   const listTypeRef = useRef<HTMLDivElement>(null);
   const [openTypeList, setOpenTypeList] = useState(false);
@@ -42,13 +44,13 @@ const TaskTypeFilter: React.FC<TaskTypeFilterProps> = ({ type, setType }) => {
   return (
     <div className="row text-secondary">
       <div className="col-4 lh-40">
-        Type:
+        {t('tasks.type_label')}:
       </div>
       <div className="col-8 text-secondary" onClick={() => setOpenTypeList (true)} ref={listTypeRef}>
         {
           (type.length === 0) &&
           <span className="badge badge-light lh-20 mb-2 mr-2">
-            <FontAwesomeIcon icon={faPlus} /> Add filter
+            <FontAwesomeIcon icon={faPlus} />
           </span>
         }
         {

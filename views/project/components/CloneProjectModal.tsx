@@ -13,6 +13,7 @@ import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { ProjectType } from "@/types/project.type";
 import { faCheckCircle, faCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 
@@ -28,6 +29,7 @@ const CloneProjectModal: React.FC<CloneProjectModalProps> = ({ openModal, projec
   const [loading, setLoading] = useState(false);
   const projectNameRef = useRef<HTMLInputElement>(null);
   const router = useRouter();
+  const t = useTranslations();
   const handleCloneProject = async () => {
     try {
       setError(null);
@@ -50,7 +52,7 @@ const CloneProjectModal: React.FC<CloneProjectModalProps> = ({ openModal, projec
   return (
     <Modal className="invite-modal" isOpen={openModal ? true : false}>
       <ModalHeader 
-        title="Clone this project"
+        title={t('projects.clone_project_title')}
         setShow={setOpenModal}
       />
       <ModalBody>
@@ -66,18 +68,18 @@ const CloneProjectModal: React.FC<CloneProjectModalProps> = ({ openModal, projec
           </div>
           <div className="col-12 mt-3">
             <span className="mr-4 pointer" onClick={!loading ? () => setIsPublic (true) : undefined}>
-              <FontAwesomeIcon icon={isPublic ? faCheckCircle : faCircle} className={`text-${isPublic ? 'primary' : 'secondary'}`} /> Public
+              <FontAwesomeIcon icon={isPublic ? faCheckCircle : faCircle} className={`text-${isPublic ? 'primary' : 'secondary'}`} /> {t('public_check')}
             </span>
             <span className="pointer" onClick={!loading ? () => setIsPublic (false) : undefined}>
-              <FontAwesomeIcon icon={!isPublic ? faCheckCircle : faCircle} className={`text-${!isPublic ? 'primary' : 'secondary'}`} /> Private
+              <FontAwesomeIcon icon={!isPublic ? faCheckCircle : faCircle} className={`text-${!isPublic ? 'primary' : 'secondary'}`} /> {t('private_check')}
             </span>
           </div>
           <div className="col-12 mt-2">
             <Button color="primary" className="float-right" onClick={handleCloneProject} disabled={loading}>
-              {loading ? <Loading color="light" /> : 'Clone'}
+              {loading ? <Loading color="light" /> : t('btn_clone')}
             </Button>
             <Button color="default" className="float-right btn-no-border mr-2" onClick={() => setOpenModal (false)} disabled={loading}>
-              Cancel
+              {t('btn_cancel')}
             </Button>
           </div>
         </div>

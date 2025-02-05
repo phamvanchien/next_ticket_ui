@@ -23,6 +23,7 @@ import DocumentMemberShared from "./DocumentMemberShared";
 import DocumentProjectShared from "./DocumentProjectShared";
 import DocumentShareType from "./DocumentShareType";
 import ErrorAlert from "@/common/components/ErrorAlert";
+import { useTranslations } from "next-intl";
 
 interface DocumentUpdateProps {
   documentUpdate?: DocumentType
@@ -45,6 +46,7 @@ const DocumentUpdate: React.FC<DocumentUpdateProps> = ({ documentUpdate, setDocu
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const titleRef = useRef<HTMLInputElement>(null);
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
+  const t = useTranslations();
 
   const handleUpdateDocument = async (payload: UpdateDocumentRequestType) => {
     try {
@@ -140,7 +142,7 @@ const DocumentUpdate: React.FC<DocumentUpdateProps> = ({ documentUpdate, setDocu
                 {
                   documentUpdate?.full_permission &&
                   <Button color="primary" className="mr-2" onClick={() => setEdit (true)}>
-                    Edit <FontAwesomeIcon icon={faPencil} />
+                    {t('tasks.edit_label')} <FontAwesomeIcon icon={faPencil} />
                   </Button>
                 }
                 {
@@ -151,7 +153,7 @@ const DocumentUpdate: React.FC<DocumentUpdateProps> = ({ documentUpdate, setDocu
                 }
               </div>
               <div className="col-12 mt-2 mb-2">
-                <span className="text-muted" style={{ fontSize: 13 }}>Modified at {modifyAt} by {documentUpdate?.updator.first_name} {documentUpdate?.updator.last_name}</span>
+                <span className="text-muted" style={{ fontSize: 13 }}>{t('documents.last_modify_label')} {documentUpdate?.updator.first_name} {documentUpdate?.updator.last_name}</span>
                 <h4>{title}</h4>
               </div>
               <div className="col-12">
@@ -206,14 +208,14 @@ const DocumentUpdate: React.FC<DocumentUpdateProps> = ({ documentUpdate, setDocu
                     className={`text-${documentPublic ? 'primary' : 'secondary'}`}
                     style={{ cursor: 'pointer' }}
                     onClick={() => setDocumentPublic (true)}
-                  /> Public
+                  /> {t('public_check')}
                   <br/>
                   <FontAwesomeIcon 
                     icon={!documentPublic ? faCircleCheck : faCircle} 
                     className={`text-${!documentPublic ? 'primary' : 'secondary'} mt-2`} 
                     style={{ cursor: 'pointer' }}
                     onClick={() => setDocumentPublic (false)}
-                  /> Private
+                  /> {t('private_check')}
                 </div>
                 {
                   !documentPublic &&
@@ -256,10 +258,10 @@ const DocumentUpdate: React.FC<DocumentUpdateProps> = ({ documentUpdate, setDocu
                 }
                 <div className="col-12 mt-4">
                   <Button color="primary" className="float-right ml-2" disabled={loading} onClick={handleUpdateSetting}>
-                    {loading ? <Loading color="light" /> : 'Save'}
+                    {loading ? <Loading color="light" /> : t('btn_save')}
                   </Button>
                   <Button color="secondary" className="float-right btn-no-border" outline onClick={() => setOpenModal (false)} disabled={loading}>
-                    Cancel
+                    {t('btn_cancel')}
                   </Button>
                 </div>
               </div>

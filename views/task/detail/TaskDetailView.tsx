@@ -33,6 +33,7 @@ import ModalBody from "@/common/modal/ModalBody";
 import Link from "next/link";
 import ErrorAlert from "@/common/components/ErrorAlert";
 import { ProjectTagType } from "@/types/project.type";
+import { useTranslations } from "next-intl";
 
 interface TaskDetailViewProps {
   task: TaskType
@@ -62,6 +63,7 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
   const router = useRouter();
+  const t = useTranslations();
   const handleUpdateTask = async () => {
     try {
       if (!workspace || !title || title === '' || !dueDate || !status || !type || !priority) {
@@ -194,7 +196,7 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
       }
       <div className="col-12">
         <Link href={APP_LINK.WORKSPACE + '/' + task.workspace_id + '/project/' + task.project_id} className="text-secondary">
-          <FontAwesomeIcon icon={faAngleDoubleLeft} /> Back to board
+          <FontAwesomeIcon icon={faAngleDoubleLeft} /> {t('tasks.back_to_board')}
         </Link>
       </div>
       <div className="col-12 mb-2" ref={colTitleRef}>
@@ -222,14 +224,14 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
         }
       </div>
       <div className="col-12 mb-2">
-        <Dropdown title="Action" className="float-left">
+        <Dropdown title={t('tasks.action_label')} className="float-left">
           <DropdownItem className="pointer" onClick={() => setConfirmClone (true)}>
-            Clone
+            {t('btn_clone')}
           </DropdownItem>
           {
             userLogged?.id === task.user.id &&
             <DropdownItem className="pointer" onClick={() => setConfirmDelete (true)}>
-              Delete
+              {t('btn_delete')}
             </DropdownItem>
           }
         </Dropdown>
@@ -238,7 +240,7 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
         <div className="card">
           <div className="card-header p-10">
             <div className="card-title">
-              <h6 className="text-secondary m-unset">Details:</h6>
+              <h6 className="text-secondary m-unset">{t('tasks.detail_label')}:</h6>
             </div>
           </div>
           <div className="card-body p-10 text-secondary">
@@ -271,7 +273,7 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
             />
             <div className="row mt-2 text-secondary">
               <div className="col-4 lh-40">
-                Due:
+                {t('tasks.due_label')}:
               </div>
               <div className={`col-8`}>
                 <DateInput selected={dueDate} setSelected={setDueDate} id="dueDate" className="ml-2" />
@@ -282,7 +284,7 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
         <div className="card">
           <div className="card-header p-10 text-secondary">
             <div className="card-title">
-              <h6 className="text-secondary m-unset">History:</h6>
+              <h6 className="text-secondary m-unset">{t('tasks.history_label')}:</h6>
             </div>
             {
               openHistory ? 
@@ -319,17 +321,15 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
           <div className="row">
             <div className="col-12 mb-2">
               <h6 className="text-muted">
-                You will clone this task into a similar one.
+                {t('tasks.clone_task_message')}
               </h6>
             </div>
-            <div className="col-6">
-              <Button color="secondary" fullWidth onClick={handleSubmitClone} disabled={loading}>
-                Clone {loading && <Loading color="light" />}
+            <div className="col-12">
+              <Button color="primary" className="float-right" onClick={handleSubmitClone} disabled={loading}>
+                {t('btn_clone')} {loading && <Loading color="light" />}
               </Button>
-            </div>
-            <div className="col-6">
-              <Button color="secondary" fullWidth outline disabled={loading} onClick={() => setConfirmClone (false)}>
-                Cancel
+              <Button color="default" className="float-right btn-no-border mr-2" outline disabled={loading} onClick={() => setConfirmClone (false)}>
+                {t('btn_cancel')}
               </Button>
             </div>
           </div>
@@ -340,17 +340,15 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
           <div className="row">
             <div className="col-12 mb-2">
               <h6 className="text-muted">
-                You will delete this task and related data.
+                {t('tasks.delete_task_message')}
               </h6>
             </div>
-            <div className="col-6">
-              <Button color="danger" fullWidth onClick={handleRemoveTask} disabled={loading}>
-                OK {loading && <Loading color="light" />}
+            <div className="col-12">
+              <Button color="danger" className="float-right" onClick={handleRemoveTask} disabled={loading}>
+                {t('btn_ok')} {loading && <Loading color="light" />}
               </Button>
-            </div>
-            <div className="col-6">
-              <Button color="danger" fullWidth outline disabled={loading} onClick={() => setConfirmDelete (false)}>
-                Cancel
+              <Button color="danger" className="float-right btn-no-border mr-2" outline disabled={loading} onClick={() => setConfirmDelete (false)}>
+                {t('btn_cancel')}
               </Button>
             </div>
           </div>

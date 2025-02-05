@@ -16,6 +16,7 @@ import { notify } from "@/utils/helper.util";
 import { catchError } from "@/services/base.service";
 import { BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import StatusSettingItem from "./StatusSettingItem";
+import { useTranslations } from "next-intl";
 
 interface ProjectStatusSettingProps {
   project: ProjectType;
@@ -34,7 +35,7 @@ const ProjectStatusSetting: React.FC<ProjectStatusSettingProps> = ({ project }) 
   const [statusDragged, setStatusDragged] = useState<ProjectTagType>();
   const [loadingDelete, setLoadingDelete] = useState(false);
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
-  const deleteStatusModal = "deleteProjectStatus";
+  const t = useTranslations();
 
   const handleChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
@@ -152,9 +153,9 @@ const ProjectStatusSetting: React.FC<ProjectStatusSettingProps> = ({ project }) 
       />
       <div className="row">
         <div className="col-12 col-lg-4 col-sm-6 mt-4">
-          <h5 className="text-muted">Status</h5>
+          <h5 className="text-muted">{t('tasks.status_label')}</h5>
           <i className="text-muted">
-            <FontAwesomeIcon icon={faInfoCircle} /> You can change the position of the status by dragging and dropping or create a new status here.
+            <FontAwesomeIcon icon={faInfoCircle} /> {t('project_setting.setting_status_title')}
           </i>
         </div>
       </div>
@@ -170,13 +171,13 @@ const ProjectStatusSetting: React.FC<ProjectStatusSettingProps> = ({ project }) 
             }}
             onClick={() => setOpenCreate (true)}
           >
-            Create new <FontAwesomeIcon icon={faPlus} />
+            {t('project_setting.btn_create_new')} <FontAwesomeIcon icon={faPlus} />
           </div>
         </div>
       </div>
       <div className="row">
         <div className="col-12 col-lg-4 col-sm-6">
-          <Input type="search" placeholder="Enter status title" style={{
+          <Input type="search" placeholder={t('project_setting.placeholder_input_status')} style={{
               padding: "8px",
               borderRadius: "5px"
             }}
@@ -205,7 +206,7 @@ const ProjectStatusSetting: React.FC<ProjectStatusSettingProps> = ({ project }) 
         <div className="row mt-2">
           <div className="col-12 col-lg-4 col-sm-6">
             <span className="link mt-4 mb-2 text-secondary" style={{cursor: 'pointer'}} onClick={!loadingViewMore ? handleViewMore : undefined}>
-              View more {loadingViewMore ? <Loading color="secondary" /> : <FontAwesomeIcon icon={faAngleDoubleDown} />}
+              {t('btn_view_more')} {loadingViewMore ? <Loading color="secondary" /> : <FontAwesomeIcon icon={faAngleDoubleDown} />}
             </span>
           </div>
         </div>
@@ -215,17 +216,15 @@ const ProjectStatusSetting: React.FC<ProjectStatusSettingProps> = ({ project }) 
           <div className="row">
             <div className="col-12 mb-2">
               <h6 className="text-muted">
-                You will delete this status including all related data.
+                {t('project_setting.message_delete_status')}
               </h6>
             </div>
-            <div className="col-6">
-              <Button color="danger" fullWidth onClick={handleDeleteStatus} disabled={loadingDelete}>
-                OK {loadingDelete && <Loading color="light" />}
+            <div className="col-12">
+              <Button color="primary" className="float-right" onClick={handleDeleteStatus} disabled={loadingDelete}>
+                {t('btn_ok')} {loadingDelete && <Loading color="light" />}
               </Button>
-            </div>
-            <div className="col-6">
-              <Button color="danger" fullWidth outline disabled={loadingDelete} onClick={() => setStatusDeleteId (undefined)}>
-                Cancel
+              <Button color="default" className="btn-no-border float-right" outline disabled={loadingDelete} onClick={() => setStatusDeleteId (undefined)}>
+                {t('btn_cancel')}
               </Button>
             </div>
           </div>

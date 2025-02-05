@@ -14,6 +14,7 @@ import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { ProjectType } from "@/types/project.type";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import React, { ChangeEvent, useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -31,6 +32,7 @@ const ProjectRemove: React.FC<ProjectRemoveProps> = ({ projectId, projectName })
   const [validateError, setValidateError] = useState<AppErrorType[] | []>([]);
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const router = useRouter();
+  const t = useTranslations();
   const handleChangeInput = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
     setValidateError([]);
@@ -74,15 +76,15 @@ const ProjectRemove: React.FC<ProjectRemoveProps> = ({ projectId, projectName })
   return <>
     <div className="row">
       <div className="col-12 col-lg-4 col-sm-6 mt-4">
-        <h5 className="text-muted">Delete project</h5>
+        <h5 className="text-muted">{t('project_setting.setting_delete_project_title')}</h5>
         <i className="text-muted">
-          <FontAwesomeIcon icon={faInfoCircle} /> Deleting this project will also delete the related data and it cannot be recovered.
+          <FontAwesomeIcon icon={faInfoCircle} /> {t('project_setting.setting_delete_project_message')}
         </i>
       </div>
     </div>
     <div className="row mt-2 mb-2">
       <div className="col-12 col-lg-4 col-sm-6">
-        <Button color="danger" onClick={() => setConfirmDelete (true)}>Delete project</Button>
+        <Button color="danger" onClick={() => setConfirmDelete (true)}>{t('project_setting.setting_delete_project_title')}</Button>
       </div>
     </div>
     <Modal className="clone-modal" isOpen={confirmDelete ? true : false}>
@@ -96,13 +98,13 @@ const ProjectRemove: React.FC<ProjectRemoveProps> = ({ projectId, projectName })
           }
           <div className="col-12 mb-2">
             <h6 className="text-muted">
-              Type in the project name and delete it - ({projectName})
+              {t('project_setting.label_delete_project')} - ({projectName})
             </h6>
           </div>
           <div className="col-12 mb-2">
             <Input 
               type="text" 
-              placeholder="Enter project name" 
+              placeholder={t('create_project.placeholder_input_project_name')}
               onChange={handleChangeInput} 
               invalid={hasError(validateError)}
             />
@@ -115,10 +117,10 @@ const ProjectRemove: React.FC<ProjectRemoveProps> = ({ projectId, projectName })
           </div>
           <div className="col-12 mt-2">
             <Button color="primary" className="float-right" onClick={handleDeleteProject} disabled={loadingDelete}>
-              Delete {loadingDelete && <Loading color="light" />}
+              {t('btn_delete')} {loadingDelete && <Loading color="light" />}
             </Button>
             <Button color="secondary" className="float-right btn-no-border mr-2" outline disabled={loadingDelete} onClick={() => setConfirmDelete (false)}>
-              Cancel
+              {t('btn_cancel')}
             </Button>
           </div>
         </div>
