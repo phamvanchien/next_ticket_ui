@@ -344,10 +344,10 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
               </h6>
             </div>
             <div className="col-12">
-              <Button color="danger" className="float-right" onClick={handleRemoveTask} disabled={loading}>
+              <Button color="primary" className="float-right" onClick={handleRemoveTask} disabled={loading}>
                 {t('btn_ok')} {loading && <Loading color="light" />}
               </Button>
-              <Button color="danger" className="float-right btn-no-border mr-2" outline disabled={loading} onClick={() => setConfirmDelete (false)}>
+              <Button color="default" className="float-right btn-no-border mr-2" outline disabled={loading} onClick={() => setConfirmDelete (false)}>
                 {t('btn_cancel')}
               </Button>
             </div>

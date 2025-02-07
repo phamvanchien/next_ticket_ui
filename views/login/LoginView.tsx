@@ -233,7 +233,7 @@ const LoginView = () => {
                 </div>
               </form>
               <p className="mb-1">
-                <Link className="text-secondary" href={APP_LINK.FORGOT_PASSWORD}>{t('login.forgot_password_link')}</Link>
+                <Link className="text-center text-secondary" href={APP_LINK.FORGOT_PASSWORD}>{t('login.forgot_password_link')}</Link>
               </p>
               <p className="mb-0">
                 <Link href={APP_LINK.REGISTER} className="text-center text-secondary">

@@ -14,6 +14,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
+import LanguageSwitcher from "../components/LanguageSwitcher";
 
 interface SidebarProps {
   workspace?: WorkspaceType
@@ -126,6 +127,7 @@ const Sidebar: React.FC<SidebarProps> = ({ workspace }) => {
 
   return (
     <aside className="main-sidebar sidebar-dark-primary elevation-4" ref={boxRef}>
+      <LanguageSwitcher className="mb-2" />
       <Link href={APP_LINK.WORKSPACE + '/' + workspace?.id} className="brand-link p-unset ml-4 mt-2 text-dark" title={workspace?.name}>
         <img 
           src={userLogged?.avatar} 
