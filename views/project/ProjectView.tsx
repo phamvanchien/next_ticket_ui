@@ -86,7 +86,7 @@ const ProjectView: React.FC<ProjectViewProps> = ({ workspace }) => {
     </div>
     <div className="row mt-2">
       <div className="col-12 mb-2">
-        <Button color="secondary" className="letter-btn mt-2 btn-no-border" outline onClick={() => setInviteModal (true)}>
+        <Button color="default" className="letter-btn mt-2 btn-no-border" outline onClick={() => setInviteModal (true)}>
           <FontAwesomeIcon icon={faEnvelope} /> {t('projects.invitation')}
         </Button>
       </div>
@@ -96,11 +96,14 @@ const ProjectView: React.FC<ProjectViewProps> = ({ workspace }) => {
           <Input type="search" placeholder={t('projects.placeholder_input_search')} className="float-left input-search mt-2" onChange={handleChangeKeyword} />
         </div>
       }
-      <div className="col-6 col-lg-6 mb-2">
-        <Button color="primary" className="create-btn mt-2 mr-2 float-right" onClick={() => setOpenModal (true)}>
-          {t('btn_new')} <FontAwesomeIcon icon={faPlus} />
-        </Button>
-      </div>
+      {
+        !loading &&
+        <div className="col-6 col-lg-6 mb-2">
+          <Button color="primary" className="create-btn mt-2 mr-2 float-right" onClick={() => setOpenModal (true)}>
+            {t('btn_new')} <FontAwesomeIcon icon={faPlus} />
+          </Button>
+        </div>
+      }
     </div>
     <div className="row mt-4">
       {

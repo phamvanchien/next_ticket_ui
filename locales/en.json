@@ -147,6 +147,7 @@
         "placeholder_input_search": "Search tasks",
         "task_empty_message": "Your tasks will be show here",
         "due_label": "Due",
+        "title_label": "Title",
         "placeholder_search_assigner": "Search assigner",
         "assignee_label": "Assignee",
         "project_owner_label": "Project owner",
@@ -157,7 +158,7 @@
         "placeholder_search_tags": "Search tags",
         "tags_not_found": "No matches found",
         "priority_label": "Priority",
-        "type_label": "Loại",
+        "type_label": "Type",
         "placeholder_task_description": "Description about your task...",
         "btn_create_task": "Create task",
         "status_label": "Status",
@@ -270,5 +271,9 @@
     },
     "good_morning_label": "Good morning",
     "good_afternood_label": "Good afternoon",
-    "good_evening": "Good evening"
+    "good_evening": "Good evening",
+    "task_history": {
+        "updated_description": "Updated description",
+        "created_task": "Created task"
+    }
 }  

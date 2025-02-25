@@ -47,6 +47,7 @@ export interface AppConfigType {
         url: string
         category: string
         top: string
+        categoryWithPost: string
       }
     }
   }

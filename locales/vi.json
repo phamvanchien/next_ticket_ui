@@ -147,6 +147,7 @@
         "placeholder_input_search": "Tìm kiếm vé",
         "task_empty_message": "Vé của bạn sẽ hiện ở đây",
         "due_label": "Hạn chót",
+        "title_label": "Tiêu đề",
         "placeholder_search_assigner": "Tìm người phân công",
         "assignee_label": "Phân công",
         "project_owner_label": "Chủ dự án",
@@ -270,5 +271,9 @@
     },
     "good_morning_label": "Chào buổi sáng",
     "good_afternood_label": "Chào buổi chiều",
-    "good_evening": "Chào buổi tối"
+    "good_evening": "Chào buổi tối",
+    "task_history": {
+        "updated_description": "Đã cập nhật mô tả",
+        "created_task": "Đã tạo task"
+    }
 }  

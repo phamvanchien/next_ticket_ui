@@ -136,7 +136,7 @@ const ProjectStatusReport: React.FC<ProjectStatusReportProps> = ({ project }) =>
         }
       </div>
       {
-        (reportData) && reportData.length > 1 &&
+        (reportDataStatus && reportData) && reportData.length > 1 &&
         <div className="col-6 col-lg-4">
           <div className="card">
             <div className="card-body text-center">
@@ -161,7 +161,7 @@ const ProjectStatusReport: React.FC<ProjectStatusReportProps> = ({ project }) =>
       }
       <div className="col-6 col-lg-8">
         {
-          reportData && reportData.map(value => (
+          (reportDataStatus && reportData) && reportData.map(value => (
             <p key={value.id}><FontAwesomeIcon icon={faSquare} style={{ color: value.color}} /> {value.name}: <b>{value.total_tasks}</b></p>
           ))
         }

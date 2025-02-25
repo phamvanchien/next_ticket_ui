@@ -8,7 +8,6 @@ import BodyLayout from "./body";
 import {NextIntlClientProvider} from 'next-intl';
 import { headers } from "next/headers";
 import { defaultLocale } from "@/next-intl-config";
-import { getLocale } from "next-intl/server";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -23,7 +22,6 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const locale = headers().get('locale') || defaultLocale;
-  console.log('locale: ', locale)
   const messages = require(`@/locales/${locale}.json`);
   return (
     <html lang="en">

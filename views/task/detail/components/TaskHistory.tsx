@@ -1,8 +1,8 @@
 import { HistoryType, TaskType } from "@/types/task.type";
 import { formatTime } from "@/utils/helper.util";
-import { faAngleDoubleDown, faHistory } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDoubleDown } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { MouseEvent, useState } from "react";
+import React, { MouseEvent } from "react";
 import TaskHistoryItem from "./TaskHistoryItem";
 import Link from "next/link";
 import Loading from "@/common/components/Loading";
@@ -61,7 +61,7 @@ const TaskHistory: React.FC<TaskHistoryProps> = ({ historyData, task, loadingVie
         <span className="text-muted float-right history-item-time">- {formatTime(new Date(task.created_at))}</span>
         <div className="card mt-2">
           <div className="card-body p-5">
-            Created task
+            {t('task_history.created_task')}
           </div>
         </div>
       </div>

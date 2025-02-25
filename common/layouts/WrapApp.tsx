@@ -1,11 +1,7 @@
 "use client"
-import { faBars, faBell, faCalendarDay, faCubes, faEnvelopeOpen, faHome, faPlus, faUser } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import NavItem from "./NavItem";
-import { APP_LINK } from "@/enums/app.enum";
 import React from "react";
-import Sidebar from "./Sidebar";
 import { useTranslations } from "next-intl";
+import Header from "./Header";
 
 interface WrapAppProps {
   children: React.ReactNode
@@ -34,7 +30,7 @@ const WrapApp: React.FC<WrapAppProps> = ({ children }) => {
   }
   return (
     <div className="wrapper">
-      <nav className="header-app navbar navbar-expand-md navbar-light navbar-white p-unset">
+      {/* <nav className="header-app navbar navbar-expand-md navbar-light navbar-white p-unset">
         <div className="container">
           <ul className="navbar-nav navbar-no-expand float-right">
             <NavItem href={APP_LINK.INVITATION} className="icon-menu text-center border-right-header">
@@ -51,7 +47,8 @@ const WrapApp: React.FC<WrapAppProps> = ({ children }) => {
             </NavItem>
           </ul>
         </div>
-      </nav>
+      </nav> */}
+      <Header className="content-wrapper-app" />
       <div className="content-wrapper content-wrapper-app pt-unset">
         <div className="content">
           <div className="container main-container-app">

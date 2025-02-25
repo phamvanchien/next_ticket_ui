@@ -46,7 +46,8 @@ export const APP_CONFIG: AppConfigType = {
       post: {
         url: '/post',
         category: '/post/category',
-        top: '/post/top-post'
+        top: '/post/top-post',
+        categoryWithPost: '/post/category-with-post'
       }
     }
   }

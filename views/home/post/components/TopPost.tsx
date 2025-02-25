@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import PostCardLarge from "./PostCardLarge";
-import PostCardSmall from "./PostCardSmall";
 import { PostType } from "@/types/post.type";
 import { topPosts } from "@/api/post.api";
 import { API_CODE } from "@/enums/api.enum";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faClock } from "@fortawesome/free-solid-svg-icons";
+import { formatTime } from "@/utils/helper.util";
+import PostCardTop from "./PostCardTop";
+import Link from "next/link";
 
 const TopPost = () => {
   const [postTop, setPostTop] = useState<PostType>();
@@ -15,7 +18,7 @@ const TopPost = () => {
         const response = await topPosts();
         setLoading(false);
         if (response && response.code === API_CODE.OK && response.data.length > 0) {
-          setPostList(response.data.splice(1, 20));
+          setPostList(response.data.splice(1, 4));
           setPostTop(response.data[0]);
           return;
         }
@@ -25,21 +28,59 @@ const TopPost = () => {
     }
     loadPosts();
   }, []);
-  useEffect(() => {
-    if (postList)
-      console.log('POST DATA', postList)
-  }, [postList])
   return (
-    <div className="row mb-2">
-      <div className="col-md-8 col-12">
-        <PostCardLarge post={postTop} />
+    <div className="banner-area banner-inner-1 bg-black" id="banner">
+      <div className="banner-inner pt-5">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-6">
+              <div className="thumb after-left-top">
+                <img src={postTop?.image} alt="img" />
+              </div>
+            </div>
+            <div className="col-lg-6 align-self-center">
+              <div className="banner-details mt-4 mt-lg-0">
+                <div className="post-meta-single">
+                  <ul>
+                    {
+                      (postTop?.categories && postTop.categories.length > 0) &&
+                      <li>
+                        <a className="tag-base tag-blue" href="#">
+                          {postTop?.categories[0].title}
+                        </a>
+                      </li>
+                    }
+                    {
+                      postTop &&
+                      <li className="date">
+                        <FontAwesomeIcon icon={faClock} className="mr-2" />
+                        {formatTime(new Date(postTop.created_at))}
+                      </li>
+                    }
+                  </ul>
+                </div>
+                <h2>{postTop?.title}</h2>
+                <p>
+                  {postTop?.summary}
+                </p>
+                <Link className="btn btn-blue btn-read-more" href="#">
+                  Đọc tiếp
+                </Link>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="col-md-4 col-12">
-        {
-          postList && postList.map(post => (
-            <PostCardSmall post={post} key={post.id} />
-          ))
-        }
+      <div className="container">
+        <div className="row">
+          {
+            postList?.map(post => (
+              <div className="col-lg-3 col-sm-6" key={post.id}>
+                <PostCardTop post={post} />
+              </div>
+            ))
+          }
+        </div>
       </div>
     </div>
   )

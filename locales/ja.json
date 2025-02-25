@@ -147,6 +147,7 @@
         "placeholder_input_search": "チケットを検索",
         "task_empty_message": "ここにチケットが表示されます",
         "due_label": "期限",
+        "title_label": "タイトル",
         "placeholder_search_assigner": "担当者を検索",
         "assignee_label": "担当者",
         "project_owner_label": "プロジェクトオーナー",
@@ -270,5 +271,9 @@
     },
     "good_morning_label": "おはようございます",
     "good_afternood_label": "こんにちは",
-    "good_evening": "こんばんは"
+    "good_evening": "こんばんは",
+    "task_history": {
+        "updated_description": "説明を更新しました",
+        "created_task": "タスクが作成されました"
+    }
 }

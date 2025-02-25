@@ -13,7 +13,7 @@ const CategoryMenu = () => {
         const response = await categories({
           forMenu: true,
           page: 1,
-          size: 12
+          size: 7
         });
         setLoading(false);
         if (response && response.code === API_CODE.OK) {
@@ -30,14 +30,22 @@ const CategoryMenu = () => {
     return <></>
   }
   return (
-    <div className="nav-scroller py-1 mb-2">
-      <nav className="nav d-flex justify-content-between">
+    <div className="collapse navbar-collapse" id="nextpage_main_menu">
+      <ul className="navbar-nav menu-open">
+        <li className="current-menu-item">
+          <Link href="/">Trang chủ</Link>
+        </li>
         {
           categoriesData?.map(category => (
-            <Link key={category.id} className="p-2 text-muted" href="#">{category.title}</Link>
+            <li className="current-menu-item" key={category.id}>
+              <Link href="#banner">{category.title}</Link>
+            </li>
           ))
         }
-      </nav>
+        <li className="current-menu-item">
+          <Link href="#banner">Tất cả chuyên mục</Link>
+        </li>
+      </ul>
     </div>
   )
 }

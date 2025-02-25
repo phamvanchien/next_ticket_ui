@@ -22,3 +22,11 @@ export interface PostType {
   created_at: string
   categories: CategoryType[]
 }
+
+export interface CategoryWithPost {
+  id: number
+  title: string
+  slug: string
+  childrens: CategoryType[]
+  posts: PostType[]
+}
