@@ -4,31 +4,15 @@ import '../../assets_home/css/responsive.css';
 import ErrorPage from "@/common/layouts/ErrorPage";
 import { APP_CONFIG } from "@/config/app.config";
 import { API_CODE } from "@/enums/api.enum";
-import { catchError, responseError } from "@/services/base.service";
 import { BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import { CategoryType, PostType } from "@/types/post.type";
-import { use } from "react";
 import HomeCategoryView from '@/views/home/category/HomeCategoryView';
+import { catchError, responseError } from '@/services/base.service';
 
 interface CategoryPageProps {
   params: {
-    categorySlug: string
+    categorySlug: string;
   };
-}
-
-const CategoryPage = ({ params }: CategoryPageProps) => {
-  const category = use(fetchCategory(params.categorySlug));
-
-  if (!category || category.code !== API_CODE.OK) {
-    return <ErrorPage errorCode={404} />
-  }
-
-  const categoriesId = category.data.childrens.map(c => c.id.toString());
-  categoriesId.push(category.data.id.toString());
-
-  const posts = use(fetchPosts(categoriesId));
-
-  return <HomeCategoryView posts={posts.data} category={category.data} categoriesId={categoriesId} />
 }
 
 const fetchCategory = async (slug: string): Promise<BaseResponseType<CategoryType>> => {
@@ -53,15 +37,28 @@ const fetchPosts = async (categoryIds: string[]): Promise<BaseResponseType<Respo
   }
 };
 
-export async function getStaticPaths() {
+export async function generateStaticParams() {
   const res = await fetch(`${APP_CONFIG.API.URL + APP_CONFIG.API.PREFIX.post.category}?page=1&size=1000`);
-  const categories: BaseResponseType<ResponseWithPaginationType<CategoryType[]>> = await res.json()
+  const categories: BaseResponseType<ResponseWithPaginationType<CategoryType[]>> = await res.json();
 
-  const paths = categories.data.items.map((category) => ({
-    params: { categorySlug: category.slug }
-  }))
- 
-  return { paths, fallback: false }
+  return categories.data.items.map((category) => ({
+    categorySlug: category.slug,
+  }));
+}
+
+const CategoryPage = async ({ params }: CategoryPageProps) => {
+  const category = await fetchCategory(params.categorySlug);
+
+  if (!category || category.code !== API_CODE.OK) {
+    return <ErrorPage errorCode={404} />;
+  }
+
+  const categoriesId = category.data.childrens.map((c) => c.id.toString());
+  categoriesId.push(category.data.id.toString());
+
+  const posts = await fetchPosts(categoriesId);
+
+  return <HomeCategoryView posts={posts.data} category={category.data} categoriesId={categoriesId} />;
 };
 
 export default CategoryPage;
