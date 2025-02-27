@@ -4,24 +4,13 @@ import '../assets_home/css/responsive.css';
 import ErrorPage from "@/common/layouts/ErrorPage";
 import { APP_CONFIG } from "@/config/app.config";
 import { API_CODE } from "@/enums/api.enum";
-import { catchError, responseError } from "@/services/base.service";
-import { BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
+import { BaseResponseType } from "@/types/base.type";
 import { PostType } from "@/types/post.type";
 import HomePostDetail from "@/views/home/post_detail/HomePostDetail";
-import { use } from "react";
+import { catchError, responseError } from '@/services/base.service';
 
 interface PostDetailProps {
   params: { slug: string };
-}
-
-const PostDetail = ({ params }: PostDetailProps) => {
-  const post = use(fetchPost(params.slug));
-
-  if (!post || post.code !== API_CODE.OK) {
-    return <ErrorPage errorCode={404} />
-  }
-
-  return <HomePostDetail post={post.data} />
 }
 
 const fetchPost = async (slug: string): Promise<BaseResponseType<PostType>> => {
@@ -35,15 +24,23 @@ const fetchPost = async (slug: string): Promise<BaseResponseType<PostType>> => {
   }
 };
 
-export async function getStaticPaths() {
+export async function generateStaticParams() {
   const res = await fetch(`${APP_CONFIG.API.URL + APP_CONFIG.API.PREFIX.post.url}?page=1&size=1000&sortCreatedAt=DESC`);
-  const posts: BaseResponseType<ResponseWithPaginationType<PostType[]>> = await res.json()
+  const posts: BaseResponseType<{ items: PostType[] }> = await res.json();
 
-  const paths = posts.data.items.map((post) => ({
-    params: { slug: post.slug },
-  }))
- 
-  return { paths, fallback: false }
+  return posts.data.items.map((post) => ({
+    slug: post.slug,
+  }));
 }
+
+const PostDetail = async ({ params }: PostDetailProps) => {
+  const post = await fetchPost(params.slug);
+
+  if (!post || post.code !== API_CODE.OK) {
+    return <ErrorPage errorCode={404} />;
+  }
+
+  return <HomePostDetail post={post.data} />;
+};
 
 export default PostDetail;
