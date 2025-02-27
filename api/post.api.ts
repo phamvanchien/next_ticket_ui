@@ -1,7 +1,7 @@
 import { API_METHOD_ENUM } from "@/enums/api.enum";
 import { request } from "./base.api";
 import { APP_CONFIG } from "@/config/app.config";
-import { CategoryType, CategoryWithPost, PostType, RequestCategoryType } from "@/types/post.type";
+import { CategoryType, CategoryWithPost, GetPostsRequestType, PostType, RequestCategoryType } from "@/types/post.type";
 import { BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 
 export const categories = async (payload: RequestCategoryType): Promise<BaseResponseType<ResponseWithPaginationType<CategoryType[]>>> => {
@@ -24,16 +24,21 @@ export const topPosts = async (): Promise<BaseResponseType<PostType[]>> => {
   });
 }
 
-export const categoryWithPost = async (): Promise<BaseResponseType<ResponseWithPaginationType<CategoryWithPost[]>>> => {
+export const categoryWithPost = async (page: number, size: number): Promise<BaseResponseType<ResponseWithPaginationType<CategoryWithPost[]>>> => {
   return request({
     method: API_METHOD_ENUM.GET,
-    url: APP_CONFIG.API.PREFIX.post.categoryWithPost
+    url: APP_CONFIG.API.PREFIX.post.categoryWithPost,
+    params: {
+      page: page,
+      size: size
+    }
   });
 }
 
-export const posts = async (): Promise<BaseResponseType<ResponseWithPaginationType<PostType[]>>> => {
+export const posts = async (payload: GetPostsRequestType): Promise<BaseResponseType<ResponseWithPaginationType<PostType[]>>> => {
   return request({
     method: API_METHOD_ENUM.GET,
-    url: APP_CONFIG.API.PREFIX.post.url
+    url: APP_CONFIG.API.PREFIX.post.url,
+    params: payload
   });
 }

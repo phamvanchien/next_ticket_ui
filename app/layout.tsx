@@ -24,7 +24,7 @@ export default async function RootLayout({
   const locale = headers().get('locale') || defaultLocale;
   const messages = require(`@/locales/${locale}.json`);
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning={true}>
       <body suppressHydrationWarning={true}>
         <BodyLayout>
           <NextIntlClientProvider locale={locale} messages={messages}>

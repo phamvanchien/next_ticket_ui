@@ -7,6 +7,7 @@ import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { formatTime } from "@/utils/helper.util";
 import PostCardTop from "./PostCardTop";
 import Link from "next/link";
+import LoadingPost from "@/common/components/LoadingPost";
 
 const TopPost = () => {
   const [postTop, setPostTop] = useState<PostType>();
@@ -16,10 +17,10 @@ const TopPost = () => {
     const loadPosts = async () => {
       try {
         const response = await topPosts();
-        setLoading(false);
         if (response && response.code === API_CODE.OK && response.data.length > 0) {
           setPostList(response.data.splice(1, 4));
           setPostTop(response.data[0]);
+          setLoading(false);
           return;
         }
       } catch (error) {
@@ -28,6 +29,9 @@ const TopPost = () => {
     }
     loadPosts();
   }, []);
+  if (loading) {
+    return <LoadingPost />
+  }
   return (
     <div className="banner-area banner-inner-1 bg-black" id="banner">
       <div className="banner-inner pt-5">
@@ -45,9 +49,9 @@ const TopPost = () => {
                     {
                       (postTop?.categories && postTop.categories.length > 0) &&
                       <li>
-                        <a className="tag-base tag-blue" href="#">
+                        <Link className="tag-base tag-blue" href={`/chuyen-muc/${postTop.categories[0].slug}`}>
                           {postTop?.categories[0].title}
-                        </a>
+                        </Link>
                       </li>
                     }
                     {
@@ -59,7 +63,11 @@ const TopPost = () => {
                     }
                   </ul>
                 </div>
-                <h2>{postTop?.title}</h2>
+                <h2>
+                  <Link href={'/' + (postTop?.slug ?? '')}>
+                    {postTop?.title}
+                  </Link>
+                </h2>
                 <p>
                   {postTop?.summary}
                 </p>

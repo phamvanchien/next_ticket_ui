@@ -38,7 +38,7 @@ const CategoryMenu = () => {
         {
           categoriesData?.map(category => (
             <li className="current-menu-item" key={category.id}>
-              <Link href="#banner">{category.title}</Link>
+              <Link href={`/chuyen-muc/${category.slug}`}>{category.title}</Link>
             </li>
           ))
         }

@@ -1,12 +1,9 @@
-import Button from "@/common/components/Button";
-import { faSearch, faSignIn } from "@fortawesome/free-solid-svg-icons";
+import { faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
 import CategoryMenu from "./CategoryMenu";
+import Link from "next/link";
 
 const HeaderHome = () => {
-  const router = useRouter();
   return <>
     <div className="td-search-popup" id="td-search-popup">
     <form action="index.html" className="search-form">
@@ -83,9 +80,9 @@ const HeaderHome = () => {
           <div className="row">
             <div className="col-xl-6 col-lg-5 align-self-center">
               <div className="logo text-md-left text-center">
-                <a className="main-logo" href="index.html">
+                <Link className="main-logo" href="/">
                   <img src="/img_posts/logo.png" alt="img" />
-                </a>
+                </Link>
               </div>
             </div>
             <div className="col-xl-6 col-lg-7 text-md-right text-center">

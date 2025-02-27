@@ -30,3 +30,11 @@ export interface CategoryWithPost {
   childrens: CategoryType[]
   posts: PostType[]
 }
+
+export interface GetPostsRequestType extends RequestWithPaginationType {
+  categoryId?: string;
+  fromCreated?: string;
+  toCreated?: string;
+  sortCreatedAt?: "DESC" | "ASC"
+  sortBestView?: "DESC" | "ASC"
+}

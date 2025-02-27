@@ -16,14 +16,14 @@ const PostCardTop: React.FC<PostCardTopProps> = ({ post }) => {
         <img src={post.image} alt="img" height={220} />
         {
           (post.categories && post.categories.length > 0) &&
-          <Link className="tag-base tag-blue" href="#">
+          <Link className="tag-base tag-blue" href={`/chuyen-muc/${post.categories[0].slug}`}>
             {post.categories[0].title}
           </Link>
         }
         </div>
         <div className="details">
         <h6 className="title">
-            <Link href="#">{post.title}</Link>
+            <Link href={`/${post.slug}`}>{post.title}</Link>
         </h6>
         <div className="post-meta-single mt-3">
           <ul>
