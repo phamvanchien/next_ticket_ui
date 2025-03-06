@@ -15,6 +15,7 @@ import { FormEvent, useState } from "react";
 import SendLinkSuccess from "./components/SendLinkSuccess";
 import ErrorAlert from "@/common/components/ErrorAlert";
 import { useTranslations } from "next-intl";
+import LogoAuthPage from "@/common/layouts/LogoAuthPage";
 
 const ForgotPasswordView = () => {
   const t = useTranslations();
@@ -63,11 +64,7 @@ const ForgotPasswordView = () => {
   }
   return (
     <div className="login-box auth-box">
-      <div className="login-logo">
-        <Link href="/">
-          <img src="/img/logo.png" alt="AdminLTE Logo" width={130} height={90} />
-        </Link>
-      </div>
+      <LogoAuthPage />
       <div className="card">
         <div className="card-body login-card-body">
           {

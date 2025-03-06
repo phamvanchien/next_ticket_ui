@@ -127,6 +127,9 @@ const Sidebar: React.FC<SidebarProps> = ({ workspace }) => {
 
   return (
     <aside className="main-sidebar sidebar-dark-primary elevation-4" ref={boxRef}>
+      <Link className="navbar-brand w-100 text-center mt-2 mb-4" href="/">
+        <img src="/img_posts/logo-3.png" height={40} width={180} />
+      </Link>
       <LanguageSwitcher className="mb-2" />
       <Link href={APP_LINK.WORKSPACE + '/' + workspace?.id} className="brand-link p-unset ml-4 mt-2 text-dark" title={workspace?.name}>
         <img 

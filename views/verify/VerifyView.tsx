@@ -1,6 +1,7 @@
 "use client"
 import { verify } from "@/api/authenticate.api";
 import Loading from "@/common/components/Loading";
+import LogoAuthPage from "@/common/layouts/LogoAuthPage";
 import { API_CODE } from "@/enums/api.enum";
 import { APP_LINK } from "@/enums/app.enum";
 import { catchError } from "@/services/base.service";
@@ -50,11 +51,7 @@ const VerifyView = () => {
   }, []);
   return (
     <div className="login-box auth-box">
-      <div className="login-logo">
-        <Link href="/">
-          <img src="/img/logo.png" alt="AdminLTE Logo" width={130} height={90} />
-        </Link>
-      </div>
+      <LogoAuthPage />
       <div className="card">
         <div className="card-body login-card-body">
           {

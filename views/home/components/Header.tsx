@@ -81,7 +81,7 @@ const HeaderHome = () => {
             <div className="col-xl-6 col-lg-5 align-self-center">
               <div className="logo text-md-left text-center">
                 <Link className="main-logo" href="/">
-                  <img src="/img_posts/logo.png" alt="img" />
+                  <img src="/img_posts/logo.png" alt="img" width={200} height={50} />
                 </Link>
               </div>
             </div>

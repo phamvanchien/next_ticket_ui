@@ -16,6 +16,7 @@ import { FormEvent, useState } from "react";
 import ResetPasswordSuccess from "./components/ResetPasswordSuccess";
 import { useTranslations } from "next-intl";
 import ErrorAlert from "@/common/components/ErrorAlert";
+import LogoAuthPage from "@/common/layouts/LogoAuthPage";
 
 const ResetPasswordView = () => {
   const searchParams = useSearchParams();
@@ -79,11 +80,7 @@ const ResetPasswordView = () => {
   }
   return <>
     <div className="login-box auth-box">
-      <div className="login-logo">
-        <Link href="/">
-          <img src="/img/logo.png" alt="Next Ticket Logo" width={130} height={90} />
-        </Link>
-      </div>
+      <LogoAuthPage />
       <div className="card">
         <div className="card-body login-card-body">
           {success ? <ResetPasswordSuccess /> : (

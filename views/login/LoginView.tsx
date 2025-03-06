@@ -19,6 +19,7 @@ import GoogleAuth from "./components/GoogleAuth";
 import ErrorAlert from "@/common/components/ErrorAlert";
 import { useTranslations } from "next-intl";
 import LanguageSwitcher from "@/common/components/LanguageSwitcher";
+import LogoAuthPage from "@/common/layouts/LogoAuthPage";
 
 const LoginView = () => {
   const t = useTranslations();
@@ -149,12 +150,8 @@ const LoginView = () => {
   return (
     <div className="login-box auth-box">
       <LanguageSwitcher className="mb-4" />
-      <div className="login-logo">
-        <Link href="/">
-          <img src="/img/logo.png" alt="AdminLTE Logo" width={130} height={90} />
-        </Link>
-      </div>
-      <div className="card">
+      <LogoAuthPage />
+      <div className="card mt-4">
         <div className="card-body login-card-body">
           {
             (code && scope && authuser && prompt) ?

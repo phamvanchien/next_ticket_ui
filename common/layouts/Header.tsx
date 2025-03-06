@@ -5,6 +5,7 @@ import React, { useEffect } from "react";
 import { APP_LINK } from "@/enums/app.enum";
 import NavItem from "./NavItem";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 
 interface HeaderProps {
   className?: string
@@ -39,10 +40,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
   }, []);
   return (
     <nav className={`navbar main-header navbar-expand-lg navbar-light bg-light w-100 ${className ?? ''}`} style={{flexWrap: 'unset'}}>
-      <FontAwesomeIcon className="navbar-brand d-block d-lg-none text-dark btn-bars pt-unset" icon={faBars} size="2x" onClick={clickOpenMenu} />
-      <a className="navbar-brand" href="#">
-        <img src="/img/logo.png" height={40} />
-      </a>
+      <FontAwesomeIcon className="navbar-brand d-block d-lg-none text-dark btn-bars pb-unset pt-unset" icon={faBars} size="2x" onClick={clickOpenMenu} />
       <a className="nav-link" href="#">
         {t('top_menu.invitation')}
       </a>
