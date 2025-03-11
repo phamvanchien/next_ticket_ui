@@ -31,6 +31,7 @@ const DocumentView: React.FC<DocumentViewProps> = ({ workspaceId }) => {
   const [documentUpdated, setDocumentUpdated] = useState<DocumentType>();
   const [keyword, setKeyword] = useState<string>('');
   const [debounceKeyword, setDebounceKeyword] = useState<string>('');
+  const [originTotal, setOriginTotal] = useState(0);
   const handleChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setLoading(true);
@@ -44,6 +45,9 @@ const DocumentView: React.FC<DocumentViewProps> = ({ workspaceId }) => {
     setLoading(false);
     setLoadingViewMore(false);
     if (response && response.code === API_CODE.OK) {
+      if (!documentData) {
+        setOriginTotal(response.data.total);
+      }
       setDocumentData(response.data);
     }
   }
@@ -65,17 +69,20 @@ const DocumentView: React.FC<DocumentViewProps> = ({ workspaceId }) => {
   }, [keyword]);
   return <>
     <div className="row mb-4">
-      <div className="col-12">
+      <div className="col-6">
         <h3><FontAwesomeIcon icon={faFileText} className="text-primary" /> {t('documents.page_title')}</h3>
       </div>
-      <div className="col-6 mt-2">
-        <Button color="primary" onClick={() => setOpenCreate (true)}>
+      <div className="col-6">
+        <Button color="primary" className="float-right" onClick={() => setOpenCreate (true)}>
           {t('btn_new')} <FontAwesomeIcon icon={faPlus} />
         </Button>
       </div>
-      <div className="col-6 mt-2">
-        <Input type="search" className="input-search float-right" placeholder={t('documents.placeholder_search_document')} onChange={handleChangeKeyword} />
-      </div>
+      {
+        originTotal > 8 &&
+        <div className="col-6 mt-2">
+          <Input type="search" className="input-search float-right" placeholder={t('documents.placeholder_search_document')} onChange={handleChangeKeyword} />
+        </div>
+      }
     </div>
     <DocumentCreate 
       openCreate={openCreate} 

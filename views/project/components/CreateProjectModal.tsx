@@ -1,4 +1,4 @@
-import { create } from "@/api/project.api";
+import { create, createStatus } from "@/api/project.api";
 import { members } from "@/api/workspace.api";
 import Button from "@/common/components/Button";
 import ErrorAlert from "@/common/components/ErrorAlert";
@@ -10,12 +10,11 @@ import ModalBody from "@/common/modal/ModalBody";
 import ModalHeader from "@/common/modal/ModalHeader";
 import { API_CODE } from "@/enums/api.enum";
 import { APP_VALIDATE_TYPE } from "@/enums/app.enum";
-import { PROJECT_VALIDATE_ENUM } from "@/enums/project.enum";
 import { RootState } from "@/reduxs/store.redux";
 import { catchError, hasError, validateInput } from "@/services/base.service";
 import { AppErrorType, BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import { ResponseUserDataType } from "@/types/user.type";
-import { faEnvelope, faTimesCircle, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { faArrowCircleRight, faCheckCircle, faEnvelope, faTimesCircle, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslations } from "next-intl";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
@@ -37,6 +36,7 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ openModal, setO
   const [projectName, setProjectName] = useState<string>();
   const [validateError, setValidateError] = useState<AppErrorType[] | []>([]);
   const [loading, setLoading] = useState(false);
+  const [originTotalMember, setOriginTotalMember] = useState(0);
   const descriptionRef = useRef<HTMLTextAreaElement>(null);
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const t = useTranslations();
@@ -71,6 +71,28 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ openModal, setO
   const handleCheckProjectType = (event: ChangeEvent<HTMLInputElement>) => {
     setProjectType(event.target.dataset.type as "private" | "public");
   }
+  const handleCreateDefaultStatus = async (projectId: number, name: string, color: string) => {  
+      try {
+        if (!workspace) {
+          return;
+        }
+        setError(null);
+        setLoading(true);
+  
+        const response = await createStatus(workspace.id, projectId, {
+          name: name,
+          color: color
+        });
+        setLoading(false);
+        if (!response || (response && response.code !== API_CODE.CREATED)) {
+          setError(catchError(response));
+        }
+        setError(catchError(response));
+      } catch (error) {
+        setLoading(false);
+        setError(catchError(error as BaseResponseType));
+      }
+    }
   const handleSubmitProject = async () => {
     try {
       if (!workspace || !projectName) {
@@ -106,6 +128,10 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ openModal, setO
         setValidateError([]);
         setProjectType('public');
         setOpenModal(false);
+
+        handleCreateDefaultStatus(response.data.id, 'To Do', '#fecba1');
+        handleCreateDefaultStatus(response.data.id, 'Doing', '#9ec5fe');
+        handleCreateDefaultStatus(response.data.id, 'Done', '#a3cfbb');
         return;
       }
       setError(catchError(response));
@@ -131,6 +157,9 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ openModal, setO
         setError(null);
         const response = await members(workspace.id, 1, 5, keyword);
         if (response && response.code === API_CODE.OK) {
+          if (!memberData) {
+            setOriginTotalMember(response.data.total);
+          }
           setMemberData(response.data);
           return;
         }
@@ -195,32 +224,40 @@ const CreateProjectModal: React.FC<CreateProjectModalProps> = ({ openModal, setO
           {
             projectType === 'private' &&
             <div className="col-12 mt-2">
-              {memberData && <label htmlFor="searchMember" className="text-secondary">{t('create_project.add_members_text')} <FontAwesomeIcon icon={faUserPlus} /></label>}
-              {(memberData && memberData.total > 10) && <Input type="text" id="searchMember" placeholder={t('create_project.placeholder_input_search_member')} onChange={handleChangeKeyword} />}
-              {(memberData && memberData.total === 0 && <h6 className="text-muted">{t('create_project.no_member_message')}</h6>)}
-              {
-                (memberData) &&
-                <ul className="list-group invite-group">
+              <div className="card">
+                <div className="card-body p-10">
                   {
-                    memberData.items.map(member => (
-                      <li className="list-group-item invite-group-item text-secondary" key={member.id} onClick={() => handleSelectUserSend (member)}>
-                        <FontAwesomeIcon icon={faEnvelope} /> {member.email}
-                      </li>
+                    (memberData && memberData.total > 0) && 
+                    <label htmlFor="searchMember" className="text-secondary">
+                      {t('create_project.add_members_text')} <FontAwesomeIcon icon={faUserPlus} />
+                    </label>
+                  }
+                  {(originTotalMember > 4) && <Input type="search" id="searchMember" placeholder={t('create_project.placeholder_input_search_member')} onChange={handleChangeKeyword} />}
+                  {(memberData && memberData.total === 0 && <h6 className="text-muted">{t('create_project.no_member_message')}</h6>)}
+                  {
+                    (memberData) &&
+                    <ul className="list-group invite-group">
+                      {
+                        memberData.items.map(member => (
+                          <li className="list-group-item invite-group-item text-secondary" key={member.id} onClick={() => handleSelectUserSend (member)}>
+                            <FontAwesomeIcon icon={faEnvelope} /> {member.email} {userSendData.find(u => u.id === member.id) && <FontAwesomeIcon className="float-right text-primary" icon={faCheckCircle} />}
+                          </li>
+                        ))
+                      }
+                    </ul>
+                  }
+                  {
+                    projectType === 'private' &&
+                    userSendData.map((user, index) => (
+                      <span className="badge badge-secondary send-to-item w-100 text-left mt-2" key={index}>
+                        <FontAwesomeIcon icon={faArrowCircleRight} /> {t('create_project.send_to_text')}: <i>{user.email}</i>
+                        <FontAwesomeIcon icon={faTimesCircle} className="ml-2 float-right" style={{ fontSize: 17 }} onClick={() => handleRemoveUserSend (user)} />
+                      </span>
                     ))
                   }
-                </ul>
-              }
-            </div>
-          }
-          {
-            userSendData.map((user, index) => (
-              <div className="col-12 mt-2" key={index}>
-                <span className="badge badge-secondary send-to-item w-100 text-left">
-                  {t('create_project.send_to_text')}: <i>{user.email}</i>
-                  <FontAwesomeIcon icon={faTimesCircle} className="ml-2 float-right" style={{ fontSize: 17 }} onClick={() => handleRemoveUserSend (user)} />
-                </span>
+                </div>
               </div>
-            ))
+            </div>
           }
           <div className="col-12 mt-4">
             <Button color="primary" className="float-right" disabled={hasError(validateError) || loading} onClick={handleSubmitProject}>

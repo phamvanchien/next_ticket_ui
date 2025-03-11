@@ -1,7 +1,5 @@
 import { update } from "@/api/task.api";
-import Button from "@/common/components/Button";
 import Input from "@/common/components/Input";
-import Loading from "@/common/components/Loading";
 import Modal from "@/common/modal/Modal";
 import ModalBody from "@/common/modal/ModalBody";
 import ModalHeader from "@/common/modal/ModalHeader";
@@ -93,9 +91,12 @@ const SelectStatusModal: React.FC<SelectStatusModalProps> = ({
       />
       <ModalBody>
         <div className="row mb-2">
-          <div className="col-12">
-            <Input type="search" placeholder={t('tasks.placeholder_search_status')} className="input-search w-100" onChange={handleChangeKeyword} disabled={loading} />
-          </div>
+          {
+            (statusList && statusList.total > 5) &&
+            <div className="col-12">
+              <Input type="search" placeholder={t('tasks.placeholder_search_status')} className="input-search w-100" onChange={handleChangeKeyword} disabled={loading} />
+            </div>
+          }
           <div className="col-12 mt-2">
             {
               statusList && statusList.items.map(item => (

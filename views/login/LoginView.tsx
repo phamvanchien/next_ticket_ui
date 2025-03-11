@@ -150,9 +150,9 @@ const LoginView = () => {
   return (
     <div className="login-box auth-box">
       <LanguageSwitcher className="mb-4" />
-      <LogoAuthPage />
       <div className="card mt-4">
         <div className="card-body login-card-body">
+          <LogoAuthPage />
           {
             (code && scope && authuser && prompt) ?
             <GoogleAuth 
@@ -162,12 +162,6 @@ const LoginView = () => {
               prompt={prompt}
             /> :
             <>
-              <Button color="default" fullWidth onClick={authenticateWithGoogle} className="google-btn mb-2" disabled={authGoogleLoading || loading}>
-                <ImageIcon icon="google" width={18} height={18} /> {authGoogleLoading ? <Loading color="primary" /> : t('login.login_google_btn')}
-              </Button>
-              <center>
-                <span className="text-muted mt-4 mb-4">{t('login.or_text')}</span>
-              </center>
               <ErrorAlert error={error} />
               <form onSubmit={emailVerified ? handleSubmitLogin : handleFetchEmail} className="mt-2">
                 {
@@ -229,11 +223,17 @@ const LoginView = () => {
                   }
                 </div>
               </form>
-              <p className="mb-1">
-                <Link className="text-center text-secondary" href={APP_LINK.FORGOT_PASSWORD}>{t('login.forgot_password_link')}</Link>
+              <center>
+                <span className="text-muted mt-4 mb-4">{t('login.or_text')}</span>
+              </center>
+              <Button color="default" fullWidth onClick={authenticateWithGoogle} className="google-btn mb-2 mt-2" disabled={authGoogleLoading || loading}>
+                <ImageIcon icon="google" width={18} height={18} /> {authGoogleLoading ? <Loading color="primary" /> : t('login.login_google_btn')}
+              </Button>
+              <p className="mb-1 text-center mt-4">
+                <Link className="text-secondary" href={APP_LINK.FORGOT_PASSWORD}>{t('login.forgot_password_link')}</Link>
               </p>
-              <p className="mb-0">
-                <Link href={APP_LINK.REGISTER} className="text-center text-secondary">
+              <p className="mb-0 text-center">
+                <Link href={APP_LINK.REGISTER} className="text-secondary">
                   {t('login.create_account_btn')}
                 </Link>
               </p>

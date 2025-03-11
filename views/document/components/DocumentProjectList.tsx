@@ -19,6 +19,7 @@ const DocumentProjectList: React.FC<DocumentProjectListProps> = ({ projectShared
   const [keyword, setKeyword] = useState<string>('');
   const [debounceKeyword, setDebounceKeyword] = useState<string>('');
   const [projectData, setProjectData] = useState<ResponseWithPaginationType<ProjectType[]>>();
+  const [originTotal, setOriginTotal] = useState(0);
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const t = useTranslations();
   const handleSelectProject = (project: ProjectType) => {
@@ -45,6 +46,9 @@ const DocumentProjectList: React.FC<DocumentProjectListProps> = ({ projectShared
         keyword: keyword
       });
       if (response && response.code === API_CODE.OK) {
+        if (!projectData) {
+          setOriginTotal(response.data.total);
+        }
         setProjectData(response.data);
         return;
       }
@@ -66,7 +70,7 @@ const DocumentProjectList: React.FC<DocumentProjectListProps> = ({ projectShared
   }, [keyword]);
   return (
     <div className="col-12 mt-2">
-      <Input type="search" placeholder={t('projects.placeholder_input_search')} className="w-100" onChange={handleChangeKeyword} />
+      {originTotal > 5 && <Input type="search" placeholder={t('projects.placeholder_input_search')} className="w-100" onChange={handleChangeKeyword} />}
       <ul className="list-group invite-group">
         {
           projectData && projectData.items.map(project => (

@@ -1,6 +1,4 @@
 import { create } from "@/api/document.api";
-import { projects } from "@/api/project.api";
-import { members } from "@/api/workspace.api";
 import Button from "@/common/components/Button";
 import EditorArea from "@/common/components/EditorArea";
 import Input from "@/common/components/Input";
@@ -12,10 +10,9 @@ import { catchError } from "@/services/base.service";
 import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { ProjectType } from "@/types/project.type";
 import { dateToString } from "@/utils/helper.util";
-import { faCircle, faCircleCheck, faInfoCircle, faMinusCircle, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faCircle, faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
-import React, { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import DocumentMemberList from "./DocumentMemberList";
 import { MemberShareType } from "@/types/document.type";
@@ -106,7 +103,7 @@ const DocumentCreate: React.FC<DocumentCreateProps> = ({ openCreate, setOpenCrea
             <Button color="secondary" className="float-left mr-2 btn-no-border" outline onClick={() => setOpenCreate (false)}>
               {t('btn_cancel')}
             </Button>
-            <Button color="primary" className="float-left" onClick={() => setOpenModal (true)}>
+            <Button color="primary" className="float-left" onClick={(content && content !== '') ? () => setOpenModal (true) : undefined}>
               {t('btn_save')}
             </Button>
           </div>

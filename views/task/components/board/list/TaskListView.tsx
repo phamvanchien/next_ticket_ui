@@ -134,7 +134,7 @@ const TaskListView: React.FC<TaskListViewProps> = ({
     <div className="row mt-4">
       <div className="col-12">
         <div className="table-responsive">
-          <table className="table">
+          <table className="table table-striped">
             <tbody>
               {
                 tasksData && tasksData.items.map((task, index) => (
@@ -152,7 +152,7 @@ const TaskListView: React.FC<TaskListViewProps> = ({
                 (tasksData && tasksData.total > pageSize) &&
                 <tr>
                   <td colSpan={5} className="text-left">
-                    <a href="#" className="link" onClick={!loadingViewMore ? handleViewMore : undefined}>
+                    <a href="#" className="text-secondary" onClick={!loadingViewMore ? handleViewMore : undefined}>
                       {loadingViewMore ? <>Loading <Loading color="primary" /></> : <>{t('btn_view_more')} <FontAwesomeIcon icon={faAngleDoubleDown} /></>}
                     </a>
                   </td>

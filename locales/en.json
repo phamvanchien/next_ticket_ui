@@ -5,7 +5,7 @@
     "login": {
         "login_google_btn": "Login with Google",
         "or_text": "Or",
-        "input_email": "Enter your email address",
+        "input_email": "Enter your email",
         "continue_btn": "Continue",
         "sign_in_btn": "Sign In",
         "forgot_password_link": "Forgot password",
@@ -20,7 +20,7 @@
     "forgot_password": {
         "page_title_first": "Enter your email that you are registered",
         "page_title_second": "to receive the link and reset your password",
-        "input_email": "Enter your email address",
+        "input_email": "Enter your email",
         "go_to_login": "Go to login"
     },
     "google_auth": {

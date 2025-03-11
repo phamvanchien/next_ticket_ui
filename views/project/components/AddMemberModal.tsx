@@ -145,7 +145,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({ openModal, setOpenModal
               </ul>
             }
           </div>
-          <div className="col-12 mt-2">
+          <div className="col-12 mt-4">
             <Button color="primary" className="float-right" disabled={loading} onClick={handleSubmitSendInvite}>
               {loading ? <Loading color="light" /> : t('btn_send')}
             </Button>

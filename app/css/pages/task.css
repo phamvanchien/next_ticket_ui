@@ -94,11 +94,11 @@
     border-bottom: 1px solid #3333 !important;
 }
 
-.create-btn {
+/* .create-btn {
     height: 30px !important;
     line-height: 15px !important;
     font-size: 15px;
-}
+} */
 
 .btn-layout-type-active {
     border: unset;
@@ -230,7 +230,7 @@
 }
 
 .select-status-modal {
-    width: 40% !important;
+    width: 50% !important;
     margin: auto;
 }
 
@@ -239,4 +239,17 @@
     overflow: hidden;
     text-overflow: ellipsis;
     max-width: 100%;
+}
+
+.btn-sort {
+    border: unset !important;
+    border-bottom: 1px solid !important;
+    border-radius: unset !important;
+}
+
+.btn-sort-active {
+    border: unset !important;
+    font-weight: 600 !important;
+    border-bottom: 3px solid !important;
+    border-radius: unset !important;
 }

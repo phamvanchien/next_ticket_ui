@@ -140,12 +140,26 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
         setCreatedDate={setCreatedDateFilter}
       />
       <div className="row">
-        <div className="col-12">
+        <div className="col-6">
           <h3>
             {typeShow === 3 && <><FontAwesomeIcon icon={faGear} className="text-secondary" /> {t('tasks.page_title_project_setting')}</>}
-            {[1, 2].includes(typeShow) && <><FontAwesomeIcon icon={faCheckSquare} className="text-secondary" /> {t('tasks.page_title_task')}</>}
+            {[1, 2].includes(typeShow) && <><FontAwesomeIcon icon={faCheckSquare} className="text-success" /> {t('tasks.page_title_task')}</>}
             {typeShow === 4 && <><FontAwesomeIcon icon={faPieChart} className="text-secondary" /> {t('tasks.page_title_project_report')}</>}
           </h3>
+        </div>
+        <div className="col-6">
+          {
+            (typeShow !== 3 && typeShow !== 4) &&
+            <Button
+              color="primary"
+              className="float-right create-btn"
+              onClick={() => setOpenCreate(true)}
+            >
+              {t('btn_new')} <FontAwesomeIcon icon={faPlus} />
+            </Button>
+          }
+        </div>
+        <div className="col-12">
           {
             (isSetting && typeShow !== 3) &&
             <Button color="secondary" className="btn-no-border" outline onClick={() => setTypeShow (3)}>
@@ -194,30 +208,20 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
               <FontAwesomeIcon icon={openSearch ? faSearchMinus : faSearchPlus} />
             </Button>
           }
-          {
-            (typeShow !== 3 && typeShow !== 4) &&
-            <Button
-              color="primary"
-              className="float-right create-btn"
-              onClick={() => setOpenCreate(true)}
-            >
-              {t('btn_new')} <FontAwesomeIcon icon={faPlus} />
-            </Button>
-          }
         </div>
         {
           (openSort && [1, 2].includes(typeShow)) &&
           <div className="col-12 mt-2">
-            <Button color="secondary" className="float-left create-btn mr-2" outline={prioritySort !== 'ASC'} onClick={() => handleSelectFilter ('priority', "ASC")}>
+            <Button color="secondary" className={`btn-sort${prioritySort === 'ASC' ? '-active' : ''} float-left create-btn`} outline onClick={() => handleSelectFilter ('priority', "ASC")}>
               <FontAwesomeIcon icon={faSortAmountAsc} /> {t('tasks.priority_sort')}
             </Button>
-            <Button color="secondary" className="float-left create-btn mr-2" outline={prioritySort !== 'DESC'} onClick={() => handleSelectFilter ('priority', "DESC")}>
+            <Button color="secondary" className={`btn-sort${prioritySort === 'DESC' ? '-active' : ''} float-left create-btn`} outline onClick={() => handleSelectFilter ('priority', "DESC")}>
               <FontAwesomeIcon icon={faSortAmountDesc} /> {t('tasks.priority_sort')}
             </Button>
-            <Button color="secondary" className="float-left create-btn mr-2" outline={dueSort !== 'ASC'} onClick={() => handleSelectFilter ('due', 'ASC')}>
+            <Button color="secondary" className={`btn-sort${dueSort === 'ASC' ? '-active' : ''} float-left create-btn`} outline onClick={() => handleSelectFilter ('due', 'ASC')}>
               <FontAwesomeIcon icon={faSortAmountAsc} /> {t('tasks.due_sort')}
             </Button>
-            <Button color="secondary" className="float-left create-btn mr-2" outline={dueSort !== 'DESC'} onClick={() => handleSelectFilter ('due', 'DESC')}>
+            <Button color="secondary" className={`btn-sort${dueSort === 'DESC' ? '-active' : ''} float-left create-btn`} outline onClick={() => handleSelectFilter ('due', 'DESC')}>
               <FontAwesomeIcon icon={faSortAmountDesc} /> {t('tasks.due_sort')}
             </Button>
             <FontAwesomeIcon icon={faTimesCircle} className="text-muted" style={{ fontSize: 20, marginTop: 5 }} onClick={handleCancelSort} />

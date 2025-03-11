@@ -13,7 +13,7 @@ import { RootState } from "@/reduxs/store.redux";
 import { catchError } from "@/services/base.service";
 import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { ResponseUserDataType } from "@/types/user.type";
-import { faCheckCircle, faEnvelope, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faArrowCircleRight, faCheckCircle, faEnvelope, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslations } from "next-intl";
 import React, { ChangeEvent, useEffect, useState } from "react";
@@ -136,7 +136,7 @@ const InviteMemberView: React.FC<InviteMemberViewProps> = ({ openModal, setOpenM
                 userSendData.map((email, index) => (
                   <div className="col-12 mb-2" key={index}>
                     <span className="badge badge-secondary send-to-item w-100 text-left">
-                      {t('create_project.send_to_text')}: <i>{email}</i>
+                      <FontAwesomeIcon icon={faArrowCircleRight} /> {t('create_project.send_to_text')}: <i>{email}</i>
                       <FontAwesomeIcon icon={faTimesCircle} className="ml-2 float-right" style={{ fontSize: 17 }} onClick={() => handleRemoveUserSend (email)} />
                     </span>
                   </div>
@@ -161,14 +161,14 @@ const InviteMemberView: React.FC<InviteMemberViewProps> = ({ openModal, setOpenM
                     {
                       userData && userData.map(user => (
                         <li className="list-group-item invite-group-item" key={user.id} onClick={() => handleSelectUserSend (user.email)}>
-                          {userSendData.includes(user.email) ? <FontAwesomeIcon icon={faCheckCircle} className="text-success" onClick={() => handleRemoveUserSend (user.email)} /> : <FontAwesomeIcon icon={faEnvelope} />} {user.email}
+                          <FontAwesomeIcon icon={faEnvelope} /> {user.email} {userSendData.includes(user.email) && <FontAwesomeIcon icon={faCheckCircle} className="text-primary float-right" onClick={() => handleRemoveUserSend (user.email)} />}
                         </li>
                       ))
                     }
                   </ul>
                 }
               </div>
-              <div className="col-12">
+              <div className="col-12 mt-2">
                 <Button color="primary" className="float-right ml-2" onClick={handleSubmitSend} disabled={loading}>
                   {loading ? <Loading color="light" /> : t('btn_send')}
                 </Button>

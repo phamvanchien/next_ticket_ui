@@ -15,7 +15,7 @@
 .main-header {
     position: fixed;
     width: 100%;
-    /* height: 50px; */
+    height: 50px;
     line-height: 30px;
     font-size: 16px;
     padding-top: 0px !important;
@@ -151,11 +151,20 @@ input {
     cursor: pointer;
 }
 
-.btn {
+.btn-avatar-header {
+    padding: unset !important;
+    margin-top: 6px !important;
+}
+
+.main-header .nav-link {
+    margin-top: 5px !important;
+}
+
+/* .btn {
     height: 30px !important;
     line-height: 15px !important;
     font-size: 15px !important;
-}
+} */
 
 .open-sidebar {
     width: 40%;
@@ -224,7 +233,7 @@ input {
     transition: all 0.5s ease;
     box-shadow: 3px 4px 4px 3px;
     padding: 10px;
-    top: 55px;
+    top: 50px;
 }
 
 .dropdown-menu {
@@ -300,6 +309,15 @@ body:not(.layout-fixed) .main-sidebar {
     border: 2px solid #3d8bfd !important;
 }
 
+.login-logo {
+    margin-bottom: 40px;
+}
+
+.google-btn {
+    background-color: unset !important;
+    border-radius: 5px;
+}
+
 @keyframes fadeIn {
     from {
       opacity: 0;
@@ -347,6 +365,7 @@ body:not(.layout-fixed) .main-sidebar {
     .main-header {
         padding-bottom: unset !important;
         line-height: 20px;
+        height: unset;
     }
 
     .header-app {
@@ -355,4 +374,16 @@ body:not(.layout-fixed) .main-sidebar {
         padding-top: 0px !important;
         height: 60px !important;
     }
+}
+
+.navbar-collapse {
+    padding-bottom: 5px;
+}
+
+.main-header .navbar-nav .nav-item {
+    margin-top: 5px !important;
+}
+
+.btn-load-more {
+    border: unset;
 }

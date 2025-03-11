@@ -37,17 +37,17 @@ const TaskDescription: React.FC<TaskDescriptionProps> = ({ description, setDescr
         {edit ? (
           <EditorArea value={content} setValue={setContent} placeholder={t('tasks.placeholder_task_description')} />
         ) : (
-          clientRendered && (
+          (description && clientRendered) && (
             <p
               dangerouslySetInnerHTML={{
-                __html: (readMore || description.length < maxContentSize)
+                __html: (readMore || (description.length < maxContentSize))
                   ? description
                   : description.substring(0, maxContentSize),
               }}
             ></p>
           )
         )}
-        {!edit && description.length > maxContentSize && !readMore && (
+        {description && !edit && description.length > maxContentSize && !readMore && (
           <span
             style={{ cursor: "pointer" }}
             className="text-secondary"
@@ -56,7 +56,7 @@ const TaskDescription: React.FC<TaskDescriptionProps> = ({ description, setDescr
             {t('btn_read_more')} <FontAwesomeIcon icon={faAngleDoubleRight} />
           </span>
         )}
-        {!edit && description.length > maxContentSize && readMore && (
+        {description && !edit && description.length > maxContentSize && readMore && (
           <span
             style={{ cursor: "pointer" }}
             className="text-secondary"

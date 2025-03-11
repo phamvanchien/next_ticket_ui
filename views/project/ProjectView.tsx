@@ -32,6 +32,7 @@ const ProjectView: React.FC<ProjectViewProps> = ({ workspace }) => {
   const [keyword, setKeyword] = useState<string>('');
   const [debounceKeyword, setDebounceKeyword] = useState<string>('');
   const [inviteModal, setInviteModal] = useState(false);
+  const [originTotal, setOriginTotal] = useState(0);
   const handleChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
     setKeyword('');
@@ -55,6 +56,9 @@ const ProjectView: React.FC<ProjectViewProps> = ({ workspace }) => {
       });
       setLoading(false);
       if (response && response.code === API_CODE.OK) {
+        if (!projectData) {
+          setOriginTotal(response.data.total);
+        }
         setProjectData(response.data);
         return;
       }
@@ -80,28 +84,23 @@ const ProjectView: React.FC<ProjectViewProps> = ({ workspace }) => {
   }
   return <>
     <div className="row">
-      <div className="col-12">
+      <div className="col-6">
         <h3><FontAwesomeIcon icon={faBullseye} className="text-primary" /> {t('projects.page_title')}</h3>
+      </div>
+      <div className="col-6">
+        <Button color="default" className="letter-btn float-right mt-2 btn-no-border" outline onClick={() => setInviteModal (true)}>
+          <FontAwesomeIcon icon={faEnvelope} /> {t('projects.invitation')}
+        </Button>
+        <Button color="primary" className="create-btn mt-2 mr-2 float-right" onClick={() => setOpenModal (true)}>
+          {t('btn_new')} <FontAwesomeIcon icon={faPlus} />
+        </Button>
       </div>
     </div>
     <div className="row mt-2">
-      <div className="col-12 mb-2">
-        <Button color="default" className="letter-btn mt-2 btn-no-border" outline onClick={() => setInviteModal (true)}>
-          <FontAwesomeIcon icon={faEnvelope} /> {t('projects.invitation')}
-        </Button>
-      </div>
       {
-        (projectData) &&
-        <div className="col-6 col-lg-6">
+        (originTotal > 8) &&
+        <div className="col-12 col-lg-4">
           <Input type="search" placeholder={t('projects.placeholder_input_search')} className="float-left input-search mt-2" onChange={handleChangeKeyword} />
-        </div>
-      }
-      {
-        !loading &&
-        <div className="col-6 col-lg-6 mb-2">
-          <Button color="primary" className="create-btn mt-2 mr-2 float-right" onClick={() => setOpenModal (true)}>
-            {t('btn_new')} <FontAwesomeIcon icon={faPlus} />
-          </Button>
         </div>
       }
     </div>

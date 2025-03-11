@@ -133,7 +133,7 @@ const WorkspaceIndexView: React.FC<WorkspaceIndexViewProps> = ({ workspace }) =>
         </div>
       </div>
       {
-        (taskRecently) && 
+        (taskRecently && taskRecently.length > 0) && 
         <>
           <hr/>
           <div className="row mt-4">

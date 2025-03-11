@@ -1,10 +1,12 @@
 "use client"
-import { faBars, faCubes, faEnvelopeOpen, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faBars, faNavicon, faTimes, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect } from "react";
-import { APP_LINK } from "@/enums/app.enum";
-import NavItem from "./NavItem";
+import React, { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
+import { useSelector } from "react-redux";
+import { RootState } from "@/reduxs/store.redux";
+import Button from "../components/Button";
+import { APP_LINK, IMAGE_DEFAULT } from "@/enums/app.enum";
 import Link from "next/link";
 
 interface HeaderProps {
@@ -12,7 +14,9 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ className }) => {
+  const userLogged = useSelector((state: RootState) => state.userSlice).data;
   const t = useTranslations();
+  const [openMenuMobile, setOpenMenuMobile] = useState(false);
   const handleOpenMenu = () => {
     const body = document.getElementsByTagName('body') as HTMLCollectionOf<HTMLBodyElement>;
     body[0].classList.remove('sidebar-collapse');
@@ -24,7 +28,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
     body[0].classList.remove('sidebar-open');
   }
 
-  const clickOpenMenu = (event: React.MouseEvent<SVGSVGElement>) => {
+  const clickOpenMenu = (event: React.MouseEvent<HTMLAnchorElement>) => {
     event.preventDefault();
     const sidebarOpenClass = document.getElementsByClassName('sidebar-open') as HTMLCollectionOf<HTMLBodyElement>;
     if (sidebarOpenClass.length > 0) {
@@ -39,35 +43,64 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
     }
   }, []);
   return (
-    <nav className={`navbar main-header navbar-expand-lg navbar-light bg-light w-100 ${className ?? ''}`} style={{flexWrap: 'unset'}}>
-      <FontAwesomeIcon className="navbar-brand d-block d-lg-none text-dark btn-bars pb-unset pt-unset" icon={faBars} size="2x" onClick={clickOpenMenu} />
-      <a className="nav-link" href="#">
-        {t('top_menu.invitation')}
-      </a>
-      <a className="nav-link" href="#">
-        {t('top_menu.workspace')}
-      </a>
-      <a className="nav-link" href="#">
-      {t('top_menu.profile')}
-      </a>
+    <nav className="main-header navbar navbar-expand-md navbar-light navbar-white" style={{ marginLeft: 'unset' }}>
+      <div className="container">
+        <Link href="/" className="navbar-brand" onClick={clickOpenMenu}>
+          <img
+            src="/img/logo-3.png"
+            alt="AdminLTE Logo"
+            className="brand-image mt-2"
+            width={145}
+            height={40}
+          />
+        </Link>
+        <Button
+          color="default"
+          className="navbar-toggler order-1"
+          type="button"
+          onClick={() => setOpenMenuMobile (openMenuMobile ? false : true)}
+        >
+          {openMenuMobile ? <FontAwesomeIcon icon={faTimes} size="xl" /> : <FontAwesomeIcon icon={faNavicon} size="xl" />}
+        </Button>
+        <div className={`collapse navbar-collapse order-3 ${openMenuMobile ? 'show' : ''}`} id="navbarCollapse">
+          <ul className="navbar-nav">
+            <li className="nav-item">
+              <Link href={APP_LINK.GO_TO_WORKSPACE} className="nav-link">
+                {t('top_menu.workspace')}
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Link href={APP_LINK.INVITATION} className="nav-link">
+                {t('top_menu.invitation')}
+              </Link>
+            </li>
+            <li className="nav-item">
+              <Button color="primary" className="mt-2">
+                Create
+              </Button>
+            </li>
+          </ul>
+        </div>
+        <ul className="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
+          {userLogged && <li className="nav-item" style={{marginTop: 0}}>
+            <Link href={APP_LINK.PROFILE} className="nav-link">
+              <b>Hi {userLogged.last_name}</b>
+            </Link>
+          </li>}
+          <li className="nav-item">
+            <Link
+              className="nav-link btn-avatar-header"
+              data-widget="control-sidebar"
+              data-slide="true"
+              href={APP_LINK.PROFILE}
+              role="button"
+            >
+              <img src={userLogged?.avatar ?? IMAGE_DEFAULT.NO_USER} width={40} height={40} className="img-circle" onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} />
+            </Link>
+          </li>
+        </ul>
+      </div>
     </nav>
-    // <nav className={`main-header navbar navbar-expand-md navbar-light navbar-white ${className ?? ''}`}>
-    //   <div className="container" style={{maxWidth: '100%'}}>
-    //     <FontAwesomeIcon className="navbar-brand d-block d-lg-none text-dark btn-bars pt-unset" icon={faBars} size="2x" onClick={clickOpenMenu} />
-    //     <img src="/img/logo.png" height={50} />
-    //     <ul className="navbar-nav navbar-no-expand float-right">
-    //       <NavItem href={APP_LINK.INVITATION} className="icon-menu border-right-header">
-    //         <FontAwesomeIcon icon={faEnvelopeOpen} /> {t('top_menu.invitation')}
-    //       </NavItem>
-    //       <NavItem href={APP_LINK.GO_TO_WORKSPACE} className="icon-menu border-right-header">
-    //         <FontAwesomeIcon icon={faCubes} /> {t('top_menu.workspace')}
-    //       </NavItem>
-    //       <NavItem href={APP_LINK.PROFILE} className="icon-menu">
-    //         <FontAwesomeIcon icon={faUser} /> {t('top_menu.profile')}
-    //       </NavItem>
-    //     </ul>
-    //   </div>
-    // </nav>
-  )
+  );
 }
 export default Header;
