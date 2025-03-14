@@ -70,6 +70,7 @@ const SubTask: React.FC<SubTaskProps> = ({ task }) => {
         priority: task.priority.id,
         status_id: task.status.id,
         type_id: task.type.id,
+        attributes: []
       });
       setLoadingCreate(false);
       setError(null);
