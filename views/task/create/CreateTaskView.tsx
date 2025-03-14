@@ -1,15 +1,12 @@
 import Button from "@/common/components/Button";
 import EditorArea from "@/common/components/EditorArea";
 import { priorityRange, taskType } from "@/utils/helper.util";
-import { faCheckCircle, faExternalLink, faPencil, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faExternalLink, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
-import TaskAssignee from "../components/TaskAssignee";
-import { ProjectType, ProjectTagType } from "@/types/project.type";
+import { ProjectType, ProjectTagType, RequestAddAttributeType, RequestUpdateAttributeType } from "@/types/project.type";
 import { ResponseUserDataType } from "@/types/user.type";
-import TaskTag from "../components/TaskTag";
-import TaskStatus from "../components/TaskStatus";
 import InputForm from "@/common/components/InputForm";
 import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { APP_LINK, APP_VALIDATE_TYPE } from "@/enums/app.enum";
@@ -19,11 +16,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
 import { create, update } from "@/api/task.api";
 import { API_CODE } from "@/enums/api.enum";
-import { TaskPriorityType, TaskType, TaskTypeItem } from "@/types/task.type";
+import { TaskAttributeType, TaskPriorityType, TaskType, TaskTypeItem } from "@/types/task.type";
 import { catchError } from "@/services/base.service";
 import Loading from "@/common/components/Loading";
-import ImageIcon from "@/common/components/ImageIcon";
-import { getIconPriority, getTypeClass, getTypeIcon } from "../components/board/grib/TaskItem";
 import TaskAssignSelect from "../components/select/TaskAssignSelect";
 import TaskTagSelect from "../components/select/TaskTagSelect";
 import TaskStatusSelect from "../components/select/TaskStatusSelect";
@@ -31,6 +26,7 @@ import TaskPrioritySelect from "../components/select/TaskPrioritySelect";
 import TaskTypeSelect from "../components/select/TaskTypeSelect";
 import ErrorAlert from "@/common/components/ErrorAlert";
 import { useTranslations } from "next-intl";
+import TaskAttributeSelect from "../components/select/attribute/TaskAttributeSelect";
 
 interface CreateTaskViewProps {
   open: boolean
@@ -57,6 +53,7 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
   const [type, setType] = useState<TaskTypeItem | undefined>(task ? task.type : types[0]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<AppErrorType | null>(null);
+  const [taskAttributes, setTaskAttributes] = useState<TaskAttributeType[]>(task ? task.attributes : []);
   const taskDivRef = useRef<HTMLDivElement>(null);
   const handleCreateTask = async () => {
     try {
@@ -74,7 +71,8 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
         type_id: type.id,
         due: dueDate,
         tags: tags.map(t => t.id),
-        assigns: assignee.map(a => a.id)
+        assigns: assignee.map(a => a.id),
+        attributes: taskAttributes
       }
 
       if (task) {
@@ -101,6 +99,7 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
         setPriority(priorities[0]);
         setTitle(t('tasks.task_title_default'));
         setDueDate(new Date());
+        setTaskAttributes([]);
         return;
       }
       setError(catchError(response));
@@ -226,6 +225,11 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
           setType={setType}
           className="mt-2"
         />
+        {/* <TaskAttributeSelect 
+          attributes={project.attributes}
+          taskAttributes={taskAttributes}
+          setTaskAttributes={setTaskAttributes}
+        /> */}
         <div className="row" style={{marginBottom: 30}}>
           <div className="col-12 mt-4">
             <EditorArea value={description} setValue={setDescription} placeholder={t('tasks.placeholder_task_description')} />

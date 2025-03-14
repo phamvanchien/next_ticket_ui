@@ -136,7 +136,8 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
         description: task.description,
         due: new Date(task.due),
         tags: task.tags.map(t => t.id),
-        assigns: task.assign.map(a => a.id)
+        assigns: task.assign.map(a => a.id),
+        attributes: []
       });
       setLoading(false);
       if (response && response.code === API_CODE.CREATED) {
@@ -224,7 +225,7 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
         }
       </div>
       <div className="col-12 mb-2">
-        <Dropdown title={t('tasks.action_label')} className="float-left">
+        <Dropdown color="default" title={t('tasks.action_label')} className="float-left">
           <DropdownItem className="pointer" onClick={() => setConfirmClone (true)}>
             {t('btn_clone')}
           </DropdownItem>

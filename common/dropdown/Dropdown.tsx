@@ -5,9 +5,10 @@ interface DropdownProps {
   title: string
   children: React.ReactNode
   className?: string
+  color: "danger" | "primary" | "warning" | "secondary" | "dark" | "success" | "info" | "light" | "default";
 }
 
-const Dropdown: React.FC<DropdownProps> = ({ title, children, className }) => {
+const Dropdown: React.FC<DropdownProps> = ({ title, children, className, color }) => {
   const dropdownButtonRef = useRef<HTMLDivElement>(null);
   const handleClickDropdown = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
@@ -18,25 +19,25 @@ const Dropdown: React.FC<DropdownProps> = ({ title, children, className }) => {
     }
     dropdownMenu?.classList.add('show');
   }
-  useEffect(() => {
-    const handleClickOutside = async (event: MouseEvent) => {
-      if (dropdownButtonRef.current && !dropdownButtonRef.current.contains(event.target as Node)) {
-        const dropdownMenu = document.getElementsByClassName('dropdown-menu') as HTMLCollectionOf<HTMLElement>;
-        for (let i = 0; i < dropdownMenu.length; i++) {
-          const dropdown = dropdownMenu[i];
-          dropdown.classList.remove('show');
-        }
-      }
-    };
+  // useEffect(() => {
+  //   const handleClickOutside = async (event: MouseEvent) => {
+  //     if (dropdownButtonRef.current && !dropdownButtonRef.current.contains(event.target as Node)) {
+  //       const dropdownMenu = document.getElementsByClassName('dropdown-menu') as HTMLCollectionOf<HTMLElement>;
+  //       for (let i = 0; i < dropdownMenu.length; i++) {
+  //         const dropdown = dropdownMenu[i];
+  //         dropdown.classList.remove('show');
+  //       }
+  //     }
+  //   };
   
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+  //   document.addEventListener('mousedown', handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handleClickOutside);
+  //   };
+  // }, []);
   return <>
     <div className={`input-group-prepend show ${className ?? ''}`} style={{ width: 100 }} ref={dropdownButtonRef}>
-      <Button color="secondary" className="dropdown-toggle" onClick={handleClickDropdown}>
+      <Button color={color} className="dropdown-toggle" onClick={handleClickDropdown}>
         {title}
       </Button>
       <ul className="dropdown-menu p-unset" x-placement="bottom-start">

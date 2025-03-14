@@ -149,7 +149,7 @@ const AddMemberModal: React.FC<AddMemberModalProps> = ({ openModal, setOpenModal
             <Button color="primary" className="float-right" disabled={loading} onClick={handleSubmitSendInvite}>
               {loading ? <Loading color="light" /> : t('btn_send')}
             </Button>
-            <Button color="secondary" className="float-right mr-2 btn-no-border" outline disabled={loading} onClick={() => setOpenModal (false)}>{t('btn_cancel')}</Button>
+            <Button color="default" className="float-right mr-2 btn-no-border" outline disabled={loading} onClick={() => setOpenModal (false)}>{t('btn_cancel')}</Button>
           </div>
         </div>
       </ModalBody>

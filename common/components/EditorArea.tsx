@@ -18,7 +18,7 @@ const EditorArea: React.FC<EditorAreaProps> = ({ setValue, value, placeholder, t
       [{ size: [] }],
       ['bold', 'italic', 'underline', 'strike', 'blockquote'],
       [{ list: 'ordered' }, { list: 'bullet' }],
-      ['link', 'image', 'video', 'code-block'],
+      ['link', 'image', 'code-block'],
       ['clean'],
       [{ 'align': [] }],
       ['customCode'],

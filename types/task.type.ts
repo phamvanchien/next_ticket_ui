@@ -12,6 +12,7 @@ export interface RequestCreateTaskType {
   due?: Date
   tags?: number[]
   assigns?: number[]
+  attributes: TaskAttributeType[]
 }
 
 export interface RequestUpdateTaskType {
@@ -24,6 +25,7 @@ export interface RequestUpdateTaskType {
   due?: Date | null
   tags?: number[]
   assigns?: number[]
+  attributes?: TaskAttributeType[]
 }
 
 export interface RequestGetTaskType {
@@ -69,6 +71,17 @@ export interface TaskType {
   tags: ProjectTagType[]
   project: ProjectType
   workspace: WorkspaceType
+  attributes: TaskAttributeType[]
+}
+
+export interface TaskAttributeType {
+  id: number
+  value: TaskAttributeValueType[]
+}
+
+export interface TaskAttributeValueType {
+  key: string
+  value: string
 }
 
 export interface TaskProjectType {

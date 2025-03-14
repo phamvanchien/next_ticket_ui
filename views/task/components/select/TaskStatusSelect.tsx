@@ -84,13 +84,13 @@ const TaskStatusSelect: React.FC<TaskStatusSelectProps> = ({ status, className, 
       <div className="col-8 text-secondary" onClick={() => setOpenStatusList (true)} ref={listStatusRef}>
         {
           !status &&
-          <span className="badge badge-light lh-20 mb-2 mr-2">
+          <span className="badge badge-light task-info-selectbox mb-2 mr-2 pointer">
             <FontAwesomeIcon icon={faPlus} />
           </span>
         }
         {
           status &&
-          <span className="badge badge-light lh-20 mb-2 mr-2">
+          <span className="badge task-info-selectbox badge-light mb-2 mr-2">
             <FontAwesomeIcon icon={faCircle} style={{ color: status.color }} /> {status.name}
           </span>
         }

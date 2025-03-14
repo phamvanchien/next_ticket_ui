@@ -4,7 +4,7 @@ import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
 import { ResponseWithPaginationType } from "@/types/base.type";
 import { ProjectTagType } from "@/types/project.type";
-import { faTag, faTimes, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faTag, faTimes, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslations } from "next-intl";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
@@ -36,6 +36,8 @@ const TaskTagSelect: React.FC<TaskTagSelectProps> = ({ tags, className, projectI
   const handleSelectTag = (tag: ProjectTagType) => {
     const added = tags.find(a => a.id === tag.id);
     if (!added) {
+      setKeyword('');
+      setDebounceKeyword('');
       setTags([...tags, tag]);
     }
   }
@@ -97,29 +99,26 @@ const TaskTagSelect: React.FC<TaskTagSelectProps> = ({ tags, className, projectI
       <div className="col-8 text-secondary" onClick={() => setOpenTagList (true)} ref={listTagsRef}>
         {
           tags.length === 0 &&
-          <span className="badge badge-light lh-20 mb-2 mr-2">
-            <FontAwesomeIcon icon={faTag} /> {t('empty_label')}
+          <span className="badge badge-light task-info-selectbox mb-2 mr-2 pointer task-btn-circle">
+            <FontAwesomeIcon icon={faPlus} />
           </span>
         }
         {
           tags.map((tag, index) => (
-            <span className="badge badge-light lh-20 mb-2 mr-2" key={index}>
+            <span className="badge badge-light task-info-selectbox mb-1 mr-2" key={index}>
               <FontAwesomeIcon icon={faTag} style={{ color: tag.color }} /> {tag.name}
-              <FontAwesomeIcon icon={faTimes} className="mt-2 ml-2 text-secondary" onClick={() => handleRemoveTag (tag)} />
+              <FontAwesomeIcon icon={faTimes} className="mt-2 ml-4 text-secondary pointer" onClick={() => handleRemoveTag (tag)} />
             </span>
           ))
         }
         {
-          openTagList &&
+          (openTagList && tagData && tagData.items.filter(m => !tags.map(a => a.id).includes(m.id)).length > 0) &&
           <>
             <ul className="list-group select-search-task">
               {
-                (totalTag && totalTag > 0) ?
+                (totalTag && tagData.items.filter(m => !tags.map(a => a.id).includes(m.id)).length > 4) &&
                 <li className="list-group-item border-unset p-unset">
                   <Input type="search" className="w-100" placeholder={t('tasks.placeholder_search_tags')} onChange={handleChangeKeyword} />
-                </li> : 
-                <li className="list-group-item p-5 border-unset p-unset text-muted">
-                  {t('tasks.tags_not_found')}
                 </li>
               }
               {

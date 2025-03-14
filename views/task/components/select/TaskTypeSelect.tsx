@@ -36,7 +36,7 @@ const TaskTypeSelect: React.FC<TaskTypeSelectProps> = ({ type, setType, classNam
       <div className="col-8 text-secondary" onClick={() => setOpenTypeList (true)} ref={listPriorityRef}>
         {
           type &&
-          <span className="badge badge-light lh-20 mb-2 mr-2">
+          <span className="badge badge-light task-info-selectbox lh-20 mb-2 mr-2">
             {getTypeIcon(type.id, `text-${getTypeClass(type.id)}`)} {type.title}
           </span>
         }

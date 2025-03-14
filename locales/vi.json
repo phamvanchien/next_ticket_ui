@@ -185,7 +185,8 @@
         "write_label": "Viết",
         "write_comment_label": "Viết bình luận",
         "placeholder_comment": "Nhập bình luận của bạn ở đây",
-        "deleted_comment_message": "Bình luận này đã bị xóa"
+        "deleted_comment_message": "Bình luận này đã bị xóa",
+        "attribute_label": "Thuộc tính"
     },
     "project_setting": {
         "message_update": "Đã cập nhật dự án",
@@ -202,12 +203,19 @@
         "message_delete_member_end": "ra khỏi dự án",
         "setting_delete_project_title": "Xóa dự án",
         "setting_delete_project_message": "Nếu xóa dự án thì những dữ liệu liên quan cũng sẽ bị xóa và không thể khôi phục",
-        "label_delete_project": "Hãy nhập lại tên dự án để xóa"
+        "label_delete_project": "Hãy nhập lại tên dự án để xóa",
+        "setting_attribute_label": "Bạn có thể quản lý và tạo thêm thuộc tính cho các vé của mình tại đây",
+        "placeholder_attribute_name": "Tên thuộc tính",
+        "placeholder_attribute_value": "Giá trị thuộc tính",
+        "add_attribute_title": "Tạo thuộc tính",
+        "delete_attribute_warning": "Bạn có chắc chắn muốn xóa thuộc tính này ?",
+        "delete_attribute_warning_message": "Nếu xóa hết giá trị trong thuộc tính thì nó sẽ không hiển thị"
     },
     "btn_ok": "Đồng ý",
     "empty_label": "Trống",
     "btn_save": "Lưu",
     "btn_delete": "Xóa",
+    "btn_add_new": "Thêm mới",
     "project_report": {
         "pie_chart_title": "Báo cáo tiến độ dạng biểu đồ tròn",
         "bar_chart_title": "Thống kê từng thành viên trong dự án",

@@ -253,3 +253,18 @@
     border-bottom: 3px solid !important;
     border-radius: unset !important;
 }
+
+.task-info-selectbox {
+    border: 1px solid #3333;
+    border-radius: 10px;
+    line-height: 25px;
+}
+
+.task-btn-circle {
+    border-radius: 50px;
+    line-height: unset !important;
+    padding: 7px;
+    width: 35px;
+    text-align: center;
+    color: #666;
+}

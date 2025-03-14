@@ -185,7 +185,8 @@
         "write_label": "Write",
         "write_comment_label": "Write a new comment",
         "placeholder_comment": "Enter your comment",
-        "deleted_comment_message": "This comment is deleted"
+        "deleted_comment_message": "This comment is deleted",
+        "attribute_label": "Attributes"
     },
     "project_setting": {
         "message_update": "Project is updated",
@@ -202,12 +203,19 @@
         "message_delete_member_end": "from this project",
         "setting_delete_project_title": "Delete project",
         "setting_delete_project_message": "Deleting this project will also delete the related data and it cannot be recovered.",
-        "label_delete_project": "Type in the project name and delete it"
+        "label_delete_project": "Type in the project name and delete it",
+        "setting_attribute_label": "You can manage and create additional attributes for your tickets here",
+        "placeholder_attribute_name": "Attribute name",
+        "placeholder_attribute_value": "Attribute value",
+        "add_attribute_title": "Create attribute",
+        "delete_attribute_warning": "Are you sure you want to delete this attribute ?",
+        "delete_attribute_warning_message": "If you delete all values ​​in the attribute, it will not be displayed."
     },
     "btn_ok": "OK",
     "empty_label": "Empty",
     "btn_save": "Save",
     "btn_delete": "Delete",
+    "btn_add_new": "Add new",
     "project_report": {
         "pie_chart_title": "Progress report in pie chart format",
         "bar_chart_title": "Statistics for each member in the project",

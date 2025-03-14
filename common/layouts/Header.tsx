@@ -8,6 +8,9 @@ import { RootState } from "@/reduxs/store.redux";
 import Button from "../components/Button";
 import { APP_LINK, IMAGE_DEFAULT } from "@/enums/app.enum";
 import Link from "next/link";
+import Dropdown from "../dropdown/Dropdown";
+import DropdownItem from "../dropdown/DropdownItem";
+import LanguageSwitcher from "../components/LanguageSwitcher";
 
 interface HeaderProps {
   className?: string
@@ -44,7 +47,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
   }, []);
   return (
     <nav className="main-header navbar navbar-expand-md navbar-light navbar-white" style={{ marginLeft: 'unset' }}>
-      <div className="container">
+      <div className="container" style={{ maxWidth: '100%' }}>
         <Link href="/" className="navbar-brand" onClick={clickOpenMenu}>
           <img
             src="/img/logo-3.png"
@@ -78,6 +81,9 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
               <Button color="primary" className="mt-2">
                 Create
               </Button>
+            </li>
+            <li className="nav-item dropdown dropdown-lang">
+              <LanguageSwitcher />
             </li>
           </ul>
         </div>

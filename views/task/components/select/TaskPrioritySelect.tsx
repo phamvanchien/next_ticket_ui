@@ -36,7 +36,7 @@ const TaskPrioritySelect: React.FC<TaskPrioritySelectProps> = ({ priority, class
       <div className="col-8 text-secondary" onClick={() => setOpenPriorityList (true)} ref={listPriorityRef}>
         {
           priority &&
-          <span className="badge badge-light lh-20 mb-2 mr-2">
+          <span className="badge task-info-selectbox badge-light mb-2 mr-2">
             {getIconPriority(priority.id)} {priority.title}
           </span>
         }

@@ -2,6 +2,18 @@ import { BaseResponseType, RequestWithPaginationType, ResponseWithPaginationType
 import { ResponseUserDataType } from "./user.type"
 import { WorkspaceType } from "./workspace.type"
 
+export interface RequestAddAttributeType {
+  id: string
+  name: string
+  value: string[]
+}
+
+export interface RequestUpdateAttributeType {
+  id: number
+  name?: string
+  value?: string[]
+}
+
 export interface RequestCreateProjectType {
   name: string
   description?: string
@@ -33,6 +45,16 @@ export interface ProjectType {
   members_total: number
   members: WorkspaceUserType[]
   user: ResponseUserDataType
+  attributes: ProjectAttributeType[]
+}
+
+export interface ProjectAttributeType {
+  id: number
+  name: string
+  value: {
+    key: string
+    value: string
+  }[]
 }
 
 interface WorkspaceUserType {

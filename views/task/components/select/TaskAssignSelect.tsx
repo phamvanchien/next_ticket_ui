@@ -9,7 +9,7 @@ import { AppErrorType, BaseResponseType, ResponseWithPaginationType } from "@/ty
 import { ProjectType } from "@/types/project.type";
 import { ResponseUserDataType } from "@/types/user.type";
 import { WorkspaceUserType } from "@/types/workspace.type";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslations } from "next-intl";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
@@ -29,6 +29,7 @@ const TaskAssignSelect: React.FC<TaskAssignSelectProps> = ({ assignee, project, 
   const [openMemberList, setOpenMemberList] = useState(false);
   const [keyword, setKeyword] = useState<string>('');
   const [debounceKeyword, setDebounceKeyword] = useState<string>('');
+  const [originTitle, setOriginTitle] = useState<number>(0);
   const listMembersRef = useRef<HTMLDivElement>(null);
   const t = useTranslations();
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
@@ -42,6 +43,9 @@ const TaskAssignSelect: React.FC<TaskAssignSelectProps> = ({ assignee, project, 
         const membersWorkspace = await members(workspace.id, 1, 3, keyword);
         if (membersWorkspace && membersWorkspace.code === API_CODE.OK) {
           setMembersData(membersWorkspace.data);
+          if (!membersData) {
+            setOriginTitle(membersWorkspace.data.total);
+          }
           return;
         }
         setError(catchError(membersWorkspace));
@@ -107,28 +111,39 @@ const TaskAssignSelect: React.FC<TaskAssignSelectProps> = ({ assignee, project, 
       <div className="col-8" onClick={() => setOpenMemberList (true)} ref={listMembersRef}>
         {
           assignee.length === 0 &&
-          <span className="badge badge-light mr-2">
-            <img className="img-circle" onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} src={IMAGE_DEFAULT.NO_USER} width={25} height={25} /> {t('empty_label')} 
+          <span className="badge badge-light task-info-selectbox mb-2 mr-2 pointer task-btn-circle">
+            <FontAwesomeIcon icon={faPlus} />
           </span>
         }
         {
           assignee.map((member, index) => (
-            <span className="badge badge-light mr-2" key={index}>
+            <span className="badge badge-light task-info-selectbox mr-2 mb-1" key={index}>
               <img className="img-circle" onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} src={member.avatar ?? IMAGE_DEFAULT.NO_USER} width={25} height={25} /> Chien 
-              <FontAwesomeIcon icon={faTimes} className="mt-2 ml-2 text-secondary" onClick={() => handleRemoveAssignee (member)} />
+              <FontAwesomeIcon icon={faTimes} className="mt-2 ml-4 text-secondary pointer" onClick={() => handleRemoveAssignee (member)} />
             </span>
           ))
         }
         {
-          openMemberList &&
+          (
+            openMemberList && membersData &&
+            (membersData.items.filter(m => !assignee.map(a => a.id).includes(m.id)).length > 0 || !assignee.find(a => a.id === project.user.id))
+          ) &&
           <>
             <ul className="list-group select-search-task">
-              <li className="list-group-item border-unset p-unset">
-                <Input type="search" className="w-100" placeholder={t('tasks.placeholder_search_member')} onChange={handleChangeKeyword} />
-              </li>
+              {
+                originTitle > 0 &&
+                <li className="list-group-item border-unset p-unset">
+                  <Input 
+                    type="search" 
+                    className="w-100" 
+                    placeholder={t('tasks.placeholder_search_member')} 
+                    onChange={handleChangeKeyword} 
+                  />
+                </li>
+              }
               {
                 !assignee.find(a => a.id === project.user.id) &&
-                <li className="list-group-item border-unset p-unset" onClick={() => handleSelectAssignee (project.user)}>
+                <li className="list-group-item border-unset p-unset pointer" onClick={() => handleSelectAssignee (project.user)}>
                   <span className="badge badge-default w-100 text-left">
                     <img className="img-circle" src={project.user.avatar ?? IMAGE_DEFAULT.NO_USER} onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} width={25} height={25} /> {project.user.first_name} {project.user.last_name} ({t('tasks.project_owner_label')})
                   </span>
@@ -136,7 +151,7 @@ const TaskAssignSelect: React.FC<TaskAssignSelectProps> = ({ assignee, project, 
               }
               {
                 membersData && membersData.items.filter(m => !assignee.map(a => a.id).includes(m.id)).map((member, index) => (
-                  <li className="list-group-item border-unset p-unset" key={index} onClick={() => handleSelectAssignee (member)}>
+                  <li className="list-group-item border-unset p-unset pointer" key={index} onClick={() => handleSelectAssignee (member)}>
                     <span className="badge badge-default w-100 text-left">
                       <img className="img-circle" src={member.avatar ?? IMAGE_DEFAULT.NO_USER} onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} width={25} height={25} /> {member.first_name} {member.last_name}
                     </span>

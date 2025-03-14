@@ -1,4 +1,4 @@
-import { RequestCreateProjectType, RequestUpdateProjectType, RequestCreateTagType, RequestStatusListType, RequestUpdateTagType, ProjectTagType, ProjectType, ProjectInviteType, ReportStatusType, ReportAssigneeType, RequestCloneProjectType } from "@/types/project.type";
+import { RequestCreateProjectType, RequestUpdateProjectType, RequestCreateTagType, RequestStatusListType, RequestUpdateTagType, ProjectTagType, ProjectType, ProjectInviteType, ReportStatusType, ReportAssigneeType, RequestCloneProjectType, RequestAddAttributeType, ProjectAttributeType, RequestUpdateAttributeType } from "@/types/project.type";
 import { request } from "./base.api";
 import { API_METHOD_ENUM } from "@/enums/api.enum";
 import { APP_CONFIG } from "@/config/app.config";
@@ -211,6 +211,31 @@ export const cloneProject = async (workspaceId: number, projectId: number, paylo
   return request({
     method: API_METHOD_ENUM.POST,
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/clone',
+    data: payload
+  });
+}
+
+export const addAttribute = async (workspaceId: number, projectId: number, payload: RequestAddAttributeType[]): Promise<BaseResponseType<ProjectAttributeType[]>> => {
+  return request({
+    method: API_METHOD_ENUM.POST,
+    url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/add-attribute',
+    data: {
+      attributes: payload
+    }
+  });
+}
+
+export const deleteAttribute = async (workspaceId: number, projectId: number, attributeId: number): Promise<BaseResponseType> => {
+  return request({
+    method: API_METHOD_ENUM.DELETE,
+    url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/' + attributeId + '/delete-attribute'
+  });
+}
+
+export const updateAttribute = async (workspaceId: number, projectId: number, payload: RequestUpdateAttributeType): Promise<BaseResponseType<ProjectAttributeType>> => {
+  return request({
+    method: API_METHOD_ENUM.PATCH,
+    url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/update-attribute',
     data: payload
   });
 }

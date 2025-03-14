@@ -172,7 +172,7 @@ const InviteMemberView: React.FC<InviteMemberViewProps> = ({ openModal, setOpenM
                 <Button color="primary" className="float-right ml-2" onClick={handleSubmitSend} disabled={loading}>
                   {loading ? <Loading color="light" /> : t('btn_send')}
                 </Button>
-                <Button color="secondary" className="float-right btn-no-border" outline onClick={handleCancelModal} disabled={loading}>{t('btn_cancel')}</Button>
+                <Button color="default" className="float-right btn-no-border" outline onClick={handleCancelModal} disabled={loading}>{t('btn_cancel')}</Button>
               </div>
             </>
           }
