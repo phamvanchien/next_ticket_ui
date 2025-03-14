@@ -20,7 +20,7 @@ const TaskGribFilter: React.FC<TaskGribFilterProps> = ({ priorityFilter, setPrio
   }
   return (
     <div className="col-12">
-      <Dropdown title="Priority">
+      <Dropdown color="default" title="Priority">
         {
           priorities.map(priority => (
             <DropdownItem key={priority.id} style={{cursor: 'pointer'}} onClick={() => handleSelectPriority (priority.id)}>
