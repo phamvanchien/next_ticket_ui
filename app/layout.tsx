@@ -8,6 +8,7 @@ import BodyLayout from "./body";
 import {NextIntlClientProvider} from 'next-intl';
 import { headers } from "next/headers";
 import { defaultLocale } from "@/next-intl-config";
+import React from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 

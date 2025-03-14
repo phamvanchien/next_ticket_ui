@@ -55,7 +55,8 @@ const TaskSetting: React.FC<TaskSettingProps> = ({ open, task, historyData, load
         description: task.description,
         due: new Date(task.due),
         tags: task.tags.map(t => t.id),
-        assigns: task.assign.map(a => a.id)
+        assigns: task.assign.map(a => a.id),
+        attributes: []
       });
       setLoading(false);
       if (response && response.code === API_CODE.CREATED) {
