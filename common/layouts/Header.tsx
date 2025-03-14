@@ -83,7 +83,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
               </Button>
             </li>
             <li className="nav-item dropdown dropdown-lang">
-              <LanguageSwitcher />
+              <LanguageSwitcher dropdown />
             </li>
           </ul>
         </div>
