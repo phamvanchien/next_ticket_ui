@@ -418,7 +418,11 @@ body:not(.layout-fixed) .main-sidebar {
 
 .dropdown-lang {
     padding-top: 8px !important;
-    margin-left: 20px !important;
+    /* margin-left: 20px !important; */
+}
+
+.lang-dropdown {
+    height: 38px;
 }
 
 .dropdown-menu {

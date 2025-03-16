@@ -19,6 +19,7 @@ import { RootState } from "@/reduxs/store.redux";
 import ProjectReportView from "../project/report/ProjectReportView";
 import CloneProjectModal from "../project/components/CloneProjectModal";
 import { useTranslations } from "next-intl";
+import { WorkspaceType } from "@/types/workspace.type";
 
 interface TaskPageViewProps {
   project: ProjectType

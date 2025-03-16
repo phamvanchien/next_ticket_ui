@@ -87,7 +87,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
                 {t('top_menu.invitation')}
               </Link>
             </li>
-            <li className="nav-item">
+            <li className="nav-item mr-3">
               <Button color="primary" className="mt-2">
                 Create
               </Button>
