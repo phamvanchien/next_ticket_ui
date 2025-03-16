@@ -4,13 +4,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import { useSelector } from "react-redux";
-import { RootState } from "@/reduxs/store.redux";
+import { RootState, useAppDispatch } from "@/reduxs/store.redux";
 import Button from "../components/Button";
-import { APP_LINK, IMAGE_DEFAULT } from "@/enums/app.enum";
+import { APP_AUTH, APP_LINK, IMAGE_DEFAULT } from "@/enums/app.enum";
 import Link from "next/link";
 import Dropdown from "../dropdown/Dropdown";
 import DropdownItem from "../dropdown/DropdownItem";
 import LanguageSwitcher from "../components/LanguageSwitcher";
+import { getCookie } from "@/utils/cookie.util";
+import { setUser } from "@/reduxs/user.redux";
 
 interface HeaderProps {
   className?: string
@@ -19,6 +21,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ className }) => {
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
   const t = useTranslations();
+  const dispatch = useAppDispatch();
   const [openMenuMobile, setOpenMenuMobile] = useState(false);
   const handleOpenMenu = () => {
     const body = document.getElementsByTagName('body') as HTMLCollectionOf<HTMLBodyElement>;
@@ -43,6 +46,13 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
   useEffect(() => {
     if (window.innerWidth > 768) {
       handleOpenMenu();
+    }
+  }, []);
+  useEffect(() => {
+    const userAuth = getCookie(APP_AUTH.COOKIE_AUTH_USER);
+    if (userAuth) {
+      const userParse = JSON.parse(userAuth);
+      dispatch(setUser(userParse));
     }
   }, []);
   return (

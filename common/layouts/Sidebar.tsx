@@ -76,11 +76,6 @@ const Sidebar: React.FC<SidebarProps> = ({ workspace }) => {
   }, []);
 
   useEffect(() => {
-    const userAuth = getCookie(APP_AUTH.COOKIE_AUTH_USER);
-    if (userAuth) {
-      const userParse = JSON.parse(userAuth);
-      dispatch(setUser(userParse));
-    }
     if (workspace) {
       dispatch(setWorkspace(workspace));
     }
