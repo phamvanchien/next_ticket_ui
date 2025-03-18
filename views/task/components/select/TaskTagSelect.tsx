@@ -93,6 +93,9 @@ const TaskTagSelect: React.FC<TaskTagSelectProps> = ({ tags, className, projectI
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+  if (totalTag === 0) {
+    return <></>
+  }
   return (
     <div className={`row text-secondary ${className ?? ''}`}>
       <div className="col-4 lh-40">
@@ -111,10 +114,6 @@ const TaskTagSelect: React.FC<TaskTagSelectProps> = ({ tags, className, projectI
               <FontAwesomeIcon icon={faTag} style={{ color: tag.color }} /> {tag.name}
               <FontAwesomeIcon icon={faTimes} className="mt-2 ml-4 text-secondary pointer" onClick={() => handleRemoveTag (tag)} />
             </Card>
-            // <span className="badge badge-light task-info-selectbox mb-1 mr-2 pointer" key={index}>
-            //   <FontAwesomeIcon icon={faTag} style={{ color: tag.color }} /> {tag.name}
-            //   <FontAwesomeIcon icon={faTimes} className="mt-2 ml-4 text-secondary pointer" onClick={() => handleRemoveTag (tag)} />
-            // </span>
           ))
         }
         {
