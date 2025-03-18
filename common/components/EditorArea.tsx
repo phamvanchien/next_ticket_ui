@@ -14,23 +14,23 @@ interface EditorAreaProps {
 const EditorArea: React.FC<EditorAreaProps> = ({ setValue, value, placeholder, toolbarExtra }) => {
   const modules = {
     toolbar: [
-      [{ header: '1' }, { header: '2' }, { font: [] }],
+      // [{ header: '1' }, { header: '2' }, { font: [] }],
       [{ size: [] }],
       ['bold', 'italic', 'underline', 'strike', 'blockquote'],
       [{ list: 'ordered' }, { list: 'bullet' }],
       ['link', 'image', 'code-block'],
-      ['clean'],
+      // ['clean'],
       [{ 'align': [] }],
       ['customCode'],
     ],
   };
 
-  if (toolbarExtra) {
-    modules.toolbar.push(
-      [{ header: '1' }, { header: '2' }, { font: [] }],
-      [{ size: [] }]
-    )
-  }
+  // if (toolbarExtra) {
+  //   modules.toolbar.push(
+  //     [{ header: '1' }, { header: '2' }, { font: [] }],
+  //     [{ size: [] }]
+  //   )
+  // }
 
   return (
     <ReactQuill

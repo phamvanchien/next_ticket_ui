@@ -2,14 +2,9 @@
 
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import ImageIcon from './ImageIcon';
-// import Dropdown from '../dropdown/Dropdown';
-import DropdownItem from '../dropdown/DropdownItem';
 import { useTranslations } from 'next-intl';
 import type { MenuProps } from 'antd';
 import { Button, Dropdown, Space } from 'antd';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLanguage } from '@fortawesome/free-solid-svg-icons';
 
 interface LanguageSwitcherProps {
   className?: string
@@ -37,7 +32,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ className, dropdown
       key: 'vi',
       label: (
         <div onClick={() => changeLanguage("vi")}>
-          <img width={30} height={20} src="/img/icon/vi.png" className={`mr-2 ${locale === 'vi' ? 'lang-select' : ''}`} /> Viet Nam
+          <img width={30} height={20} src="/img/icon/vi.png" className={`mr-2 ${locale === 'vi' ? 'lang-select' : ''}`} /> {t('country.vietnam')}
         </div>
       ),
     },
@@ -45,7 +40,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ className, dropdown
       key: 'en',
       label: (
         <div onClick={() => changeLanguage("en")}>
-          <img width={30} height={20} src="/img/icon/en.png" className={`mr-2 ${locale === 'en' ? 'lang-select' : ''}`} /> England
+          <img width={30} height={20} src="/img/icon/en.png" className={`mr-2 ${locale === 'en' ? 'lang-select' : ''}`} /> {t('country.england')}
         </div>
       ),
     },
@@ -53,7 +48,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ className, dropdown
       key: 'ja',
       label: (
         <div onClick={() => changeLanguage("ja")}>
-          <img width={30} height={20} src="/img/icon/ja.png" className={`mr-2 ${locale === 'ja' ? 'lang-select' : ''}`} /> Japan
+          <img width={30} height={20} src="/img/icon/ja.png" className={`mr-2 ${locale === 'ja' ? 'lang-select' : ''}`} /> {t('country.japan')}
         </div>
       ),
     },
@@ -74,7 +69,7 @@ const LanguageSwitcher: React.FC<LanguageSwitcherProps> = ({ className, dropdown
               {
                 locale === 'ja' && <img width={30} height={20} src="/img/icon/ja.png" className={`${locale === 'ja' ? 'lang-select' : ''}`} />
               }
-              Language
+              {t('language_label')}
             </Button>
           </Dropdown>
         </Space>

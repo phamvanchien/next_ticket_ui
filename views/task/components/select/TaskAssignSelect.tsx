@@ -1,5 +1,6 @@
 import { membersList } from "@/api/project.api";
 import { members } from "@/api/workspace.api";
+import Button from "@/common/components/Button";
 import Input from "@/common/components/Input";
 import { API_CODE } from "@/enums/api.enum";
 import { IMAGE_DEFAULT } from "@/enums/app.enum";
@@ -11,6 +12,7 @@ import { ResponseUserDataType } from "@/types/user.type";
 import { WorkspaceUserType } from "@/types/workspace.type";
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Card, Dropdown, MenuProps, Space } from "antd";
 import { useTranslations } from "next-intl";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -103,24 +105,29 @@ const TaskAssignSelect: React.FC<TaskAssignSelectProps> = ({ assignee, project, 
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
   return (
     <div className={`row text-secondary ${className ?? ''}`}>
       <div className="col-4 lh-40">
         {label ?? t('tasks.assignee_label')}:
       </div>
-      <div className="col-8" onClick={() => setOpenMemberList (true)} ref={listMembersRef}>
+      <div className="col-8 pointer" onClick={() => setOpenMemberList (true)} ref={listMembersRef}>
         {
           assignee.length === 0 &&
-          <span className="badge badge-light task-info-selectbox mb-2 mr-2 pointer task-btn-circle">
+          <Button type="button" color="default" className="btn-bo-border mb-1">
             <FontAwesomeIcon icon={faPlus} />
-          </span>
+          </Button>
         }
         {
           assignee.map((member, index) => (
-            <span className="badge badge-light task-info-selectbox mr-2 mb-1" key={index}>
+            <Card key={index} className="float-left p-unset pointer mr-1">
               <img className="img-circle" onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} src={member.avatar ?? IMAGE_DEFAULT.NO_USER} width={25} height={25} /> Chien 
               <FontAwesomeIcon icon={faTimes} className="mt-2 ml-4 text-secondary pointer" onClick={() => handleRemoveAssignee (member)} />
-            </span>
+            </Card>
+            // <span className="badge badge-light task-info-selectbox mr-2 mb-1" key={index}>
+            //   <img className="img-circle" onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} src={member.avatar ?? IMAGE_DEFAULT.NO_USER} width={25} height={25} /> Chien 
+            //   <FontAwesomeIcon icon={faTimes} className="mt-2 ml-4 text-secondary pointer" onClick={() => handleRemoveAssignee (member)} />
+            // </span>
           ))
         }
         {

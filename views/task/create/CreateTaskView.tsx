@@ -5,12 +5,11 @@ import { faExternalLink, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React, { MouseEvent, useEffect, useRef, useState } from "react";
-import { ProjectType, ProjectTagType, RequestAddAttributeType, RequestUpdateAttributeType } from "@/types/project.type";
+import { ProjectType, ProjectTagType } from "@/types/project.type";
 import { ResponseUserDataType } from "@/types/user.type";
 import InputForm from "@/common/components/InputForm";
 import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { APP_LINK, APP_VALIDATE_TYPE } from "@/enums/app.enum";
-import { TASK_ENUM } from "@/enums/task.enum";
 import DateInput from "@/common/components/DateInput";
 import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
@@ -26,7 +25,7 @@ import TaskPrioritySelect from "../components/select/TaskPrioritySelect";
 import TaskTypeSelect from "../components/select/TaskTypeSelect";
 import ErrorAlert from "@/common/components/ErrorAlert";
 import { useTranslations } from "next-intl";
-import TaskAttributeSelect from "../components/select/attribute/TaskAttributeSelect";
+import DatePickerCustom from "@/common/components/DatePickerCustom";
 
 interface CreateTaskViewProps {
   open: boolean
@@ -131,9 +130,12 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+  useEffect(() => {
+    console.log("open: ", open)
+  }, [open])
   return <>
     <div id="wrapper" ref={taskDivRef}>
-      <div id="sidebar-wrapper" className={open ? 'open-sidebar' : 'close-sidebar'} style={
+      <div id="sidebar-wrapper-next-tech" className={open ? 'open-sidebar' : 'close-sidebar-next-tech'} style={
         {marginRight: open ? -250 : -275}
       }>
         <div className="row mb-4">
@@ -197,7 +199,8 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
             {t('tasks.due_label')}:
           </div>
           <div className={`col-8`}>
-            <DateInput selected={dueDate} setSelected={setDueDate} id="dueDate" className="ml-2" />
+            {/* <DateInput selected={dueDate} setSelected={setDueDate} id="dueDate" className="ml-2" /> */}
+            <DatePickerCustom setDueDate={setDueDate} dueDate={dueDate} placeholder={t('tasks.placeholder_due_date')} />
           </div>
         </div>
         <TaskTagSelect

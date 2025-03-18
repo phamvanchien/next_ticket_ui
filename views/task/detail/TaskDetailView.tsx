@@ -34,6 +34,7 @@ import Link from "next/link";
 import ErrorAlert from "@/common/components/ErrorAlert";
 import { ProjectTagType } from "@/types/project.type";
 import { useTranslations } from "next-intl";
+import DatePickerCustom from "@/common/components/DatePickerCustom";
 
 interface TaskDetailViewProps {
   task: TaskType
@@ -276,8 +277,8 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
               <div className="col-4 lh-40">
                 {t('tasks.due_label')}:
               </div>
-              <div className={`col-8`}>
-                <DateInput selected={dueDate} setSelected={setDueDate} id="dueDate" className="ml-2" />
+              <div className={`col-8 pt-1`}>
+                <DatePickerCustom setDueDate={setDueDate} dueDate={dueDate} placeholder={t('tasks.placeholder_due_date')} />
               </div>
             </div>
           </div>

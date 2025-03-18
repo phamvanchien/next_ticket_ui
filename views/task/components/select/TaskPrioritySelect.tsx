@@ -3,6 +3,7 @@ import { priorityRange } from "@/utils/helper.util";
 import React, { useEffect, useRef, useState } from "react";
 import { getIconPriority } from "../board/grib/TaskItem";
 import { useTranslations } from "next-intl";
+import { Card } from "antd";
 
 interface TaskPrioritySelectProps {
   priority?: TaskPriorityType
@@ -33,20 +34,23 @@ const TaskPrioritySelect: React.FC<TaskPrioritySelectProps> = ({ priority, class
       <div className="col-4 lh-40">
         {t('tasks.priority_label')}:
       </div>
-      <div className="col-8 text-secondary" onClick={() => setOpenPriorityList (true)} ref={listPriorityRef}>
+      <div className="col-8 text-secondary pointer" onClick={() => setOpenPriorityList (true)} ref={listPriorityRef}>
         {
           priority &&
-          <span className="badge task-info-selectbox badge-light mb-2 mr-2">
+          <Card className="p-unset float-left pointer">
             {getIconPriority(priority.id)} {priority.title}
-          </span>
+          </Card>
+          // <span className="badge task-info-selectbox badge-light mb-1 mr-2 pointer">
+          //   {getIconPriority(priority.id)} {priority.title}
+          // </span>
         }
         {
           openPriorityList &&
           <>
-            <ul className="list-group select-search-task">
+            <ul className="list-group select-search-task" style={{top: 38}}>
               {
                 priorities && priorities.filter(m => priority?.id !== m.id).map((value, index) => (
-                  <li className="list-group-item border-unset p-unset" key={index} onClick={() => setPriority(value)}>
+                  <li className="list-group-item border-unset p-unset pointer" key={index} onClick={() => setPriority(value)}>
                     <span className="badge badge-default w-100 text-left">
                       {getIconPriority(value.id)} {value.title}
                     </span>

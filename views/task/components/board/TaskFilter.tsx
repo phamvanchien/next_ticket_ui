@@ -106,7 +106,7 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
   }, [createdDateFilterFrom, createdDateFilterTo]);
   return <>
     <div id="wrapper" ref={taskDivRef}>
-      <div id="sidebar-wrapper" className={open ? 'open-filter' : 'close-sidebar'} style={
+      <div id="sidebar-wrapper-next-tech" className={open ? 'open-filter' : 'close-sidebar-next-tech'} style={
         {marginRight: open ? -250 : -275}
       }>
         <div className="row mb-4">

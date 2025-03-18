@@ -1,10 +1,12 @@
 import { TaskTypeItem } from "@/types/task.type";
 import { taskType } from "@/utils/helper.util";
-import { faPlus, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faTimes, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
 import { getTypeClass, getTypeIcon } from "../../components/board/grib/TaskItem";
 import { useTranslations } from "next-intl";
+import Button from "@/common/components/Button";
+import { Card } from "antd";
 
 interface TaskTypeFilterProps {
   type: TaskTypeItem[]
@@ -42,23 +44,23 @@ const TaskTypeFilter: React.FC<TaskTypeFilterProps> = ({ type, setType }) => {
     };
   }, []);
   return (
-    <div className="row text-secondary">
+    <div className="row text-secondary mt-2">
       <div className="col-4 lh-40">
         {t('tasks.type_label')}:
       </div>
       <div className="col-8 text-secondary" onClick={() => setOpenTypeList (true)} ref={listTypeRef}>
         {
           (type.length === 0) &&
-          <span className="badge badge-light lh-20 mb-2 mr-2">
+          <Button color="default" className="btn-bo-border pointer">
             <FontAwesomeIcon icon={faPlus} />
-          </span>
+          </Button>
         }
         {
           type.map((value, index) => (
-            <span className="badge badge-light lh-20 mb-2 mr-2" key={index}>
+            <Card key={index} className="float-left p-unset pointer mr-1">
               {getTypeIcon(value.id, `text-${getTypeClass(value.id)}`)} {value.title}
-              <FontAwesomeIcon icon={faTimesCircle} className="mt-2 ml-2 text-secondary" onClick={() => handleRemovePriority (value)} />
-            </span>
+              <FontAwesomeIcon icon={faTimes} className="mt-2 ml-4 text-secondary pointer" onClick={() => handleRemovePriority (value)} />
+            </Card>
           ))
         }
         {
@@ -67,7 +69,7 @@ const TaskTypeFilter: React.FC<TaskTypeFilterProps> = ({ type, setType }) => {
             <ul className="list-group select-search-task">
               {
                 types && types.filter(m => !type.map(a => a.id).includes(m.id)).map((value, index) => (
-                  <li className="list-group-item border-unset p-unset" key={index} onClick={() => handleSelectPriority (value)}>
+                  <li className="list-group-item border-unset p-unset pointer" key={index} onClick={() => handleSelectPriority (value)}>
                     <span className="badge badge-default w-100 text-left">
                       {getTypeIcon(value.id, `text-${getTypeClass(value.id)}`)} {value.title}
                     </span>

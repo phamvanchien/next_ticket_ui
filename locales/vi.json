@@ -186,7 +186,8 @@
         "write_comment_label": "Viết bình luận",
         "placeholder_comment": "Nhập bình luận của bạn ở đây",
         "deleted_comment_message": "Bình luận này đã bị xóa",
-        "attribute_label": "Thuộc tính"
+        "attribute_label": "Thuộc tính",
+        "placeholder_due_date": "Ngày hết hạn"
     },
     "project_setting": {
         "message_update": "Đã cập nhật dự án",
@@ -216,6 +217,12 @@
     "btn_save": "Lưu",
     "btn_delete": "Xóa",
     "btn_add_new": "Thêm mới",
+    "language_label": "Ngôn ngữ",
+    "country": {
+        "vietnam": "Việt Nam",
+        "england": "Anh/Mỹ",
+        "japan": "Nhật bản"
+    },
     "project_report": {
         "pie_chart_title": "Báo cáo tiến độ dạng biểu đồ tròn",
         "bar_chart_title": "Thống kê từng thành viên trong dự án",

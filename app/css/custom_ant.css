@@ -1,0 +1,15 @@
+.ant-dropdown-menu li {
+    font-size: 1rem !important;
+}
+
+:where(.css-dev-only-do-not-override-240cud).ant-picker-outlined {
+    background: #ffffff;
+    border-width: unset !important;
+    border-style: unset !important;
+    border-color: unset !important;
+    padding: unset !important;
+}
+
+.ant-picker-input input, .ant-picker-input span {
+    font-size: 1rem !important;
+}

@@ -11,6 +11,7 @@ import React, { use } from "react";
 import '../../../../../../css/pages/task_detail.css';
 import { BaseResponseType } from "@/types/base.type";
 import { TaskType } from "@/types/task.type";
+import '../../../../../../css/pages/task.css';
 
 interface TaskDetailPageProps {
   params: {

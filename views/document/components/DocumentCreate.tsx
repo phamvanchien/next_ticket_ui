@@ -95,7 +95,7 @@ const DocumentCreate: React.FC<DocumentCreateProps> = ({ openCreate, setOpenCrea
   }
   return <>
     <div id="wrapper">
-      <div id="sidebar-wrapper" className={openCreate ? 'open-sidebar-create-document' : 'close-sidebar'} style={
+      <div id="sidebar-wrapper-next-tech" className={openCreate ? 'open-sidebar-create-document' : 'close-sidebar-next-tech'} style={
         {marginRight: openCreate ? -250 : -275}
       }>
         <div className="row mt-4">

@@ -3,6 +3,7 @@ import { taskType } from "@/utils/helper.util";
 import React, { useEffect, useRef, useState } from "react";
 import { getTypeClass, getTypeIcon } from "../board/grib/TaskItem";
 import { useTranslations } from "next-intl";
+import { Card } from "antd";
 
 interface TaskTypeSelectProps {
   type?: TaskTypeItem
@@ -33,20 +34,23 @@ const TaskTypeSelect: React.FC<TaskTypeSelectProps> = ({ type, setType, classNam
       <div className="col-4 lh-40">
         {t('tasks.type_label')}:
       </div>
-      <div className="col-8 text-secondary" onClick={() => setOpenTypeList (true)} ref={listPriorityRef}>
+      <div className="col-8 text-secondary pointer" onClick={() => setOpenTypeList (true)} ref={listPriorityRef}>
         {
           type &&
-          <span className="badge badge-light task-info-selectbox lh-20 mb-2 mr-2">
+          <Card className="p-unset float-left pointer">
             {getTypeIcon(type.id, `text-${getTypeClass(type.id)}`)} {type.title}
-          </span>
+          </Card>
+          // <span className="badge badge-light task-info-selectbox lh-20 mb-1 mr-2">
+          //   {getTypeIcon(type.id, `text-${getTypeClass(type.id)}`)} {type.title}
+          // </span>
         }
         {
           openTypeList &&
           <>
-            <ul className="list-group select-search-task">
+            <ul className="list-group select-search-task" style={{top: 38}}>
               {
                 types && types.filter(m => type?.id !== m.id).map((value, index) => (
-                  <li className="list-group-item border-unset p-unset" key={index} onClick={() => setType(value)}>
+                  <li className="list-group-item border-unset p-unset pointer" key={index} onClick={() => setType(value)}>
                     <span className="badge badge-default w-100 text-left">
                       {getTypeIcon(value.id, `text-${getTypeClass(value.id)}`)} {value.title}
                     </span>

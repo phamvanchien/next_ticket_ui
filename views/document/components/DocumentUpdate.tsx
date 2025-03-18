@@ -128,7 +128,7 @@ const DocumentUpdate: React.FC<DocumentUpdateProps> = ({ documentUpdate, setDocu
   }, [documentUpdate]);
   return <>
     <div id="wrapper">
-      <div id="sidebar-wrapper" className={documentUpdate ? 'open-sidebar-create-document' : 'close-sidebar'} style={
+      <div id="sidebar-wrapper-next-tech" className={documentUpdate ? 'open-sidebar-create-document' : 'close-sidebar-next-tech'} style={
         {marginRight: documentUpdate ? -250 : -275}
       }>
         <div className="row mt-4">

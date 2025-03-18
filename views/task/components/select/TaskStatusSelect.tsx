@@ -1,4 +1,5 @@
 import { statusList } from "@/api/project.api";
+import Button from "@/common/components/Button";
 import Input from "@/common/components/Input";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
@@ -6,6 +7,7 @@ import { ResponseWithPaginationType } from "@/types/base.type";
 import { ProjectTagType } from "@/types/project.type";
 import { faCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Card } from "antd";
 import { useTranslations } from "next-intl";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -84,26 +86,29 @@ const TaskStatusSelect: React.FC<TaskStatusSelectProps> = ({ status, className, 
       <div className="col-8 text-secondary" onClick={() => setOpenStatusList (true)} ref={listStatusRef}>
         {
           !status &&
-          <span className="badge badge-light task-info-selectbox mb-2 mr-2 pointer">
+          <Button color="default" className="btn-bo-border pointer">
             <FontAwesomeIcon icon={faPlus} />
-          </span>
+          </Button>
         }
         {
           status &&
-          <span className="badge task-info-selectbox badge-light mb-2 mr-2">
+          <Card className="p-unset float-left pointer">
             <FontAwesomeIcon icon={faCircle} style={{ color: status.color }} /> {status.name}
-          </span>
+          </Card>
+          // <span className="badge task-info-selectbox badge-light mb-1 mr-2">
+          //   <FontAwesomeIcon icon={faCircle} style={{ color: status.color }} /> {status.name}
+          // </span>
         }
         {
           openStatusList &&
           <>
-            <ul className="list-group select-search-task">
+            <ul className="list-group select-search-task" style={status ? { top: 38 } : undefined}>
               <li className="list-group-item border-unset p-unset">
                 <Input type="search" className="w-100" placeholder={t('tasks.placeholder_search_status')} onChange={handleChangeKeyword} />
               </li>
               {
                 statusData && statusData.items.filter(m => status?.id !== m.id).map((status, index) => (
-                  <li className="list-group-item border-unset p-unset" key={index} onClick={() => setStatus(status)}>
+                  <li className="list-group-item border-unset p-unset pointer" key={index} onClick={() => setStatus(status)}>
                     <span className="badge badge-default w-100 text-left">
                       <FontAwesomeIcon icon={faCircle} style={{ color: status.color }} /> {status.name}
                     </span>

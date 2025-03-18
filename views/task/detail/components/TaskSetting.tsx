@@ -100,7 +100,7 @@ const TaskSetting: React.FC<TaskSettingProps> = ({ open, task, historyData, load
   }, []);
   return (
     <div id="wrapper" ref={taskDivRef}>
-      <div id="sidebar-wrapper" className={open ? 'open-sidebar-detail' : 'close-sidebar'} style={
+      <div id="sidebar-wrapper-next-tech" className={open ? 'open-sidebar-detail' : 'close-sidebar-next-tech'} style={
         {marginRight: open ? -250 : -275, paddingBottom: 50}
       }>
         <div className="row mb-4">

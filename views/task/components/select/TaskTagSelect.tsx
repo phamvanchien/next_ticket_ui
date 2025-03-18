@@ -1,4 +1,5 @@
 import { tagsList } from "@/api/project.api";
+import Button from "@/common/components/Button";
 import Input from "@/common/components/Input";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
@@ -6,6 +7,7 @@ import { ResponseWithPaginationType } from "@/types/base.type";
 import { ProjectTagType } from "@/types/project.type";
 import { faPlus, faTag, faTimes, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Card } from "antd";
 import { useTranslations } from "next-intl";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
@@ -22,7 +24,7 @@ const TaskTagSelect: React.FC<TaskTagSelectProps> = ({ tags, className, projectI
   const [keyword, setKeyword] = useState<string>('');
   const [debounceKeyword, setDebounceKeyword] = useState<string>('');
   const [tagData, setTagData] = useState<ResponseWithPaginationType<ProjectTagType[]>>();
-  const [totalTag, setTotalTag] = useState<number>();
+  const [totalTag, setTotalTag] = useState<number>(0);
   const listTagsRef = useRef<HTMLDivElement>(null);
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const t = useTranslations();
@@ -55,10 +57,10 @@ const TaskTagSelect: React.FC<TaskTagSelectProps> = ({ tags, className, projectI
         keyword: keyword
       });
       if (response && response.code === API_CODE.OK) {
-        setTagData(response.data);
-        if (!totalTag) {
+        if (!tagData) {
           setTotalTag(response.data.total);
         }
+        setTagData(response.data);
         return;
       }
       setTagData(undefined);
@@ -99,16 +101,20 @@ const TaskTagSelect: React.FC<TaskTagSelectProps> = ({ tags, className, projectI
       <div className="col-8 text-secondary" onClick={() => setOpenTagList (true)} ref={listTagsRef}>
         {
           tags.length === 0 &&
-          <span className="badge badge-light task-info-selectbox mb-2 mr-2 pointer task-btn-circle">
+          <Button color="default" className="btn-bo-border pointer">
             <FontAwesomeIcon icon={faPlus} />
-          </span>
+          </Button>
         }
         {
           tags.map((tag, index) => (
-            <span className="badge badge-light task-info-selectbox mb-1 mr-2" key={index}>
+            <Card key={index} className="float-left p-unset pointer mr-1">
               <FontAwesomeIcon icon={faTag} style={{ color: tag.color }} /> {tag.name}
               <FontAwesomeIcon icon={faTimes} className="mt-2 ml-4 text-secondary pointer" onClick={() => handleRemoveTag (tag)} />
-            </span>
+            </Card>
+            // <span className="badge badge-light task-info-selectbox mb-1 mr-2 pointer" key={index}>
+            //   <FontAwesomeIcon icon={faTag} style={{ color: tag.color }} /> {tag.name}
+            //   <FontAwesomeIcon icon={faTimes} className="mt-2 ml-4 text-secondary pointer" onClick={() => handleRemoveTag (tag)} />
+            // </span>
           ))
         }
         {
@@ -116,14 +122,14 @@ const TaskTagSelect: React.FC<TaskTagSelectProps> = ({ tags, className, projectI
           <>
             <ul className="list-group select-search-task">
               {
-                (totalTag && tagData.items.filter(m => !tags.map(a => a.id).includes(m.id)).length > 4) &&
+                (totalTag > 0) &&
                 <li className="list-group-item border-unset p-unset">
                   <Input type="search" className="w-100" placeholder={t('tasks.placeholder_search_tags')} onChange={handleChangeKeyword} />
                 </li>
               }
               {
                 (tagData && tagData.total > 0) && tagData.items.filter(m => !tags.map(a => a.id).includes(m.id)).map((tag, index) => (
-                  <li className="list-group-item border-unset p-unset" key={index} onClick={() => handleSelectTag (tag)}>
+                  <li className="list-group-item border-unset p-unset pointer" key={index} onClick={() => handleSelectTag (tag)}>
                     <span className="badge badge-default w-100 text-left">
                       <FontAwesomeIcon icon={faTag} style={{ color: tag.color }} /> {tag.name}
                     </span>

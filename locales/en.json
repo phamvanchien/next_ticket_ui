@@ -186,7 +186,8 @@
         "write_comment_label": "Write a new comment",
         "placeholder_comment": "Enter your comment",
         "deleted_comment_message": "This comment is deleted",
-        "attribute_label": "Attributes"
+        "attribute_label": "Attributes",
+        "placeholder_due_date": "Due date"
     },
     "project_setting": {
         "message_update": "Project is updated",
@@ -216,6 +217,12 @@
     "btn_save": "Save",
     "btn_delete": "Delete",
     "btn_add_new": "Add new",
+    "language_label": "Languages",
+    "country": {
+        "vietnam": "Vietnam",
+        "england": "UK/US",
+        "japan": "Japan"
+    },
     "project_report": {
         "pie_chart_title": "Progress report in pie chart format",
         "bar_chart_title": "Statistics for each member in the project",

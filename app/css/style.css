@@ -175,7 +175,7 @@ input {
     width: 40%;
 }
 
-.close-sidebar {
+.close-sidebar-next-tech {
     width: 0;
 }
 
@@ -225,7 +225,7 @@ input {
     padding-right: 250px;
 }
 
-#sidebar-wrapper {
+#sidebar-wrapper-next-tech {
     z-index: 1000;
     position: fixed;
     right: 250px;
@@ -236,7 +236,8 @@ input {
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
-    box-shadow: 3px 4px 4px 3px;
+    box-shadow: 1px 4px 3px 1px;
+    border-top-left-radius: 10px;
     padding: 10px;
     top: 50px;
 }
@@ -282,17 +283,22 @@ input {
 .select-search-task {
     position: absolute;
     z-index: 1000;
-    width: 95%;
+    width: auto;
     border: 0.5px solid #6666;
     background: #fff;
     box-shadow: 1px 1px 4px 0px;
+    padding: 3px;
+    border-radius: 7px;
+
+    top: 45px;
 }
 
 .select-search-task li {
     height: 35px;
     line-height: 35px;
-    background-color: #f8f9fa !important;
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2)
+    /* background-color: #f8f9fa !important; */
+    background: #fff;
+    /* box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.2) */
 }
 
 .select-search-task li input {
@@ -302,7 +308,7 @@ input {
 }
 
 .select-search-task li:hover {
-    background: #e4e6ea !important;
+    background: #e4e6ea;
 }
 
 .btn-no-border {

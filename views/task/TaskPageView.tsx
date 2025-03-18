@@ -1,3 +1,4 @@
+
 "use client";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { TaskPriorityType, TaskType, TaskTypeItem } from "@/types/task.type";
@@ -5,7 +6,7 @@ import Button from "@/common/components/Button";
 import CreateTaskView from "./create/CreateTaskView";
 import { ProjectTagType, ProjectType } from "@/types/project.type";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckSquare, faCopy, faFilter, faFilterCircleXmark, faGear, faList, faPieChart, faPlus, faSearchMinus, faSearchPlus, faSort, faSortAmountAsc, faSortAmountDesc, faTable, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCheckSquare, faChevronLeft, faCopy, faEllipsis, faEllipsisV, faFilter, faFilterCircleXmark, faGear, faList, faPieChart, faPlus, faSearch, faSearchMinus, faSearchPlus, faSort, faSortAmountAsc, faSortAmountDesc, faTable, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import TaskBoardView from "./components/board/grib/TaskBoardView";
 import { APP_LOCALSTORAGE } from "@/enums/app.enum";
 import Input from "@/common/components/Input";
@@ -19,7 +20,7 @@ import { RootState } from "@/reduxs/store.redux";
 import ProjectReportView from "../project/report/ProjectReportView";
 import CloneProjectModal from "../project/components/CloneProjectModal";
 import { useTranslations } from "next-intl";
-import { WorkspaceType } from "@/types/workspace.type";
+import { Button as ButtonAnt, Dropdown, MenuProps, Space } from 'antd';
 
 interface TaskPageViewProps {
   project: ProjectType
@@ -50,6 +51,7 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
   const [dueDateFilter, setDueDateFilter] = useState<Date[]>();
   const [createdDateFilter, setCreatedDateFilter] = useState<Date[]>();
   const [openClone, setOpenClone] = useState(false);
+  const [isFilter, setIsFilter] = useState(false);
 
   const searchParams = useSearchParams();
   const createParam = searchParams.get('create');
@@ -109,6 +111,74 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
       window.history.replaceState({}, '', url.toString());
     }
   }, [createParam]);
+  const items: MenuProps['items'] = [
+    {
+      key: 'priority_sort_asc',
+      label: (
+        <div className="text-secondary" onClick={() => handleSelectFilter ('priority', "ASC")}>
+          <FontAwesomeIcon icon={faSortAmountAsc} /> {t('tasks.priority_sort')}
+        </div>
+      ),
+    },
+    {
+      key: 'priority_sort_desc',
+      label: (
+        <div className="text-secondary" onClick={() => handleSelectFilter ('priority', "DESC")}>
+          <FontAwesomeIcon icon={faSortAmountDesc} /> {t('tasks.priority_sort')}
+        </div>
+      ),
+    },
+    {
+      key: 'due_sort_asc',
+      label: (
+        <div className="text-secondary" onClick={() => handleSelectFilter ('due', "ASC")}>
+          <FontAwesomeIcon icon={faSortAmountAsc} /> {t('tasks.due_sort')}
+        </div>
+      ),
+    },
+    {
+      key: 'due_sort_desc',
+      label: (
+        <div className="text-secondary" onClick={() => handleSelectFilter ('due', "DESC")}>
+          <FontAwesomeIcon icon={faSortAmountDesc} /> {t('tasks.due_sort')}
+        </div>
+      ),
+    },
+  ];
+
+  const itemsMenu: MenuProps['items'] = [
+    {
+      key: 'setting',
+      disabled: typeShow === 3,
+      label: (
+        <div onClick={() => setTypeShow (3)}>
+          <FontAwesomeIcon icon={faGear} className="text-secondary" /> {t('tasks.page_title_project_setting')}
+        </div>
+      ),
+    },
+    {
+      key: 'clone',
+      label: (
+        <div onClick={() => setOpenClone (true)}>
+          <FontAwesomeIcon className="text-secondary" icon={faCopy} /> {t('tasks.clone')}
+        </div>
+      ),
+    }
+  ];
+  useEffect(() => {
+    setIsFilter(false);
+    if (
+      (createdDateFilter && createdDateFilter.length > 0) ||
+      (dueDateFilter && dueDateFilter.length > 0) ||
+      tags.length > 0 ||
+      type.length > 0 ||
+      priority.length > 0 ||
+      creator.length > 0 ||
+      assignee.length > 0
+    ) {
+      setIsFilter(true);
+    }
+  }, [createdDateFilter, dueDateFilter, tags, type, priority, creator, assignee]);
 
   return <>
       <CreateTaskView 
@@ -149,97 +219,68 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
           </h3>
         </div>
         <div className="col-6">
+          <Dropdown menu={{ items: itemsMenu }} placement="bottomLeft" className="float-right ml-2" trigger={["click"]}>
+            <Button color="default" style={{ background: '#fff' }}>
+              <FontAwesomeIcon icon={faEllipsisV} />
+            </Button>
+          </Dropdown>
           {
-            (typeShow !== 3 && typeShow !== 4) &&
+            [1, 2, 3].includes(typeShow) &&
+            <Button color="default" className="float-right ml-2" style={{ background: '#fff' }} onClick={() => handleSetTypeShow (4)}>
+              <FontAwesomeIcon icon={faPieChart} />
+            </Button>
+          }
+          {
+            [3, 4].includes(typeShow) &&
+            <Button color="default" className="float-right ml-2" style={{ background: '#fff' }} onClick={() => handleSetTypeShow (1)}>
+              <FontAwesomeIcon icon={faChevronLeft} /> {t('tasks.page_title_task')}
+            </Button>
+          }
+          {
+            [1, 2].includes(typeShow) &&
             <Button
               color="primary"
               className="float-right create-btn"
               onClick={() => setOpenCreate(true)}
             >
-              {t('btn_new')} <FontAwesomeIcon icon={faPlus} />
+              <FontAwesomeIcon icon={faPlus} /> {t('btn_new')}
             </Button>
           }
-        </div>
-        <div className="col-12">
-          {
-            (isSetting && typeShow !== 3) &&
-            <Button color="secondary" className="btn-no-border" outline onClick={() => setTypeShow (3)}>
-              <FontAwesomeIcon icon={faGear} /> {t('tasks.setting')}
-            </Button>
-          }
-          {
-            (typeShow !== 4 && totalTask > 1) &&
-            <Button color="secondary" className="btn-no-border" outline onClick={() => setTypeShow (4)}>
-              <FontAwesomeIcon icon={faPieChart} /> {t('tasks.report')}
-            </Button>
-          }
-          <Button color="secondary" className="btn-no-border" outline onClick={() => setOpenClone (true)}>
-            <FontAwesomeIcon icon={faCopy} /> {t('tasks.clone')}
-          </Button>
         </div>
       </div>
-      <div className="row mt-2 mb-2">
-        <div className="col-12 filter-bar">
-          <Button color="secondary" className={`float-left btn-layout-type${typeShow === 1 ? '-active' : ''} create-btn mr-2`} onClick={() => handleSetTypeShow (1)}>
-            <FontAwesomeIcon icon={faTable} /> {t('tasks.board')}
-          </Button>
-          {
-            (totalTask > 0) &&
-              <Button color="secondary" className={`float-left btn-layout-type${typeShow === 2 ? '-active' : ''} create-btn mr-2`} onClick={() => handleSetTypeShow (2)}>
-                <FontAwesomeIcon icon={faList} /> {t('tasks.list')}
-              </Button>
-          }
-          {
-            (totalTask > maxTaskShowFilter && typeShow !== 3 && typeShow !== 4) &&
-              <>
-              <Button color="secondary" outline className="float-left create-btn btn-no-border mr-2" onClick={() => setOpenFilter (true)}>
-                <FontAwesomeIcon icon={openFilter ? faFilterCircleXmark : faFilter} />
-              </Button>
-              {
-                !openSort &&
-                <Button color="secondary" outline className="float-left btn-no-border create-btn mr-2" onClick={() => setOpenSort (true)}>
-                  <FontAwesomeIcon icon={faSort} />
+      {
+        [1, 2].includes(typeShow) &&
+        <div className="row mt-2 mb-2">
+          <div className="col-12 col-lg-6 filter-bar">
+            <Button color="secondary" className={`float-left btn-layout-type${typeShow === 1 ? '-active' : ''} create-btn mr-2`} onClick={() => handleSetTypeShow (1)}>
+              <FontAwesomeIcon icon={faTable} /> {t('tasks.board')}
+            </Button>
+            {
+              (totalTask > 0) &&
+                <Button color="secondary" className={`float-left btn-layout-type${typeShow === 2 ? '-active' : ''} create-btn mr-2`} onClick={() => handleSetTypeShow (2)}>
+                  <FontAwesomeIcon icon={faList} /> {t('tasks.list')}
                 </Button>
-              }
-              </>
-          }
-          {
-            (totalTask > maxTaskShowFilter && typeShow !== 3 && typeShow !== 4) && 
-            <Button color="secondary" outline className="float-left btn-no-border create-btn mr-2" onClick={() => setOpenSearch (openSearch ? false : true)}>
-              <FontAwesomeIcon icon={openSearch ? faSearchMinus : faSearchPlus} />
-            </Button>
-          }
+            }
+          </div>
+          <div className="col-12 col-lg-6 filter-bar filter-bar-right">
+            {
+              (totalTask > maxTaskShowFilter && typeShow !== 3 && typeShow !== 4) &&
+                <Button color={'default'} outline className={`create-btn btn-filter-tasks btn-no-border mr-2`} onClick={() => setOpenFilter (true)}>
+                  <FontAwesomeIcon className={`text-${isFilter ? 'primary' : 'secondary'}`} icon={openFilter ? faFilterCircleXmark : faFilter} /> 
+                  <span className={`ml-1 text-${isFilter ? 'primary' : 'secondary'}`}>Filter</span>
+                </Button>
+            }
+            <Dropdown menu={{ items }} placement="bottomLeft" className="dropdown-sort" trigger={["click"]}>
+              <Button color="default" className="btn-filter-tasks btn-no-border" style={{ background: '#fff', border: 'none' }}>
+                <FontAwesomeIcon className="text-secondary" icon={faSort} /> 
+                <span className="text-secondary ml-1">Sort</span>
+              </Button>
+            </Dropdown>
+            <Input type="search" placeholder={t('tasks.placeholder_input_search')} onChange={handleChangeKeyword} className="input-search-tasks" />
+          </div>
         </div>
-        {
-          (openSort && [1, 2].includes(typeShow)) &&
-          <div className="col-12 mt-2">
-            <Button color="secondary" className={`btn-sort${prioritySort === 'ASC' ? '-active' : ''} float-left create-btn`} outline onClick={() => handleSelectFilter ('priority', "ASC")}>
-              <FontAwesomeIcon icon={faSortAmountAsc} /> {t('tasks.priority_sort')}
-            </Button>
-            <Button color="secondary" className={`btn-sort${prioritySort === 'DESC' ? '-active' : ''} float-left create-btn`} outline onClick={() => handleSelectFilter ('priority', "DESC")}>
-              <FontAwesomeIcon icon={faSortAmountDesc} /> {t('tasks.priority_sort')}
-            </Button>
-            <Button color="secondary" className={`btn-sort${dueSort === 'ASC' ? '-active' : ''} float-left create-btn`} outline onClick={() => handleSelectFilter ('due', 'ASC')}>
-              <FontAwesomeIcon icon={faSortAmountAsc} /> {t('tasks.due_sort')}
-            </Button>
-            <Button color="secondary" className={`btn-sort${dueSort === 'DESC' ? '-active' : ''} float-left create-btn`} outline onClick={() => handleSelectFilter ('due', 'DESC')}>
-              <FontAwesomeIcon icon={faSortAmountDesc} /> {t('tasks.due_sort')}
-            </Button>
-            <FontAwesomeIcon icon={faTimesCircle} className="text-muted" style={{ fontSize: 20, marginTop: 5 }} onClick={handleCancelSort} />
-          </div>
-        }
-        {
-          (openSearch && typeShow !== 3 && typeShow !== 4) &&
-          <div className="col-12 col-lg-3 mt-2">
-            <Input 
-              type="search" 
-              className="input-search-tasks" 
-              placeholder={t('tasks.placeholder_input_search')} 
-              onChange={handleChangeKeyword} 
-            />
-          </div>
-        }
-      </div>
+      }
+      
       {
         (typeShow === 1) && <TaskBoardView
           taskData={taskData}

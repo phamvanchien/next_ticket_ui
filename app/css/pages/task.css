@@ -146,6 +146,18 @@
         width: 100%;
         height: 100%;
     }
+
+    .btn-filter-tasks, .dropdown-sort, .input-search-tasks {
+        float: left !important;
+    }
+
+    .input-search-tasks {
+        margin-left: 10px;
+    }
+
+    .filter-bar-right {
+        margin-top: 7px;
+    }
 }
 
 .open-sidebar {
@@ -156,8 +168,12 @@
     width: 40%;
 }
 
-.close-sidebar {
+.close-sidebar-next-tech {
     width: 0;
+}
+
+.ant-card-body {
+    padding: 7px !important;
 }
 
 #page-content-wrapper {
@@ -228,6 +244,9 @@
 
 .input-search-tasks {
     border-radius: 15px;
+    width: auto !important;
+    margin-top: 4px;
+    margin-right: 10px;
 }
 
 .select-status-modal {
@@ -268,4 +287,8 @@
     width: 35px;
     text-align: center;
     color: #666;
+}
+
+.btn-filter-tasks, .dropdown-sort, .input-search-tasks {
+    float: right;
 }
