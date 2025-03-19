@@ -102,10 +102,10 @@ const CommentView: React.FC<CommentViewProps> = ({ task }) => {
             <EditorArea placeholder={t('tasks.placeholder_comment')} value={content} setValue={setContent} />
           </div>
           <div className="col-12">
-            <Button color="primary" className="float-right ml-2" onClick={handleSubmitComment} disabled={loading}>
+            <Button color={loading ? 'secondary' : 'primary'} className="float-right ml-2" onClick={handleSubmitComment} disabled={loading}>
               {loading ? <Loading color="light" /> : t('btn_send')}
             </Button>
-            <Button color="secondary" outline className="float-right btn-no-border" onClick={() => setCreateForm (false)} disabled={loading}>{t('btn_cancel')}</Button>
+            <Button color="default" outline className="float-right btn-no-border" onClick={() => setCreateForm (false)} disabled={loading}>{t('btn_cancel')}</Button>
           </div>
         </> : (
           <div className="col-12 text-muted">

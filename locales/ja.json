@@ -187,7 +187,11 @@
         "placeholder_comment": "ここにコメントを入力してください",
         "deleted_comment_message": "このコメントは削除されました",
         "attribute_label": "プロパティ",
-        "placeholder_due_date": "有効期限"
+        "placeholder_due_date": "有効期限",
+        "filter_label": "フィルター",
+        "sort_label": "整える",
+        "expire_label": "期限切れ",
+        "unassigned_label": "未割り当て"
     },
     "project_setting": {
         "message_update": "プロジェクトが更新されました",

@@ -1,16 +1,19 @@
 import { TaskType } from "@/types/task.type";
-import { dateToString } from "@/utils/helper.util";
+import { dateToString, getDaysDifference } from "@/utils/helper.util";
 import React, { MouseEvent, useEffect, useState } from "react";
 import CreateTaskView from "../../../create/CreateTaskView";
 import { ProjectType } from "@/types/project.type";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowDown, faArrowUp, faBug, faCheckSquare, faClone, faEquals, faExclamationCircle, faLineChart, faPlusSquare } from "@fortawesome/free-solid-svg-icons";
+import { faArrowDown, faArrowUp, faBug, faCheckSquare, faClone, faEquals, faExclamationCircle, faLineChart, faPlusSquare, faUserCircle, faWarning } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
 import { APP_LINK, APP_LOCALSTORAGE, IMAGE_DEFAULT } from "@/enums/app.enum";
 import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
+import UserGroup from "@/common/components/UserGroup";
+import { Avatar } from "antd";
+import { icon } from "@fortawesome/fontawesome-svg-core";
 
 interface TaskItemProps {
   task: TaskType
@@ -50,6 +53,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, statusKey, draggingTask, proj
   const [taskData, setTaskData] = useState(task);
   const [taskTitle, setTaskTitle] = useState(task.title);
   const [openEdit, setOpenEdit] = useState(false);
+  const [isExpire, setIsExpire] = useState<number>(1);
 
   useEffect(() => {
     setTaskData(task);
@@ -93,6 +97,11 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, statusKey, draggingTask, proj
     router.push(APP_LINK.WORKSPACE + '/' + workspace?.id + '/project/' + project.id + '/task/' + task.id);
   }
 
+  useEffect(() => {
+    console.log("due change")
+    setIsExpire(getDaysDifference(new Date(taskData.due)));
+  }, [taskData.due]);
+
   return (
     <>
       <CreateTaskView open={openEdit} setOpen={setOpenEdit} project={project} task={taskData} setTaskResponse={setTaskData} />
@@ -107,7 +116,7 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, statusKey, draggingTask, proj
           <h6 className="title-task-board">
             <Link 
               href={'#'} 
-              className="text-dark"
+              className={`text-${isExpire === -1 ? 'secondary' : 'dark'}`}
               title={taskTitle}
               onClick={redirectDetailTask}
             >
@@ -116,11 +125,13 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, statusKey, draggingTask, proj
           </h6>
           <div onClick={() => setOpenEdit(true)}>
             <p className="text-secondary task-due">{t('tasks.due_label')}: {dateToString(new Date(taskData.due))}</p>
-            <img src={taskData.user.avatar ?? IMAGE_DEFAULT.NO_USER} className="img-circle mr-2" width={25} height={25} onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} />
-            <span className="text-muted created-by">{taskData.user.first_name} {taskData.user.last_name}</span>
-            <p className="mt-4">
-              {getIconPriority(taskData.priority.id)}
-              {getTypeIcon(taskData.type.id, `float-right text-${getTypeClass(taskData.type.id)}`)}
+            {isExpire === -1 && <p className="text-secondary task-due"><FontAwesomeIcon icon={faWarning} /> {t('tasks.expire_label')}</p>}
+            {/* <img src={taskData.user.avatar ?? IMAGE_DEFAULT.NO_USER} className="img-circle mr-2" width={25} height={25} onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} /> */}
+            {/* <span className="text-muted created-by">{taskData.user.first_name} {taskData.user.last_name}</span> */}
+            {taskData.assign.length > 0 ? <UserGroup users={taskData.assign} /> : <><img src={IMAGE_DEFAULT.NO_USER} className="img-circle mr-2" width={30} height={30} onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} /><span className="text-muted created-by">{t('tasks.unassigned_label')}</span></>}
+            <p className="mt-2">
+              {getTypeIcon(taskData.type.id, `text-${getTypeClass(taskData.type.id)}`)}
+              {getIconPriority(taskData.priority.id, 'float-right')}
             </p>
           </div>
         </div>

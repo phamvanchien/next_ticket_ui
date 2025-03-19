@@ -1,18 +1,22 @@
 import { TaskType } from "@/types/task.type";
-import { dateToString } from "@/utils/helper.util";
-import { faCircle } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { dateToString, notify } from "@/utils/helper.util";
 import React, { MouseEvent, useEffect, useState } from "react";
 import { ProjectTagType, ProjectType } from "@/types/project.type";
 import CreateTaskView from "@/views/task/create/CreateTaskView";
-import SelectStatusModal from "./SelectStatusModal";
 import { getIconPriority, getTypeClass, getTypeIcon } from "../grib/TaskItem";
 import Link from "next/link";
-import { APP_LINK, APP_LOCALSTORAGE, IMAGE_DEFAULT } from "@/enums/app.enum";
+import { APP_ERROR, APP_LINK, APP_LOCALSTORAGE, IMAGE_DEFAULT } from "@/enums/app.enum";
 import { useRouter } from "next/navigation";
-import TaskListLoading from "./TaskListLoading";
-import { ResponseWithPaginationType } from "@/types/base.type";
+import { BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import { useTranslations } from "next-intl";
+import { Avatar, Divider, Dropdown, Tag, Tooltip } from "antd";
+import { catchError } from "@/services/base.service";
+import { API_CODE } from "@/enums/api.enum";
+import { update } from "@/api/task.api";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircle, faUser } from "@fortawesome/free-solid-svg-icons";
+import { icon } from "@fortawesome/fontawesome-svg-core";
+import UserGroup from "@/common/components/UserGroup";
 
 interface TaskListItemProps {
   statusList?: ResponseWithPaginationType<ProjectTagType[]>
@@ -26,8 +30,8 @@ const TaskListItem: React.FC<TaskListItemProps> = ({ task, index, project, statu
   const [taskData, setTaskData] = useState(task);
   const [taskTitle, setTaskTitle] = useState(task.title);
   const [openEdit, setOpenEdit] = useState(false);
-  const [openUpdateStatus, setOpenUpdateStatus] = useState(false);
   const [taskStatus, setTaskStatus] = useState(taskData.status);
+  const [assigneeData, setAssigneeData] = useState(taskData.assign);
   const router = useRouter();
   const t = useTranslations();
   const redirectDetailTask = (event: MouseEvent<HTMLAnchorElement>) => {
@@ -48,6 +52,24 @@ const TaskListItem: React.FC<TaskListItemProps> = ({ task, index, project, statu
     localStorage.setItem(APP_LOCALSTORAGE.TASK_RECENTLY, JSON.stringify([taskData]));
     router.push(APP_LINK.WORKSPACE + '/' + task.workspace_id + '/project/' + project.id + '/task/' + task.id);
   }
+  const updateStatusTask = async (status: ProjectTagType) => {
+    try {
+      if (status.id === taskStatus.id) {
+        setSearchStatus('');
+        return;
+      }
+      const response = await update(project.workspace_id, project.id, taskData.id, {
+        status_id: status.id
+      });
+      if (response && response.code === API_CODE.OK) {
+        setTaskStatus(status);
+        return;
+      }
+      notify(catchError(response)?.message ?? APP_ERROR.SERVER_MAINTAIN, 'error');
+    } catch (error) {
+      notify(catchError(error as BaseResponseType)?.message ?? APP_ERROR.SERVER_MAINTAIN, 'error');
+    }
+  }
   useEffect(() => {
     setTaskData(task);
   }, [task]);
@@ -55,6 +77,9 @@ const TaskListItem: React.FC<TaskListItemProps> = ({ task, index, project, statu
   useEffect(() => {
     setTaskTitle(taskData.title);
   }, [taskData.title]);
+  useEffect(() => {
+    setAssigneeData(taskData.assign);
+  }, taskData.assign);
   return <>
     <tr>
       <td style={{minWidth: 350, cursor: 'pointer'}} onClick={() => setOpenEdit (true)}>
@@ -70,19 +95,39 @@ const TaskListItem: React.FC<TaskListItemProps> = ({ task, index, project, statu
       </td>
       <td style={{minWidth: 150}}>
         <div className="card-header p-unset border-unset">
-          <h6 
-            className="card-title status-label" 
-            style={{ background: taskStatus.color, fontSize: 12, padding: 5, cursor: 'pointer' }}
-            onClick={() => setOpenUpdateStatus (true)}
-          >
-            <FontAwesomeIcon icon={faCircle} style={{ fontSize: 7, color: '#3333' }} className="mr-2" /> 
-            {taskStatus.name}
-          </h6>
+          <Dropdown menu={{ items: statusList?.items.map(s => {
+            return {
+              key: s.id,
+              label: (
+                <Tag color={s.color} className="p-5 pointer" onClick={() => updateStatusTask (s)}>
+                  <FontAwesomeIcon icon={faCircle} style={{fontSize: 13}} /> {s.name}
+                </Tag>
+              )
+            }
+          }) }} placement="bottomLeft" trigger={["click"]}>
+            <Tag color={taskStatus.color} className="p-5 pointer">
+              <FontAwesomeIcon icon={faCircle} style={{fontSize: 13}} /> {taskStatus.name}
+            </Tag>
+          </Dropdown>
         </div>
       </td>
       <td style={{minWidth: 150}}>
-        <img src={taskData.user.avatar ?? IMAGE_DEFAULT.NO_USER} className="img-circle mr-2" width={25} height={25} onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} />
-        <span className="text-muted created-by">{taskData.user.first_name} {taskData.user.last_name}</span>
+        {/* <img src={taskData.user.avatar ?? IMAGE_DEFAULT.NO_USER} className="img-circle mr-2" width={25} height={25} onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} />
+        <span className="text-muted created-by">{taskData.user.first_name} {taskData.user.last_name}</span> */}
+        {/* <Avatar.Group
+          max={{
+            count: 2,
+            style: { color: '#f56a00', backgroundColor: '#fde3cf' },
+          }}
+        >
+          <Avatar src="https://api.dicebear.com/7.x/miniavs/svg?seed=2" />
+          <Avatar style={{ backgroundColor: '#f56a00' }}>K</Avatar>
+          <Tooltip title="Ant User" placement="top">
+            <Avatar style={{ backgroundColor: '#87d068' }} icon={<FontAwesomeIcon icon={faUser} />} />
+          </Tooltip>
+          <Avatar style={{ backgroundColor: '#1677ff' }} icon={<FontAwesomeIcon icon={faUser} />} />
+        </Avatar.Group> */}
+        <UserGroup users={assigneeData} />
       </td>
       <td style={{minWidth: 150}} className="text-secondary">{t('tasks.due_label')}: {dateToString(new Date(taskData.due))}</td>
       <td>
@@ -90,16 +135,6 @@ const TaskListItem: React.FC<TaskListItemProps> = ({ task, index, project, statu
       </td>
     </tr>
     <CreateTaskView open={openEdit} setOpen={setOpenEdit} project={project} task={taskData} setTaskResponse={setTaskData} />
-    <SelectStatusModal 
-      taskStatus={taskStatus}
-      openModal={openUpdateStatus} 
-      setOpenModal={setOpenUpdateStatus} 
-      setTaskStatus={setTaskStatus}
-      setSearchStatus={setSearchStatus}
-      statusList={statusList}
-      taskId={task.id}
-      projectId={project.id}
-    />
   </>
 }
 export default TaskListItem;

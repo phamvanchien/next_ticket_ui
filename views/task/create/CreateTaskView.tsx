@@ -80,6 +80,7 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
         setLoading(false);
         if (response && response.code === API_CODE.OK) {
           setTaskResponse(response.data);
+          setTitle(t('tasks.task_title_default'));
           setOpen(false);
         }
         return;
@@ -130,16 +131,14 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
-  useEffect(() => {
-    console.log("open: ", open)
-  }, [open])
+
   return <>
     <div id="wrapper" ref={taskDivRef}>
       <div id="sidebar-wrapper-next-tech" className={open ? 'open-sidebar' : 'close-sidebar-next-tech'} style={
         {marginRight: open ? -250 : -275}
       }>
         <div className="row mb-4">
-          <div className="col-6">
+          <div className="col-6 pt-2">
             <Link className="text-secondary" href={'#'} onClick={handleClose}>
               <FontAwesomeIcon icon={faTimes} style={{ fontSize: 22 }} />
             </Link>
@@ -149,7 +148,7 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
               task &&
               <Link 
                 href={APP_LINK.WORKSPACE + '/' + workspace?.id + '/project/' + project.id + '/task/' + task.id} 
-                className="float-right" style={{ marginTop: 3 }}
+                className="float-right mt-2" style={{ marginTop: 3 }}
               >
                 {t('tasks.btn_view_task')} <FontAwesomeIcon icon={faExternalLink} />
               </Link>
@@ -168,7 +167,7 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
           </div>
         }
 
-        <div className="row">
+        <div className="row mb-2">
           <div className="col-12">
             <InputForm
               className="task-title-create"

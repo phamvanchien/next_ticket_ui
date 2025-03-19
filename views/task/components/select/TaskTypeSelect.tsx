@@ -40,9 +40,6 @@ const TaskTypeSelect: React.FC<TaskTypeSelectProps> = ({ type, setType, classNam
           <Card className="p-unset float-left pointer">
             {getTypeIcon(type.id, `text-${getTypeClass(type.id)}`)} {type.title}
           </Card>
-          // <span className="badge badge-light task-info-selectbox lh-20 mb-1 mr-2">
-          //   {getTypeIcon(type.id, `text-${getTypeClass(type.id)}`)} {type.title}
-          // </span>
         }
         {
           openTypeList &&

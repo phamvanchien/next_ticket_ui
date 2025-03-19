@@ -378,6 +378,10 @@ body:not(.layout-fixed) .main-sidebar {
     .main-sidebar {
         margin-top: 60px !important;
     }
+
+    #sidebar-wrapper-next-tech {
+        margin-top: 10px;
+    }
 }
 
 @media only screen and (max-width: 1024px) {

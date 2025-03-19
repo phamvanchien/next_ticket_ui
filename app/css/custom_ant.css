@@ -10,6 +10,6 @@
     padding: unset !important;
 }
 
-.ant-picker-input input, .ant-picker-input span {
+.ant-picker-input input, .ant-picker-input span, .ant-tag {
     font-size: 1rem !important;
 }

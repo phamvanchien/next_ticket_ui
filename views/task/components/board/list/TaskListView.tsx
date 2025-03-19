@@ -30,6 +30,7 @@ interface TaskListViewProps {
   dueSort?: "DESC" | "ASC"
   dueDateFilter?: Date[]
   createdDateFilter?: Date[]
+  setTotalTask: (totalTask: number) => void
 }
 
 const TaskListView: React.FC<TaskListViewProps> = ({ 
@@ -44,7 +45,8 @@ const TaskListView: React.FC<TaskListViewProps> = ({
   prioritySort,
   dueSort,
   dueDateFilter,
-  createdDateFilter
+  createdDateFilter,
+  setTotalTask
 }) => {
   const defaultPagesize = 10;
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
@@ -88,6 +90,9 @@ const TaskListView: React.FC<TaskListViewProps> = ({
       setLoading(false);
       if (response && response.code === API_CODE.OK) {
         setTasksData(response.data);
+        if (!tasksData) {
+          setTotalTask(response.data.total);
+        }
         return;
       }
       setError(catchError(response));
@@ -153,7 +158,8 @@ const TaskListView: React.FC<TaskListViewProps> = ({
                 <tr>
                   <td colSpan={5} className="text-left">
                     <a href="#" className="text-secondary" onClick={!loadingViewMore ? handleViewMore : undefined}>
-                      {loadingViewMore ? <>Loading <Loading color="primary" /></> : <>{t('btn_view_more')} <FontAwesomeIcon icon={faAngleDoubleDown} /></>}
+                      
+                      {t('btn_view_more')} {loadingViewMore ? <Loading color="secondary" /> : <FontAwesomeIcon icon={faAngleDoubleDown} />}
                     </a>
                   </td>
                 </tr>

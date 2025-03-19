@@ -15,6 +15,7 @@ import { usePathname, useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import LanguageSwitcher from "../components/LanguageSwitcher";
+import { Avatar } from "antd";
 
 interface SidebarProps {
   workspace?: WorkspaceType
@@ -123,14 +124,9 @@ const Sidebar: React.FC<SidebarProps> = ({ workspace }) => {
   return (
     <aside className="main-sidebar sidebar-dark-primary elevation-4" ref={boxRef}>
       <Link href={APP_LINK.WORKSPACE + '/' + workspace?.id} className="brand-link p-unset ml-4 mt-2 text-dark" title={workspace?.name}>
-        <img 
-          src={userLogged?.avatar} 
-          alt="AdminLTE Logo" 
-          width={35} 
-          height={35} 
-          className="img-circle mr-2" 
-          onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} 
-        /> 
+        <Avatar size={'large'} className="mr-2" style={{ backgroundColor: '#1677ff', color: '#fff', fontSize: 20 }}>
+          <b>{workspace?.name.split('')[0]}</b>
+        </Avatar>
         {workspace && (workspace?.name.length > 12 ? workspace?.name.substring(0, 12) + '...' : workspace?.name)}
       </Link>
       <div className="sidebar">

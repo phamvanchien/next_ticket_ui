@@ -2,7 +2,7 @@ import Button from "@/common/components/Button";
 import { APP_LINK, IMAGE_DEFAULT } from "@/enums/app.enum";
 import { ProjectType } from "@/types/project.type";
 import { WorkspaceUserType } from "@/types/workspace.type";
-import { faBullseye, faCircle, faCircleCheck, faUser } from "@fortawesome/free-solid-svg-icons";
+import { faBullseye, faCircle, faCircleCheck, faGlobe, faGlobeAsia, faLock, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
@@ -11,6 +11,9 @@ import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
 import { formatTime } from "@/utils/helper.util";
 import { useTranslations } from "next-intl";
+import UserGroup from "@/common/components/UserGroup";
+import { ResponseUserDataType } from "@/types/user.type";
+import { Avatar } from "antd";
 
 interface ProjectItemProps {
   project: ProjectType
@@ -21,9 +24,9 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project }) => {
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
   const [modalAddMember, setModalAddmember] = useState<boolean>(false);
   const [projectMembers, setProjectMembers] = useState<WorkspaceUserType[]>();
-  useEffect(() => {
-    setProjectMembers(project.members.splice(0, 3));
-  }, [project])
+  // useEffect(() => {
+  //   setProjectMembers(project.members.splice(0, 3));
+  // }, [project])
   return (
     <div className="col-12 col-lg-3">
       <div className={`card ${formatTime(new Date(project.created_at)).indexOf('Now') !== -1 ? 'just-create' : ''}`}>
@@ -36,46 +39,24 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project }) => {
           <p className="text-muted" style={{ fontSize: 13 }}>
             <FontAwesomeIcon icon={faUser} /> {t('projects.created_by_text')} {project.user.first_name} {project.user.last_name}
           </p>
-          <ul className="list-inline mt-2">
+          <UserGroup className="mr-1" users={project.members as ResponseUserDataType[]} />
+          <Avatar.Group>
+            <Avatar src={<img src={'/img/icon/user-plus.png'} width={50} height={50} alt="avatar" />} />
+          </Avatar.Group>
+          <p className="m-b-unset mt-2">
             {
-              projectMembers && projectMembers.map(member => (
-                <li className="list-inline-item" key={member.id} title={member.email}>
-                  <img 
-                    className="img-circle table-avatar" 
-                    width={30} height={30} 
-                    src={member.avatar ?? IMAGE_DEFAULT.NO_USER} 
-                    onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} 
-                  />
-                </li>
-              ))
+              project.is_public &&
+              <span className="text-success">
+                <FontAwesomeIcon icon={faGlobeAsia} /> {t('public_check')}
+              </span>
             }
             {
-              project.members.length > 3 &&
-              <li className="list-inline-item">
-                <Button color="secondary" rounded>+{project.members.length - 3}</Button>
-              </li>
+              !project.is_public &&
+              <span className="text-primary">
+                <FontAwesomeIcon icon={faLock} /> {t('private_check')}
+              </span>
             }
-            <li className="list-inline-item">
-              <img 
-                className="img-circle table-avatar pointer" 
-                width={30} height={30} src={'/img/icon/user-plus.png'} 
-                onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} 
-                onClick={() => setModalAddmember (true)}
-              />
-            </li>
-          </ul>
-          {
-            project.is_public &&
-            <span className="text-success">
-              <FontAwesomeIcon icon={faCircleCheck} /> {t('public_check')}
-            </span>
-          }
-          {
-            !project.is_public &&
-            <span className="text-primary">
-              <FontAwesomeIcon icon={faCircle} /> {t('private_check')}
-            </span>
-          }
+          </p>
         </div>
       </div>
       {

@@ -120,14 +120,10 @@ const TaskAssignSelect: React.FC<TaskAssignSelectProps> = ({ assignee, project, 
         }
         {
           assignee.map((member, index) => (
-            <Card key={index} className="float-left p-unset pointer mr-1">
+            <Card key={index} className="float-left p-unset pointer mr-1 mt-1">
               <img className="img-circle" onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} src={member.avatar ?? IMAGE_DEFAULT.NO_USER} width={25} height={25} /> Chien 
               <FontAwesomeIcon icon={faTimes} className="mt-2 ml-4 text-secondary pointer" onClick={() => handleRemoveAssignee (member)} />
             </Card>
-            // <span className="badge badge-light task-info-selectbox mr-2 mb-1" key={index}>
-            //   <img className="img-circle" onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} src={member.avatar ?? IMAGE_DEFAULT.NO_USER} width={25} height={25} /> Chien 
-            //   <FontAwesomeIcon icon={faTimes} className="mt-2 ml-4 text-secondary pointer" onClick={() => handleRemoveAssignee (member)} />
-            // </span>
           ))
         }
         {

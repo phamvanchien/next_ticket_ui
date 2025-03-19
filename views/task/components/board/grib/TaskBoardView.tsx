@@ -21,10 +21,9 @@ interface TaskBoardViewProps {
   taskData?: TaskType
   project: ProjectType
   keyword: string
-  totalTask?: number,
   setOpenCreate: (openCreate: boolean) => void
   setInputStatusCreate: (inputStatusCreate?: ProjectTagType) => void,
-  setTotalTask: (totalTask: number) => void,
+  setTotalTask: React.Dispatch<React.SetStateAction<number>>
   assignee: ResponseUserDataType[]
   creator: ResponseUserDataType[]
   priority: TaskPriorityType[]
@@ -45,7 +44,6 @@ const TaskBoardView: React.FC<TaskBoardViewProps> = ({
   priority,
   tags,
   type,
-  totalTask,
   prioritySort,
   dueSort,
   dueDateFilter,
@@ -160,12 +158,14 @@ const TaskBoardView: React.FC<TaskBoardViewProps> = ({
     
           return updatedTasks;
         });
+        setTotalTask((prev: number) => prev + 1);
         return;
       }
       setTasks([...tasks, {
         ...taskData.status,
         tasks: [taskData]
       }]);
+      setTotalTask((prev: number) => prev + 1);
     }
   }, [taskData, taskData?.id]);
 

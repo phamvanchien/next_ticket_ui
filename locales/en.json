@@ -187,7 +187,11 @@
         "placeholder_comment": "Enter your comment",
         "deleted_comment_message": "This comment is deleted",
         "attribute_label": "Attributes",
-        "placeholder_due_date": "Due date"
+        "placeholder_due_date": "Due date",
+        "filter_label": "Filter",
+        "sort_label": "Sort",
+        "expire_label": "Expired",
+        "unassigned_label": "Unassigned"
     },
     "project_setting": {
         "message_update": "Project is updated",

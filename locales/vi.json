@@ -187,7 +187,11 @@
         "placeholder_comment": "Nhập bình luận của bạn ở đây",
         "deleted_comment_message": "Bình luận này đã bị xóa",
         "attribute_label": "Thuộc tính",
-        "placeholder_due_date": "Ngày hết hạn"
+        "placeholder_due_date": "Ngày hết hạn",
+        "filter_label": "Lọc",
+        "sort_label": "Sắp xếp",
+        "expire_label": "Quá hạn",
+        "unassigned_label": "Chưa phân công"
     },
     "project_setting": {
         "message_update": "Đã cập nhật dự án",

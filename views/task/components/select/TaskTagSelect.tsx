@@ -110,7 +110,7 @@ const TaskTagSelect: React.FC<TaskTagSelectProps> = ({ tags, className, projectI
         }
         {
           tags.map((tag, index) => (
-            <Card key={index} className="float-left p-unset pointer mr-1">
+            <Card key={index} className="float-left p-unset pointer mr-1 mt-1">
               <FontAwesomeIcon icon={faTag} style={{ color: tag.color }} /> {tag.name}
               <FontAwesomeIcon icon={faTimes} className="mt-2 ml-4 text-secondary pointer" onClick={() => handleRemoveTag (tag)} />
             </Card>

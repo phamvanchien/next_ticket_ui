@@ -1,6 +1,6 @@
 import { TaskTypeItem } from "@/types/task.type";
 import { taskType } from "@/utils/helper.util";
-import { faPlus, faTimes, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useRef, useState } from "react";
 import { getTypeClass, getTypeIcon } from "../../components/board/grib/TaskItem";

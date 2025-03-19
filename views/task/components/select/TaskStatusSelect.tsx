@@ -95,9 +95,6 @@ const TaskStatusSelect: React.FC<TaskStatusSelectProps> = ({ status, className, 
           <Card className="p-unset float-left pointer">
             <FontAwesomeIcon icon={faCircle} style={{ color: status.color }} /> {status.name}
           </Card>
-          // <span className="badge task-info-selectbox badge-light mb-1 mr-2">
-          //   <FontAwesomeIcon icon={faCircle} style={{ color: status.color }} /> {status.name}
-          // </span>
         }
         {
           openStatusList &&

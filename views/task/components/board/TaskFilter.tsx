@@ -11,6 +11,7 @@ import DateInput from "@/common/components/DateInput";
 import TaskAssignSelect from "../select/TaskAssignSelect";
 import TaskTagSelect from "../select/TaskTagSelect";
 import { useTranslations } from "next-intl";
+import DatePickerRange from "@/common/components/DatePickerRange";
 
 interface TaskFilterProps {
   open: boolean
@@ -145,38 +146,20 @@ const TaskFilter: React.FC<TaskFilterProps> = ({
         <TaskPriorityFilter priority={priority} setPriority={setPriority} />
         <TaskTypeFilter type={type} setType={setType} />
         <div className="row mt-4 text-muted">
-          <div className="col-12 mb-2">
-            <FontAwesomeIcon icon={faCalendar} /> {t('tasks.due_label')}:
+          <div className="col-4">
+            {t('tasks.due_label')}:
           </div>
-          <div className="col-3">
-            <DateInput selected={dueDateFilterTo} setSelected={setDueDateFilterTo} id="dueDateTo" className="float-left" placeholder={t('tasks.from_date_label')} />
+          <div className="col-8">
+            <DatePickerRange dateFrom={dueDateFilterFrom} dateTo={dueDateFilterTo} setDateFrom={setDueDateFilterFrom} setDateTo={setDueDateFilterTo} />
           </div>
-          <div className="col-3">
-            <DateInput selected={dueDateFilterFrom} setSelected={setDueDateFilterFrom} id="dueDateFrom" className="float-left" placeholder={t('tasks.to_date_label')} />
-          </div>
-          {
-            (dueDateFilterFrom && dueDateFilterTo) &&
-            <div className="col-3">
-              <FontAwesomeIcon icon={faTimes} onClick={handleClearDueDate} />
-            </div>
-          }
         </div>
         <div className="row mt-4 text-muted">
-          <div className="col-12 mb-2">
-            <FontAwesomeIcon icon={faCalendar} /> {t('tasks.created_at_label')}:
+          <div className="col-4">
+          {t('tasks.created_at_label')}:
           </div>
-          <div className="col-3">
-            <DateInput selected={createdDateFilterTo} setSelected={setCreatedDateFilterTo} id="dueDateTo" className="float-left" placeholder={t('tasks.from_date_label')} />
+          <div className="col-8">
+            <DatePickerRange dateFrom={createdDateFilterFrom} dateTo={createdDateFilterTo} setDateFrom={setCreatedDateFilterFrom} setDateTo={setCreatedDateFilterTo} />
           </div>
-          <div className="col-3">
-            <DateInput selected={createdDateFilterFrom} setSelected={setCreatedDateFilterFrom} id="dueDateFrom" className="float-left" placeholder={t('tasks.to_date_label')} />
-          </div>
-          {
-            (createdDateFilterFrom && createdDateFilterTo) &&
-            <div className="col-3">
-              <FontAwesomeIcon icon={faTimes} onClick={handleClearCreatedDate} />
-            </div>
-          }
         </div>
       </div>
     </div>

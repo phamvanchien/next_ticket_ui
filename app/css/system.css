@@ -118,3 +118,16 @@
 .pointer {
     cursor: pointer;
 }
+
+.m-b-unset {
+    margin-bottom: unset !important;
+}
+
+.m-t-unset {
+    margin-top: unset !important;
+}
+
+.next-btn {
+    height: 35px !important;
+    line-height: 15px !important;
+}

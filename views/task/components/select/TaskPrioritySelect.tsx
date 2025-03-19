@@ -40,9 +40,6 @@ const TaskPrioritySelect: React.FC<TaskPrioritySelectProps> = ({ priority, class
           <Card className="p-unset float-left pointer">
             {getIconPriority(priority.id)} {priority.title}
           </Card>
-          // <span className="badge task-info-selectbox badge-light mb-1 mr-2 pointer">
-          //   {getIconPriority(priority.id)} {priority.title}
-          // </span>
         }
         {
           openPriorityList &&

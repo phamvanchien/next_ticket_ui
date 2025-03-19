@@ -423,3 +423,22 @@ export const taskType = (typeId?: number) => {
 
   return types;
 }
+
+export const getDaysDifference = (dateFrom: Date, dateTo: Date = new Date()): number => {
+  dateFrom.setHours(0, 0, 0, 0);
+  dateTo.setHours(0, 0, 0, 0);
+
+  console.log(dateFrom, dateTo);
+  if (dateTo > dateFrom) {
+    return -1;
+  }
+
+  if (dateFrom === dateTo) {
+    return 0;
+  }
+
+  return 1;
+
+  // const timeDiff = dateTo.getTime() - dateFrom.getTime();
+  // return Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+};

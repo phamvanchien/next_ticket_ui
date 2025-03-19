@@ -19,7 +19,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     return (
       <button
         ref={ref}
-        className={`btn ${fullWidth ? "btn-block" : ""}  btn-${outline ? "outline-" : ""}${color} ${
+        className={`next-btn btn ${fullWidth ? "btn-block" : ""}  btn-${outline ? "outline-" : ""}${color} ${
           size ? "btn-" + size : ""
         } ${rounded ? "rounded-pill" : ""} ${className ? className : ""}`}
         {...rest}

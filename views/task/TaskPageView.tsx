@@ -6,7 +6,7 @@ import Button from "@/common/components/Button";
 import CreateTaskView from "./create/CreateTaskView";
 import { ProjectTagType, ProjectType } from "@/types/project.type";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheckSquare, faChevronLeft, faCopy, faEllipsis, faEllipsisV, faFilter, faFilterCircleXmark, faGear, faList, faPieChart, faPlus, faSearch, faSearchMinus, faSearchPlus, faSort, faSortAmountAsc, faSortAmountDesc, faTable, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faCheckSquare, faChevronLeft, faCopy, faEllipsis, faEllipsisV, faFilter, faFilterCircleXmark, faGear, faList, faPieChart, faPlus, faSearch, faSearchMinus, faSearchPlus, faSort, faSortAmountAsc, faSortAmountDesc, faTable, faTimesCircle } from "@fortawesome/free-solid-svg-icons";
 import TaskBoardView from "./components/board/grib/TaskBoardView";
 import { APP_LOCALSTORAGE } from "@/enums/app.enum";
 import Input from "@/common/components/Input";
@@ -21,12 +21,13 @@ import ProjectReportView from "../project/report/ProjectReportView";
 import CloneProjectModal from "../project/components/CloneProjectModal";
 import { useTranslations } from "next-intl";
 import { Button as ButtonAnt, Dropdown, MenuProps, Space } from 'antd';
+import UserGroup from "@/common/components/UserGroup";
 
 interface TaskPageViewProps {
   project: ProjectType
 }
 
-export const maxTaskShowFilter = 10;
+export const maxTaskShowFilter = 0;
 
 const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
   const [typeShow, setTypeShow] = useState(1);
@@ -114,33 +115,37 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
   const items: MenuProps['items'] = [
     {
       key: 'priority_sort_asc',
+      disabled: (prioritySort && prioritySort === 'ASC'),
       label: (
         <div className="text-secondary" onClick={() => handleSelectFilter ('priority', "ASC")}>
-          <FontAwesomeIcon icon={faSortAmountAsc} /> {t('tasks.priority_sort')}
+          <FontAwesomeIcon icon={faSortAmountAsc} /> {t('tasks.priority_sort')} {(prioritySort && prioritySort === 'ASC') && <FontAwesomeIcon icon={faCheck} />}
         </div>
       ),
     },
     {
       key: 'priority_sort_desc',
+      disabled: (prioritySort && prioritySort === 'DESC'),
       label: (
         <div className="text-secondary" onClick={() => handleSelectFilter ('priority', "DESC")}>
-          <FontAwesomeIcon icon={faSortAmountDesc} /> {t('tasks.priority_sort')}
+          <FontAwesomeIcon icon={faSortAmountDesc} /> {t('tasks.priority_sort')} {(prioritySort && prioritySort === 'DESC') && <FontAwesomeIcon icon={faCheck} />}
         </div>
       ),
     },
     {
       key: 'due_sort_asc',
+      disabled: (dueSort && dueSort === 'ASC'),
       label: (
         <div className="text-secondary" onClick={() => handleSelectFilter ('due', "ASC")}>
-          <FontAwesomeIcon icon={faSortAmountAsc} /> {t('tasks.due_sort')}
+          <FontAwesomeIcon icon={faSortAmountAsc} /> {t('tasks.due_sort')} {(dueSort && dueSort === 'ASC') && <FontAwesomeIcon icon={faCheck} />}
         </div>
       ),
     },
     {
       key: 'due_sort_desc',
+      disabled: (dueSort && dueSort === 'DESC'),
       label: (
         <div className="text-secondary" onClick={() => handleSelectFilter ('due', "DESC")}>
-          <FontAwesomeIcon icon={faSortAmountDesc} /> {t('tasks.due_sort')}
+          <FontAwesomeIcon icon={faSortAmountDesc} /> {t('tasks.due_sort')} {(dueSort && dueSort === 'DESC') && <FontAwesomeIcon icon={faCheck} />}
         </div>
       ),
     },
@@ -214,7 +219,11 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
         <div className="col-6">
           <h3>
             {typeShow === 3 && <><FontAwesomeIcon icon={faGear} className="text-secondary" /> {t('tasks.page_title_project_setting')}</>}
-            {[1, 2].includes(typeShow) && <><FontAwesomeIcon icon={faCheckSquare} className="text-success" /> {t('tasks.page_title_task')}</>}
+            {
+              [1, 2].includes(typeShow) && <>
+                <FontAwesomeIcon icon={faCheckSquare} className="text-success" /> {t('tasks.page_title_task')}
+              </>
+            }
             {typeShow === 4 && <><FontAwesomeIcon icon={faPieChart} className="text-secondary" /> {t('tasks.page_title_project_report')}</>}
           </h3>
         </div>
@@ -224,12 +233,12 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
               <FontAwesomeIcon icon={faEllipsisV} />
             </Button>
           </Dropdown>
-          {
+          {/* {
             [1, 2, 3].includes(typeShow) &&
             <Button color="default" className="float-right ml-2" style={{ background: '#fff' }} onClick={() => handleSetTypeShow (4)}>
               <FontAwesomeIcon icon={faPieChart} />
             </Button>
-          }
+          } */}
           {
             [3, 4].includes(typeShow) &&
             <Button color="default" className="float-right ml-2" style={{ background: '#fff' }} onClick={() => handleSetTypeShow (1)}>
@@ -264,19 +273,29 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
           </div>
           <div className="col-12 col-lg-6 filter-bar filter-bar-right">
             {
-              (totalTask > maxTaskShowFilter && typeShow !== 3 && typeShow !== 4) &&
-                <Button color={'default'} outline className={`create-btn btn-filter-tasks btn-no-border mr-2`} onClick={() => setOpenFilter (true)}>
-                  <FontAwesomeIcon className={`text-${isFilter ? 'primary' : 'secondary'}`} icon={openFilter ? faFilterCircleXmark : faFilter} /> 
-                  <span className={`ml-1 text-${isFilter ? 'primary' : 'secondary'}`}>Filter</span>
-                </Button>
+              (totalTask > maxTaskShowFilter) &&
+                <>
+                  <Button color={'default'} outline className={`create-btn btn-filter-tasks btn-no-border mr-2`} onClick={() => setOpenFilter (true)}>
+                    <FontAwesomeIcon className={`text-${isFilter ? 'primary' : 'secondary'}`} icon={openFilter ? faFilterCircleXmark : faFilter} /> 
+                    <span className={`ml-1 text-${isFilter ? 'primary' : 'secondary'}`}>{t('tasks.filter_label')}</span>
+                  </Button>
+                  <Dropdown menu={{ items }} placement="bottomLeft" className="dropdown-sort" trigger={["click"]}>
+                  <Button color="default" className="btn-filter-tasks btn-no-border" style={{ background: '#fff', border: 'none' }}>
+                    {((prioritySort && prioritySort === 'DESC') || (dueSort && dueSort === 'DESC')) && <FontAwesomeIcon className="text-primary" icon={faSortAmountDesc} /> }
+                    {((prioritySort && prioritySort === 'ASC') || (dueSort && dueSort === 'ASC')) && <FontAwesomeIcon className="text-primary" icon={faSortAmountAsc} /> }
+                    {(!prioritySort && !dueSort) && <FontAwesomeIcon className="text-secondary" icon={faSort} />}
+                    <span className={`text-${(prioritySort || dueSort) ? 'primary' : 'secondary'} ml-1`}>
+                      {prioritySort && t('tasks.priority_sort')}
+                      {dueSort && t('tasks.due_sort')}
+                      {(!prioritySort && !dueSort) && t('tasks.sort_label')}
+                      {(prioritySort || dueSort) && <FontAwesomeIcon icon={faTimesCircle} className="ml-1" onClick={handleCancelSort} />}
+                    </span>
+                  </Button>
+                </Dropdown>
+                <Input type="search" placeholder={t('tasks.placeholder_input_search')} onChange={handleChangeKeyword} className="input-search-tasks" />
+                <UserGroup plusIcon className="ml-4 float-right mt-1 mr-2" users={project.members as ResponseUserDataType[]} />
+                </>
             }
-            <Dropdown menu={{ items }} placement="bottomLeft" className="dropdown-sort" trigger={["click"]}>
-              <Button color="default" className="btn-filter-tasks btn-no-border" style={{ background: '#fff', border: 'none' }}>
-                <FontAwesomeIcon className="text-secondary" icon={faSort} /> 
-                <span className="text-secondary ml-1">Sort</span>
-              </Button>
-            </Dropdown>
-            <Input type="search" placeholder={t('tasks.placeholder_input_search')} onChange={handleChangeKeyword} className="input-search-tasks" />
           </div>
         </div>
       }
@@ -288,7 +307,6 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
           setOpenCreate={setOpenCreate}
           setInputStatusCreate={setInputStatusCreate}
           setTotalTask={setTotalTask}
-          totalTask={totalTask}
           keyword={debounceKeyword}
           assignee={assignee}
           creator={creator}
@@ -315,6 +333,7 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
           dueSort={dueSort}
           dueDateFilter={dueDateFilter}
           createdDateFilter={createdDateFilter}
+          setTotalTask={setTotalTask}
         />
       }
       {

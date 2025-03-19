@@ -198,10 +198,10 @@ const SubTask: React.FC<SubTaskProps> = ({ task }) => {
             />
           </div>
           <div className="col-12">
-            <Button color="secondary" className="btn-no-border" outline disabled={loadingCreate} onClick={() => setOpenCreate (false)}>
+            <Button color="default" className="btn-no-border" outline disabled={loadingCreate} onClick={() => setOpenCreate (false)}>
               {t('btn_cancel')}
             </Button>
-            <Button color="primary" className="ml-2" disabled={loadingCreate} onClick={handleCreateSubtask}>
+            <Button color={loadingCreate ? 'secondary' : 'primary'} className="ml-2" disabled={loadingCreate} onClick={handleCreateSubtask}>
               {loadingCreate ? <Loading color="light" /> : t('btn_save')}
             </Button>
           </div>
