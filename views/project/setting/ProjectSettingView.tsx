@@ -13,7 +13,6 @@ import { notify } from "@/utils/helper.util";
 import { catchError } from "@/services/base.service";
 import ErrorAlert from "@/common/components/ErrorAlert";
 import { useTranslations } from "next-intl";
-import ProjectSettingAttribute from "./components/ProjectSettingAttribute";
 
 interface ProjectSettingViewProps {
   project: ProjectType
