@@ -73,7 +73,7 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
           type="button"
           onClick={() => setOpenMenuMobile (openMenuMobile ? false : true)}
         >
-          {openMenuMobile ? <FontAwesomeIcon icon={faTimes} size="xl" /> : <FontAwesomeIcon icon={faNavicon} size="xl" />}
+          {openMenuMobile ? <FontAwesomeIcon icon={faTimes} /> : <FontAwesomeIcon icon={faNavicon} />}
         </Button>
         <div className={`collapse navbar-collapse order-3 ${openMenuMobile ? 'show' : ''}`} id="navbarCollapse">
           <ul className="navbar-nav">

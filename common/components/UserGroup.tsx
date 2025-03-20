@@ -20,10 +20,10 @@ const UserGroup: React.FC<UserGroupProps> = ({ users, className, plusIcon }) => 
     >
       {
         users.map(user => (
-          <Avatar src={user.avatar ?? IMAGE_DEFAULT.NO_USER} />
+          <Avatar key={user.id} src={user.avatar ?? IMAGE_DEFAULT.NO_USER} />
         ))
       }
-      {plusIcon && <Avatar src={<img src={'/img/icon/user-plus.png'} width={50} height={50} alt="avatar" />} />}
+      {/* {plusIcon && <Avatar src={<img src={'/img/icon/user-plus.png'} width={50} height={50} alt="avatar" />} />} */}
     </Avatar.Group>
   )
 }

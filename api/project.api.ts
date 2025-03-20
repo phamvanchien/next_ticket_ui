@@ -215,13 +215,11 @@ export const cloneProject = async (workspaceId: number, projectId: number, paylo
   });
 }
 
-export const addAttribute = async (workspaceId: number, projectId: number, payload: RequestAddAttributeType[]): Promise<BaseResponseType<ProjectAttributeType[]>> => {
+export const addAttribute = async (workspaceId: number, projectId: number, payload: RequestAddAttributeType): Promise<BaseResponseType<ProjectAttributeType>> => {
   return request({
     method: API_METHOD_ENUM.POST,
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/add-attribute',
-    data: {
-      attributes: payload
-    }
+    data: payload
   });
 }
 

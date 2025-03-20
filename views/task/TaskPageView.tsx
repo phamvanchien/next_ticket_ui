@@ -20,7 +20,7 @@ import { RootState } from "@/reduxs/store.redux";
 import ProjectReportView from "../project/report/ProjectReportView";
 import CloneProjectModal from "../project/components/CloneProjectModal";
 import { useTranslations } from "next-intl";
-import { Button as ButtonAnt, Dropdown, MenuProps, Space } from 'antd';
+import { Avatar, Button as ButtonAnt, Dropdown, MenuProps, Space } from 'antd';
 import UserGroup from "@/common/components/UserGroup";
 
 interface TaskPageViewProps {
@@ -293,7 +293,8 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
                   </Button>
                 </Dropdown>
                 <Input type="search" placeholder={t('tasks.placeholder_input_search')} onChange={handleChangeKeyword} className="input-search-tasks" />
-                <UserGroup plusIcon className="ml-4 float-right mt-1 mr-2" users={project.members as ResponseUserDataType[]} />
+                <UserGroup plusIcon className="ml-1 float-right mt-1 mr-2" users={project.members as ResponseUserDataType[]} />
+                <Avatar size={'large'} className="float-right pointer" src={<img src={'/img/icon/user-plus.png'} width={50} height={50} alt="avatar" />} />
                 </>
             }
           </div>

@@ -428,7 +428,6 @@ export const getDaysDifference = (dateFrom: Date, dateTo: Date = new Date()): nu
   dateFrom.setHours(0, 0, 0, 0);
   dateTo.setHours(0, 0, 0, 0);
 
-  console.log(dateFrom, dateTo);
   if (dateTo > dateFrom) {
     return -1;
   }

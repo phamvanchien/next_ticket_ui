@@ -10,7 +10,6 @@ import { ResponseUserDataType } from "@/types/user.type";
 import InputForm from "@/common/components/InputForm";
 import { AppErrorType, BaseResponseType } from "@/types/base.type";
 import { APP_LINK, APP_VALIDATE_TYPE } from "@/enums/app.enum";
-import DateInput from "@/common/components/DateInput";
 import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
 import { create, update } from "@/api/task.api";
@@ -26,6 +25,7 @@ import TaskTypeSelect from "../components/select/TaskTypeSelect";
 import ErrorAlert from "@/common/components/ErrorAlert";
 import { useTranslations } from "next-intl";
 import DatePickerCustom from "@/common/components/DatePickerCustom";
+import TaskAttributeSelect from "../components/select/attribute/TaskAttributeSelect";
 
 interface CreateTaskViewProps {
   open: boolean
@@ -53,9 +53,12 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<AppErrorType | null>(null);
   const [taskAttributes, setTaskAttributes] = useState<TaskAttributeType[]>(task ? task.attributes : []);
+  const [taskAttributeResponse, setTaskAttributeResponse] = useState<TaskAttributeType[]>();
   const taskDivRef = useRef<HTMLDivElement>(null);
   const handleCreateTask = async () => {
     try {
+      console.log("taskAttributes: ", taskAttributes)
+      // return;
       if (!workspace || !title || title === '' || !dueDate || !status || !type || !priority || !type) {
         return;
       }
@@ -81,6 +84,7 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
         if (response && response.code === API_CODE.OK) {
           setTaskResponse(response.data);
           setTitle(t('tasks.task_title_default'));
+          setTaskAttributeResponse(response.data.attributes);
           setOpen(false);
         }
         return;
@@ -227,11 +231,13 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
           setType={setType}
           className="mt-2"
         />
-        {/* <TaskAttributeSelect 
+        <TaskAttributeSelect
+          project={project} 
           attributes={project.attributes}
           taskAttributes={taskAttributes}
+          taskAttributeResponse={taskAttributeResponse}
           setTaskAttributes={setTaskAttributes}
-        /> */}
+        />
         <div className="row" style={{marginBottom: 30}}>
           <div className="col-12 mt-4">
             <EditorArea value={description} setValue={setDescription} placeholder={t('tasks.placeholder_task_description')} />

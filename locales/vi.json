@@ -191,7 +191,9 @@
         "filter_label": "Lọc",
         "sort_label": "Sắp xếp",
         "expire_label": "Quá hạn",
-        "unassigned_label": "Chưa phân công"
+        "unassigned_label": "Chưa phân công",
+        "add_property_label": "Thêm thuộc tính",
+        "create_property_label": "Tạo thuộc tính"
     },
     "project_setting": {
         "message_update": "Đã cập nhật dự án",

@@ -191,7 +191,9 @@
         "filter_label": "フィルター",
         "sort_label": "整える",
         "expire_label": "期限切れ",
-        "unassigned_label": "未割り当て"
+        "unassigned_label": "未割り当て",
+        "add_property_label": "プロパティを追加する",
+        "create_property_label": "プロパティを作成する"
     },
     "project_setting": {
         "message_update": "プロジェクトが更新されました",

@@ -1,129 +1,151 @@
-import { ProjectAttributeType } from "@/types/project.type";
+import { ProjectAttributeType, ProjectType } from "@/types/project.type";
 import React, { useEffect, useState } from "react";
 import TaskAttributeItem from "./TaskAttributeItem";
 import { TaskAttributeType } from "@/types/task.type";
-import { useSelector } from "react-redux";
-import { RootState } from "@/reduxs/store.redux";
 import Button from "@/common/components/Button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleDot, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { useTranslations } from "next-intl";
+import { Dropdown, MenuProps, Select } from "antd";
 import Modal from "@/common/modal/Modal";
 import ModalHeader from "@/common/modal/ModalHeader";
 import ModalBody from "@/common/modal/ModalBody";
-import { useTranslations } from "next-intl";
+import CreateAttribute from "./CreateAttribute";
+import { useSelector } from "react-redux";
+import { RootState } from "@/reduxs/store.redux";
 
 interface TaskAttributeSelectProps {
+  project: ProjectType
   attributes: ProjectAttributeType[]
   taskAttributes: TaskAttributeType[]
-  setTaskAttributes: (taskAttributes: TaskAttributeType[]) => void
+  taskAttributeResponse?: TaskAttributeType[]
+  setTaskAttributes: React.Dispatch<React.SetStateAction<TaskAttributeType[]>>
 }
 
 const TaskAttributeSelect: React.FC<TaskAttributeSelectProps> = ({ 
+  project,
   attributes,
   taskAttributes,
+  taskAttributeResponse,
   setTaskAttributes
 }) => {
-  const attributesUpdated = useSelector((state: RootState) => state.attributeSlice).dataUpdated;
-  const attributesDataset = useSelector((state: RootState) => state.attributeSlice).setAttribute;
-  const [attributesData, setAttributeData] = useState<ProjectAttributeType[]>(() => {
-    let initialAttributes: ProjectAttributeType[] = attributes ?? [];
-    if (attributesDataset && attributesDataset.length > 0) {
-      const insertedIds = new Set(attributesDataset.map(attr => attr.id));
-      initialAttributes = [
-        ...initialAttributes.filter(attr => !insertedIds.has(attr.id)),
-        ...attributesDataset
-      ];
-    }
-    if (attributesUpdated) {
-      initialAttributes = initialAttributes.map(a =>
-        a.id === attributesUpdated.id
-          ? { ...a, name: attributesUpdated.name, value: attributesUpdated.value }
-          : a
-      );
-    }
-  
-    return initialAttributes;
-  });
-  const [openAttributesList, setOpenAttributesList] = useState(false);
-  const [attributeAdded, setAttributeAdded] = useState<ProjectAttributeType[]>([]);
-  const [attributesWillAdd, setAttributesWillAdd] = useState<ProjectAttributeType[]>([]);
-  const handleAddAttributesToTask = () => {
-    setAttributeAdded([...attributeAdded, ...attributesWillAdd]);
-    setAttributesWillAdd([]);
-    setOpenAttributesList(false);
-  }
   const t = useTranslations();
+  const [projectAttributes, setProjectAttributes] = useState<MenuProps['items']>([]);
+  const [attributeAdded, setAttributeAdded] = useState<TaskAttributeType[]>(taskAttributes);
+  const [openCreate, setOpenCreate] = useState(false);
+  const attrUpdated = useSelector((state: RootState) => state.attributeSlice).dataUpdated;
+
+  const handleAddAttribute = (attribute: ProjectAttributeType) => {
+    setAttributeAdded(prev => [...prev, {
+      id: Date.now() + Math.floor(Math.random() * 10000),
+      value: '',
+      attribute: attribute
+    }]);
+  };
+
   useEffect(() => {
-    const allAttributes = []
-    for (let i = 0; i < taskAttributes.length; i++) {
-      const taskAttribute = taskAttributes[i];
-      const attrFind = attributesData.find(a => a.id === taskAttribute.id);
-      if (attrFind && taskAttribute.value.length > 0) {
-        allAttributes.push(attrFind);
+    const newAttributes = attributes.map(a => ({
+      key: a.id,
+      label: <div onClick={() => handleAddAttribute (a)}>{a.name}</div>,
+    }));
+
+    newAttributes.push({
+      key: 0,
+      label: (
+        <div onClick={() => setOpenCreate (true)} style={{ borderTop: "1px solid #3333", paddingTop: "5px" }}>
+          <FontAwesomeIcon icon={faPlus} /> {t('tasks.create_property_label')}
+        </div>
+      ),
+    });
+
+    setProjectAttributes(newAttributes);
+  }, [attributes]);
+
+  useEffect(() => {
+    if (!attrUpdated || !attrUpdated.id) return;
+  
+    setProjectAttributes((prevAttributes) => {
+      if (!Array.isArray(prevAttributes)) return prevAttributes;
+      let updatedAttributes = prevAttributes.filter(attr => (attr && attr.key !== 0));
+  
+      const existingIndex = updatedAttributes.findIndex(attr => (attr && attr.key === attrUpdated.id));
+  
+      if (existingIndex !== -1) {
+        updatedAttributes[existingIndex] = {
+          key: attrUpdated.id,
+          label: <div onClick={() => handleAddAttribute(attrUpdated)}>{attrUpdated.name}</div>
+        };
+      } else {
+        updatedAttributes = [
+          ...updatedAttributes,
+          {
+            key: attrUpdated.id,
+            label: <div onClick={() => handleAddAttribute(attrUpdated)}>{attrUpdated.name}</div>
+          }
+        ];
       }
+
+      updatedAttributes.push({
+        key: 0,
+        label: (
+          <div onClick={() => setOpenCreate(true)} style={{ borderTop: "1px solid #3333", paddingTop: "5px" }}>
+            <FontAwesomeIcon icon={faPlus} /> {t('tasks.create_property_label')}
+          </div>
+        ),
+      });
+  
+      return updatedAttributes;
+    });
+  }, [attrUpdated]);
+  
+
+  useEffect(() => {
+    if (taskAttributeResponse) {
+      setAttributeAdded([]);
+      setTaskAttributes([]);
+      setTimeout(() => {
+        setAttributeAdded(taskAttributeResponse.filter(attr => 
+          taskAttributeResponse.some(res => res.id === attr.id)
+        ));
+        setTaskAttributes(taskAttributeResponse.filter(attr => 
+          taskAttributeResponse.some(res => res.id === attr.id)
+        ));
+      }, 0);
     }
-    setAttributeAdded([...attributeAdded, ...allAttributes]);
-  }, []);
-  if (attributesData.length === 0) {
-    return <></>
-  }
+  }, [taskAttributeResponse]);
+
   return (
     <div>
-      <Modal isOpen={openAttributesList}>
-        <ModalHeader setShow={setOpenAttributesList} title="Select attributes" />
-        <ModalBody>
-          <div className="row">
-            {
-              attributesData.filter(a => !attributeAdded.map(b => b.id).includes(a.id)).map(attribute => (
-                <div className="col-12" key={attribute.id}>
-                  <Button 
-                    color="default" 
-                    className="w-100 text-left mt-2" 
-                    style={attributesWillAdd.find(a => a.id === attribute.id) ? {background: '#e4e6ea', border: 2, borderStyle: 'solid', borderColor: '#0062cc'} : { background: '#e4e6ea', border: 'none' }}
-                    onClick={
-                      attributesWillAdd.find(a => a.id === attribute.id) ?
-                      () => setAttributesWillAdd (attributesWillAdd.filter(a => a.id !== attribute.id))
-                      :
-                      () => setAttributesWillAdd ([...attributesWillAdd, attribute])
-                    }
-                  >
-                    <FontAwesomeIcon icon={faCircleDot} /> {attribute.name}
-                  </Button>
-                </div>
-              ))
-            }
-            <div className="col-12 mt-4">
-              <Button color="primary" className="float-right" onClick={handleAddAttributesToTask}>
-                Add to task
-              </Button>
-              <Button color="default" className="float-right mr-2 btn-no-border" outline onClick={() => setOpenAttributesList (false)}>
-                {t('btn_cancel')}
-              </Button>
-            </div>
-          </div>
-        </ModalBody>
-      </Modal>
       {
         attributeAdded.map(attribute => (
           <TaskAttributeItem 
-            attribute={attribute} 
-            key={attribute.id}
-            taskAttributes={taskAttributes}
+            attribute={attribute.attribute} 
+            id={attribute.id}
+            value={attribute.value}
+            key={attribute.id} 
             setTaskAttributes={setTaskAttributes}
           />
         ))
       }
-      {
-        attributesData.filter(a => !attributeAdded.map(b => b.id).includes(a.id)).length > 0 &&
-        <div className={`row text-secondary mt-2`}>
-          <div className="col-12">
-            <Button color="default" className="border-radius-15" style={{ background: '#e4e6ea', border: 'none' }} onClick={() => setOpenAttributesList (true)}>
-              <FontAwesomeIcon icon={faPlus} /> Add a attribute
+      <div className={`row text-secondary mt-4`}>
+        <div className="col-12">
+          <Dropdown getPopupContainer={(trigger) => trigger.parentElement || document.body} menu={{ items: projectAttributes }} placement="bottomLeft" trigger={["click"]}>
+            <Button color="default" className="btn-no-border">
+              <FontAwesomeIcon icon={faPlus} /> {t('tasks.add_property_label')}
             </Button>
-          </div>
+          </Dropdown>
         </div>
-      }
+      </div>
+      <CreateAttribute project={project} openCreate={openCreate} setOpenCreate={setOpenCreate} />
     </div>
   );
 }
+  /*
+    1. text
+    2. select_one
+    3. select_multiple
+    4. date_picker
+    5. members_list
+    6. tags_list
+  */
 export default TaskAttributeSelect;

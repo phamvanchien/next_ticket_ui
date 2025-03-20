@@ -3,8 +3,9 @@ import { ResponseUserDataType } from "./user.type"
 import { WorkspaceType } from "./workspace.type"
 
 export interface RequestAddAttributeType {
-  id: string
+  // id: string
   name: string
+  type: number
   value: string[]
 }
 
@@ -51,10 +52,13 @@ export interface ProjectType {
 export interface ProjectAttributeType {
   id: number
   name: string
-  value: {
-    key: string
-    value: string
-  }[]
+  type: number
+  childrens: ProjectAttributeItemType[]
+}
+
+export interface ProjectAttributeItemType {
+  id: number
+  value: string
 }
 
 interface WorkspaceUserType {

@@ -191,7 +191,9 @@
         "filter_label": "Filter",
         "sort_label": "Sort",
         "expire_label": "Expired",
-        "unassigned_label": "Unassigned"
+        "unassigned_label": "Unassigned",
+        "add_property_label": "Add a property",
+        "create_property_label": "Create a property"
     },
     "project_setting": {
         "message_update": "Project is updated",
