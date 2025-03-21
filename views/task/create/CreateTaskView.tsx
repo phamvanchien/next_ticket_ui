@@ -8,7 +8,7 @@ import React, { MouseEvent, useEffect, useRef, useState } from "react";
 import { ProjectType, ProjectTagType } from "@/types/project.type";
 import { ResponseUserDataType } from "@/types/user.type";
 import InputForm from "@/common/components/InputForm";
-import { AppErrorType, BaseResponseType } from "@/types/base.type";
+import { AppErrorType, BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import { APP_LINK, APP_VALIDATE_TYPE } from "@/enums/app.enum";
 import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
@@ -32,11 +32,13 @@ interface CreateTaskViewProps {
   project: ProjectType
   inputStatus?: ProjectTagType
   task?: TaskType
+  statusData?: ProjectTagType[]
+  tagsData?: ProjectTagType[]
   setOpen: (open: boolean) => void
   setTaskResponse: (task: TaskType) => void
 }
 
-const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project, inputStatus, task, setTaskResponse }) => {
+const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, statusData, tagsData, project, inputStatus, task, setTaskResponse }) => {
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const types = taskType();
   const priorities = priorityRange();
@@ -171,7 +173,7 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
           </div>
         }
 
-        <div className="row mb-2">
+        <div className="row mb-4">
           <div className="col-12">
             <InputForm
               className="task-title-create"
@@ -202,7 +204,6 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
             {t('tasks.due_label')}:
           </div>
           <div className={`col-8`}>
-            {/* <DateInput selected={dueDate} setSelected={setDueDate} id="dueDate" className="ml-2" /> */}
             <DatePickerCustom setDueDate={setDueDate} dueDate={dueDate} placeholder={t('tasks.placeholder_due_date')} />
           </div>
         </div>
@@ -210,6 +211,7 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
           tags={tags}
           projectId={project.id}
           setTags={setTags}
+          tagsData={tagsData}
           className="mt-2"
         />
         {
@@ -218,13 +220,14 @@ const CreateTaskView: React.FC<CreateTaskViewProps> = ({ open, setOpen, project,
             status={status}
             projectId={project.id}
             setStatus={setStatus}
+            statusData={statusData}
             className="mt-2"
           />
         }
         <TaskPrioritySelect
           priority={priority}
           setPriority={setPriority}
-          className="mt-2"
+          className="mt-3"
         />
         <TaskTypeSelect
           type={type}

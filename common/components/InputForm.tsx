@@ -19,6 +19,7 @@ interface InputFormProps {
   inputValue?: string
   inputValueMatch?: string
   className?: string
+  classNameGroup?: string
   defaultValue?: string
 }
 
@@ -39,6 +40,7 @@ const InputForm: React.FC<InputFormProps> = ({
   inputValueMatch,
   className,
   defaultValue,
+  classNameGroup,
   setInputValue, 
   setError
 }) => {
@@ -62,7 +64,7 @@ const InputForm: React.FC<InputFormProps> = ({
   }
   return <>
     {label && <label className="label-field-register" htmlFor={id}>{label}</label>}
-    <div className="input-group mb-3">
+    <div className={`input-group ${classNameGroup ?? ''}`}>
       <Input
         type={(inputType === 'password' && showPassword) ? 'text' : inputType}
         placeholder={inputPlaceholder}

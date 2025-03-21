@@ -193,7 +193,12 @@
         "expire_label": "Quá hạn",
         "unassigned_label": "Chưa phân công",
         "add_property_label": "Thêm thuộc tính",
-        "create_property_label": "Tạo thuộc tính"
+        "create_property_label": "Tạo thuộc tính",
+        "placeholder_attribute_name": "Nhập tên thuộc tính",
+        "attribute_name_is_required": "Vui lòng nhập tên thuộc tính",
+        "attribute_add_value_label": "Thêm giá trị",
+        "attribute_value_is_required": "Vui lòng thêm ít nhất 1 giá trị",
+        "enter_text_attribute_placeholder": "Nhập văn bản"
     },
     "project_setting": {
         "message_update": "Đã cập nhật dự án",

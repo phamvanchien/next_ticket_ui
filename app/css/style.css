@@ -104,6 +104,7 @@
 
 input {
     height: 30px !important;
+    line-height: 30px !important;
 }
 
 .btn-bars {
@@ -257,7 +258,8 @@ input {
 }
 
 .badge {
-    font-size: 14px !important;
+    /* font-size: 14px !important; */
+    font-size: 1rem !important;
     font-weight: 500 !important;
     padding: 7px;
 }

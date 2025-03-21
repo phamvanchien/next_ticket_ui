@@ -14,9 +14,10 @@ interface DatePickerCustomProps {
   setDueDate: (dueDate: Date | null) => void;
   dueDate: Date | null;
   placeholder?: string;
+  className?: string;
 }
 
-const DatePickerCustom: React.FC<DatePickerCustomProps> = ({ setDueDate, dueDate, placeholder }) => {
+const DatePickerCustom: React.FC<DatePickerCustomProps> = ({ setDueDate, dueDate, placeholder, className }) => {
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {
     setDueDate(date ? date.toDate() : null);
   };
@@ -39,9 +40,10 @@ const DatePickerCustom: React.FC<DatePickerCustomProps> = ({ setDueDate, dueDate
         <DatePicker
           format="YYYY-MM-DD"
           onChange={onChange}
-          defaultValue={dueDate ? dayjs(dueDate) : undefined}
+          value={dueDate ? dayjs(dueDate) : undefined}
           getPopupContainer={(trigger) => trigger.parentElement || document.body}
           placeholder={placeholder}
+          className={className}
         />
       </Space>
     </ConfigProvider>

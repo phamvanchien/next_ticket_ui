@@ -1,11 +1,13 @@
 import Button from "@/common/components/Button";
+import DatePickerCustom from "@/common/components/DatePickerCustom";
 import Input from "@/common/components/Input";
 import Textarea from "@/common/components/Textarea";
 import { ProjectAttributeItemType, ProjectAttributeType } from "@/types/project.type";
 import { TaskAttributeType } from "@/types/task.type";
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Card } from "antd";
+import { Card, Select } from "antd";
+import { useTranslations } from "next-intl";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 
 interface TaskAttributeItemProps {
@@ -25,7 +27,9 @@ const TaskAttributeItem: React.FC<TaskAttributeItemProps> = ({
   const [valueSelected, setValueSelected] = useState<ProjectAttributeItemType[]>([]);
   const [textValue, setTextValue] = useState<string>("");
   const [textAreaValue, setTextAreaValue] = useState<string>("");
+  const [date, setDate] = useState<Date | null>(null);
   const [valueFinal, setValueFinal] = useState<any>("");
+  const t = useTranslations();
 
   const handleAddSelect = (select: ProjectAttributeItemType) => {
     if (attribute.type === 3) {
@@ -66,10 +70,12 @@ const TaskAttributeItem: React.FC<TaskAttributeItemProps> = ({
       setValueFinal(textValue);
     } else if (attribute.type === 2) {
       setValueFinal(textAreaValue);
+    } else if (attribute.type === 5) {
+      setValueFinal(date);
     } else if ([3, 4].includes(attribute.type)) {
       setValueFinal(JSON.stringify(valueSelected));
     }
-  }, [textValue, textAreaValue, valueSelected, attribute.type]);
+  }, [textValue, textAreaValue, valueSelected, attribute.type, date]);
 
   useEffect(() => {
     if (valueFinal === undefined) return;
@@ -91,22 +97,56 @@ const TaskAttributeItem: React.FC<TaskAttributeItemProps> = ({
       setTextValue(value as string);
     } else if (attribute.type === 2) {
       setTextAreaValue(value as string);
+    } else if (attribute.type === 5) {
+      setDate(new Date(value));
     } else if ([3, 4].includes(attribute.type)) {
       setValueSelected(JSON.parse(value))
     }
   }, [value, attribute.type]);
 
-  useEffect(() => {
-    console.log("Item change")
-  }, [attribute]);
+  const handleChange = (value: string[]) => {
+    if (!value) {
+      setValueSelected([]);
+      return;
+    }
+    const arraySelected = attribute.childrens.filter(m => value.includes(m.id.toString()));
+    setValueSelected(arraySelected);
+  };  
 
   return (
     <div className="row text-secondary mt-2">
-      <div className="col-4 lh-40">{attribute.name}</div>
+      <div className="col-4 lh-40">{attribute.name}:</div>
       <div className="col-8 text-secondary" onClick={() => setOpenChildrens(true)} ref={listAttributeChildrensRef}>
-        {attribute.type === 1 && <Input type="text" className="mt-2" value={textValue} onChange={handleChangeText} />}
-        {attribute.type === 2 && <Textarea rows={2} value={textAreaValue} onChange={handleChangeTextArea} />}
-        {[3, 4].includes(attribute.type) && (
+        {attribute.type === 1 && <Input type="text" className="text-attribute-task" value={textValue} onChange={handleChangeText} placeholder={t('tasks.enter_text_attribute_placeholder')} />}
+        {attribute.type === 2 && <Textarea className="mt-2 text-attribute-task" placeholder={t('tasks.enter_text_attribute_placeholder')} rows={2} value={textAreaValue} onChange={handleChangeTextArea} />}
+        {
+          [3, 4].includes(attribute.type) &&
+          <Select
+            mode={attribute.type === 4 ? 'multiple' : undefined}
+            allowClear
+            style={{ width: "100%" }}
+            placeholder={t("empty_label")}
+            value={valueSelected.map((t) => t.id.toString())}
+            onChange={handleChange}
+            getPopupContainer={(trigger) => trigger.parentElement || document.body}
+            options={attribute.childrens.map((m) => ({
+              value: m.id.toString(),
+              label: (
+                <div style={{ marginTop: 4, borderRadius: 10, height: 25, lineHeight: '25px', minWidth: 100, marginRight: 10 }}>
+                  {m.value}
+                </div>
+              ),
+              fullTextSearch: `${m.value}`.toLowerCase(),
+            }))}
+            showSearch
+            filterOption={(input, option) =>
+              option?.fullTextSearch?.includes(input.toLowerCase()) ?? false
+            }
+            dropdownStyle={{ maxHeight: 250, overflowY: "auto" }}
+            notFoundContent={null}
+          />
+        }
+        {/* {[3, 4].includes(attribute.type) && (
           <>
             {valueSelected.length === 0 && (
               <Button color="default" className="btn-bo-border pointer">
@@ -131,7 +171,10 @@ const TaskAttributeItem: React.FC<TaskAttributeItemProps> = ({
               </ul>
             )}
           </>
-        )}
+        )} */}
+        {
+          attribute.type === 5 && <DatePickerCustom className="mt-2" setDueDate={setDate} dueDate={date} />
+        }
       </div>
     </div>
   );

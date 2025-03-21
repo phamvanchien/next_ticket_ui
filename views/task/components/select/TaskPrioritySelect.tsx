@@ -1,64 +1,56 @@
 import { TaskPriorityType } from "@/types/task.type";
 import { priorityRange } from "@/utils/helper.util";
-import React, { useEffect, useRef, useState } from "react";
-import { getIconPriority } from "../board/grib/TaskItem";
+import React from "react";
 import { useTranslations } from "next-intl";
-import { Card } from "antd";
+import { Select } from "antd";
+import { getIconPriority } from "../board/grib/TaskItem";
 
 interface TaskPrioritySelectProps {
-  priority?: TaskPriorityType
-  className?: string
-  setPriority: (priority?: TaskPriorityType) => void
+  priority?: TaskPriorityType;
+  className?: string;
+  setPriority: (priority?: TaskPriorityType) => void;
 }
 
-const TaskPrioritySelect: React.FC<TaskPrioritySelectProps> = ({ priority, className, setPriority}) => {
+const TaskPrioritySelect: React.FC<TaskPrioritySelectProps> = ({ priority, className, setPriority }) => {
   const priorities = priorityRange();
-  const listPriorityRef = useRef<HTMLDivElement>(null);
   const t = useTranslations();
-  const [openPriorityList, setOpenPriorityList] = useState(false);
-  useEffect(() => {
-    const handleClickOutside = async (event: MouseEvent) => {
-      if (listPriorityRef.current && !listPriorityRef.current.contains(event.target as Node)) {
-        setOpenPriorityList(false);
-      }
-    };
-  
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+
+  const handleChange = (value: string) => {
+    const selectedPriority = priorities.find(t => t.id === Number(value));
+    setPriority(selectedPriority);
+  };
 
   return (
     <div className={`row text-secondary ${className ?? ''}`}>
       <div className="col-4 lh-40">
         {t('tasks.priority_label')}:
       </div>
-      <div className="col-8 text-secondary pointer" onClick={() => setOpenPriorityList (true)} ref={listPriorityRef}>
-        {
-          priority &&
-          <Card className="p-unset float-left pointer">
-            {getIconPriority(priority.id)} {priority.title}
-          </Card>
-        }
-        {
-          openPriorityList &&
-          <>
-            <ul className="list-group select-search-task" style={{top: 38}}>
-              {
-                priorities && priorities.filter(m => priority?.id !== m.id).map((value, index) => (
-                  <li className="list-group-item border-unset p-unset pointer" key={index} onClick={() => setPriority(value)}>
-                    <span className="badge badge-default w-100 text-left">
-                      {getIconPriority(value.id)} {value.title}
-                    </span>
-                  </li>
-                ))
-              }
-            </ul>
-          </>
-        }
+      <div className="col-8 text-secondary pointer">
+        <Select
+          allowClear
+          placeholder={t("empty_label")}
+          value={priority?.id.toString()}
+          onChange={handleChange}
+          getPopupContainer={(trigger) => trigger.parentElement || document.body}
+          options={priorities.map((p) => ({
+            value: p.id.toString(),
+            label: (
+              <div style={{ marginTop: 4, borderRadius: 10, height: 25, lineHeight: '25px', minWidth: 100, marginRight: 10 }}>
+                {getIconPriority(p.id)} {p.title}
+              </div>
+            ),
+            fullTextSearch: p.title.toLowerCase(),
+          }))}
+          showSearch
+          filterOption={(input, option) =>
+            option?.fullTextSearch?.includes(input.toLowerCase()) ?? false
+          }
+          dropdownStyle={{ maxHeight: 250, overflowY: "auto" }}
+          notFoundContent={null}
+        />
       </div>
     </div>
-  )
-}
+  );
+};
+
 export default TaskPrioritySelect;

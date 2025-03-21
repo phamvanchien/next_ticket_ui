@@ -1,122 +1,72 @@
 import { statusList } from "@/api/project.api";
-import Button from "@/common/components/Button";
-import Input from "@/common/components/Input";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
 import { ResponseWithPaginationType } from "@/types/base.type";
 import { ProjectTagType } from "@/types/project.type";
-import { faCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Card } from "antd";
+import { Select } from "antd";
 import { useTranslations } from "next-intl";
-import React, { ChangeEvent, useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 
 interface TaskStatusSelectProps {
-  status?: ProjectTagType
-  className?: string
-  projectId: number
-  setStatus: (status?: ProjectTagType) => void
+  status?: ProjectTagType;
+  className?: string;
+  projectId: number;
+  setStatus: (status?: ProjectTagType) => void;
+  statusData?: ProjectTagType[]
 }
 
-const TaskStatusSelect: React.FC<TaskStatusSelectProps> = ({ status, className, projectId, setStatus }) => {
-  const [openStatusList, setOpenStatusList] = useState(false);
-  const [keyword, setKeyword] = useState<string>('');
-  const [debounceKeyword, setDebounceKeyword] = useState<string>('');
-  const [statusData, setStatusData] = useState<ResponseWithPaginationType<ProjectTagType[]>>();
-  const listStatusRef = useRef<HTMLDivElement>(null);
+const TaskStatusSelect: React.FC<TaskStatusSelectProps> = ({
+  status,
+  className,
+  projectId,
+  setStatus,
+  statusData
+}) => {
+  const [statusDataResponse, setStatusDataResponse] = useState<ProjectTagType[]>([]);
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const t = useTranslations();
-  const handleChangeKeyword = (event: ChangeEvent<HTMLInputElement>) => {
-    event.preventDefault();
-    setKeyword('');
-    if (event.target.value && event.target.value !== '') {
-      setKeyword(event.target.value);
+
+  useEffect(() => {
+    if (statusData) {
+      setStatusDataResponse(statusData);
     }
-  }
-  const loadStatus = async () => {
-    try {
-      if (!workspace) {
-        return;
-      }
-      const response = await statusList(workspace.id, projectId, {
-        page: 1,
-        size: 5,
-        keyword: keyword
-      });
-      if (response && response.code === API_CODE.OK) {
-        setStatusData(response.data);
-        return;
-      }
-      setStatusData(undefined);
-    } catch (error) {
-      setStatusData(undefined);
-    }
-  }
-  useEffect(() => {
-    loadStatus();
-  }, [workspace, debounceKeyword]);
-  useEffect(() => {
-    const handler = setTimeout(() => {
-      setDebounceKeyword(keyword);
-    }, 500);
-    return () => {
-      clearTimeout(handler);
-    };
-  }, [keyword]);
-  useEffect(() => {
-    const handleClickOutside = async (event: MouseEvent) => {
-      if (listStatusRef.current && !listStatusRef.current.contains(event.target as Node)) {
-        setOpenStatusList(false);
-        setKeyword('');
-        setDebounceKeyword('');
-      }
-    };
-  
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+  }, [statusData]);
+
   return (
-    <div className={`row text-secondary ${className ?? ''}`}>
-      <div className="col-4 lh-40">
-        {t('tasks.status_label')}:
-      </div>
-      <div className="col-8 text-secondary" onClick={() => setOpenStatusList (true)} ref={listStatusRef}>
-        {
-          !status &&
-          <Button color="default" className="btn-bo-border pointer">
-            <FontAwesomeIcon icon={faPlus} />
-          </Button>
-        }
-        {
-          status &&
-          <Card className="p-unset float-left pointer">
-            <FontAwesomeIcon icon={faCircle} style={{ color: status.color }} /> {status.name}
-          </Card>
-        }
-        {
-          openStatusList &&
-          <>
-            <ul className="list-group select-search-task" style={status ? { top: 38 } : undefined}>
-              <li className="list-group-item border-unset p-unset">
-                <Input type="search" className="w-100" placeholder={t('tasks.placeholder_search_status')} onChange={handleChangeKeyword} />
-              </li>
-              {
-                statusData && statusData.items.filter(m => status?.id !== m.id).map((status, index) => (
-                  <li className="list-group-item border-unset p-unset pointer" key={index} onClick={() => setStatus(status)}>
-                    <span className="badge badge-default w-100 text-left">
-                      <FontAwesomeIcon icon={faCircle} style={{ color: status.color }} /> {status.name}
-                    </span>
-                  </li>
-                ))
-              }
-            </ul>
-          </>
-        }
+    <div className={`row text-secondary ${className ?? ""}`}>
+      <div className="col-4 lh-40">{t("tasks.status_label")}:</div>
+      <div className="col-8">
+        <Select
+          className="w-30"
+          placeholder={t("empty_label")}
+          value={status?.id?.toString()}
+          onChange={(value) => {
+            const selectedStatus = statusDataResponse.find((s) => s.id.toString() === value);
+            setStatus(selectedStatus);
+          }}
+          getPopupContainer={(trigger) => trigger.parentElement || document.body}
+          options={statusDataResponse.map((s) => ({
+            value: s.id.toString(),
+            label: (
+              <div
+                style={{marginTop: 4, borderRadius: 10, height: 25, lineHeight: '20px', minWidth: 100, marginRight: 10}}
+              >
+                {s.name}
+              </div>
+            ),
+            fullTextSearch: s.name.toLowerCase(),
+          }))}
+          showSearch
+          filterOption={(input, option) =>
+            option?.fullTextSearch?.includes(input.toLowerCase()) ?? false
+          }
+          dropdownStyle={{ maxHeight: 250, overflowY: "auto" }}
+          notFoundContent={null}
+        />
       </div>
     </div>
   );
-}
+};
+
 export default TaskStatusSelect;

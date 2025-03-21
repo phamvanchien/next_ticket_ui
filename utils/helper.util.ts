@@ -1,3 +1,4 @@
+import { message, notification } from 'antd';
 import { toast } from 'react-toastify';
 
 export interface HolidayInYear {
@@ -441,3 +442,16 @@ export const getDaysDifference = (dateFrom: Date, dateTo: Date = new Date()): nu
   // const timeDiff = dateTo.getTime() - dateFrom.getTime();
   // return Math.floor(timeDiff / (1000 * 60 * 60 * 24));
 };
+
+export const nextTechNotification = (
+  message: string,
+  placement?: "top" | "topLeft" | "topRight" | "bottom" | "bottomLeft" | "bottomRight",
+  duration?: number
+) => {
+  notification.warning({
+    message: message,
+    placement: placement ?? 'topRight',
+    duration: duration ?? 3,
+    closeIcon: false
+  });
+}

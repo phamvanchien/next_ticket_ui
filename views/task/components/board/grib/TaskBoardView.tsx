@@ -33,6 +33,7 @@ interface TaskBoardViewProps {
   dueSort?: "DESC" | "ASC"
   dueDateFilter?: Date[]
   createdDateFilter?: Date[]
+  tagsData?: ProjectTagType[]
 }
 
 const TaskBoardView: React.FC<TaskBoardViewProps> = ({ 
@@ -48,6 +49,7 @@ const TaskBoardView: React.FC<TaskBoardViewProps> = ({
   dueSort,
   dueDateFilter,
   createdDateFilter,
+  tagsData,
   setTotalTask,
   setOpenCreate, 
   setInputStatusCreate 
@@ -224,6 +226,8 @@ const TaskBoardView: React.FC<TaskBoardViewProps> = ({
                     setDragOverStatus={setDragOverStatus}
                     draggingTask={draggingTask}
                     project={project}
+                    tagsData={tagsData}
+
                   />
                 ))
               }

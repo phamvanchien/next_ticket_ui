@@ -193,7 +193,12 @@
         "expire_label": "Expired",
         "unassigned_label": "Unassigned",
         "add_property_label": "Add a property",
-        "create_property_label": "Create a property"
+        "create_property_label": "Create a property",
+        "placeholder_attribute_name": "Enter attribute name",
+        "attribute_name_is_required": "Attribute name is required",
+        "attribute_add_value_label": "Add a value",
+        "attribute_value_is_required": "Add at least 1 value",
+        "enter_text_attribute_placeholder": "Enter text here"
     },
     "project_setting": {
         "message_update": "Project is updated",

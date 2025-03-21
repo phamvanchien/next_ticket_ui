@@ -20,7 +20,7 @@ export interface WorkspaceType {
 }
 
 export interface WorkspaceUserType {
-  id: 6
+  id: number
   first_name: string
   last_name: string
   email: string

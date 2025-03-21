@@ -22,6 +22,9 @@ import CloneProjectModal from "../project/components/CloneProjectModal";
 import { useTranslations } from "next-intl";
 import { Avatar, Button as ButtonAnt, Dropdown, MenuProps, Space } from 'antd';
 import UserGroup from "@/common/components/UserGroup";
+import { ResponseWithPaginationType } from "@/types/base.type";
+import { statusList, tagsList } from "@/api/project.api";
+import { API_CODE } from "@/enums/api.enum";
 
 interface TaskPageViewProps {
   project: ProjectType
@@ -53,11 +56,41 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
   const [createdDateFilter, setCreatedDateFilter] = useState<Date[]>();
   const [openClone, setOpenClone] = useState(false);
   const [isFilter, setIsFilter] = useState(false);
+  const [taskProcessing, setTaskProcessing] = useState<TaskType>();
+  const [tagData, setTagData] = useState<ProjectTagType[]>();
+  const [statusData, setStatusData] = useState<ProjectTagType[]>();
 
   const searchParams = useSearchParams();
   const createParam = searchParams.get('create');
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
   const t = useTranslations();
+  const loadStatusAndTags = async () => {
+    try {
+      const [tagsResponse, statusResponse] = await Promise.all([
+        await tagsList(project.workspace_id, project.id, {
+          page: 1,
+          size: 50
+        }),
+        await statusList(project.workspace_id, project.id, {
+          page: 1,
+          size: 50,
+        })
+      ]);
+      if (tagsResponse && tagsResponse.code === API_CODE.OK) {
+        setTagData(tagsResponse.data.items);
+      } else {
+        setTagData(undefined);
+      }
+      if (statusResponse && statusResponse.code === API_CODE.OK) {
+        setStatusData(statusResponse.data.items);
+      } else {
+        setStatusData(undefined);
+      }
+    } catch (error) {
+      setTagData(undefined);
+      setStatusData(undefined);
+    }
+  }
   const handleSetTypeShow = (type: number) => {
     setTypeShow(type);
     localStorage.setItem(APP_LOCALSTORAGE.TASK_BOARD_TYPE_SHOW, type.toString());
@@ -184,6 +217,9 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
       setIsFilter(true);
     }
   }, [createdDateFilter, dueDateFilter, tags, type, priority, creator, assignee]);
+  useEffect(() => {
+    loadStatusAndTags();
+  }, [project]);
 
   return <>
       <CreateTaskView 
@@ -192,6 +228,9 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
         project={project} 
         inputStatus={inputStatusCreate} 
         setTaskResponse={setTaskData} 
+        task={taskProcessing}
+        statusData={statusData}
+        tagsData={tagData}
       />
       <CloneProjectModal
         project={project}
@@ -233,12 +272,6 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
               <FontAwesomeIcon icon={faEllipsisV} />
             </Button>
           </Dropdown>
-          {/* {
-            [1, 2, 3].includes(typeShow) &&
-            <Button color="default" className="float-right ml-2" style={{ background: '#fff' }} onClick={() => handleSetTypeShow (4)}>
-              <FontAwesomeIcon icon={faPieChart} />
-            </Button>
-          } */}
           {
             [3, 4].includes(typeShow) &&
             <Button color="default" className="float-right ml-2" style={{ background: '#fff' }} onClick={() => handleSetTypeShow (1)}>
@@ -318,6 +351,7 @@ const TaskPageView: React.FC<TaskPageViewProps> = ({ project }) => {
           dueSort={dueSort}
           dueDateFilter={dueDateFilter}
           createdDateFilter={createdDateFilter}
+          tagsData={tagData}
         />
       }
       {

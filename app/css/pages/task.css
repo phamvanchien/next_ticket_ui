@@ -207,9 +207,9 @@
     height: 200px !important;
 }
 
-.invalid-feedback {
+/* .invalid-feedback {
     display: none !important;
-}
+} */
 
 #dueDate {
     border: unset !important;
@@ -295,4 +295,14 @@
 
 .btn-filter-tasks, .dropdown-sort, .input-search-tasks {
     float: right;
+}
+
+.text-attribute-task {
+    border: unset !important;
+    padding-left: unset !important;
+}
+
+.text-attribute-task:focus {
+    border: 0.5px solid #007bff !important;
+    padding-left: 7px !important;
 }

@@ -2,7 +2,7 @@ import { TaskType } from "@/types/task.type";
 import { dateToString, getDaysDifference } from "@/utils/helper.util";
 import React, { MouseEvent, useEffect, useState } from "react";
 import CreateTaskView from "../../../create/CreateTaskView";
-import { ProjectType } from "@/types/project.type";
+import { ProjectTagType, ProjectType } from "@/types/project.type";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowDown, faArrowUp, faBug, faCheckSquare, faClone, faEquals, faExclamationCircle, faLineChart, faPlusSquare, faUserCircle, faWarning } from "@fortawesome/free-solid-svg-icons";
 import Link from "next/link";
@@ -20,6 +20,7 @@ interface TaskItemProps {
   statusKey: number
   draggingTask?: number
   project: ProjectType
+  tagsData?: ProjectTagType[]
   setDraggingTask: (draggingTask?: number) => void;
   setDragOverStatus: (dragOverStatus?: number) => void;
 }
@@ -46,7 +47,7 @@ export const getIconPriority = (id: number, className?: string) => {
   if (id === 3) return <FontAwesomeIcon icon={faArrowDown} className={`text-success ${className ?? ''}`} />;
 }
 
-const TaskItem: React.FC<TaskItemProps> = ({ task, statusKey, draggingTask, project, setDraggingTask, setDragOverStatus }) => {
+const TaskItem: React.FC<TaskItemProps> = ({ task, statusKey, draggingTask, project, tagsData, setDraggingTask, setDragOverStatus }) => {
   const workspace = useSelector((state: RootState) => state.workspaceSlice).data;
   const router = useRouter();
   const t = useTranslations();
@@ -98,13 +99,12 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, statusKey, draggingTask, proj
   }
 
   useEffect(() => {
-    console.log("due change")
     setIsExpire(getDaysDifference(new Date(taskData.due)));
   }, [taskData.due]);
 
   return (
     <>
-      <CreateTaskView open={openEdit} setOpen={setOpenEdit} project={project} task={taskData} setTaskResponse={setTaskData} />
+      <CreateTaskView tagsData={tagsData} open={openEdit} setOpen={setOpenEdit} project={project} task={taskData} setTaskResponse={setTaskData} />
       <div
         className={`card task-item ${draggingTask === taskData.id ? "dragging" : ""}`}
         draggable
@@ -126,8 +126,6 @@ const TaskItem: React.FC<TaskItemProps> = ({ task, statusKey, draggingTask, proj
           <div onClick={() => setOpenEdit(true)}>
             <p className="text-secondary task-due">{t('tasks.due_label')}: {dateToString(new Date(taskData.due))}</p>
             {isExpire === -1 && <p className="text-secondary task-due"><FontAwesomeIcon icon={faWarning} /> {t('tasks.expire_label')}</p>}
-            {/* <img src={taskData.user.avatar ?? IMAGE_DEFAULT.NO_USER} className="img-circle mr-2" width={25} height={25} onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} /> */}
-            {/* <span className="text-muted created-by">{taskData.user.first_name} {taskData.user.last_name}</span> */}
             {taskData.assign.length > 0 ? <UserGroup users={taskData.assign} /> : <><img src={IMAGE_DEFAULT.NO_USER} className="img-circle mr-2" width={30} height={30} onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} /><span className="text-muted created-by">{t('tasks.unassigned_label')}</span></>}
             <p className="mt-2">
               {getTypeIcon(taskData.type.id, `text-${getTypeClass(taskData.type.id)}`)}

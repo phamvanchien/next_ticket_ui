@@ -1,64 +1,56 @@
 import { TaskTypeItem } from "@/types/task.type";
 import { taskType } from "@/utils/helper.util";
-import React, { useEffect, useRef, useState } from "react";
+import React from "react";
 import { getTypeClass, getTypeIcon } from "../board/grib/TaskItem";
 import { useTranslations } from "next-intl";
-import { Card } from "antd";
+import { Select } from "antd";
 
 interface TaskTypeSelectProps {
-  type?: TaskTypeItem
-  setType: (type?: TaskTypeItem) => void
-  className?: string
+  type?: TaskTypeItem;
+  setType: (type?: TaskTypeItem) => void;
+  className?: string;
 }
 
 const TaskTypeSelect: React.FC<TaskTypeSelectProps> = ({ type, setType, className }) => {
   const types = taskType();
   const t = useTranslations();
-  const listPriorityRef = useRef<HTMLDivElement>(null);
-  const [openTypeList, setOpenTypeList] = useState(false);
-  useEffect(() => {
-    const handleClickOutside = async (event: MouseEvent) => {
-      if (listPriorityRef.current && !listPriorityRef.current.contains(event.target as Node)) {
-        setOpenTypeList(false);
-      }
-    };
-  
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside);
-    };
-  }, []);
+
+  const handleChange = (value: string) => {
+    const selectedType = types.find(t => t.id === Number(value));
+    setType(selectedType);
+  };
 
   return (
     <div className={`row text-secondary ${className ?? ''}`}>
       <div className="col-4 lh-40">
         {t('tasks.type_label')}:
       </div>
-      <div className="col-8 text-secondary pointer" onClick={() => setOpenTypeList (true)} ref={listPriorityRef}>
-        {
-          type &&
-          <Card className="p-unset float-left pointer">
-            {getTypeIcon(type.id, `text-${getTypeClass(type.id)}`)} {type.title}
-          </Card>
-        }
-        {
-          openTypeList &&
-          <>
-            <ul className="list-group select-search-task" style={{top: 38}}>
-              {
-                types && types.filter(m => type?.id !== m.id).map((value, index) => (
-                  <li className="list-group-item border-unset p-unset pointer" key={index} onClick={() => setType(value)}>
-                    <span className="badge badge-default w-100 text-left">
-                      {getTypeIcon(value.id, `text-${getTypeClass(value.id)}`)} {value.title}
-                    </span>
-                  </li>
-                ))
-              }
-            </ul>
-          </>
-        }
+      <div className="col-8 text-secondary pointer">
+        <Select
+          allowClear
+          placeholder={t("empty_label")}
+          value={type?.id.toString()}
+          onChange={handleChange}
+          getPopupContainer={(trigger) => trigger.parentElement || document.body}
+          options={types.map((t) => ({
+            value: t.id.toString(),
+            label: (
+              <div style={{ paddingLeft: 5, display: "flex", alignItems: "center", gap: 8, marginTop: 4, borderRadius: 10, height: 25, lineHeight: '25px', minWidth: 100, marginRight: 10 }}>
+                {getTypeIcon(t.id, `text-${getTypeClass(t.id)}`)} {t.title}
+              </div>
+            ),
+            fullTextSearch: t.title.toLowerCase(),
+          }))}
+          showSearch
+          filterOption={(input, option) =>
+            option?.fullTextSearch?.includes(input.toLowerCase()) ?? false
+          }
+          dropdownStyle={{ maxHeight: 250, overflowY: "auto" }}
+          notFoundContent={null}
+        />
       </div>
     </div>
-  )
-}
+  );
+};
+
 export default TaskTypeSelect;
