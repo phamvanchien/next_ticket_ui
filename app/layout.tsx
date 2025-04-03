@@ -14,16 +14,17 @@ import MainLayout from "@/common/layouts/MainLayout";
 
 const inter = Inter({ subsets: ["latin"] });
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const pathname = headers().get("x-pathname") || "/";
 
   let Layout = MainLayout;
   if (pathname === "/login") {
     Layout = AuthLayout;
   }
-  if (pathname === '/') {
-    Layout = ({ children }: { children: React.ReactNode }) => <>{children}</>;
-  }
+  // if (pathname === "/") {
+  //   Layout = ({ children }: { children: React.ReactNode }) => <>{children}</>;
+  //   Layout.displayName = "RootOnlyLayout"; // Thêm displayName cho layout không có tên
+  // }
 
   const locale = headers().get("locale") || defaultLocale;
   const messages = require(`@/locales/${locale}.json`);
@@ -37,4 +38,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </body>
     </html>
   );
-}
+};
+
+RootLayout.displayName = "RootLayout"; // Thêm displayName cho RootLayout
+
+export default RootLayout;
