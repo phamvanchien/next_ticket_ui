@@ -1,6 +1,9 @@
+import { UserType } from "./user.type";
+
 export interface RequestCreateWorkspaceType {
   name: string;
   description?: string;
+  logo?: File;
 }
 
 export interface InviteType {
@@ -16,13 +19,6 @@ export interface WorkspaceType {
   description?: string
   logo?: string
   created_at: string
-  user?: WorkspaceUserType
-}
-
-export interface WorkspaceUserType {
-  id: number
-  first_name: string
-  last_name: string
-  email: string
-  avatar: string
+  user?: UserType
+  members: UserType[]
 }

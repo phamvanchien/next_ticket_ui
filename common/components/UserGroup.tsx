@@ -1,30 +1,28 @@
-import { IMAGE_DEFAULT } from "@/enums/app.enum";
-import { ResponseUserDataType } from "@/types/user.type";
-import { Avatar, Tooltip } from "antd";
-import React, { useState } from "react";
+import dynamic from "next/dynamic";
+import React from "react";
+
+const NoSSRAvatarGroup = dynamic(() => import("antd").then((mod) => mod.Avatar.Group), { ssr: false });
 
 interface UserGroupProps {
-  users: ResponseUserDataType[]
-  className?: string
-  plusIcon?: boolean
+  children: React.ReactNode;
+  className?: string;
 }
 
-const UserGroup: React.FC<UserGroupProps> = ({ users, className, plusIcon }) => {
+const UserGroup: React.FC<UserGroupProps> = ({ children, className }) => {
   return (
-    <Avatar.Group
+    <NoSSRAvatarGroup
       className={className}
       max={{
         count: 3,
-        style: { color: '#f56a00', backgroundColor: '#fde3cf' },
+        style: { color: "#f56a00", backgroundColor: "#fde3cf" },
       }}
     >
-      {
-        users.map(user => (
-          <Avatar key={user.id} src={user.avatar ?? IMAGE_DEFAULT.NO_USER} />
-        ))
-      }
-      {/* {plusIcon && <Avatar src={<img src={'/img/icon/user-plus.png'} width={50} height={50} alt="avatar" />} />} */}
-    </Avatar.Group>
-  )
-}
+      {children}
+      {/* <Tooltip title="Ant User" placement="top">
+        <Avatar style={{ backgroundColor: "#87d068" }} icon={<UserOutlined />} />
+      </Tooltip> */}
+    </NoSSRAvatarGroup>
+  );
+};
+
 export default UserGroup;

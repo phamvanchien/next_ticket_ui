@@ -1,25 +1,19 @@
-"use client"
-import { faEnvelope, faEye, faEyeSlash, faSignIn } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+"use client";
+import React, { useEffect, useState } from "react";
 import Button from "@/common/components/Button";
-import ImageIcon from "@/common/components/ImageIcon";
-import Input from "@/common/components/Input";
-import { ChangeEvent, FormEvent, useState } from "react";
 import Link from "next/link";
-import { AppErrorType, BaseResponseType } from "@/types/base.type";
-import { API_CODE } from "@/enums/api.enum";
-import { catchError, hasError, printError, validateForm, validateInput } from "@/services/base.service";
-import { APP_AUTH, APP_LINK, APP_VALIDATE_TYPE } from "@/enums/app.enum";
-import { authenticate, fetchEmail, loginWithGoogle } from "@/api/authenticate.api";
-import { useRouter, useSearchParams } from "next/navigation";
-import { setCookie } from "@/utils/cookie.util";
-import { APP_CONFIG } from "@/config/app.config";
-import Loading from "@/common/components/Loading";
-import GoogleAuth from "./components/GoogleAuth";
-import ErrorAlert from "@/common/components/ErrorAlert";
+import Input from "@/common/components/Input";
 import { useTranslations } from "next-intl";
-import LanguageSwitcher from "@/common/components/LanguageSwitcher";
-import LogoAuthPage from "@/common/layouts/LogoAuthPage";
+import { isEmail, isEmpty } from "@/services/validate.service";
+import { authenticate, authGoogleCallback, fetchEmail, loginWithGoogle } from "@/api/authenticate.api";
+import { API_CODE } from "@/enums/api.enum";
+import Loading from "@/common/components/Loading";
+import { displayMessage } from "@/utils/helper.util";
+import { BaseResponseType } from "@/types/base.type";
+import { setCookie } from "@/utils/cookie.util";
+import { APP_AUTH, APP_LINK } from "@/enums/app.enum";
+import { APP_CONFIG } from "@/configs/app.config";
+import { useRouter, useSearchParams } from "next/navigation";
 
 const LoginView = () => {
   const t = useTranslations();
@@ -29,219 +23,201 @@ const LoginView = () => {
   const scope = searchParams.get('scope');
   const authuser = searchParams.get('authuser');
   const prompt = searchParams.get('prompt');
-
-  const [error, setError] = useState<AppErrorType | null>(null);
-  const [validateError, setValidateError] = useState<AppErrorType[] | []>([]);
-  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>();
   const [emailInput, setEmailInput] = useState<string>();
   const [passwordInput, setPasswordInput] = useState<string>();
-  const [passwordShow, setPasswordShow] = useState(false);
-  const [emailVerified, setEmailVerified] = useState(false);
-  const [authGoogleLoading, setAuthGoogleLoading] = useState(false);
-
-  const handleShowPassword = () => {
-    setPasswordShow(passwordShow ? false : true);
-  }
-
-  const handleValidateEmail = (value: string = emailInput ?? '') => {
-    const requiredEmail = validateInput('email', value ?? '', t('authenticate_message.email_is_required'), APP_VALIDATE_TYPE.REQUIRED, validateError, setValidateError);
-    const isEmail = validateInput('email', value ?? '',t('authenticate_message.email_is_valid'), APP_VALIDATE_TYPE.IS_EMAIL, validateError, setValidateError);
-    if (!requiredEmail || !isEmail) {
-      return false;
-    }
-    return true;
-  }
-
-  const handleValidatePassword = (value: string = passwordInput ?? '') => {
-    const requiredPassword = validateInput('password', value ?? '', t('authenticate_message.password_is_required'), APP_VALIDATE_TYPE.REQUIRED, validateError, setValidateError);
-    if (!requiredPassword) {
-      return false;
-    }
-    return true;
-  }
-
-  const handleEmailInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmailInput(event.target.value);
-    handleValidateEmail(event.target.value);
-  }
-
-  const handlePasswordInputChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setPasswordInput(event.target.value);
-    handleValidatePassword(event.target.value);
-  }
-
-  const handleSubmitLogin = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (!handleValidateEmail() || !handleValidatePassword()) {
-      return;
-    }
-
-    setLoading(true);
+  const [fetchedEmail, setFetchedEmail] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [loadingGoogle, setLoadingGoogle] = useState(false);
+  const handleSubmitFetchEmail = async () => {
     try {
-      const response = await authenticate({
-        email: emailInput ?? '',
-        password: passwordInput ?? ''
-      });
-      if (response && response.code === API_CODE.OK) {
-        setCookie(APP_AUTH.COOKIE_AUTH_KEY, response.data.access_token, { expires: APP_CONFIG.TOKEN_EXPIRE_TIME });
-        setCookie(APP_AUTH.COOKIE_AUTH_USER, JSON.stringify(response.data.user), { expires: APP_CONFIG.TOKEN_EXPIRE_TIME });
-        router.push(APP_LINK.GO_TO_WORKSPACE);
+      if (isEmpty(emailInput)) {
+        setErrorMessage(t('authenticate_message.email_is_required'));
         return;
       }
-      setError(catchError(response));
-    } catch (error) {
-      setError(catchError(error as BaseResponseType));
-    }
-    setLoading(false);
-  }
-
-  const authenticateWithGoogle = async () => {
-    setAuthGoogleLoading(true);
-    try {
-      const response = await loginWithGoogle();
-      if (response && response.code === API_CODE.OK) {
-        window.location.href = response.data;
+      if (!isEmail(emailInput as string)) {
+        setErrorMessage(t('authenticate_message.email_is_valid'));
         return;
       }
-      setError(catchError(response));
-    } catch (error) {
-      setError(catchError(error as BaseResponseType));
-    }
-    setAuthGoogleLoading(false);
-  };
-
-  const handleFetchEmail = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const validates: { [key: string]: any[] } = {};
-    validates['email'] = [
-      {
-        value: emailInput,
-        validateType: APP_VALIDATE_TYPE.REQUIRED,
-        validateMessage: t('authenticate_message.email_is_required')
+      if (!emailInput) {
+        return;
       }
-    ];
 
-    if (hasError(validateError) || !validateForm(validates, validateError, setValidateError)) {
-      return;
-    }
-
-    try {
       setLoading(true);
-      setError(null);
-      const response = await fetchEmail(emailInput ?? '');
+      setErrorMessage(undefined);
+      setPasswordInput('');
+      const response = await fetchEmail(emailInput);
+      setLoading(false);
       if (response && response.code === API_CODE.OK) {
         if (response.data.login_type === 'google') {
-          window.location = response.data.google_auth_url;
+          router.push(response.data.google_auth_url);
           return;
         }
-        setEmailVerified(true);
-        setLoading(false);
+        setFetchedEmail(true);
         return;
       }
-      setLoading(false);
-      setError(catchError(response));
+      displayMessage('error', response.error?.message);
     } catch (error) {
+      displayMessage('error', (error as BaseResponseType).error?.message);
       setLoading(false);
-      setError(catchError(error as BaseResponseType));
+      setErrorMessage(undefined);
     }
   }
+  const handleAuthenticate = async () => {
+    try {
+      if (isEmpty(passwordInput) || !passwordInput) {
+        setErrorMessage(t('authenticate_message.password_is_required'));
+        return;
+      }
+      if (!emailInput) {
+        return;
+      }
 
-  return (
-    <div className="login-box auth-box">
-      <LanguageSwitcher className="mb-4" />
-      <div className="card mt-4">
-        <div className="card-body login-card-body">
-          <LogoAuthPage />
-          {
-            (code && scope && authuser && prompt) ?
-            <GoogleAuth 
-              code={code}
-              scope={scope}
-              authuser={authuser}
-              prompt={prompt}
-            /> :
-            <>
-              <ErrorAlert error={error} />
-              <form onSubmit={emailVerified ? handleSubmitLogin : handleFetchEmail} className="mt-2">
-                {
-                  !emailVerified && <div className="input-group mb-2">
-                    <Input 
-                      type="text" 
-                      placeholder={t('login.input_email')}
-                      minLength={3}
-                      maxLength={100}
-                      id="email"
-                      onChange={handleEmailInputChange}
-                      invalid={hasError(validateError, 'email')}
-                    />
-                    <div className="input-group-append">
-                      <div className="input-group-text">
-                        <FontAwesomeIcon icon={faEnvelope} />
-                      </div>
-                    </div>
-                    {
-                      hasError(validateError, 'email') &&
-                      <div className="invalid-feedback" style={{display: 'block'}}>
-                        {printError(validateError, 'email')}
-                      </div>
-                    }
-                  </div>
-                }
-                {
-                  emailVerified && <div className="input-group mb-3">
-                  <Input 
-                    type={passwordShow ? 'text' : 'password'} 
-                    placeholder={t('login.input_password')} 
-                    minLength={5} 
-                    maxLength={10}
-                    onChange={handlePasswordInputChange}
-                    invalid={hasError(validateError, 'password')}
-                  />
-                    <div className="input-group-append">
-                      <div className="input-group-text">
-                        <FontAwesomeIcon icon={passwordShow ? faEye : faEyeSlash} onClick={handleShowPassword} />
-                      </div>
-                    </div>
-                    {
-                      hasError(validateError, 'password') &&
-                      <div className="invalid-feedback" style={{display: 'block'}}>
-                        {printError(validateError, 'password')}
-                      </div>
-                    }
-                  </div>
-                }
-                <div className="social-auth-links text-center mb-3">
-                  {
-                    !emailVerified ? 
-                    <Button type="submit" color="primary" fullWidth disabled={loading || authGoogleLoading}>
-                      {loading ? <Loading color="light" /> : t('login.continue_btn')}
-                    </Button> :
-                    <Button type="submit" color="primary" fullWidth disabled={loading || authGoogleLoading}>
-                      {loading ? <Loading color="light" /> : <><FontAwesomeIcon icon={faSignIn} /> {t('login.sign_in_btn')}</>}
-                    </Button>
-                  }
-                </div>
-              </form>
-              <center>
-                <span className="text-muted mt-4 mb-4">{t('login.or_text')}</span>
-              </center>
-              <Button color="default" fullWidth onClick={authenticateWithGoogle} className="google-btn mb-2 mt-2" disabled={authGoogleLoading || loading}>
-                <ImageIcon icon="google" width={18} height={18} /> {authGoogleLoading ? <Loading color="primary" /> : t('login.login_google_btn')}
-              </Button>
-              <p className="mb-1 text-center mt-4">
-                <Link className="text-secondary" href={APP_LINK.FORGOT_PASSWORD}>{t('login.forgot_password_link')}</Link>
-              </p>
-              <p className="mb-0 text-center">
-                <Link href={APP_LINK.REGISTER} className="text-secondary">
-                  {t('login.create_account_btn')}
-                </Link>
-              </p>
-            </>
-          }
-        </div>
+      setLoading(true);
+      setErrorMessage(undefined);
+      const response = await authenticate({
+        email: emailInput,
+        password: passwordInput
+      });
+      if (response && response.code === API_CODE.OK) {
+        handleLoginSuccess(response);
+        return;
+      }
+      displayMessage('error', response.error?.message);
+    } catch (error) {
+      displayMessage('error', (error as BaseResponseType).error?.message);
+      setLoading(false);
+      setErrorMessage(undefined);
+    }
+  }
+  const handleLoginWithGoogle = async () => {
+    try {
+      setLoadingGoogle(true);
+      const response = await loginWithGoogle();
+      if (response && response.code === API_CODE.OK) {
+        router.push(response.data);
+        return;
+      }
+      displayMessage('error', response.error?.message);
+    } catch (error) {
+      setLoadingGoogle(false);
+      displayMessage('error', (error as BaseResponseType).error?.message);
+    }
+  }
+  const handleAuthWithGoogle = async () => {
+    try {
+      if (!code || !scope || !authuser || !prompt) {
+        return;
+      }
+      const response = await authGoogleCallback({
+        code: code,
+        scope: scope,
+        authuser: authuser,
+        prompt: prompt
+      });
+      if (response && response.code === API_CODE.OK) {
+        handleLoginSuccess(response);
+        return;
+      }
+      router.replace(APP_LINK.LOGIN);
+      displayMessage('error', response.error?.message);
+    } catch (error) {
+      setLoadingGoogle(false);
+      displayMessage('error', (error as BaseResponseType).error?.message);
+      router.replace(APP_LINK.LOGIN);
+    }
+  }
+  const handleLoginSuccess = (response: BaseResponseType) => {
+    setCookie(APP_AUTH.COOKIE_AUTH_KEY, response.data.access_token, { expires: APP_CONFIG.TOKEN_EXPIRE_TIME });
+    setCookie(APP_AUTH.COOKIE_AUTH_USER, JSON.stringify(response.data.user), { expires: APP_CONFIG.TOKEN_EXPIRE_TIME });
+    window.location.href = APP_LINK.WORKSPACE;
+  }
+  useEffect(() => {
+    if (code && scope && authuser && prompt) {
+      handleAuthWithGoogle();
+    }
+  }, [code]);
+
+  if (code && scope && authuser && prompt) {
+    return (
+      <div className="card shadow-sm p-4 border-0" style={{ width: "90%", maxWidth: "400px" }}>
+        <h5 className="text-center mb-3 mt-4">{t('login.login_to_label')} Next Tech</h5>
+        <center>
+          <img src="/images/icons/loading_google.gif" className="mt-4" height={70} width={150} />
+        </center>
+      </div>
+    )
+  }
+  return <>
+    <div className="card shadow-sm p-4 border-0" style={{ width: "90%", maxWidth: "400px" }}>
+      <h5 className="text-center mb-3 mt-4">{t('login.login_to_label')} Next Tech</h5>
+      {
+        fetchedEmail ?
+        <Input 
+          minLength={5}
+          maxLength={16}
+          type="password" 
+          placeholder={t('login.input_password')} 
+          classInput="rounded-2" 
+          classGroup="mb-3"
+          errorMessage={errorMessage}
+          value={passwordInput}
+          onChange={(e) => setPasswordInput (e.target.value)}
+          disabled={loading || loadingGoogle}
+          validates={[
+            {
+              type: 'is_required',
+              message: t('authenticate_message.password_is_required')
+            }
+          ]}
+        /> : 
+        <Input 
+          type="email" 
+          placeholder={t('login.input_email')} 
+          classInput="rounded-2" 
+          classGroup="mb-3"
+          errorMessage={errorMessage}
+          value={emailInput}
+          onChange={(e) => setEmailInput (e.target.value)}
+          disabled={loading || loadingGoogle}
+          validates={[
+            {
+              type: 'is_required',
+              message: t('authenticate_message.email_is_required')
+            },
+            {
+              type: 'is_email',
+              message: t('authenticate_message.email_is_valid')
+            }
+          ]}
+        />
+      }
+      <Button 
+        color={loading ? 'secondary' : 'primary'} 
+        className="w-100 rounded-2 mb-3"
+        onClick={!fetchedEmail ? handleSubmitFetchEmail : handleAuthenticate}
+        disabled={loading || loadingGoogle}
+      >
+        {loading ? <Loading color="light" /> : (fetchedEmail ? t('login.sign_in_btn') : t('login.continue_btn'))}
+      </Button>
+      <div className="text-center text-muted mb-3">
+        {t('login.or_text')}
+      </div>
+      <Button 
+        disabled={loadingGoogle || loading} 
+        color="light" 
+        className={`align-items-center shadow-sm border rounded-pill px-4 py-${loadingGoogle ? '1' : '2'} w-100`}
+        onClick={handleLoginWithGoogle}
+      >
+        {!loadingGoogle && <img src="/images/icons/google.png" alt="Google Logo" className="me-2" width="24" height="24" />}
+        <span>{loadingGoogle ? <img src="/images/icons/loading_google.gif" height={30} width={90} /> : t('login.login_google_btn')}</span>
+      </Button>
+      <div className="text-center mt-3">
+        <Link href="#" className="text-decoration-none text-primary">
+          {t('login.create_account_btn')}
+        </Link>
       </div>
     </div>
-  )
+  </>
 }
 export default LoginView;

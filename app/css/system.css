@@ -1,21 +1,48 @@
-.w-100 {
-    width: 100% !important;
+.language-auth-box {
+    top: 10px;
+    left: 10px;
+    transform: none;
+    z-index: 20;
 }
 
-.w-90 {
-    width: 90% !important;
+.logo-auth-box {
+    top: 100px;
+}
+
+.error-message-toast {
+    border-left: 3px solid #dc3545;
+}
+
+.ant-notification-notice-message {
+    margin-bottom: unset !important;
+}
+
+.m-unset {
+    margin: unset !important;
+}
+
+.float-left {
+    float: left !important;
+}
+
+.float-right {
+    float: right !important;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+:where(.css-dev-only-do-not-override-tjsggz).ant-avatar >img {
+    width: unset !important;
+}
+
+.lh-50 {
+    line-height: 50px;
 }
 
 .w-50 {
     width: 50% !important;
-}
-
-.w-40 {
-    width: 40% !important;
-}
-
-.w-30 {
-    width: 30% !important;
 }
 
 .w-10 {
@@ -26,108 +53,43 @@
     width: 20% !important;
 }
 
-.w-80 {
-    width: 80% !important;
+.w-30 {
+    width: 30% !important;
 }
 
-.p-unset {
-    padding: unset !important;
+.p-t-10 {
+    padding-top: 10px !important;
 }
 
-.pb-unset {
-    padding-bottom: unset !important;
+.p-t-20 {
+    padding-top: 20px !important;
 }
 
-.m-unset {
-    margin: unset !important;
-}
-
-.pt-unset {
-    padding-top: unset !important;
-}
-
-.lh-40 {
-    line-height: 40px !important;
-}
-
-.lh-20 {
-    line-height: 20px !important;
-}
-
-.p-5 {
-    padding: 5px !important;
-}
-
-.p-10 {
-    padding: 10px !important;
-}
-
-.p-20 {
-    padding: 20px !important;
-}
-
-.m-t-10 {
-    margin-top: 10px !important;
-}
-
-.m-t-5 {
-    margin-top: 5px !important;
-}
-
-.pl-unset {
-    padding-left: unset !important;
-}
-
-.pr-unset {
-    padding-right: unset !important;
-}
-
-
-.float-left {
-    float: left !important;
-}
-
-.float-right {
-    float: right !important;
-}
-
-.display-block {
-    display: block !important;
-}
-
-.border-radius-10 {
-    border-radius: 10px;
-}
-
-.border-radius-15 {
-    border-radius: 15px;
-}
-
-.border-radius-20 {
-    border-radius: 20px;
-}
-
-.border-unset {
+.ql-container.ql-snow {
     border: unset !important;
 }
 
-.line-through {
-    text-decoration: line-through !important;
+.p-r-unset {
+    padding-right: unset !important;
 }
 
-.pointer {
-    cursor: pointer;
+.ant-drawer-header {
+    padding: 10px !important;
 }
 
-.m-b-unset {
-    margin-bottom: unset !important;
+:where(.css-dev-only-do-not-override-tjsggz).ant-drawer {
+    z-index: 1100 !important;
 }
 
-.m-t-unset {
-    margin-top: unset !important;
-}
+@media screen and (max-width: 768px) {
+    .language-auth-box {
+        top: 10px;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 20;
+    }
 
-.next-btn {
-    height: 35px !important;
-    line-height: 15px !important;
+    .logo-auth-box {
+        top: 200px;
+    }    
 }

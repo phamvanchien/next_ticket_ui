@@ -1,32 +1,23 @@
 import React from "react";
 
-interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'outline' | 'color' | 'size' | 'fullWidth'> {
-  color: "danger" | "primary" | "warning" | "secondary" | "dark" | "success" | "info" | "light" | "default";
-  children: React.ReactNode;
-  className?: string;
-  fullWidth?: boolean;
-  size?: "lg" | "sm";
-  outline?: boolean;
-  rounded?: boolean;
+interface ButtonProps extends Omit<React.ButtonHTMLAttributes<HTMLButtonElement>, 'outline' | 'color' | 'size'> {
+  children: React.ReactNode
+  outline?: boolean
+  color: "primary" | "warning" | "danger" | "light" | "info" | "success" | "secondary" | "dark" | "default",
+  size?: "sm" | "lg",
+  className?: string
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-  ({ children, className, size, rounded, color, fullWidth, outline = false, ...rest }, ref) => {
-    // btn-block
-    // bg-gradient-${
-    //   !outline ? color : ""
-    // }
-    return (
-      <button
-        ref={ref}
-        className={`next-btn btn ${fullWidth ? "btn-block" : ""}  btn-${outline ? "outline-" : ""}${color} ${
-          size ? "btn-" + size : ""
-        } ${rounded ? "rounded-pill" : ""} ${className ? className : ""}`}
-        {...rest}
-      >
-        {children}
-      </button>
-    );
+  ({ children, className, size, color, outline = false, ...rest }, ref) => {
+  return <button 
+    ref={ref}
+    type="button" 
+    className={`btn btn-${outline ? 'outline-' : ''}${color} ${size ? 'btn-sm' : ''} ${className ?? ''}`} 
+    {...rest}
+  >
+    {children}
+  </button>
   }
 );
 

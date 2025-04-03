@@ -1,71 +1,53 @@
-import Button from "@/common/components/Button";
-import { APP_LINK, IMAGE_DEFAULT } from "@/enums/app.enum";
-import { ProjectType } from "@/types/project.type";
-import { WorkspaceUserType } from "@/types/workspace.type";
-import { faBullseye, faCircle, faCircleCheck, faGlobe, faGlobeAsia, faLock, faUser } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import AddMemberModal from "./AddMemberModal";
-import { useSelector } from "react-redux";
-import { RootState } from "@/reduxs/store.redux";
-import { formatTime } from "@/utils/helper.util";
-import { useTranslations } from "next-intl";
+import UserAvatar from "@/common/components/AvatarName";
 import UserGroup from "@/common/components/UserGroup";
-import { ResponseUserDataType } from "@/types/user.type";
+import { RootState } from "@/reduxs/store.redux";
+import { ProjectType } from "@/types/project.type";
+import { faEllipsisH, faGlobe, faLock } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Avatar } from "antd";
+import { useTranslations } from "next-intl";
+import Link from "next/link";
+import React from "react";
+import { useSelector } from "react-redux";
 
 interface ProjectItemProps {
   project: ProjectType
+  setOpenAddMember: (openAddMember?: number) => void
 }
 
-const ProjectItem: React.FC<ProjectItemProps> = ({ project }) => {
+const ProjectItem: React.FC<ProjectItemProps> = ({ project, setOpenAddMember }) => {
   const t = useTranslations();
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
-  const [modalAddMember, setModalAddmember] = useState<boolean>(false);
-  const [projectMembers, setProjectMembers] = useState<WorkspaceUserType[]>();
-  // useEffect(() => {
-  //   setProjectMembers(project.members.splice(0, 3));
-  // }, [project])
   return (
-    <div className="col-12 col-lg-3">
-      <div className={`card ${formatTime(new Date(project.created_at)).indexOf('Now') !== -1 ? 'just-create' : ''}`}>
-        <div className="card-body p-10">
-          <h6 className="title-project">
-            <Link href={APP_LINK.WORKSPACE + '/' + project.workspace_id + '/project/' + project.id}>
-              <FontAwesomeIcon icon={faBullseye} className="text-secondary" /> {project.name}
-            </Link>
-          </h6>
-          <p className="text-muted" style={{ fontSize: 13 }}>
-            <FontAwesomeIcon icon={faUser} /> {t('projects.created_by_text')} {project.user.first_name} {project.user.last_name}
-          </p>
-          <UserGroup className="mr-1" users={project.members as ResponseUserDataType[]} />
-          <Avatar.Group>
-            <Avatar src={<img src={'/img/icon/user-plus.png'} width={50} height={50} alt="avatar" />} />
-          </Avatar.Group>
-          <p className="m-b-unset mt-2">
-            {
-              project.is_public &&
-              <span className="text-success">
-                <FontAwesomeIcon icon={faGlobeAsia} /> {t('public_check')}
-              </span>
-            }
-            {
-              !project.is_public &&
-              <span className="text-primary">
-                <FontAwesomeIcon icon={faLock} /> {t('private_check')}
-              </span>
-            }
-          </p>
+    <div className="card project-card border-0 shadow-sm">
+      <div className="project-header" style={{ backgroundColor: '#3333' }}></div>
+      <div className="card-body">
+        <h5 className="card-title">
+          <FontAwesomeIcon icon={project.is_public ? faGlobe : faLock} className="text-secondary" style={{marginRight: 3}} />
+          <Link href={`/workspace/${project.workspace_id}/project/${project.id}`}>{project.name}</Link>
+          {
+            project.user_id === userLogged?.id && 
+            <Avatar src={'/images/icons/user-plus.png'} className="pointer float-right" onClick={setOpenAddMember ? () => setOpenAddMember (project.id) : undefined} />
+          }
+          {
+            project.members.filter(m => m.id !== userLogged?.id).length > 0 && <UserGroup className="float-right">
+              {
+                project.members.filter(m => m.id !== userLogged?.id).map(pm => (
+                  <UserAvatar name={pm.first_name} avatar={pm.avatar} key={pm.id} />
+                ))
+              }
+            </UserGroup>
+          }
+        </h5>
+        <p className="card-text text-muted m-unset">{t('projects.created_by_text')}: {project.user.first_name} {project.user.last_name}</p>
+        <p className="card-text text-muted">
+          <i>{project.description ? project.description : t('projects.no_description')}</i>
+        </p>
+        {project.percent_done.toString()}%
+        <div className="progress progress-project">
+          <div className="progress-bar progress-bar-striped progress-bar-animated" style={{ width: `${project.percent_done}%` }}></div>
         </div>
       </div>
-      {
-        project.user_id === userLogged?.id && <AddMemberModal 
-          openModal={modalAddMember} 
-          setOpenModal={setModalAddmember} 
-          projectId={project.id}
-        />
-      }
     </div>
   )
 }

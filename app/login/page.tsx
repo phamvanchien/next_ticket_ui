@@ -1,7 +1,7 @@
-import { Suspense } from 'react';
-import '../css/pages/auth.css';
+import AuthLayout from "@/common/layouts/AuthLayout";
 import LoginView from "@/views/login/LoginView";
-import { Metadata } from 'next';
+import { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Next Ticket | Login",
@@ -12,5 +12,6 @@ const LoginPage = () => {
   return <Suspense>
     <LoginView />
   </Suspense>
-}
+};
+LoginPage.getLayout = (page: React.ReactNode) => <AuthLayout>{page}</AuthLayout>;
 export default LoginPage;

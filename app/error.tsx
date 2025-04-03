@@ -2,6 +2,6 @@
 import ErrorPage from "@/common/layouts/ErrorPage";
 
 const Error = () => {
-  return <ErrorPage errorCode={500} />
+  return <ErrorPage code={500} />
 }
 export default Error;

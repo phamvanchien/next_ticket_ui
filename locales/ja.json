@@ -1,5 +1,6 @@
 {
     "login": {
+        "login_to_label": "ログイン",
         "login_google_btn": "Googleでログイン",
         "or_text": "または",
         "input_email": "メールアドレスを入力してください",
@@ -75,7 +76,12 @@
         "page_title": "ワークスペース",
         "page_title_join": "ワークスペースに参加する または",
         "page_title_create": "新しいワークスペースを作成",
-        "placeholder_input_search": "ワークスペースを検索"
+        "placeholder_input_search": "ワークスペースを検索",
+        "no_data": "ワークスペースはまだありません",
+        "no_data_description": "まず、チームを管理するための新しい部屋を作成します。",
+        "no_data_invite": "まだ招待状はありません",
+        "invitation_title": "ワークスペースへの招待",
+        "workspace_joined_message": "あなたはすでにワークスペースのメンバーです"
     },
     "btn_view_more": "もっと見る",
     "top_menu": {
@@ -88,13 +94,15 @@
         "page_title": "ワークスペースを作成",
         "input_workspace_name": "ワークスペース名を入力",
         "workspace_name_required": "ワークスペース名は空にできません",
-        "placeholder_workspace_description": "ワークスペースの説明"
+        "placeholder_workspace_description": "ワークスペースの説明",
+        "workspace_name_is_required": "ワークスペース名を入力してください"
     },
     "btn_create": "作成",
     "btn_back": "戻る",
     "btn_new": "新規",
     "btn_cancel": "キャンセル",
     "btn_send": "送信",
+    "search_label": "ワークスペース、プロジェクト、チケットなどを検索します。",
     "sidebar": {
         "workspace": "ワークスペース",
         "project": "プロジェクト",
@@ -105,6 +113,7 @@
     },
     "projects": {
         "page_title": "プロジェクト",
+        "invitation_title": "プロジェクトへの参加への招待",
         "invitation": "参加招待",
         "placeholder_input_search": "プロジェクトを検索",
         "project_empty_message": "ここにプロジェクトが表示されます",
@@ -116,7 +125,11 @@
         "placeholder_input_tag_name": "タグ名を入力",
         "tag_name_label": "タグ名",
         "member_label": "プロジェクトメンバー",
-        "clone_project_title": "このプロジェクトのクローンを作成します"
+        "clone_project_title": "このプロジェクトのクローンを作成します",
+        "no_project_message": "まだプロジェクトはありません",
+        "no_project_description": "最初のプロジェクトを作成する",
+        "no_description": "説明なし",
+        "project_joined_message": "あなたはすでにプロジェクトのメンバーです"
     },
     "private_check": "非公開",
     "public_check": "公開",
@@ -128,7 +141,11 @@
         "send_to_text": "送信先",
         "no_member_message": "メンバーがいません",
         "project_name_required": "プロジェクト名を入力してください",
-        "placeholder_input_search_member": "名前またはメールアドレスを入力"
+        "placeholder_input_search_member": "名前またはメールアドレスを入力",
+        "send_invite_success_label": "招待状を送信しました",
+        "join_label": "参加する",
+        "remove_invite_label": "衰退",
+        "user_invite_label": "招待者"
     },
     "add_member_project": {
         "page_title": "メンバーを追加"
@@ -198,7 +215,8 @@
         "attribute_name_is_required": "属性名は必須です",
         "attribute_add_value_label": "値を追加する",
         "attribute_value_is_required": "少なくとも1つの値を追加",
-        "enter_text_attribute_placeholder": "ここにテキストを入力してください"
+        "enter_text_attribute_placeholder": "ここにテキストを入力してください",
+        "write_description_label": "「このチケットの説明」"
     },
     "project_setting": {
         "message_update": "プロジェクトが更新されました",
@@ -221,14 +239,18 @@
         "placeholder_attribute_value": "属性値",
         "add_attribute_title": "属性を作成",
         "delete_attribute_warning": "この属性を削除してもよろしいですか ?",
-        "delete_attribute_warning_message": "属性内の値をすべて削除すると表示されなくなります。"
+        "delete_attribute_warning_message": "属性内の値をすべて削除すると表示されなくなります。",
+        "select_status_category_label": "カテゴリーを選択"
     },
     "btn_ok": "同意する",
     "empty_label": "空",
+    "select_icon": "アイコンを選択",
+    "select_color": "色を選択",
     "btn_save": "保存",
     "btn_delete": "削除",
     "btn_add_new": "新規追加",
     "language_label": "言語",
+    "upload_image_label": "写真を選択",
     "country": {
         "vietnam": "ベトナム",
         "england": "英国/米国",
@@ -301,5 +323,19 @@
     "task_history": {
         "updated_description": "説明を更新しました",
         "created_task": "タスクが作成されました"
+    },
+    "not_found_page": {
+        "page_title": "おっと！探しているページは存在しません。",
+        "page_description": "道に迷ったようですね。別のページにリダイレクトしてください。"
+    },
+    "server_error_page": {
+        "page_title": "おっと！サーバー上で問題が発生しました。",
+        "page_description": "ご不便をおかけして申し訳ございません。数分後にもう一度ご確認ください。"
+    },
+    "btn_back_main_page": "メインページに戻る",
+    "maintain_page": {
+        "page_title": "システムメンテナンス",
+        "page_description": "より良い体験を提供するために、システムを維持しています。",
+        "page_description_sub": "数分後にまたお越しください"
     }
 }

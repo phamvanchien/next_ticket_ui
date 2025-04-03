@@ -1,8 +1,8 @@
 import { API_METHOD_ENUM } from "@/enums/api.enum";
 import { request } from "./base.api";
-import { APP_CONFIG } from "@/config/app.config";
-import { HistoryType, RequestCreateTaskType, RequestGetTaskType, RequestUpdateTaskType, ResponseTaskBoardDataType, TaskType } from "@/types/task.type";
 import { BaseResponseType, RequestWithPaginationType, ResponseWithPaginationType } from "@/types/base.type";
+import { APP_CONFIG } from "@/configs/app.config";
+import { HistoryType, RequestCreateTaskType, RequestGetTaskType, RequestUpdateTaskType, ResponseTaskBoardDataType, TaskType } from "@/types/task.type";
 
 export const create = async (workspaceId: number, projectId: number, payload: RequestCreateTaskType): Promise<BaseResponseType<TaskType>> => {
   return request({

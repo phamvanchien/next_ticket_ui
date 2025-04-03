@@ -1,3 +1,5 @@
+@import "antd/dist/reset.css";
+
 :root {
   --max-width: 1100px;
   --border-radius: 12px;
@@ -79,20 +81,14 @@
   margin: 0;
 }
 
-html,
+html {
+  font-size: 14px;
+}
+
+html ,
 body {
   max-width: 100vw;
   overflow-x: hidden;
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
 }
 
 a {

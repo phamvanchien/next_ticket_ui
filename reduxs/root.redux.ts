@@ -1,14 +1,12 @@
 import { combineReducers } from '@reduxjs/toolkit';
 import userSlice from './user.redux';
-import menuSlice from './menu.redux';
-import workspaceSlice from './workspace.redux';
-import attributeSlice from './attribute.redux';
+import projectSlide from './project.redux';
+import taskSlide from './task.redux';
 
 const rootReducer = combineReducers({
   userSlice: userSlice,
-  menuSlice: menuSlice,
-  workspaceSlice: workspaceSlice,
-  attributeSlice: attributeSlice
+  projectSlide: projectSlide,
+  taskSlide: taskSlide
 });
 
 export default rootReducer;

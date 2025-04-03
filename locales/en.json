@@ -3,13 +3,14 @@
         "error": "Error"
     },
     "login": {
-        "login_google_btn": "Login with Google",
+        "login_to_label": "Log in to",
+        "login_google_btn": "Sign in with Google",
         "or_text": "Or",
         "input_email": "Enter your email",
         "continue_btn": "Continue",
         "sign_in_btn": "Sign In",
         "forgot_password_link": "Forgot password",
-        "create_account_btn": "Create a account",
+        "create_account_btn": "Sign up for an account",
         "input_password": "Password"
     },
     "authenticate_message": {
@@ -75,7 +76,12 @@
         "page_title": "Workspaces",
         "page_title_join": "Join to a workspace or",
         "page_title_create": "Create a new workspace",
-        "placeholder_input_search": "Search your workspaces"
+        "placeholder_input_search": "Search your workspaces",
+        "no_data": "No workspace yet",
+        "no_data_description": "Start by creating a new room to manage your team",
+        "no_data_invite": "No invitations yet",
+        "invitation_title": "Workspace invitation",
+        "workspace_joined_message": "You are already a member of the workspace"
     },
     "btn_view_more": "View more",
     "top_menu": {
@@ -88,13 +94,15 @@
         "page_title": "Create Workspaces",
         "input_workspace_name": "Enter your workspace name",
         "workspace_name_required": "Workspace name is not empty",
-        "placeholder_workspace_description": "Workspace description"
+        "placeholder_workspace_description": "Workspace description",
+        "workspace_name_is_required": "Please enter workspace name"
     },
     "btn_create": "Create",
     "btn_back": "Back",
     "btn_new": "New",
     "btn_cancel": "Cancel",
     "btn_send": "Send",
+    "search_label": "Search workspaces, projects, tickets, ...",
     "sidebar": {
         "workspace": "Workspaces",
         "project": "Projects",
@@ -105,6 +113,7 @@
     },
     "projects": {
         "page_title": "Projects",
+        "invitation_title": "Invitation to join the project",
         "invitation": "Invitation",
         "placeholder_input_search": "Search projects",
         "project_empty_message": "Your projects will be show here",
@@ -116,7 +125,11 @@
         "placeholder_input_tag_name": "Enter tag name",
         "tag_name_label": "Tag name",
         "member_label": "Project members",
-        "clone_project_title": "Clone this project"
+        "clone_project_title": "Clone this project",
+        "no_project_message": "No projects yet",
+        "no_project_description": "Create your first project",
+        "no_description": "No description",
+        "project_joined_message": "You are already a member of the project"
     },
     "private_check": "Private",
     "public_check": "Public",
@@ -128,7 +141,11 @@
         "send_to_text": "Send to",
         "no_member_message": "No member",
         "project_name_required": "Project name is required",
-        "placeholder_input_search_member": "Enter name or email"
+        "placeholder_input_search_member": "Enter name or email",
+        "send_invite_success_label": "Invitation sent",
+        "join_label": "Join",
+        "remove_invite_label": "Decline",
+        "user_invite_label": "Invited by"
     },
     "add_member_project": {
         "page_title": "Add members"
@@ -198,7 +215,8 @@
         "attribute_name_is_required": "Attribute name is required",
         "attribute_add_value_label": "Add a value",
         "attribute_value_is_required": "Add at least 1 value",
-        "enter_text_attribute_placeholder": "Enter text here"
+        "enter_text_attribute_placeholder": "Enter text here",
+        "write_description_label": "Description of this ticket"
     },
     "project_setting": {
         "message_update": "Project is updated",
@@ -221,14 +239,18 @@
         "placeholder_attribute_value": "Attribute value",
         "add_attribute_title": "Create attribute",
         "delete_attribute_warning": "Are you sure you want to delete this attribute ?",
-        "delete_attribute_warning_message": "If you delete all values ​​in the attribute, it will not be displayed."
+        "delete_attribute_warning_message": "If you delete all values ​​in the attribute, it will not be displayed.",
+        "select_status_category_label": "Select category"
     },
     "btn_ok": "OK",
     "empty_label": "Empty",
+    "select_icon": "Select icon",
+    "select_color": "Select color",
     "btn_save": "Save",
     "btn_delete": "Delete",
     "btn_add_new": "Add new",
     "language_label": "Languages",
+    "upload_image_label": "Select photo",
     "country": {
         "vietnam": "Vietnam",
         "england": "UK/US",
@@ -301,5 +323,19 @@
     "task_history": {
         "updated_description": "Updated description",
         "created_task": "Created task"
+    },
+    "not_found_page": {
+        "page_title": "Oops! The page you are looking for does not exist.",
+        "page_description": "Looks like you got lost. Please redirect to another page."
+    },
+    "server_error_page": {
+        "page_title": "Oops! Something went wrong on our server.",
+        "page_description": "Sorry for the inconvenience. Please check back in a few minutes."
+    },
+    "btn_back_main_page": "Back to main page",
+    "maintain_page": {
+        "page_title": "System maintenance",
+        "page_description": "We are maintaining the system to provide a better experience.",
+        "page_description_sub": "Please come back in a few minutes"
     }
 }  

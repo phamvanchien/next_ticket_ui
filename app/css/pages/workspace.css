@@ -1,84 +1,86 @@
-.create-box {
-    justify-content: center;
-    border: 2px dashed #3333;
-    cursor: pointer;
+.wp-container {
+  max-width: 1200px !important;
+  padding-bottom: 100px;
 }
 
-.create-icon {
-    font-size: 50px !important;
-    color: #3333 !important;
+.wp-search-icon {
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
 }
 
-.elevation-1 {
-    box-shadow: unset !important;
+.wp-search-input {
+  border: none !important;
+  background-color: #f7f7f7 !important;
 }
 
-.create-workspace-box {
-  width: 700px !important;
+.btn-add-wp-mobile {
+  right: 20px;
+  bottom: 85px; 
+  width: 60px;
+  height: 60px;
+  z-index: 1000;
+}
+  
+.btn-add-member-mobile {
+  bottom: 20px;
+  right: 20px;
+  z-index: 1000;
+  width: 60px;
+  height: 60px;
 }
 
-.input-search {
-  border-radius: 20px;
-  padding-left: 15px;
-  width: 70%;
+.wp-logo {
+  margin-right: 5px;
+  width: 50px;
+  height: 50px;
+  margin-right: 15px;
 }
 
-.workspace-item {
+.dropdown-member-container {
+  max-height: 200px;
+  overflow-y: auto;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.dropdown-member-item {
+  display: flex;
+  align-items: center;
+  padding: 8px;
   cursor: pointer;
 }
 
-.create-workspace-box, .setting-workspace-box {
-    width: 700px !important;
-}
-  
-.workspace-item {
-    cursor: pointer;
+.dropdown-member-item:hover {
+  background: #f0f0f0;
 }
 
-.img-banner-wp {
-  width: 60%;
-  height: 150px;
+.dropdown-member-item.disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
 
-.btn-wp-home {
-  width: 200px;
-  height: 50px !important;
-  margin-top: 15px;
-  font-size: 22px !important;
+.selected-user-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
 }
 
-.card-body-wp-home {
-  text-align: left;
+.selected-user-item {
+  display: flex;
+  align-items: center;
+  background: #e0e0e0;
+  padding: 5px 10px;
+  border-radius: 5px;
 }
 
-.card-wp-home {
-  width: 80%;
+.remove-icon {
+  margin-left: 10px;
+  cursor: pointer;
 }
 
-@media (max-width: 576px) {
-  .create-workspace-box, .setting-workspace-box {
-    width: 95% !important;
-  }
-
-  .img-banner-wp {
-    width: 100% !important;
-  }
-}
-
-@media (max-width: 768px) {
-  .input-search {
-    width: 100%;
-  }
-
-  .img-wp-home {
-    float: unset !important;
-  }
-
-  .card-body-wp-home {
-    text-align: center;
-  }
-
-  .card-wp-home {
-    width: 100%;
-  }
+.wp-item-highlight {
+  border: 0.7px solid #0d6efd !important;
 }

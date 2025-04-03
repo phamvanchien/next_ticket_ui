@@ -11,15 +11,15 @@ import jaJP from 'antd/es/locale/ja_JP';
 import { getCookie } from '@/utils/cookie.util';
 
 interface DatePickerCustomProps {
-  setDueDate: (dueDate: Date | null) => void;
-  dueDate: Date | null;
+  setDate: (date: Date | null) => void;
+  date: Date | null;
   placeholder?: string;
   className?: string;
 }
 
-const DatePickerCustom: React.FC<DatePickerCustomProps> = ({ setDueDate, dueDate, placeholder, className }) => {
+const DatePickerCustom: React.FC<DatePickerCustomProps> = ({ setDate, date, placeholder, className }) => {
   const onChange: DatePickerProps['onChange'] = (date, dateString) => {
-    setDueDate(date ? date.toDate() : null);
+    setDate(date ? date.toDate() : null);
   };
 
   const localeFromCookie = getCookie('locale') || 'en';
@@ -40,7 +40,7 @@ const DatePickerCustom: React.FC<DatePickerCustomProps> = ({ setDueDate, dueDate
         <DatePicker
           format="YYYY-MM-DD"
           onChange={onChange}
-          value={dueDate ? dayjs(dueDate) : undefined}
+          value={date ? dayjs(date) : undefined}
           getPopupContainer={(trigger) => trigger.parentElement || document.body}
           placeholder={placeholder}
           className={className}

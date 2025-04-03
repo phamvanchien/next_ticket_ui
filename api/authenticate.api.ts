@@ -1,8 +1,8 @@
-import { APP_CONFIG } from "@/config/app.config"
+import { APP_CONFIG } from "@/configs/app.config"
 import { request } from "./base.api"
 import { API_METHOD_ENUM } from "@/enums/api.enum"
-import { RequestAuthenticateType, RequestVerifyAccountType, ResponseAuthenticateType, ResponseAuthenticateActionType, RequestForgotPasswordType, RequestRecoveryPasswordType, RequestGoogleAuthCallback } from "@/types/authenticate.type"
 import { BaseResponseType } from "@/types/base.type"
+import { RequestAuthenticateType, RequestVerifyAccountType, ResponseAuthenticateType, ResponseAuthenticateActionType, RequestForgotPasswordType, RequestRecoveryPasswordType, RequestGoogleAuthCallback } from "@/types/authenticate.type"
 
 export const authenticate = async (payload: RequestAuthenticateType): Promise<ResponseAuthenticateType> => {
   return request({

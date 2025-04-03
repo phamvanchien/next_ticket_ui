@@ -3,6 +3,7 @@
         "error": "Lỗi"
     },
     "login": {
+        "login_to_label": "Đăng nhập vào",
         "login_google_btn": "Đăng nhập bằng Google",
         "or_text": "Hoặc",
         "input_email": "Nhập email của bạn",
@@ -75,7 +76,12 @@
         "page_title": "Phòng làm việc",
         "page_title_join": "Vào một phòng làm việc hoặc",
         "page_title_create": "Tạo một phòng làm việc mới",
-        "placeholder_input_search": "Tìm phòng của bạn"
+        "placeholder_input_search": "Tìm phòng của bạn",
+        "no_data": "Chưa có workspace nào",
+        "no_data_description": "Bắt đầu bằng cách tạo phòng mới để quản lý nhóm của bạn",
+        "no_data_invite": "Chưa có lời mời nào",
+        "invitation_title": "Lời mời tham gia phòng",
+        "workspace_joined_message": "Bạn đã là thành viên của phòng làm việc"
     },
     "btn_view_more": "Xem thêm",
     "top_menu": {
@@ -88,13 +94,15 @@
         "page_title": "Tạo phòng làm việc",
         "input_workspace_name": "Nhập tên phòng làm việc",
         "workspace_name_required": "Vui lòng nhập tên phòng làm việc",
-        "placeholder_workspace_description": "Mô tả cho phòng này"
+        "placeholder_workspace_description": "Mô tả cho phòng này",
+        "workspace_name_is_required": "Vui lòng nhập tên phòng làm việc"
     },
     "btn_create": "Tạo",
     "btn_back": "Quay lại",
     "btn_new": "Tạo mới",
     "btn_cancel": "Hủy",
     "btn_send": "Gửi",
+    "search_label": "Tìm phòng, dự án, vé, ...",
     "sidebar": {
         "workspace": "Phòng của bạn",
         "project": "Dự án",
@@ -105,6 +113,7 @@
     },
     "projects": {
         "page_title": "Dự án",
+        "invitation_title": "Lời mời tham gia dự án",
         "invitation": "Lời mời tham gia",
         "placeholder_input_search": "Tìm dự án",
         "project_empty_message": "Dự án của bạn sẽ hiện ở đây",
@@ -116,7 +125,11 @@
         "placeholder_input_tag_name": "Nhập tên thẻ",
         "tag_name_label": "Tên thẻ",
         "member_label": "Thành viên trong dự án",
-        "clone_project_title": "Nhân bản dự án này"
+        "clone_project_title": "Nhân bản dự án này",
+        "no_project_message": "Chưa có dự án nào",
+        "no_project_description": "Hãy tạo dự án đầu tiên của bạn",
+        "no_description": "Không có mô tả",
+        "project_joined_message": "Bạn đã là thành viên của dự án"
     },
     "private_check": "Riêng tư",
     "public_check": "Công khai",
@@ -128,7 +141,11 @@
         "send_to_text": "Gửi đến",
         "no_member_message": "Không có thành viên nào",
         "project_name_required": "Vui lòng nhập tên dự án",
-        "placeholder_input_search_member": "Nhập tên hoặc email"
+        "placeholder_input_search_member": "Nhập tên hoặc email",
+        "send_invite_success_label": "Đã gửi lời mời",
+        "join_label": "Tham gia",
+        "remove_invite_label": "Từ chối",
+        "user_invite_label": "Được mời bởi"
     },
     "add_member_project": {
         "page_title": "Thêm thành viên"
@@ -198,7 +215,8 @@
         "attribute_name_is_required": "Vui lòng nhập tên thuộc tính",
         "attribute_add_value_label": "Thêm giá trị",
         "attribute_value_is_required": "Vui lòng thêm ít nhất 1 giá trị",
-        "enter_text_attribute_placeholder": "Nhập văn bản"
+        "enter_text_attribute_placeholder": "Nhập văn bản",
+        "write_description_label": "Mô tả về vé này"
     },
     "project_setting": {
         "message_update": "Đã cập nhật dự án",
@@ -221,14 +239,18 @@
         "placeholder_attribute_value": "Giá trị thuộc tính",
         "add_attribute_title": "Tạo thuộc tính",
         "delete_attribute_warning": "Bạn có chắc chắn muốn xóa thuộc tính này ?",
-        "delete_attribute_warning_message": "Nếu xóa hết giá trị trong thuộc tính thì nó sẽ không hiển thị"
+        "delete_attribute_warning_message": "Nếu xóa hết giá trị trong thuộc tính thì nó sẽ không hiển thị",
+        "select_status_category_label": "Chọn loại trạng thái"
     },
     "btn_ok": "Đồng ý",
     "empty_label": "Trống",
+    "select_icon": "Chọn biểu tượng",
+    "select_color": "Chọn màu",
     "btn_save": "Lưu",
     "btn_delete": "Xóa",
     "btn_add_new": "Thêm mới",
     "language_label": "Ngôn ngữ",
+    "upload_image_label": "Chọn ảnh",
     "country": {
         "vietnam": "Việt Nam",
         "england": "Anh/Mỹ",
@@ -301,5 +323,19 @@
     "task_history": {
         "updated_description": "Đã cập nhật mô tả",
         "created_task": "Đã tạo task"
+    },
+    "not_found_page": {
+        "page_title": "Ồ! Trang bạn đang tìm kiếm không tồn tại.",
+        "page_description": "Có vẻ như bạn đã đi lạc. Hãy chuyển hướng đến trang khác."
+    },
+    "server_error_page": {
+        "page_title": "Ồ! Có lỗi xảy ra trên máy chủ của chúng tôi.",
+        "page_description": "Rất xin lỗi vì sự bất tiện này. Vui lòng quay lại sau ít phút"
+    },
+    "btn_back_main_page": "Quay lại trang chính",
+    "maintain_page": {
+        "page_title": "Bảo trì hệ thống",
+        "page_description": "Chúng tôi đang bảo trì hệ thống để mang lại trải nghiệm tốt hơn.",
+        "page_description_sub": "Vui lòng quay lại sau ít phút"
     }
-}  
+}

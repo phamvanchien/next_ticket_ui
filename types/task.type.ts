@@ -1,4 +1,4 @@
-import { ProjectAttributeType, ProjectTagType, ProjectType } from "./project.type";
+import { ProjectAttributeType, ProjectStatusType, ProjectType } from "./project.type";
 import { ResponseUserDataType } from "./user.type";
 import { WorkspaceType } from "./workspace.type";
 
@@ -66,9 +66,9 @@ export interface TaskType {
   priority: TaskPriorityType
   user: ResponseUserDataType,
   assign: ResponseUserDataType[]
-  status: ProjectTagType,
+  status: ProjectStatusType,
   type: TaskTypeItem
-  tags: ProjectTagType[]
+  tags: ProjectStatusType[]
   project: ProjectType
   workspace: WorkspaceType
   attributes: TaskAttributeType[]
@@ -76,7 +76,9 @@ export interface TaskType {
 
 export interface TaskAttributeType {
   id: number
+  task_id?: number
   value: any
+  default_name?: string
   attribute: ProjectAttributeType
 }
 

@@ -1,53 +1,29 @@
-"use client"
-import { faBars, faNavicon, faTimes, faUser } from "@fortawesome/free-solid-svg-icons";
+"use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useState } from "react";
-import { useTranslations } from "next-intl";
-import { useSelector } from "react-redux";
-import { RootState, useAppDispatch } from "@/reduxs/store.redux";
 import Button from "../components/Button";
-import { APP_AUTH, APP_LINK, IMAGE_DEFAULT } from "@/enums/app.enum";
+import { faChevronDown, faChevronUp, faGripVertical, faSearch } from "@fortawesome/free-solid-svg-icons";
+import AvatarName from "../components/AvatarName";
+import { useEffect, useState } from "react";
+import LanguageDropdown from "../components/LanguageDropdown";
 import Link from "next/link";
-import Dropdown from "../dropdown/Dropdown";
-import DropdownItem from "../dropdown/DropdownItem";
-import LanguageSwitcher from "../components/LanguageSwitcher";
+import { useTranslations } from "next-intl";
 import { getCookie } from "@/utils/cookie.util";
+import { RootState, useAppDispatch } from "@/reduxs/store.redux";
+import { APP_AUTH } from "@/enums/app.enum";
 import { setUser } from "@/reduxs/user.redux";
+import { useSelector } from "react-redux";
+import UserAvatar from "../components/AvatarName";
+import { usePathname } from "next/navigation";
+import Logo from "../components/Logo";
 
-interface HeaderProps {
-  className?: string
-}
-
-const Header: React.FC<HeaderProps> = ({ className }) => {
-  const userLogged = useSelector((state: RootState) => state.userSlice).data;
+const Header = () => {
   const t = useTranslations();
   const dispatch = useAppDispatch();
-  const [openMenuMobile, setOpenMenuMobile] = useState(false);
-  const handleOpenMenu = () => {
-    const body = document.getElementsByTagName('body') as HTMLCollectionOf<HTMLBodyElement>;
-    body[0].classList.remove('sidebar-collapse');
-    body[0].classList.add('sidebar-open');
-  }
-  const handleCloseMenu = () => {
-    const body = document.getElementsByTagName('body') as HTMLCollectionOf<HTMLBodyElement>;
-    body[0].classList.add('sidebar-collapse');
-    body[0].classList.remove('sidebar-open');
-  }
-
-  const clickOpenMenu = (event: React.MouseEvent<HTMLAnchorElement>) => {
-    event.preventDefault();
-    const sidebarOpenClass = document.getElementsByClassName('sidebar-open') as HTMLCollectionOf<HTMLBodyElement>;
-    if (sidebarOpenClass.length > 0) {
-      handleCloseMenu();
-    } else {
-      handleOpenMenu();
-    }
-  }
-  useEffect(() => {
-    if (window.innerWidth > 768) {
-      handleOpenMenu();
-    }
-  }, []);
+  const pathname = usePathname();
+  const userLogged = useSelector((state: RootState) => state.userSlice).data;
+  const [pathPage, setPathPage] = useState<string>('');
+  const [showSearch, setShowSearch] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
   useEffect(() => {
     const userAuth = getCookie(APP_AUTH.COOKIE_AUTH_USER);
     if (userAuth) {
@@ -55,68 +31,92 @@ const Header: React.FC<HeaderProps> = ({ className }) => {
       dispatch(setUser(userParse));
     }
   }, []);
+  useEffect(() => {
+    setPathPage('');
+    if (pathname) {
+      const pathArray = pathname.split('/');
+      if (pathArray.length > 1) {
+        setPathPage(pathArray[1]);
+      }
+    }
+  }, [pathname]);
   return (
-    <nav className="main-header navbar navbar-expand-md navbar-light navbar-white" style={{ marginLeft: 'unset' }}>
-      <div className="container" style={{ maxWidth: '100%' }}>
-        <Link href="/" className="navbar-brand" onClick={clickOpenMenu}>
-          <img
-            src="/img/logo-3.png"
-            alt="AdminLTE Logo"
-            className="brand-image mt-2"
-            width={145}
-            height={40}
-          />
-        </Link>
-        <Button
-          color="default"
-          className="navbar-toggler order-1"
-          type="button"
-          onClick={() => setOpenMenuMobile (openMenuMobile ? false : true)}
-        >
-          {openMenuMobile ? <FontAwesomeIcon icon={faTimes} /> : <FontAwesomeIcon icon={faNavicon} />}
+    <nav className="navbar navbar-expand-lg navbar-dark" style={{ borderBottom: "1px solid #dee2e6", padding: 'unset', height: 50 }}>
+      <div className="container-fluid">
+        <Button color="default" className="navbar-brand text-dark m-unset" onClick={() => {
+          document.body.classList.toggle("sb-sidenav-toggled");
+        }}>
+          <FontAwesomeIcon icon={faGripVertical} size="lg" />
         </Button>
-        <div className={`collapse navbar-collapse order-3 ${openMenuMobile ? 'show' : ''}`} id="navbarCollapse">
-          <ul className="navbar-nav">
-            <li className="nav-item">
-              <Link href={APP_LINK.GO_TO_WORKSPACE} className="nav-link">
-                {t('top_menu.workspace')}
-              </Link>
+        <Logo width={40} height={40} />
+        <a className="navbar-brand ps-3 text-dark" href="index.html">
+          Start Bootstrap
+        </a>
+
+        <button className="btn btn-toggle-menu d-block d-lg-none me-auto" onClick={() => setShowMenu(!showMenu)}>
+          <FontAwesomeIcon icon={!showMenu ? faChevronDown : faChevronUp} />
+        </button>
+
+        <div className="d-lg-none d-flex align-items-center ms-auto mobile-icons">
+          <LanguageDropdown />
+
+          <button className="btn me-2" onClick={() => setShowSearch(!showSearch)}>
+            <FontAwesomeIcon icon={faSearch} />
+          </button>
+
+          <div className="position-relative">
+            <AvatarName name="Chiến" />
+          </div>
+        </div>
+
+        <div className={`collapse navbar-collapse ${showMenu ? "show" : ""}`} id="navbarNav">
+          <ul className="navbar-nav menu-header">
+            <li className={`nav-item ${pathPage === 'workspace' ? 'nav-item-active' : ''}`}>
+              <Link className="nav-link text-dark" href="/workspace">{t('top_menu.workspace')}</Link>
             </li>
             <li className="nav-item">
-              <Link href={APP_LINK.INVITATION} className="nav-link">
-                {t('top_menu.invitation')}
-              </Link>
+              <Link className="nav-link text-dark" href="/projects">Projects</Link>
             </li>
-            <li className="nav-item mr-3">
-              <Button color="primary" className="mt-2">
-                Create
-              </Button>
+            <li className="nav-item">
+              <Link className="nav-link text-dark" href="/tasks">Tasks</Link>
             </li>
-            <li className="nav-item dropdown dropdown-lang">
-              <LanguageSwitcher dropdown />
+            <li className="nav-item">
+              <Link className="nav-link text-dark" href="/calendar">Calendar</Link>
+            </li>
+            <li className="nav-item d-none d-lg-block" style={{ lineHeight: '3.5' }}>
+              <LanguageDropdown />
+            </li>
+          </ul>
+
+          <form className="d-none d-lg-flex ms-auto me-3">
+            <div className="input-group">
+              <input className="form-control" type="text" placeholder={t('search_label')} aria-label="Search" />
+              <button className="btn btn-primary" type="button">
+                <FontAwesomeIcon icon={faSearch} />
+              </button>
+            </div>
+          </form>
+
+          <ul className="navbar-nav d-none d-lg-flex">
+            <li className="nav-item">
+              <UserAvatar name={userLogged?.first_name ?? 'W'} avatar={userLogged?.avatar} />
             </li>
           </ul>
         </div>
-        <ul className="order-1 order-md-3 navbar-nav navbar-no-expand ml-auto">
-          {userLogged && <li className="nav-item" style={{marginTop: 0}}>
-            <Link href={APP_LINK.PROFILE} className="nav-link">
-              <b>Hi {userLogged.last_name}</b>
-            </Link>
-          </li>}
-          <li className="nav-item">
-            <Link
-              className="nav-link btn-avatar-header"
-              data-widget="control-sidebar"
-              data-slide="true"
-              href={APP_LINK.PROFILE}
-              role="button"
-            >
-              <img src={userLogged?.avatar ?? IMAGE_DEFAULT.NO_USER} width={40} height={40} className="img-circle" onError={(e) => e.currentTarget.src = IMAGE_DEFAULT.NO_USER} />
-            </Link>
-          </li>
-        </ul>
+
+        {showSearch && (
+          <form className="w-100 my-2">
+            <div className="input-group">
+              <input className="form-control" type="text" placeholder={t('search_label')} aria-label="Search" />
+              <button className="btn btn-primary" type="button" onClick={() => setShowSearch(false)}>
+                <FontAwesomeIcon icon={faSearch} />
+              </button>
+            </div>
+          </form>
+        )}
       </div>
     </nav>
   );
-}
+};
+
 export default Header;

@@ -1,10 +1,10 @@
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { APP_AUTH } from './enums/app.enum';
-import { locales, defaultLocale } from './next-intl-config';
+import { defaultLocale, locales } from './next-intl-config';
 
 export async function middleware(request: NextRequest) {
-  const token: string | undefined = request.cookies.get(APP_AUTH.COOKIE_AUTH_KEY)?.value;
+  const token = request.cookies.get(APP_AUTH.COOKIE_AUTH_KEY)?.value;
 
   const acceptLanguage = request.headers.get('accept-language');
   let locale = defaultLocale;
@@ -17,7 +17,6 @@ export async function middleware(request: NextRequest) {
   }
 
   const cookieLocale = request.cookies.get('locale')?.value;
-
   if (cookieLocale && locales.includes(cookieLocale)) {
     locale = cookieLocale;
   }
@@ -26,10 +25,15 @@ export async function middleware(request: NextRequest) {
   response.cookies.set('locale', locale, { path: '/' });
   response.headers.set('locale', locale);
 
-  if (request.nextUrl.pathname !== '/login' && (typeof token === 'undefined' || !token || token === '')) {
-    return NextResponse.redirect(new URL('/login', request.url));
+  response.headers.set('x-pathname', request.nextUrl.pathname);
+
+  if (request.nextUrl.pathname === '/login' && token) {
+    return NextResponse.redirect(new URL('/workspace', request.url));
   }
 
+  if (request.nextUrl.pathname !== '/login' && !token) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
   return response;
 }
 

@@ -1,18 +1,29 @@
 import { BaseResponseType, RequestWithPaginationType, ResponseWithPaginationType } from "./base.type"
-import { ResponseUserDataType } from "./user.type"
+import { ResponseUserDataType, UserType } from "./user.type"
 import { WorkspaceType } from "./workspace.type"
 
 export interface RequestAddAttributeType {
   // id: string
   name: string
   type: number
-  value: string[]
+  default_name?: string
+  value: {
+    value: string; 
+    icon: string; 
+    color: string
+  }[]
+  icon?: string;
 }
 
 export interface RequestUpdateAttributeType {
-  id: number
-  name?: string
-  value?: string[]
+  name: string
+  value: {
+    id: number;
+    value: string; 
+    icon: string; 
+    color: string
+  }[]
+  icon?: string;
 }
 
 export interface RequestCreateProjectType {
@@ -43,22 +54,28 @@ export interface ProjectType {
   created_at: string
   workspace: WorkspaceType
   total_tasks: number
+  percent_done: number
   members_total: number
-  members: WorkspaceUserType[]
-  user: ResponseUserDataType
+  members: UserType[]
+  user: UserType
+  status: ProjectStatusType[]
   attributes: ProjectAttributeType[]
 }
 
 export interface ProjectAttributeType {
   id: number
   name: string
+  default_name?: string
   type: number
+  icon: string
   childrens: ProjectAttributeItemType[]
 }
 
 export interface ProjectAttributeItemType {
   id: number
   value: string
+  icon: string
+  color: string
 }
 
 interface WorkspaceUserType {
@@ -67,6 +84,12 @@ interface WorkspaceUserType {
   last_name: string
   email: string
   avatar: string
+}
+
+export interface RequestCreateStatusType {
+  name: string
+  color: string
+  category_id: number
 }
 
 export interface RequestCreateTagType {
@@ -79,7 +102,7 @@ export interface RequestUpdateTagType {
   color?: string
 }
 
-export interface ProjectTagType {
+export interface ProjectStatusType {
   id: number
   name: string
   color: string

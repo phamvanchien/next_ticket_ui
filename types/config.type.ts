@@ -1,6 +1,7 @@
 import { AxiosRequestConfig, Method } from "axios";
 
 export interface AppConfigType {
+  ENVIROMENT: 'develop' | 'production'
   TOKEN_EXPIRE_TIME: number,
   URL?: string,
   API: {

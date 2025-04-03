@@ -1,52 +1,44 @@
-import { message, notification } from 'antd';
-import { toast } from 'react-toastify';
+import { APP_CONFIG } from "@/configs/app.config";
+import { APP_ERROR } from "@/enums/app.enum";
+import { BaseResponseType } from "@/types/base.type";
+import { message, notification } from "antd"
 
-export interface HolidayInYear {
-  day: number
-  month: number
-  title: string
-}
-
-export const currency = (number: number) => {
-  return number.toLocaleString('vi-VN', { style: 'currency', currency: 'VND' });
-}
-
-export const formatTime = (date: Date) => {
-  const monthVietNam = date.getMonth() + 1;
-  const hour = date.getHours() >= 10 ? date.getHours() : '0' + date.getHours().toString();
-  const minute = date.getMinutes() >= 10 ? date.getMinutes() : '0' + date.getMinutes().toString();
-  const day = date.getDate() >= 10 ? date.getDate() : '0' + date.getDate().toString();
-  const month = monthVietNam >= 10 ? monthVietNam : '0' + monthVietNam.toString();
-  const year = date.getFullYear();
-  const now = new Date();
-
-  if (
-    now.getDate() === (date.getDate() + 1) &&
-    now.getMonth() === date.getMonth() &&
-    now.getFullYear() === date.getFullYear()
-  ) {
-    return `Yesterday ${hour}:${minute}`;
+export const displayMessage = (type: 'error' | 'success' | 'warning', message?: string, duration: number = 5) => {
+  const messageShow = APP_CONFIG.ENVIROMENT === 'develop' ? (message ?? APP_ERROR.SERVER_ERROR) : APP_ERROR.SERVER_ERROR;
+  if (type === 'error') {
+    notification.error({
+      message: messageShow,
+      duration: duration,
+      style: {borderLeft: '3px solid #dc3545'}
+    });
   }
-
-  if (
-    now.getDate() === date.getDate() &&
-    now.getMonth() === date.getMonth() &&
-    now.getFullYear() === date.getFullYear() &&
-    now.getHours() === date.getHours() &&
-    now.getMinutes() === date.getMinutes()
-  ) {
-      return `Now ${hour}:${minute}`;
+  if (type === 'success') {
+    notification.success({
+      message: messageShow,
+      duration: duration,
+      style: {borderLeft: '3px solid #198754'}
+    });
   }
-
-  if (
-    now.getDate() === date.getDate() &&
-    now.getMonth() === date.getMonth() &&
-    now.getFullYear() === date.getFullYear()
-  ) {
-    return `Today ${hour}:${minute}`;
+  if (type === 'warning') {
+    notification.warning({
+      message: messageShow,
+      duration: duration,
+      style: {borderLeft: '3px solid #ffc107'}
+    });
   }
+};
 
-  return `${day}/${month}/${year}`;
+export const displaySmallMessage = (type: 'error' | 'success' | 'warning', messageInput?: string) => {
+  const messageShow = APP_CONFIG.ENVIROMENT === 'develop' ? (messageInput ?? APP_ERROR.SERVER_ERROR) : APP_ERROR.SERVER_ERROR;
+  if (type === 'error') {
+    message.error(messageShow);
+  }
+  if (type === 'success') {
+    message.success(messageShow);
+  }
+  if (type === 'warning') {
+    message.warning(messageShow);
+  }
 }
 
 export const formatToTimestampString = (date: Date) => {
@@ -57,162 +49,9 @@ export const formatToTimestampString = (date: Date) => {
   return `${year}-${month}-${day}`;
 }
 
-export const rangeColor = () => {
-  return [  "#F4A3D2", "#B1FF8C", "#1296FF", "#FFB832", "#8D2FCE",   "#3CFAE8", "#B32A50", "#FA9C12", "#15A1D4", "#DF83EE",   "#ABC234", "#719DFF", "#F31C7E", "#2AD984", "#7C5EFA",   "#D83F13", "#AFA81B", "#EB69B4", "#356A5E", "#9E32CF"];
-}
-
-export const randomNumber = (num: number) => {
-  let arr = Array.from({ length: 10 }, (v, k) => k + 1);
-  let result = [];
-  let clonedArray = [...arr];
-  for (let i = 0; i < num; i++) {
-    let randomIndex = Math.floor(Math.random() * clonedArray.length);
-    result.push(clonedArray[randomIndex]);
-    clonedArray.splice(randomIndex, 1);
-  }
-  return result;
-}
-
-export const notify = (content: string, type: 'info' | 'success' | 'warning' | 'error' | 'default', icon?: JSX.Element) => {
-  toast(content, {
-    type: type,
-    draggable: true,
-    icon: icon
-  });
-}
-
-export const rangeNumber = (start: number, end: number): number[] => {
-  return Array.from(
-    { length: Math.ceil(((end) - start) / 1) },
-    (_, i) => start + i * 1
-  );
-}
-
-export const isFutureDate = (date: Date): boolean => {
-  const now = new Date();
-  return now.getTime() > date.getTime();
-}
-
-export const holidayNotOff = () => {
-  return [
-    {
-      day: 14, month: 2, title: 'Ngày Valentine'
-    },
-    {
-      day: 8, month: 3, title: 'Ngày Quốc tế Phụ nữ'
-    },
-    {
-      day: 1, month: 4, title: 'Ngày Cá tháng Tư'
-    },
-    {
-      day: 1, month: 6, title: 'Ngày Quốc tế Thiếu nhi'
-    },
-    {
-      day: 20, month: 10, title: 'Ngày Phụ nữ Việt Nam'
-    },
-    {
-      day: 20, month: 11, title: 'Ngày nhà giáo Việt Nam'
-    },
-    {
-      day: 24, month: 12, title: 'Ngày giáng sinh'
-    },
-    {
-      day: 25, month: 12, title: 'Ngày giáng sinh'
-    }
-  ]
-}
-
-export const holidayOff = () => {
-  return [
-    {
-      day: 1, month: 1, title: 'Tết Dương lịch'
-    },
-    {
-      day: 30, month: 4, title: 'Ngày Giải phóng miền Nam, Thống nhất đất nước'
-    },
-    {
-      day: 1, month: 5, title: 'Ngày Quốc tế Lao động'
-    },
-    {
-      day: 2, month: 9, title: 'Ngày Quốc khánh'
-    }
-  ]
-}
-
-export const iconFile = (extFile: string) => {
-  const fileData = [
-    {
-      ext: 'application/pdf',
-      icon: '/img/icon/pdf-file.png'
-    },
-    {
-      ext: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      icon: '/img/icon/word-file.png'
-    },
-    {
-      ext: 'application/msword',
-      icon: '/img/icon/word-file.png'
-    },
-    {
-      ext: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      icon: '/img/icon/excel-file.png'
-    },
-    {
-      ext: 'application/vnd.ms-excel',
-      icon: '/img/icon/excel-file.png'
-    },
-    {
-      ext: 'text/plain',
-      icon: '/img/icon/txt-file.png'
-    },
-    {
-      ext: 'application/json',
-      icon: '/img/icon/json-file.png'
-    },
-    {
-      ext: 'application/sql',
-      icon: '/img/icon/sql-file.png'
-    }
-  ]
-  return fileData.find(f => f.ext === extFile)?.icon;
-}
-
-export const getStatusDone = () => {
-  return [
-    'done', 'finish', 'xong', 'hoàn tất', 'hoàn thành'
-  ];
-}
-
-export const priorityId = (priority: "high" | "medium" | "low") => {
-  return priorityRange().find(r => r.title === priority)?.id;
-}
-
-export const priorityRange = () => {
-  const range = [
-    {
-      id: 1,
-      title: "High",
-      color: '#e35d6a'
-    },
-    {
-      id: 2,
-      title: "Medium",
-      color: '#ffcd39'
-    },
-    {
-      id: 3,
-      title: "Low",
-      color: '#479f76'
-    }
-  ];
-  return range;
-}
-
-export const colorCode = (
-  color: "blue" | "purple" | "red" | "orange" | "yellow" | "green", level: 100 | 200 | 300 | 400 | 500
-) => {
-  const colorFind = colorRange().find(r => r.color === color && r.level === level);
-  return colorFind ? colorFind.code : null
+export const dateToString = (date: Date, character = '/') => {
+  const month = date.getMonth() + 1;
+  return `${date.getDate() >= 10 ? date.getDate() : '0' + date.getDate().toString()}/${month >= 10 ? month : '0' + month.toString()}/${date.getFullYear()}`;
 }
 
 export const colorRange = () => {
@@ -380,51 +219,6 @@ export const colorRange = () => {
   ];
 }
 
-export const dateToString = (date: Date, character = '/') => {
-  const month = date.getMonth() + 1;
-  return `${date.getDate() >= 10 ? date.getDate() : '0' + date.getDate().toString()}/${month >= 10 ? month : '0' + month.toString()}/${date.getFullYear()}`;
-}
-
-export const dateToStamptimeString = (date: Date) => {
-  const month = date.getMonth() + 1;
-  return `${date.getFullYear()}-${month >= 10 ? month : '0' + month.toString()}-${date.getDate() >= 10 ? date.getDate() : '0' + date.getDate().toString()}`;
-}
-
-export const taskType = (typeId?: number) => {
-  const types = [
-    {
-      id: 1,
-      title: 'Task'
-    },
-    // {
-    //   id: 2,
-    //   title: 'Subtask'
-    // },
-    {
-      id: 3,
-      title: 'New feature',
-    },
-    {
-      id: 4,
-      title: 'Bug'
-    },
-    {
-      id: 5,
-      title: 'Improvement'
-    },
-    {
-      id: 6,
-      title: 'Test case'
-    }
-  ];
-
-  if (typeId) {
-    return types.filter(t => t.id === typeId);
-  }
-
-  return types;
-}
-
 export const getDaysDifference = (dateFrom: Date, dateTo: Date = new Date()): number => {
   dateFrom.setHours(0, 0, 0, 0);
   dateTo.setHours(0, 0, 0, 0);
@@ -438,20 +232,4 @@ export const getDaysDifference = (dateFrom: Date, dateTo: Date = new Date()): nu
   }
 
   return 1;
-
-  // const timeDiff = dateTo.getTime() - dateFrom.getTime();
-  // return Math.floor(timeDiff / (1000 * 60 * 60 * 24));
 };
-
-export const nextTechNotification = (
-  message: string,
-  placement?: "top" | "topLeft" | "topRight" | "bottom" | "bottomLeft" | "bottomRight",
-  duration?: number
-) => {
-  notification.warning({
-    message: message,
-    placement: placement ?? 'topRight',
-    duration: duration ?? 3,
-    closeIcon: false
-  });
-}

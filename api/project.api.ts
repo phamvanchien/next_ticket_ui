@@ -1,10 +1,9 @@
-import { RequestCreateProjectType, RequestUpdateProjectType, RequestCreateTagType, RequestStatusListType, RequestUpdateTagType, ProjectTagType, ProjectType, ProjectInviteType, ReportStatusType, ReportAssigneeType, RequestCloneProjectType, RequestAddAttributeType, ProjectAttributeType, RequestUpdateAttributeType } from "@/types/project.type";
+import { RequestCreateProjectType, RequestUpdateProjectType, RequestCreateTagType, RequestStatusListType, RequestUpdateTagType, ProjectStatusType, ProjectType, ProjectInviteType, ReportStatusType, ReportAssigneeType, RequestCloneProjectType, RequestAddAttributeType, ProjectAttributeType, RequestUpdateAttributeType, RequestCreateStatusType } from "@/types/project.type";
 import { request } from "./base.api";
 import { API_METHOD_ENUM } from "@/enums/api.enum";
-import { APP_CONFIG } from "@/config/app.config";
 import { BaseResponseType, RequestWithPaginationType, ResponseWithPaginationType } from "@/types/base.type";
 import { ResponseUserDataType } from "@/types/user.type";
-import { WorkspaceUserType } from "@/types/workspace.type";
+import { APP_CONFIG } from "@/configs/app.config";
 
 export const create = async (workspaceId: number, payload: RequestCreateProjectType): Promise<BaseResponseType<ProjectType>> => {
   return request({
@@ -95,7 +94,7 @@ export const membersList = async (workspaceId: number, projectId: number, page: 
   });
 }
 
-export const createTag = async (workspaceId: number, projectId: number, payload: RequestCreateTagType): Promise<BaseResponseType<ProjectTagType>> => {
+export const createTag = async (workspaceId: number, projectId: number, payload: RequestCreateTagType): Promise<BaseResponseType<ProjectStatusType>> => {
   return request({
     method: API_METHOD_ENUM.POST,
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/create-tag',
@@ -103,7 +102,7 @@ export const createTag = async (workspaceId: number, projectId: number, payload:
   });
 }
 
-export const tagsList = async (workspaceId: number, projectId: number, payload: RequestWithPaginationType): Promise<BaseResponseType<ResponseWithPaginationType<ProjectTagType[]>>> => {
+export const tagsList = async (workspaceId: number, projectId: number, payload: RequestWithPaginationType): Promise<BaseResponseType<ResponseWithPaginationType<ProjectStatusType[]>>> => {
   return request({
     method: API_METHOD_ENUM.GET,
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/tag-list',
@@ -111,7 +110,7 @@ export const tagsList = async (workspaceId: number, projectId: number, payload: 
   });
 }
 
-export const createStatus = async (workspaceId: number, projectId: number, payload: RequestCreateTagType): Promise<BaseResponseType<ProjectTagType>> => {
+export const createStatus = async (workspaceId: number, projectId: number, payload: RequestCreateStatusType): Promise<BaseResponseType<ProjectStatusType>> => {
   return request({
     method: API_METHOD_ENUM.POST,
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/create-status',
@@ -119,7 +118,7 @@ export const createStatus = async (workspaceId: number, projectId: number, paylo
   });
 }
 
-export const statusList = async (workspaceId: number, projectId: number, payload: RequestStatusListType): Promise<BaseResponseType<ResponseWithPaginationType<ProjectTagType[]>>> => {
+export const statusList = async (workspaceId: number, projectId: number, payload: RequestStatusListType): Promise<BaseResponseType<ResponseWithPaginationType<ProjectStatusType[]>>> => {
   return request({
     method: API_METHOD_ENUM.GET,
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/status-list',
@@ -127,7 +126,7 @@ export const statusList = async (workspaceId: number, projectId: number, payload
   });
 }
 
-export const updateStatus = async (workspaceId: number, projectId: number, statusId: number, payload: RequestUpdateTagType): Promise<BaseResponseType> => {
+export const updateStatus = async (workspaceId: number, projectId: number, statusId: number, payload: RequestUpdateTagType): Promise<BaseResponseType<ProjectStatusType>> => {
   return request({
     method: API_METHOD_ENUM.PATCH,
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/' + statusId + '/update-status',
@@ -230,10 +229,10 @@ export const deleteAttribute = async (workspaceId: number, projectId: number, at
   });
 }
 
-export const updateAttribute = async (workspaceId: number, projectId: number, payload: RequestUpdateAttributeType): Promise<BaseResponseType<ProjectAttributeType>> => {
+export const updateAttribute = async (workspaceId: number, projectId: number, attributeId: number, payload: RequestUpdateAttributeType): Promise<BaseResponseType<ProjectAttributeType>> => {
   return request({
     method: API_METHOD_ENUM.PATCH,
-    url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/update-attribute',
+    url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/' + attributeId + '/update-attribute',
     data: payload
   });
 }
