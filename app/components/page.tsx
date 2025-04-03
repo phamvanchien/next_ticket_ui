@@ -158,7 +158,7 @@ const ComponentPage = () => {
             { value: 'disabled', label: 'Disabled', disabled: true },
           ]} defaultValue={'jack'} />
         </Spin>
-        <Sidebar />
+        {/* <Sidebar /> */}
       </div>
     </div>
     <div className="row">
