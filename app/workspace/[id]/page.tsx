@@ -17,18 +17,18 @@ interface WorkspacePageProps {
   params: {
     id: number;
   };
-  workspace: WorkspaceType; // Add workspace as part of props
+  // workspace: WorkspaceType;
 }
 
 // Lỗi có thể do thiếu tham số hoặc không sử dụng đúng props.
 // Bạn cần chắc chắn rằng params và workspace được truyền đúng vào component.
 
-const WorkspaceDetail: React.FC<WorkspacePageProps> = ({ params, workspace }) => {
+const WorkspaceDetail: React.FC<WorkspacePageProps> = ({ params }) => {
   return (
     <div>
       <h2>Workspace ID: {params.id}</h2>
       {/* Display additional workspace data here */}
-      <p>{workspace.name}</p> {/* Assuming workspace has a 'name' property */}
+      {/* <p>{workspace.name}</p> */}
     </div>
   );
 }
