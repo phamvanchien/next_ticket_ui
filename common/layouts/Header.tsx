@@ -15,15 +15,18 @@ import { useSelector } from "react-redux";
 import UserAvatar from "../components/AvatarName";
 import { usePathname } from "next/navigation";
 import Logo from "../components/Logo";
+import { setWorkspaceSelected } from "@/reduxs/workspace.redux";
 
 const Header = () => {
   const t = useTranslations();
   const dispatch = useAppDispatch();
   const pathname = usePathname();
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
+  const workspaceSelected = useSelector((state: RootState) => state.workspaceSlide).workspaceSelected;
   const [pathPage, setPathPage] = useState<string>('');
   const [showSearch, setShowSearch] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [showBarBtn, setShowBarBtn] = useState(false);
   useEffect(() => {
     const userAuth = getCookie(APP_AUTH.COOKIE_AUTH_USER);
     if (userAuth) {
@@ -34,23 +37,32 @@ const Header = () => {
   useEffect(() => {
     setPathPage('');
     if (pathname) {
-      const pathArray = pathname.split('/');
+      const pathArray = pathname.split('/').filter(p => p !== '');
       if (pathArray.length > 1) {
-        setPathPage(pathArray[1]);
+        setShowBarBtn(true);
+      } else {
+        setShowBarBtn(false);
+        dispatch(setWorkspaceSelected(undefined));
+      }
+      if (pathArray.length > 0) {
+        setPathPage(pathArray[0]);
       }
     }
   }, [pathname]);
   return (
     <nav className="navbar navbar-expand-lg navbar-dark" style={{ borderBottom: "1px solid #dee2e6", padding: 'unset', height: 50 }}>
       <div className="container-fluid">
-        <Button color="default" className="navbar-brand text-dark m-unset" onClick={() => {
-          document.body.classList.toggle("sb-sidenav-toggled");
-        }}>
-          <FontAwesomeIcon icon={faGripVertical} size="lg" />
-        </Button>
+        {
+          showBarBtn &&
+          <Button color="default" className="navbar-brand text-dark m-unset" onClick={() => {
+            document.body.classList.toggle("sb-sidenav-toggled");
+          }}>
+            <FontAwesomeIcon icon={faGripVertical} size="lg" />
+          </Button>
+        }
         <Logo width={40} height={40} />
-        <a className="navbar-brand ps-3 text-dark" href="index.html">
-          Start Bootstrap
+        <a className="navbar-brand ps-2 text-dark text-logo-header m-unset" href="index.html">
+          {workspaceSelected ? workspaceSelected.name : 'Next Tech'}
         </a>
 
         <button className="btn btn-toggle-menu d-block d-lg-none me-auto" onClick={() => setShowMenu(!showMenu)}>
@@ -65,7 +77,7 @@ const Header = () => {
           </button>
 
           <div className="position-relative">
-            <AvatarName name="Chiến" />
+            <UserAvatar name={userLogged?.first_name ?? 'U'} avatar={userLogged?.avatar} />
           </div>
         </div>
 
@@ -99,7 +111,7 @@ const Header = () => {
 
           <ul className="navbar-nav d-none d-lg-flex">
             <li className="nav-item">
-              <UserAvatar name={userLogged?.first_name ?? 'W'} avatar={userLogged?.avatar} />
+              <UserAvatar name={userLogged?.first_name ?? 'U'} avatar={userLogged?.avatar} />
             </li>
           </ul>
         </div>

@@ -15,9 +15,11 @@ interface DropdownProps {
 const Dropdown: React.FC<DropdownProps> = ({ children, items, className, classButton, isDropdownOpen, setIsDropdownOpen }) => {
   return (
     <DropdownAnt menu={{ items }} placement="bottomLeft" className={className} trigger={['click']} open={isDropdownOpen} onOpenChange={setIsDropdownOpen ? (open) => setIsDropdownOpen(open) : undefined}>
-      <Button color='default' className={classButton}>
+      {/* <Button color='default' className={classButton}> */}
+      <div>
         {children}
-      </Button>
+      </div>
+      {/* </Button> */}
     </DropdownAnt>
   );
 }

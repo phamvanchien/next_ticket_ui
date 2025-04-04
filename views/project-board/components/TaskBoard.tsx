@@ -10,18 +10,29 @@ import { API_CODE } from "@/enums/api.enum";
 import { update } from "@/api/task.api";
 import TaskBoardCreateStatus from "./TaskBoardCreateStatus";
 import TaskBoardEditStatus from "./TaskBoardEditStatus";
-import Button from "@/common/components/Button";
 import { useTranslations } from "next-intl";
+import TaskBoardLoading from "./TaskBoardLoading";
+import { ProjectStatusType } from "@/types/project.type";
 
 interface TaskBoardProps {
   tasksBoardData?: ResponseTaskBoardDataType[];
   workspaceId: number;
   projectId: number;
+  projectStatus: ProjectStatusType[]
+  loadingTaskBoard: boolean
   setTaskSelected: (taskSelected?: TaskType) => void
   setCreateWithStatus: (createWithStatus: number) => void
 }
 
-const TaskBoard: React.FC<TaskBoardProps> = ({ tasksBoardData, workspaceId, projectId, setTaskSelected, setCreateWithStatus }) => {
+const TaskBoard: React.FC<TaskBoardProps> = ({ 
+  tasksBoardData, 
+  workspaceId, 
+  projectId, 
+  projectStatus,
+  loadingTaskBoard,
+  setTaskSelected, 
+  setCreateWithStatus 
+}) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [boardData, setBoardData] = useState(tasksBoardData || []);
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
@@ -159,6 +170,12 @@ const TaskBoard: React.FC<TaskBoardProps> = ({ tasksBoardData, workspaceId, proj
   useEffect(() => {
     if (tasksBoardData) setBoardData(tasksBoardData);
   }, [tasksBoardData]);
+
+  if (!tasksBoardData || loadingTaskBoard) {
+    return (
+      <TaskBoardLoading projectStatus={projectStatus} />
+    );
+  }
 
   return (
     <div className="row">

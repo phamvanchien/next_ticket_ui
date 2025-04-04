@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import DatePickerCustom from "@/common/components/DatePickerCustom";
 import TaskAssignee from "@/common/layouts/task-form/TaskAssignee";
-import { ProjectType } from "@/types/project.type";
+import { ProjectAttributeType, ProjectType } from "@/types/project.type";
 import { UserType } from "@/types/user.type";
 import { useTranslations } from "next-intl";
 import TaskStatus from "@/common/layouts/task-form/TaskStatus";
@@ -18,8 +18,9 @@ import { create } from "@/api/task.api";
 import { API_CODE } from "@/enums/api.enum";
 import Loading from "@/common/components/Loading";
 import TaskDescription from "@/common/layouts/task-form/TaskDescription";
-import { useAppDispatch } from "@/reduxs/store.redux";
+import { RootState, useAppDispatch } from "@/reduxs/store.redux";
 import { setTaskCreated } from "@/reduxs/task.redux";
+import { useSelector } from "react-redux";
 
 interface TaskCreateProps {
   project: ProjectType
@@ -46,6 +47,10 @@ const TaskCreate: React.FC<TaskCreateProps> = ({
   const [title, setTitle] = useState<string>();
   const [createLoading, setCreateLoading] = useState(false);
   const [description, setDescription] = useState<string>('');
+  const [projectAttributes, setProjectAttributes] = useState<ProjectAttributeType[]>(project.attributes);
+  const attributeCreated = useSelector((state: RootState) => state.projectSlide).attributeCreated;
+  const attributeDeleted = useSelector((state: RootState) => state.projectSlide).attributeDeleted;
+  const attributeUpdated = useSelector((state: RootState) => state.projectSlide).attributeUpdated;
   useEffect(() => {
     setMemberList([...memberList, project.user]);
   }, []);
@@ -56,11 +61,11 @@ const TaskCreate: React.FC<TaskCreateProps> = ({
     }
   }, [createWithStatus])
   const handleSaveTask = async () => {
-    console.log('title: ', title)
-    console.log('assignee: ', assignee)
-    console.log('dueDate: ', dueDate)
-    console.log('status: ', status)
-    console.log('attributesSelected: ', attributesSelected)
+    // console.log('title: ', title)
+    // console.log('assignee: ', assignee)
+    // console.log('dueDate: ', dueDate)
+    // console.log('status: ', status)
+    // console.log('attributesSelected: ', attributesSelected)
     // return;
 
     try {
@@ -96,7 +101,25 @@ const TaskCreate: React.FC<TaskCreateProps> = ({
       displayMessage('error', (error as BaseResponseType).error?.message);
     }
   }
-
+  useEffect(() => {
+    if (attributeCreated) {
+      setProjectAttributes([...projectAttributes, attributeCreated]);
+    }
+  }, [attributeCreated]);
+  useEffect(() => {
+    if (attributeDeleted) {
+      setProjectAttributes(projectAttributes.filter(a => a.id !== attributeDeleted));
+    }
+  }, [attributeDeleted]);
+  useEffect(() => {
+    if (attributeUpdated) {
+      setProjectAttributes(
+        projectAttributes.map(a =>
+          a.id === attributeUpdated.id ? attributeUpdated : a
+        )
+      );
+    }
+  }, [attributeUpdated]);  
   return (
     <Sidebar 
       open={open}
@@ -123,13 +146,13 @@ const TaskCreate: React.FC<TaskCreateProps> = ({
           <DatePickerCustom setDate={setDueDate} date={dueDate} />
         </div>
       </div>
-      <TaskStatus className="mt-2" statusList={project.status} statusSelected={status} setStatusSelected={setStatus} />
+      <TaskStatus className="mt-3" statusList={project.status} statusSelected={status} setStatusSelected={setStatus} />
       <TaskAttribute 
-        className="mt-2" 
+        className="mt-3" 
         taskId={0}
         projectId={project.id} 
         workspaceId={project.workspace_id} 
-        attributes={project.attributes} 
+        attributes={projectAttributes} 
         attributesSelected={attributesSelected}
         setAttributesSelected={setAttributesSelected}
       />

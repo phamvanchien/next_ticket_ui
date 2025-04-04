@@ -137,7 +137,9 @@ const TaskBoardCreateStatus: React.FC<TaskBoardCreateStatusProps> = ({ workspace
   return (
     <div className={`card status-item`}>
       <Dropdown items={menuCreateStatus} setIsDropdownOpen={setIsDropdownOpen} isDropdownOpen={isDropdownOpen} classButton="w-20 btn-create-status">
-        <FontAwesomeIcon icon={faPlus} />
+        <Button color="light" className="pointer">
+          <FontAwesomeIcon icon={faPlus} />
+        </Button>
       </Dropdown>
     </div>
   )

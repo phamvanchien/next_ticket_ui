@@ -1,4 +1,4 @@
-import { ProjectStatusType } from '@/types/project.type';
+import { ProjectAttributeType, ProjectStatusType } from '@/types/project.type';
 import { UserType } from '@/types/user.type';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
@@ -8,6 +8,9 @@ interface ProjectSliceType {
   statusDeletedId?: number
   membersProject?: UserType[]
   keywordSearchMember?: string
+  attributeCreated?: ProjectAttributeType
+  attributeDeleted?: number
+  attributeUpdated?: ProjectAttributeType
 }
 
 const initialState: ProjectSliceType = {
@@ -15,7 +18,10 @@ const initialState: ProjectSliceType = {
   statusUpdated: undefined,
   statusDeletedId: undefined,
   membersProject: undefined,
-  keywordSearchMember: undefined
+  keywordSearchMember: undefined,
+  attributeCreated: undefined,
+  attributeDeleted: undefined,
+  attributeUpdated: undefined
 };
 
 const projectSlice = createSlice({
@@ -36,10 +42,28 @@ const projectSlice = createSlice({
     },
     setKeywordSearchMembers(state, action: PayloadAction<string>) {
       state.keywordSearchMember = action.payload;
+    },
+    setAttributeCreated(state, action: PayloadAction<ProjectAttributeType>) {
+      state.attributeCreated = action.payload;
+    },
+    setAttributeDeleted(state, action: PayloadAction<number>) {
+      state.attributeDeleted = action.payload;
+    },
+    setAttributeUpdated(state, action: PayloadAction<ProjectAttributeType>) {
+      state.attributeUpdated = action.payload;
     }
   },
 });
 
-export const { setStatusCreated, setStatusUpdated, setStatusDeletedId, setMembersProject, setKeywordSearchMembers } = projectSlice.actions;
+export const { 
+  setStatusCreated, 
+  setStatusUpdated, 
+  setStatusDeletedId, 
+  setMembersProject, 
+  setKeywordSearchMembers, 
+  setAttributeCreated, 
+  setAttributeDeleted,
+  setAttributeUpdated
+} = projectSlice.actions;
 
 export default projectSlice.reducer;

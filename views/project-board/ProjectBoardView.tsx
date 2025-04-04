@@ -24,6 +24,7 @@ import { members } from "@/api/workspace.api";
 import { setKeywordSearchMembers, setMembersProject } from "@/reduxs/project.redux";
 import { membersList } from "@/api/project.api";
 import TaskList from "./components/TaskList";
+import TaskBoardFilter from "./components/filter/TaskBoardFilter";
 
 interface ProjectBoardViewProps {
   project: ProjectType
@@ -45,21 +46,28 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
   const membersProject = useSelector((state: RootState) => state.projectSlide).membersProject;
   const taskCreated = useSelector((state: RootState) => state.taskSlide).taskCreated;
   const taskUpdated = useSelector((state: RootState) => state.taskSlide).taskUpdated;
+  const taskFilter = useSelector((state: RootState) => state.taskSlide).taskFilter;
 
   const [pageSizeList, setPageSizeList] = useState(defaultSizeList);
   const [loadingLoadMoreList, setLoadingLoadMoreList] = useState(false);
+  const [loadingTaskBoard, setLoadingTaskBoard] = useState(false);
+  const [openFilter, setOpenFilter] = useState(false);
   const { value: keyword, debouncedValue, handleChange } = useDelaySearch("", 500);
   const loadTasksBoard = async () => {
     try {
+      setLoadingTaskBoard(true);
       const response = await tasksBoard(project.workspace_id, project.id, {
-        keyword: debouncedValue
+        keyword: debouncedValue,
+        ...taskFilter
       });
+      setLoadingTaskBoard(false);
       if (response && response.code === API_CODE.OK) {
         setTasksBoardData(response.data);
         return;
       }
       displaySmallMessage('error', response.error?.message);
     } catch (error) {
+      setLoadingTaskBoard(false);
       displaySmallMessage('error', (error as BaseResponseType).error?.message);
     }
   }
@@ -116,7 +124,7 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
   }, [project, keywordSearchMember]);
   useEffect(() => {
     loadTasksBoard();
-  }, [project, debouncedValue]);
+  }, [project, debouncedValue, taskFilter]);
   useEffect(() => {
     loadTaskList();
   }, [project, debouncedValue, pageSizeList])
@@ -137,24 +145,57 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
   
         return updatedTasksBoardData;
       });
+      loadTaskList();
     }
   }, [taskCreated]);
   useEffect(() => {
     if (taskUpdated) {
       setTasksBoardData((prevTasksBoardData) => {
-        if (!prevTasksBoardData) return prevTasksBoardData;
+      if (!prevTasksBoardData) return prevTasksBoardData;
 
-        const updatedTasksBoardData = prevTasksBoardData.map((board) => {
+      const updatedTasksBoardData = prevTasksBoardData.map((board) => {
+        if (board.id === taskUpdated.status.id) {
+          const taskExists = board.tasks.some((task) => task.id === taskUpdated.id);
+    
           return {
             ...board,
-            tasks: board.tasks.map((task) =>
-              task.id === taskUpdated.id ? { ...task, ...taskUpdated } : task
-            ),
+            tasks: taskExists
+              ? 
+                board.tasks.map((task) =>
+                  task.id === taskUpdated.id ? { ...task, ...taskUpdated } : task
+                )
+              : 
+                [...board.tasks, taskUpdated],
           };
-        });
-
-        return updatedTasksBoardData;
+        }
+        return {
+          ...board,
+          tasks: board.tasks.map((task) => {
+            if (task.id === taskUpdated.id) {
+              if (task.status.id !== taskUpdated.status.id) {
+                return null;
+              } else {
+                return { ...task, ...taskUpdated };
+              }
+            }
+            return task;
+          }).filter(task => task !== null),
+        };
       });
+
+      return updatedTasksBoardData;
+    });
+
+    setTaskList((prevTasksListData) => {
+      if (!prevTasksListData) return prevTasksListData;
+    
+      return {
+        ...prevTasksListData,
+        items: prevTasksListData.items.map((task) =>
+          task.id === taskUpdated.id ? { ...task, ...taskUpdated } : task
+        ),
+      };
+    });         
     }
   }, [taskUpdated]);
   useEffect(() => {
@@ -219,7 +260,7 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
           </ul>
         </div>
         <div className="col-6 col-lg-6">
-          <Button color="default" className="float-right mt-1">
+          <Button color="default" className="float-right mt-1" onClick={() => setOpenFilter (true)}>
             <FontAwesomeIcon icon={faFilter} /> {t('tasks.filter_label')}
           </Button>
           <TaskSort className="float-right" />
@@ -230,6 +271,8 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
       {
         layout === 1 && 
         <TaskBoard 
+          loadingTaskBoard={loadingTaskBoard}
+          projectStatus={project.status}
           tasksBoardData={tasksBoardData} 
           workspaceId={project.workspace_id} 
           projectId={project.id} 
@@ -259,6 +302,7 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
         task={taskSelected}
         setOpenModal={setTaskSelected}
       />
+      <TaskBoardFilter open={openFilter} project={project} setOpen={setOpenFilter} setLoadingTaskBoard={setLoadingTaskBoard} loadingTaskBoard={loadingTaskBoard} />
     </div>
   </>
 }

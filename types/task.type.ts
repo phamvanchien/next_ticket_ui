@@ -32,12 +32,13 @@ export interface RequestGetTaskType {
   page?: number;
   size?: number;
   keyword?: string;
-  status?: number;
+  status?: string;
   tags?: string;
   assignee?: string;
   creator?: string;
   priority?: string;
   type?: string;
+  attributes?: string;
   fromDue?: string;
   toDue?: string;
   fromCreated?: string;

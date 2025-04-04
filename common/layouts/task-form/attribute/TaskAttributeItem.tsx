@@ -13,6 +13,8 @@ import { MenuProps } from "antd";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import TaskAttributeEdit from "./TaskAttributeEdit";
+import { useSelector } from "react-redux";
+import { RootState } from "@/reduxs/store.redux";
 
 interface TaskAttributeItemProps {
   className?: string;
@@ -41,8 +43,6 @@ const TaskAttributeItem: React.FC<TaskAttributeItemProps> = ({
   const [multipleSelectValue, setMultipleSelectValue] = useState<string>("");
   const [isInitialized, setIsInitialized] = useState(false);
   const [attributeData, setAttributeData] = useState(attribute);
-  const [attributeUpdated, setAttributeUpdated] = useState<ProjectAttributeType>();
-  const [attributeDeleted, setAttributeDeleted] = useState(false);
 
   const handleChangeSingleSelect = (value: string) => {
     const child = attributeData.childrens.find((c) => c.id === Number(value));
@@ -168,22 +168,12 @@ const TaskAttributeItem: React.FC<TaskAttributeItemProps> = ({
     }
   }, [date]);
 
-  useEffect(() => {
-    if (attributeUpdated) {
-      setAttributeData(attributeUpdated);
-    }
-  }, [attributeUpdated]);
-
-  if (attributeDeleted) {
-    return <></>
-  }
-
   return (
     <div className={`row ${className ?? ""}`}>
-      <div className="col-3 text-secondary">
-        <TaskAttributeEdit projectId={projectId} workspaceId={workspaceId} attribute={attribute} setAttributeUpdated={setAttributeUpdated} setAttributeDeleted={setAttributeDeleted} />
+      <div className="col-lg-3 col-12 text-secondary pointer">
+        <TaskAttributeEdit projectId={projectId} workspaceId={workspaceId} attribute={attribute} />
       </div>
-      <div className="col-9">
+      <div className="col-lg-9 col-12 attribute-item-value">
         {attributeData.type === 1 && (
           <Input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder={t('empty_label')} />
         )}

@@ -15,13 +15,10 @@ interface TaskAttributeProps {
 }
 
 const TaskAttribute: React.FC<TaskAttributeProps> = ({ className, attributes, projectId, workspaceId, taskId, attributesSelected, setAttributesSelected }) => {
-  const [attributeCreated, setAttributeCreated] = useState<ProjectAttributeType>();
   const [attributesList, setAttributesList] = useState<ProjectAttributeType[]>(attributes);
   useEffect(() => {
-    if (attributeCreated) {
-      setAttributesList([...attributesList, attributeCreated]);
-    }
-  }, [attributeCreated]);
+    setAttributesList(attributes);
+  }, [attributes, taskId]);
   return <>
     {
       attributesList.map((attribute, index) => (
@@ -30,7 +27,7 @@ const TaskAttribute: React.FC<TaskAttributeProps> = ({ className, attributes, pr
           projectId={projectId}
           workspaceId={workspaceId}
           key={index} 
-          className="mt-2" 
+          className="mt-3" 
           taskId={taskId}
           attributesSelected={attributesSelected}
           setAttributesSelected={setAttributesSelected}
@@ -41,7 +38,6 @@ const TaskAttribute: React.FC<TaskAttributeProps> = ({ className, attributes, pr
       <TaskAttributeCreate 
         workspaceId={workspaceId} 
         projectId={projectId} 
-        setAttributeCreated={setAttributeCreated}
       />
     </div>
   </>

@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { locales } from "@/next-intl-config";
+import Button from "./Button";
 
 const LanguageDropdown = () => {
   const t = useTranslations();
@@ -37,12 +38,14 @@ const LanguageDropdown = () => {
   })
   return (
     <Dropdown items={items}>
-      <img width={30} height={20} src={`/images/icons/${locale}.png`} style={{ marginRight: 5, float: 'left' }} /> 
-      <span className="d-none d-lg-block" style={{ float: 'left' }}>
-        {locale === 'vi' && t('country.vietnam')}
-        {locale === 'en' && t('country.england')}
-        {locale === 'ja' && t('country.japan')}
-      </span>
+      <Button color='secondary' outline>
+        <img width={30} height={20} src={`/images/icons/${locale}.png`} style={{ marginRight: 5, float: 'left' }} /> 
+        <span className="d-none d-lg-block" style={{ float: 'left' }}>
+          {locale === 'vi' && t('country.vietnam')}
+          {locale === 'en' && t('country.england')}
+          {locale === 'ja' && t('country.japan')}
+        </span>
+      </Button>
     </Dropdown>
   )
 }

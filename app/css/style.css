@@ -11170,6 +11170,11 @@ body {
   color: #0d6efd !important;
 }
 
+.text-logo-header {
+  color: #0d6efd !important;
+  font-weight: 700;
+}
+
 @media (max-width: 992px) {
     .mobile-icons {
       position: absolute;

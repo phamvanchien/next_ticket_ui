@@ -8,6 +8,8 @@ import Modal from "@/common/components/Modal";
 import SelectSingle from "@/common/components/SelectSingle";
 import { ICON_CONFIG } from "@/configs/icon.config";
 import { API_CODE } from "@/enums/api.enum";
+import { setAttributeDeleted, setAttributeUpdated } from "@/reduxs/project.redux";
+import { useAppDispatch } from "@/reduxs/store.redux";
 import { BaseResponseType } from "@/types/base.type";
 import { ProjectAttributeType } from "@/types/project.type";
 import { colorRange, displayMessage } from "@/utils/helper.util";
@@ -15,18 +17,17 @@ import { faCircle, faEdit, faTrash, faTrashAlt } from "@fortawesome/free-solid-s
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { MenuProps } from "antd";
 import { useTranslations } from "next-intl";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 interface TaskAttributeEditProps {
   attribute: ProjectAttributeType;
   projectId: number
   workspaceId: number
-  setAttributeUpdated: (attributeUpdated: ProjectAttributeType) => void
-  setAttributeDeleted: (attributeDeleted: boolean) => void
 }
 
-const TaskAttributeEdit: React.FC<TaskAttributeEditProps> = ({ attribute, workspaceId, projectId, setAttributeUpdated, setAttributeDeleted }) => {
+const TaskAttributeEdit: React.FC<TaskAttributeEditProps> = ({ attribute, workspaceId, projectId }) => {
   const t = useTranslations();
+  const dispatch = useAppDispatch();
   const [attributeData, setAttributeData] = useState(attribute);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const [attributeName, setAttributeName] = useState<string>(attributeData.name);
@@ -68,7 +69,7 @@ const TaskAttributeEdit: React.FC<TaskAttributeEditProps> = ({ attribute, worksp
       });
       setEditLoading(false);
       if (response && response.code === API_CODE.OK) {
-        setAttributeUpdated(response.data);
+        dispatch(setAttributeUpdated(response.data));
         setAttributeData(response.data);
         setIsDropdownOpenEdit(false);
         setIsDropdownOpen(false);
@@ -93,8 +94,8 @@ const TaskAttributeEdit: React.FC<TaskAttributeEditProps> = ({ attribute, worksp
       const response = await deleteAttribute(workspaceId, projectId, attributeData.id);
       setDeleteLoading(false);
       if (response && response.code === API_CODE.OK) {
+        dispatch(setAttributeDeleted(attributeData.id));
         setConfirmDelete(false);
-        setAttributeDeleted(true);
         return;
       }
       displayMessage("error", response.error?.message);
@@ -259,6 +260,10 @@ const TaskAttributeEdit: React.FC<TaskAttributeEditProps> = ({ attribute, worksp
       </div>
     ),
   });
+
+  useEffect(() => {
+    setAttributeData(attribute);
+  }, [attribute]);
 
   return <>
     <Dropdown

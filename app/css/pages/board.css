@@ -42,7 +42,7 @@
     display: flex;
     gap: 1rem;
     padding: 1rem;
-    overflow-x: hidden;
+    overflow-x: scroll;
     scroll-behavior: smooth;
     /* background-color: #f8f9fa; */
   }
@@ -116,8 +116,8 @@
 }
 
 .dropdown-assignee {
-  min-height: 45px !important;
-  height: 45px;
+  min-height: 33px !important;
+  /* height: 45px; */
 }
 
 .dropdown-assignee .ant-select-selector .ant-select-selection-wrap .ant-select-selection-overflow .ant-select-selection-overflow-item .ant-select-selection-item {
@@ -137,6 +137,10 @@
 .status-dropdown .ant-select-selector {
   padding-left: unset !important;
   border: unset !important;
+}
+
+.status-dropdown-filter .ant-select-selector {
+  padding-left: unset !important;
 }
 
 .task-title {
@@ -171,8 +175,25 @@
       max-width: 300px;
       border-radius: 8px;
       border: unset !important;
-    } 
+    }
+
+    .attribute-item-value {
+      margin-top: 10px;
+    }
+
+    .date-filter {
+      margin-top: 10px;
+    }
+
+    .status-dropdown-filter {
+      margin-top: 10px;
+    }
+
+    /* .due-date-row {
+      margin-top: 20px;
+    } */
 }
+
 
 .task-list-container {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;

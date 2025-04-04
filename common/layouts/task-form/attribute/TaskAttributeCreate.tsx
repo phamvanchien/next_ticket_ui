@@ -7,6 +7,8 @@ import Loading from "@/common/components/Loading";
 import SelectSingle from "@/common/components/SelectSingle";
 import { ICON_CONFIG } from "@/configs/icon.config";
 import { API_CODE } from "@/enums/api.enum";
+import { setAttributeCreated } from "@/reduxs/project.redux";
+import { useAppDispatch } from "@/reduxs/store.redux";
 import { BaseResponseType } from "@/types/base.type";
 import { ProjectAttributeType } from "@/types/project.type";
 import { colorRange, displayMessage } from "@/utils/helper.util";
@@ -27,15 +29,14 @@ import React, { useState } from "react";
 interface TaskAttributeCreateProps {
   projectId: number;
   workspaceId: number;
-  setAttributeCreated: (attributeCreated: ProjectAttributeType) => void;
 }
 
 const TaskAttributeCreate: React.FC<TaskAttributeCreateProps> = ({
   workspaceId,
   projectId,
-  setAttributeCreated,
 }) => {
   const t = useTranslations();
+  const dispatch = useAppDispatch();
   const [attributeType, setAttributeType] = useState<number>(1);
   const [attributeName, setAttributeName] = useState<string>();
   const [values, setValues] = useState<{ value: string; icon: string; color: string }[]>([{ value: "", icon: "", color: "" }]);
@@ -75,7 +76,7 @@ const TaskAttributeCreate: React.FC<TaskAttributeCreateProps> = ({
       setCreateLoading(false);
       if (response && response.code === API_CODE.CREATED) {
         setIsDropdownOpen(false);
-        setAttributeCreated(response.data);
+        dispatch(setAttributeCreated(response.data));
         setAttributeName(undefined);
         setAttributeType(1);
         setValues([]);
@@ -230,8 +231,8 @@ const TaskAttributeCreate: React.FC<TaskAttributeCreateProps> = ({
   return (
     <div className="row mt-2">
       <div className="col-12">
-        <Dropdown items={items} classButton="btn-add-property text-secondary" isDropdownOpen={isDropdownOpen} setIsDropdownOpen={setIsDropdownOpen}>
-          <FontAwesomeIcon icon={faPlus} /> {t("tasks.add_property_label")}
+        <Dropdown items={items} classButton="btn-add-property" isDropdownOpen={isDropdownOpen} setIsDropdownOpen={setIsDropdownOpen}>
+          <span className="text-secondary pointer"><FontAwesomeIcon icon={faPlus} /> {t("tasks.add_property_label")}</span>
         </Dropdown>
       </div>
     </div>

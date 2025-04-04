@@ -9,10 +9,10 @@ import TaskAssignee from "@/common/layouts/task-form/TaskAssignee";
 import TaskDescription from "@/common/layouts/task-form/TaskDescription";
 import TaskStatus from "@/common/layouts/task-form/TaskStatus";
 import { API_CODE } from "@/enums/api.enum";
-import { useAppDispatch } from "@/reduxs/store.redux";
+import { RootState, useAppDispatch } from "@/reduxs/store.redux";
 import { setTaskUpdated } from "@/reduxs/task.redux";
 import { BaseResponseType } from "@/types/base.type";
-import { ProjectType } from "@/types/project.type";
+import { ProjectAttributeType, ProjectType } from "@/types/project.type";
 import { TaskAttributeType, TaskType } from "@/types/task.type";
 import { UserType } from "@/types/user.type";
 import { displayMessage } from "@/utils/helper.util";
@@ -20,6 +20,7 @@ import { faCalendar } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 interface TaskEditProps {
   project: ProjectType
@@ -44,12 +45,16 @@ const TaskEdit: React.FC<TaskEditProps> = ({
   const [title, setTitle] = useState<string>(task ? task.title : '');
   const [taskId, setTaskId] = useState<number>(task ? task.id : 0);
   const [description, setDescription] = useState<string>('');
+  const [projectAttributes, setProjectAttributes] = useState<ProjectAttributeType[]>(project.attributes);
+  const attributeCreated = useSelector((state: RootState) => state.projectSlide).attributeCreated;
+  const attributeDeleted = useSelector((state: RootState) => state.projectSlide).attributeDeleted;
+  const attributeUpdated = useSelector((state: RootState) => state.projectSlide).attributeUpdated;
   const handleSaveTask = async () => {
-    console.log('title: ', title)
-    console.log('assignee: ', assignee)
-    console.log('dueDate: ', dueDate)
-    console.log('status: ', status)
-    console.log('attributesSelected: ', attributesSelected)
+    // console.log('title: ', title)
+    // console.log('assignee: ', assignee)
+    // console.log('dueDate: ', dueDate)
+    // console.log('status: ', status)
+    // console.log('attributesSelected: ', attributesSelected)
 
     try {
       if (!title || !status || !task) {
@@ -106,6 +111,25 @@ const TaskEdit: React.FC<TaskEditProps> = ({
       setDescription(task.description);
     }
   }, [task]);
+  useEffect(() => {
+    if (attributeCreated) {
+      setProjectAttributes([...projectAttributes, attributeCreated]);
+    }
+  }, [attributeCreated]);
+  useEffect(() => {
+    if (attributeDeleted) {
+      setProjectAttributes(projectAttributes.filter(a => a.id !== attributeDeleted));
+    }
+  }, [attributeDeleted]);
+  useEffect(() => {
+    if (attributeUpdated) {
+      setProjectAttributes(
+        projectAttributes.map(a =>
+          a.id === attributeUpdated.id ? attributeUpdated : a
+        )
+      );
+    }
+  }, [attributeUpdated]);  
   return (
     <Sidebar 
       open={open}
@@ -123,7 +147,7 @@ const TaskEdit: React.FC<TaskEditProps> = ({
         </div>
       </div>
       <TaskAssignee className="mt-4 dropdown-assignee" projectMembers={memberList} assigneeSelected={assignee} setAssigneeSelected={setAssignee} />
-      <div className="row mt-3">
+      <div className="row mt-3 due-date-row">
         <div className="col-3 text-secondary">
           <FontAwesomeIcon icon={faCalendar} /> {t('tasks.placeholder_due_date')}:
         </div>
@@ -131,13 +155,13 @@ const TaskEdit: React.FC<TaskEditProps> = ({
           <DatePickerCustom setDate={setDueDate} date={dueDate} />
         </div>
       </div>
-      <TaskStatus className="mt-2" statusList={project.status} statusSelected={status} setStatusSelected={setStatus} />
+      <TaskStatus className="mt-3" statusList={project.status} statusSelected={status} setStatusSelected={setStatus} />
       <TaskAttribute 
-        className="mt-2" 
+        className="mt-3" 
         projectId={project.id} 
         workspaceId={project.workspace_id} 
         taskId={taskId}
-        attributes={project.attributes} 
+        attributes={projectAttributes} 
         attributesSelected={attributesSelected}
         setAttributesSelected={setAttributesSelected}
       />

@@ -233,3 +233,10 @@ export const getDaysDifference = (dateFrom: Date, dateTo: Date = new Date()): nu
 
   return 1;
 };
+
+export const rangeNumber = (start: number, end: number): number[] => {
+  return Array.from(
+    { length: Math.ceil(((end) - start) / 1) },
+    (_, i) => start + i * 1
+  );
+}

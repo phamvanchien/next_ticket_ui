@@ -1,14 +1,16 @@
-import { TaskType } from '@/types/task.type';
+import { RequestGetTaskType, TaskType } from '@/types/task.type';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface TaskSliceType {
   taskCreated?: TaskType
-  taskUpdated?: TaskType
+  taskUpdated?: TaskType,
+  taskFilter: RequestGetTaskType
 }
 
 const initialState: TaskSliceType = {
   taskCreated: undefined,
-  taskUpdated: undefined
+  taskUpdated: undefined,
+  taskFilter: {}
 };
 
 const projectSlice = createSlice({
@@ -20,10 +22,13 @@ const projectSlice = createSlice({
     },
     setTaskUpdated(state, action: PayloadAction<TaskType>) {
       state.taskUpdated = action.payload;
+    },
+    setTaskFilter(state, action: PayloadAction<RequestGetTaskType>) {
+      state.taskFilter = action.payload;
     }
   },
 });
 
-export const { setTaskCreated, setTaskUpdated } = projectSlice.actions;
+export const { setTaskCreated, setTaskUpdated, setTaskFilter } = projectSlice.actions;
 
 export default projectSlice.reducer;
