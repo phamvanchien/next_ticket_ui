@@ -1,6 +1,7 @@
 import DynamicIcon from "@/common/components/DynamicIcon";
 import SelectMultiple from "@/common/components/SelectMultiple";
 import { ProjectAttributeType } from "@/types/project.type";
+import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 
 interface TaskAttributeFilterProps {
@@ -11,6 +12,7 @@ interface TaskAttributeFilterProps {
 }
 
 const TaskAttributeFilter: React.FC<TaskAttributeFilterProps> = ({ className, attributes, attributesSelected, setAttributesSelected }) => {
+  const t = useTranslations();
   const [attributesData, setAttributesData] = useState(attributes);
 
   // Hàm xử lý chọn thuộc tính
@@ -37,13 +39,14 @@ const TaskAttributeFilter: React.FC<TaskAttributeFilterProps> = ({ className, at
               options={attribute.childrens.map((child, idx) => ({
                 value: child.id,
                 label: (
-                  <div>
-                    <DynamicIcon iconName={child.icon} style={{ color: child.color }} /> {child.value}
+                  <div style={{ color: child.color }}>
+                    <DynamicIcon iconName={child.icon} /> {child.value}
                   </div>
                 )
               }))}
               handleChange={(values) => handleCollectAttributes(attribute.id, values.map(v => Number(v)))}
-              values={attributesSelected[attribute.id] || []} // Sử dụng giá trị đã chọn cho attribute hiện tại
+              values={attributesSelected[attribute.id] || []}
+              placeholder={t('empty_label')}
             />
           </div>
         </div>

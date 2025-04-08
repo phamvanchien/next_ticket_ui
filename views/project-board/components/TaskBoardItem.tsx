@@ -6,6 +6,7 @@ import { TaskType } from "@/types/task.type";
 import { dateToString, getDaysDifference } from "@/utils/helper.util";
 import { faAngleDoubleUp, faClock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Avatar } from "antd";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 
@@ -88,14 +89,18 @@ const TaskBoardItem: React.FC<TaskBoardItemProps> = ({
         <div className="d-flex justify-content-between">
           <span className="text-muted small">
             {
-              task.assign.length > 0 &&
+              task.assign.length > 0 ?
               <UserGroup className="float-right mt-2">
                 {
                   task.assign.map(user => (
                     <UserAvatar key={user.id} name={user.first_name} avatar={user.avatar} />
                   ))
                 }
-              </UserGroup>
+              </UserGroup> :
+              <>
+                {/* <Avatar src="/images/icons/no-user.png" className="mt-2" /> */}
+                <span style={{ marginTop: 10 }}>{t('tasks.unassigned_label')}</span>
+              </>
             }
           </span>
           {

@@ -43,6 +43,7 @@ const TaskAttributeItem: React.FC<TaskAttributeItemProps> = ({
   const [multipleSelectValue, setMultipleSelectValue] = useState<string>("");
   const [isInitialized, setIsInitialized] = useState(false);
   const [attributeData, setAttributeData] = useState(attribute);
+  const [attributesChildren, setAttributesChildren] = useState(attributeData.childrens);
 
   const handleChangeSingleSelect = (value: string) => {
     const child = attributeData.childrens.find((c) => c.id === Number(value));
@@ -168,6 +169,13 @@ const TaskAttributeItem: React.FC<TaskAttributeItemProps> = ({
     }
   }, [date]);
 
+  useEffect(() => {
+    setAttributeData(attribute);
+    if (attribute && [3, 4].includes(attribute.type)) {
+      setAttributesChildren(attribute.childrens);
+    }
+  }, [attribute]);
+
   return (
     <div className={`row ${className ?? ""}`}>
       <div className="col-lg-3 col-12 text-secondary pointer">
@@ -182,7 +190,7 @@ const TaskAttributeItem: React.FC<TaskAttributeItemProps> = ({
         )}
         {attributeData.type === 3 && (
           <SelectSingle
-            options={attributeData.childrens.map((child) => ({
+            options={attributesChildren.map((child) => ({
               value: child.id,
               label: <div>
                 {child.icon && <DynamicIcon iconName={child.icon} style={{ color: child.color ?? '#3333', marginRight: 5 }} />} {child.value}
@@ -195,10 +203,10 @@ const TaskAttributeItem: React.FC<TaskAttributeItemProps> = ({
         )}
         {attributeData.type === 4 && (
           <SelectMultiple
-            options={attributeData.childrens.map((child) => ({
+            options={attributesChildren.map((child) => ({
               value: child.id,
               label: (
-                <div style={{ background: child.color }}>
+                <div style={{ color: child.color }}>
                   {child.icon && <DynamicIcon iconName={child.icon} />} {child.value}
                 </div>
               ),

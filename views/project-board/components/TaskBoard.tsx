@@ -1,7 +1,7 @@
 import { ResponseTaskBoardDataType, TaskType } from "@/types/task.type";
 import { faGripVertical, faPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useEffect, useRef, useState } from "react";
+import React, { SetStateAction, useEffect, useRef, useState } from "react";
 import TaskBoardItem from "./TaskBoardItem";
 import { displayMessage } from "@/utils/helper.util";
 import { BaseResponseType } from "@/types/base.type";
@@ -22,6 +22,7 @@ interface TaskBoardProps {
   loadingTaskBoard: boolean
   setTaskSelected: (taskSelected?: TaskType) => void
   setCreateWithStatus: (createWithStatus: number) => void
+  setTasksBoardData: React.Dispatch<SetStateAction<ResponseTaskBoardDataType[] | undefined>>
 }
 
 const TaskBoard: React.FC<TaskBoardProps> = ({ 
@@ -31,7 +32,8 @@ const TaskBoard: React.FC<TaskBoardProps> = ({
   projectStatus,
   loadingTaskBoard,
   setTaskSelected, 
-  setCreateWithStatus 
+  setCreateWithStatus,
+  setTasksBoardData
 }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const [boardData, setBoardData] = useState(tasksBoardData || []);
@@ -90,6 +92,7 @@ const TaskBoard: React.FC<TaskBoardProps> = ({
     const updatedItems = [...boardData];
     [updatedItems[dragIndex], updatedItems[index]] = [updatedItems[index], updatedItems[dragIndex]];
 
+    setTasksBoardData(updatedItems);
     setBoardData(updatedItems);
 
     try {
@@ -121,6 +124,23 @@ const TaskBoard: React.FC<TaskBoardProps> = ({
     const sourceStatusId = parseInt(sourceData, 10);
   
     if (sourceStatusId !== target) {
+      task.status.id = target;
+      setTasksBoardData((prev) =>
+        prev?.map((boardStatus) => {
+          if (boardStatus.id === sourceStatusId) {
+            return {
+              ...boardStatus,
+              tasks: boardStatus.tasks.filter((t) => t.id !== task.id),
+            };
+          }
+          if (boardStatus.id === target) {
+            return {
+              ...boardStatus,
+              tasks: [...boardStatus.tasks, task],
+            };
+          }
+          return boardStatus;
+        }))
       setBoardData((prev) =>
         prev.map((boardStatus) => {
           if (boardStatus.id === sourceStatusId) {

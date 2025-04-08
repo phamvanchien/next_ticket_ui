@@ -278,6 +278,7 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
           projectId={project.id} 
           setTaskSelected={setTaskSelected}
           setCreateWithStatus={setCreateWithStatus}
+          setTasksBoardData={setTasksBoardData}
         />
       }
       {

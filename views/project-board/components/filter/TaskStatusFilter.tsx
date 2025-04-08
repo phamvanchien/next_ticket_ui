@@ -51,14 +51,15 @@ const TaskStatusFilter: React.FC<TaskStatusFilterProps> = ({ className, statusLi
             return {
               value: status.id,
               label: (
-                <div className="status-card" style={{ background: status.color, minWidth: 100 }}>
-                  <FontAwesomeIcon icon={faCircle} size="sm" className="text-secondary" /> {status.name}
+                <div className="status-card" style={{ color: status.color, minWidth: 100 }}>
+                  <FontAwesomeIcon icon={faCircle} size="sm" style={{ color: status.color }} /> {status.name}
                 </div>
               )
             }
           })} 
           handleChange={(values) => setStatusSelected (values.map(v => Number(v)))}
           values={statusSelected} 
+          placeholder={t('empty_label')}
         />
       </div>
     </div>
