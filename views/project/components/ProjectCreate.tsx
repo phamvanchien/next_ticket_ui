@@ -105,7 +105,7 @@ const ProjectCreate: React.FC<ProjectCreateProps> = ({ workspaceId, workspaceMem
           />
         </div>
         <div className="col-12 mt-2">
-          <Textarea ref={descriptionRef} maxLength={300} rows={3} placeholder={t('create_project.placeholder_project_description')} />
+          <Textarea ref={descriptionRef} maxLength={300} rows={5} style={{height: 100}} placeholder={t('create_project.placeholder_project_description')} />
         </div>
         <div className="col-12 mt-2">
           <p className="pointer m-unset mb-2" onClick={() => setIsPublic (true)}>

@@ -83,7 +83,7 @@ const Header = () => {
 
         <div className={`collapse navbar-collapse ${showMenu ? "show" : ""}`} id="navbarNav">
           <ul className="navbar-nav menu-header">
-            <li className={`nav-item ${pathPage === 'workspace' ? 'nav-item-active' : ''}`}>
+            <li className={`nav-item ${pathPage === 'workspace' ? 'nav-item-active' : ''}`} onClick={() => setShowMenu (false)}>
               <Link className="nav-link text-dark" href="/workspace">{t('top_menu.workspace')}</Link>
             </li>
             <li className="nav-item">

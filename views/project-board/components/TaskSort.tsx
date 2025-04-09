@@ -1,3 +1,4 @@
+import Button from "@/common/components/Button";
 import Dropdown from "@/common/components/Dropdown";
 import { faSort } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -38,8 +39,10 @@ const TaskSort: React.FC<TaskSortProps> = ({ className }) => {
     },
   ];
   return (
-    <Dropdown items={items} className={className} classButton="mt-1">
-      <FontAwesomeIcon icon={faSort} /> {t('tasks.sort_label')}
+    <Dropdown items={items} className={className}>
+      <Button color='default' outline>
+        <FontAwesomeIcon icon={faSort} /> {t('tasks.sort_label')}
+      </Button>
     </Dropdown>
   )
 }

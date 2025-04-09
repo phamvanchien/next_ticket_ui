@@ -42,6 +42,9 @@ const TaskBoardCreateStatus: React.FC<TaskBoardCreateStatusProps> = ({ workspace
       setCreateLoading(false);
       if (response && response.code === API_CODE.CREATED) {
         dispatch(setStatusCreated(response.data));
+        setName(undefined);
+        setColor(undefined);
+        setCategory(1);
         setIsDropdownOpen(false);
         return;
       }
@@ -58,6 +61,7 @@ const TaskBoardCreateStatus: React.FC<TaskBoardCreateStatusProps> = ({ workspace
         <div>
           <Input 
             type="text" 
+            value={name}
             placeholder={t('project_setting.placeholder_input_status')} 
             onClick={(e) => e.stopPropagation()} 
             onChange={(e) => setName (e.target.value)}

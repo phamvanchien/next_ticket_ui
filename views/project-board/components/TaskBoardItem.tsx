@@ -54,7 +54,7 @@ const TaskBoardItem: React.FC<TaskBoardItemProps> = ({
     }
 
     const type = task.attributes.find(a => a.default_name === 'type');
-    if (type) {
+    if (type && type.value !== '') {
       const typeParse = JSON.parse(type.value);
       setType((typeParse && typeParse.length > 0) ? typeParse[0] : undefined);
     }
@@ -71,16 +71,19 @@ const TaskBoardItem: React.FC<TaskBoardItemProps> = ({
     >
       <div className="card-body task-item-body" onClick={() => setTaskSelected (task)}>
         <h6>
-          <span className={isExpire === -1 ? 'text-secondary' : 'text-dark'}>{task.title}</span>
+          <span className={`${isExpire === -1 ? 'text-secondary' : 'text-dark'} full-text`}>{task.title}</span>
           {
             priority && <DynamicIcon iconName={priority.icon} className={`float-right`} style={{ color: priority.color }} />
           }
         </h6>
-        <p className="text-muted m-unset">{t('tasks.due_label')}: 
-          <span style={{ marginLeft: 4 }}>{dateToString(new Date(task.due))}</span>
-        </p>
         {
-          isExpire === -1 &&
+          task.due &&
+          <p className="text-muted m-unset">{t('tasks.due_label')}: 
+            <span style={{ marginLeft: 4 }}>{dateToString(new Date(task.due))}</span>
+          </p>
+        }
+        {
+          (task.due && isExpire === -1) &&
           <p className="text-muted m-unset">
             <FontAwesomeIcon icon={faClock} /> {t('tasks.expire_label')}
           </p>
@@ -97,10 +100,10 @@ const TaskBoardItem: React.FC<TaskBoardItemProps> = ({
                   ))
                 }
               </UserGroup> :
-              <>
-                {/* <Avatar src="/images/icons/no-user.png" className="mt-2" /> */}
-                <span style={{ marginTop: 10 }}>{t('tasks.unassigned_label')}</span>
-              </>
+              <div className="d-flex align-items-center gap-2 mt-2">
+                <Avatar src="/images/icons/no-user.png" />
+                <span>{t('tasks.unassigned_label')}</span>
+              </div>
             }
           </span>
           {

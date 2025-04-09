@@ -124,7 +124,7 @@ const TaskCreate: React.FC<TaskCreateProps> = ({
     <Sidebar 
       open={open}
       width={800}
-      headerTitle={'Create a task'}
+      headerTitle={t('tasks.btn_create_task')}
       setOpen={setOpen}
       headerElement={
         <Button color={createLoading ? 'secondary' : 'primary'} onClick={handleSaveTask} disabled={createLoading}>

@@ -131,7 +131,7 @@ const ProjectView: React.FC<ProjectViewProps> = ({ workspaceId }) => {
             <input
               type="text"
               className="form-control ps-5 rounded wp-search-input"
-              placeholder={t('workspaces.placeholder_input_search') + '...'}
+              placeholder={t('projects.placeholder_input_search') + '...'}
               value={keywordProject}
               onChange={handleChangeProject}
             />

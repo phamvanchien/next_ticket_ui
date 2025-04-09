@@ -6,6 +6,7 @@ import { faGear } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useRef } from "react";
 
 interface MenuSidebarProps {
@@ -14,18 +15,28 @@ interface MenuSidebarProps {
 
 const MenuSidebar: React.FC<MenuSidebarProps> = ({ workspace }) => {
   const t = useTranslations();
+  const router = useRouter();
   const dispatch = useAppDispatch();
   const boxRef = useRef<HTMLDivElement>(null);
+
   const closeSidebar = () => {
     const body = document.getElementsByTagName('body') as HTMLCollectionOf<HTMLBodyElement>;
     body[0].classList.remove('sb-sidenav-toggled');
-  }
+  };
 
   const handleClickOutside = (event: MouseEvent) => {
     if (window.innerWidth <= 768 && boxRef.current && !boxRef.current.contains(event.target as Node)) {
       closeSidebar();
     }
   };
+
+  const handleClickItem = (event: any) => {
+    event.preventDefault();
+    router.push(event.target.href);
+    if (window.innerWidth <= 768) {
+      closeSidebar();
+    }
+  }
 
   useEffect(() => {
     if (window.innerWidth <= 768) {
@@ -52,7 +63,7 @@ const MenuSidebar: React.FC<MenuSidebarProps> = ({ workspace }) => {
         <div className="sb-sidenav-menu">
           <div className="nav">
             <div className="sb-sidenav-menu-heading">{t('sidebar.project')}</div>
-            <Link className="nav-link" href={`/workspace/${workspace.id}/project`}>
+            <Link className="nav-link" href={`/workspace/${workspace.id}/project`} onClick={handleClickItem}>
               <div className="sb-nav-link-icon">
                 <i className="fas fa-tachometer-alt" />
               </div>

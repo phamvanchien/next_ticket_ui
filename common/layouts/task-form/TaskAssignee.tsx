@@ -15,10 +15,11 @@ interface TaskAssigneeProps {
   projectMembers: UserType[]
   assigneeSelected: UserType[]
   label?: string
+  placeholder?: string
   setAssigneeSelected: (userSelected: UserType[]) => void
 }
 
-const TaskAssignee: React.FC<TaskAssigneeProps> = ({ className, projectMembers, assigneeSelected, label, setAssigneeSelected }) => {
+const TaskAssignee: React.FC<TaskAssigneeProps> = ({ className, projectMembers, assigneeSelected, label, placeholder, setAssigneeSelected }) => {
   const t = useTranslations();
   const dispatch = useAppDispatch();
   const membersProject = useSelector((state: RootState) => state.projectSlide).membersProject;
@@ -56,7 +57,7 @@ const TaskAssignee: React.FC<TaskAssigneeProps> = ({ className, projectMembers, 
       <div className="col-lg-9 col-12 mt-2">
         <SelectMultiple 
           className="mt-2 dropdown-assignee" 
-          placeholder={t('tasks.unassigned_label')} 
+          placeholder={placeholder ? placeholder : t('tasks.unassigned_label')} 
           options={options} 
           values={assigneeSelected.map(a => a.id)}
           handleChange={handleChange}

@@ -249,7 +249,7 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
         <div className="col-12 mt-2 d-block d-lg-none">
           <TaskInputSearch keyword={keyword} handleChange={handleChange} />
         </div>
-        <div className="col-6 col-lg-6">
+        <div className="col-6 col-lg-6 mt-2">
           <ul className="board-menu">
             <li className={`board-menu-item ${layout === 1 ? 'active' : ''}`} onClick={() => setLayout (1)}>
               <FontAwesomeIcon icon={faGrip} style={{ marginRight: 5 }} /> {t('tasks.board')}
@@ -259,12 +259,11 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
             </li>
           </ul>
         </div>
-        <div className="col-6 col-lg-6">
+        <div className="col-6 col-lg-6 mt-2">
           <Button color="default" className="float-right mt-1" onClick={() => setOpenFilter (true)}>
             <FontAwesomeIcon icon={faFilter} /> {t('tasks.filter_label')}
           </Button>
-          <TaskSort className="float-right" />
-          <FontAwesomeIcon icon={faSearch} className="float-right d-block d-lg-none" style={{ marginTop: 15, marginRight: 7 }} />
+          <TaskSort className="float-right mt-1" />
           <TaskInputSearch keyword={keyword} handleChange={handleChange} className="d-none d-lg-block float-right mt-2" />
         </div>
       </div>
@@ -303,7 +302,13 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
         task={taskSelected}
         setOpenModal={setTaskSelected}
       />
-      <TaskBoardFilter open={openFilter} project={project} setOpen={setOpenFilter} setLoadingTaskBoard={setLoadingTaskBoard} loadingTaskBoard={loadingTaskBoard} />
+      <TaskBoardFilter 
+        open={openFilter} 
+        project={project} 
+        setOpen={setOpenFilter} 
+        setLoadingTaskBoard={setLoadingTaskBoard} 
+        loadingTaskBoard={loadingTaskBoard} 
+      />
     </div>
   </>
 }

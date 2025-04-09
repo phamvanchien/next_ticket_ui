@@ -40,6 +40,7 @@ const TaskBoardFilter: React.FC<TaskBoardFilterProps> = ({ open, project, loadin
   const attributeCreated = useSelector((state: RootState) => state.projectSlide).attributeCreated;
   const attributeDeleted = useSelector((state: RootState) => state.projectSlide).attributeDeleted;
   const attributeUpdated = useSelector((state: RootState) => state.projectSlide).attributeUpdated;
+  const taskFilter = useSelector((state: RootState) => state.taskSlide).taskFilter;
   useEffect(() => {
     if (attributeCreated && [3, 4].includes(attributeCreated.type)) {
       setProjectAttributes([...projectAttributes, attributeCreated]);
@@ -73,7 +74,39 @@ const TaskBoardFilter: React.FC<TaskBoardFilterProps> = ({ open, project, loadin
       toDue: dueDateTo ? formatToTimestampString(dueDateTo) : undefined,
       status: statusSelected.join(','),
       attributes: Object.values(attributesSelected).flat().join(',')
-    }))
+    }));
+    setOpen(false);
+  }
+  const handleClearFilter = () => {
+    setAssignee([]);
+    setCreator([]);
+    setDueDateFrom(null);
+    setDueDateTo(null);
+    setCreateDateFrom(null);
+    setCreateDateTo(null);
+    setStatusSelected([]);
+    setAttributesSelected([]);
+    setOpen(false);
+    if (
+      (taskFilter.assignee && taskFilter.assignee.length > 0) ||
+      (taskFilter.creator && taskFilter.creator.length > 0) ||
+      taskFilter.fromCreated || taskFilter.toCreated ||
+      taskFilter.fromDue || taskFilter.toDue ||
+      (taskFilter.status && taskFilter.status.length > 0) ||
+      (taskFilter.attributes && taskFilter.attributes.length > 0)
+    ) {
+      setLoadingTaskBoard(true);
+      dispatch(setTaskFilter({
+        assignee: undefined,
+        creator: undefined,
+        fromCreated: undefined,
+        toCreated: undefined,
+        fromDue: undefined,
+        toDue: undefined,
+        status: undefined,
+        attributes: undefined
+      }));
+    }
   }
   return (
     <Sidebar 
@@ -82,17 +115,33 @@ const TaskBoardFilter: React.FC<TaskBoardFilterProps> = ({ open, project, loadin
       setOpen={setOpen}
       headerElement={
         <>
-        <Button color={'light'} disabled={loadingTaskBoard}>
-          {t('tasks.btn_clear_filter')}
-        </Button>
+        {
+          (assignee.length > 0 || creator.length > 0 || dueDateFrom || dueDateTo || createDateFrom || createDateTo || statusSelected.length > 0 || Object.values(attributesSelected).flat().join(',').length > 0) &&
+          <Button color={'light'} disabled={loadingTaskBoard} onClick={handleClearFilter}>
+            {t('tasks.btn_clear_filter')}
+          </Button>
+        }
         <Button color={loadingTaskBoard ? 'secondary' : 'primary'} style={{ marginLeft: 5 }} onClick={handleSubmitFilter} disabled={loadingTaskBoard}>
           {loadingTaskBoard ? <Loading color="light" /> : t('tasks.filter_label')}
         </Button>
         </>
       }
     >
-      <TaskAssignee assigneeSelected={assignee} projectMembers={memberList} setAssigneeSelected={setAssignee} className="dropdown-assignee" />
-      <TaskAssignee label={t('tasks.creator_label')} assigneeSelected={creator} projectMembers={memberList} setAssigneeSelected={setCreator} className="mt-2 dropdown-assignee" />
+      <TaskAssignee 
+        assigneeSelected={assignee} 
+        projectMembers={memberList} 
+        setAssigneeSelected={setAssignee} 
+        className="dropdown-assignee" 
+        placeholder={t('empty_label')}
+      />
+      <TaskAssignee 
+        label={t('tasks.creator_label')} 
+        assigneeSelected={creator} 
+        projectMembers={memberList} 
+        setAssigneeSelected={setCreator} 
+        className="mt-2 dropdown-assignee" 
+        placeholder={t('empty_label')}
+      />
       <div className="row mt-3">
         <div className="col-lg-3 col-12 text-secondary">
           <FontAwesomeIcon icon={faCalendar} /> {t('tasks.placeholder_due_date')}:

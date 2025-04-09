@@ -145,7 +145,7 @@
 
 .task-title {
   padding-left: unset !important;
-  font-size: 20px;
+  font-size: 20px !important;
   border: unset !important;
 }
 
