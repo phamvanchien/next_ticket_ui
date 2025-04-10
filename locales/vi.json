@@ -129,7 +129,8 @@
         "no_project_message": "Chưa có dự án nào",
         "no_project_description": "Hãy tạo dự án đầu tiên của bạn",
         "no_description": "Không có mô tả",
-        "project_joined_message": "Bạn đã là thành viên của dự án"
+        "project_joined_message": "Bạn đã là thành viên của dự án",
+        "owner_label": "Quản lý dự án"
     },
     "private_check": "Riêng tư",
     "public_check": "Công khai",

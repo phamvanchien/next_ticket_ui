@@ -200,8 +200,8 @@ const TaskAttributeItem: React.FC<TaskAttributeItemProps> = ({
             options={attributesChildren.map((child) => ({
               value: child.id,
               label: (
-                <div style={{ color: child.color }}>
-                  {child.icon && <DynamicIcon iconName={child.icon} />} {child.value}
+                <div>
+                  {child.icon && <DynamicIcon iconName={child.icon} style={{ color: child.color ?? '#3333', marginRight: 5 }} />} {child.value}
                 </div>
               ),
             }))}

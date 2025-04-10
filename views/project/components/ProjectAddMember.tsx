@@ -20,11 +20,16 @@ interface ProjectAddMemberProps {
   setOpenModal: (projectId?: number) => void;
 }
 
+interface UserSelectedType {
+  user: UserType
+  owner: number | null
+}
+
 const ProjectAddMember: React.FC<ProjectAddMemberProps> = ({ projectId, setOpenModal, workspaceId }) => {
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
   const [userInviteData, setUserInviteData] = useState<UserType[]>([]);
-  const [userSelected, setUserSelected] = useState<UserType[]>([]);
+  const [userSelected, setUserSelected] = useState<UserSelectedType[]>([]);
   const [open, setOpen] = useState(!!projectId);
   const [sendLoading, setSendLoading] = useState(false);
   const { value: keyword, debouncedValue, handleChange } = useDelaySearch("", 1000);
@@ -67,13 +72,13 @@ const ProjectAddMember: React.FC<ProjectAddMemberProps> = ({ projectId, setOpenM
   }, [projectId]);
 
   const handleSelectUser = (user: UserType) => {
-    if (!userSelected.some((u) => u.id === user.id)) {
-      setUserSelected([...userSelected, user]);
+    if (!userSelected.some((u) => u.user.id === user.id)) {
+      setUserSelected([...userSelected, {user: user, owner: null}]);
     }
   };
 
   const handleRemoveUser = (userId: number) => {
-    setUserSelected(userSelected.filter((user) => user.id !== userId));
+    setUserSelected(userSelected.filter((user) => user.user.id !== userId));
   };
 
   const handleSendInvite = async () => {
@@ -84,7 +89,12 @@ const ProjectAddMember: React.FC<ProjectAddMemberProps> = ({ projectId, setOpenM
         workspaceId,
         projectId,
         {
-          members: userSelected.map(u => u.id)
+          members: userSelected.map(u => {
+            return {
+              id: u.user.id,
+              owner: u.owner
+            }
+          })
         }
       );
       setSendLoading(false);
@@ -103,6 +113,20 @@ const ProjectAddMember: React.FC<ProjectAddMemberProps> = ({ projectId, setOpenM
       displayMessage("error", (error as BaseResponseType).error?.message);
     }
   }
+
+  const changeOwnerCheck = (userId: number) => {
+    setUserSelected(prev =>
+      prev.map(u => {
+        if (u.user.id === userId) {
+          return {
+            ...u,
+            owner: u.owner === 1 ? null : 1,
+          };
+        }
+        return u;
+      })
+    );
+  };
 
   return (
     <Modal
@@ -137,9 +161,9 @@ const ProjectAddMember: React.FC<ProjectAddMemberProps> = ({ projectId, setOpenM
               <Loading className="mt-2" color="secondary" size={20} />
             </center>
           )}
-          {!loading && debouncedValue && userInviteData.filter((user) => !userSelected.some((u) => u.id === user.id)).length > 0 && (
+          {!loading && debouncedValue && userInviteData.filter((user) => !userSelected.some((u) => u.user.id === user.id)).length > 0 && (
             <div className="dropdown-member-container">
-              {userInviteData.filter((user) => !userSelected.some((u) => u.id === user.id)).map((user) => (
+              {userInviteData.filter((user) => !userSelected.some((u) => u.user.id === user.id)).map((user) => (
                   <div key={user.id} className="dropdown-member-item" onClick={() => handleSelectUser(user)}>
                     <UserAvatar name={user.first_name} avatar={user.avatar} className="me-2" />
                     <span>{user.first_name} {user.last_name}</span>
@@ -149,19 +173,29 @@ const ProjectAddMember: React.FC<ProjectAddMemberProps> = ({ projectId, setOpenM
           )}
         </div>
 
-        <div className="col-12 mt-3">
-          {userSelected.length > 0 && (
-            <div className="selected-user-list">
-              {userSelected.map((user) => (
-                <div key={user.id} className="selected-user-item">
-                  <UserAvatar name={user.first_name} avatar={user.avatar} className="me-2" />
-                  <span>{user.first_name} {user.last_name}</span>
-                  <FontAwesomeIcon icon={faTimes} className="remove-icon" onClick={() => handleRemoveUser(user.id)} />
-                </div>
-              ))}
+        {userSelected.map((user) => (
+          <div className="col-12 mt-3">
+            <div key={user.user.id} className="selected-user-item-project">
+              <FontAwesomeIcon icon={faTimes} className="remove-icon-member-project" onClick={() => handleRemoveUser(user.user.id)} />
+              <UserAvatar name={user.user.first_name} avatar={user.user.avatar} className="me-2" />
+              <span>{user.user.first_name} {user.user.last_name}</span>
+              <div className="form-check mt-1 form-check-owner">
+                <label className="form-check-label" htmlFor="ownerCheck">
+                  {t('projects.owner_label')}
+                </label>
+                <input
+                  className="form-check-input"
+                  type="checkbox"
+                  checked={user.owner === 1}
+                  id={`ownerCheck_${user.user.id}`}
+                  onChange={() => changeOwnerCheck(user.user.id)}
+                />
+
+              </div>
             </div>
-          )}
-        </div>
+          </div>
+        ))}
+
       </div>
     </Modal>
   );

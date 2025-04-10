@@ -60,6 +60,7 @@ export interface ProjectType {
   user: UserType
   status: ProjectStatusType[]
   attributes: ProjectAttributeType[]
+  is_owner: boolean
 }
 
 export interface ProjectAttributeType {

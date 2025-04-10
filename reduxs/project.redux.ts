@@ -10,7 +10,8 @@ interface ProjectSliceType {
   keywordSearchMember?: string
   attributeCreated?: ProjectAttributeType
   attributeDeleted?: number
-  attributeUpdated?: ProjectAttributeType
+  attributeUpdated?: ProjectAttributeType,
+  isOwner: boolean
 }
 
 const initialState: ProjectSliceType = {
@@ -21,7 +22,8 @@ const initialState: ProjectSliceType = {
   keywordSearchMember: undefined,
   attributeCreated: undefined,
   attributeDeleted: undefined,
-  attributeUpdated: undefined
+  attributeUpdated: undefined,
+  isOwner: false
 };
 
 const projectSlice = createSlice({
@@ -51,6 +53,9 @@ const projectSlice = createSlice({
     },
     setAttributeUpdated(state, action: PayloadAction<ProjectAttributeType>) {
       state.attributeUpdated = action.payload;
+    },
+    setIsOwnerProject(state, action: PayloadAction<boolean>) {
+      state.isOwner = action.payload;
     }
   },
 });
@@ -63,7 +68,8 @@ export const {
   setKeywordSearchMembers, 
   setAttributeCreated, 
   setAttributeDeleted,
-  setAttributeUpdated
+  setAttributeUpdated,
+  setIsOwnerProject
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

@@ -110,7 +110,6 @@
 .form-control,
 .ant-select-selection-search-input {
   background-color: #ffffff !important;
-  border: 1px solid #e0e0e0 !important;
   border-radius: 4px !important;
   /* padding: 6px 12px; */
   font-size: 14px !important;
@@ -122,9 +121,14 @@
   box-shadow: none !important;
 }
 
+.form-control {
+  border: 1px solid #e0e0e0 !important;
+}
+
 /* Khi focus - nhẹ nhàng */
-.form-control:focus,
-.ant-select-selection-search-input:focus {
+.form-control:focus
+/* .ant-select-selection-search-input:focus  */
+{
   border-color: #333 !important;
   background-color: #fff;
 }
@@ -144,7 +148,7 @@
 
 /* Khi focus */
 .ant-select-focused .ant-select-selector {
-  border-color: #3333 !important;
+  /* border-color: #3333 !important; */
   box-shadow: none !important;
 }
 

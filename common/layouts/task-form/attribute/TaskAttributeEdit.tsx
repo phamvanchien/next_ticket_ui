@@ -9,7 +9,7 @@ import SelectSingle from "@/common/components/SelectSingle";
 import { ICON_CONFIG } from "@/configs/icon.config";
 import { API_CODE } from "@/enums/api.enum";
 import { setAttributeDeleted, setAttributeUpdated } from "@/reduxs/project.redux";
-import { useAppDispatch } from "@/reduxs/store.redux";
+import { RootState, useAppDispatch } from "@/reduxs/store.redux";
 import { BaseResponseType } from "@/types/base.type";
 import { ProjectAttributeType } from "@/types/project.type";
 import { colorRange, displayMessage } from "@/utils/helper.util";
@@ -18,6 +18,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { MenuProps } from "antd";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 interface TaskAttributeEditProps {
   attribute: ProjectAttributeType;
@@ -28,6 +29,7 @@ interface TaskAttributeEditProps {
 const TaskAttributeEdit: React.FC<TaskAttributeEditProps> = ({ attribute, workspaceId, projectId }) => {
   const t = useTranslations();
   const dispatch = useAppDispatch();
+  const isOwner = useSelector((state: RootState) => state.projectSlide).isOwner;
   const [attributeData, setAttributeData] = useState(attribute);
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false);
   const [attributeName, setAttributeName] = useState<string>(attributeData.name);
@@ -266,19 +268,30 @@ const TaskAttributeEdit: React.FC<TaskAttributeEditProps> = ({ attribute, worksp
   }, [attribute]);
 
   return <>
-    <Dropdown
-      classButton="dropdown-attribute text-secondary"
-      items={isDropdownOpenEdit ? itemsEdit : items}
-      isDropdownOpen={isDropdownOpen}
-      setIsDropdownOpen={setIsDropdownOpen}
-    >
-      {attributeData.icon ? (
-        <DynamicIcon iconName={attributeData.icon} />
-      ) : (
-        <FontAwesomeIcon icon={faCircle} />
-      )}{" "}
-      {attributeData.name} <FontAwesomeIcon icon={faEdit} />
-    </Dropdown>
+    {
+      isOwner ? 
+        <Dropdown
+        classButton="dropdown-attribute text-secondary"
+        items={isDropdownOpenEdit ? itemsEdit : items}
+        isDropdownOpen={isDropdownOpen}
+        setIsDropdownOpen={setIsDropdownOpen}
+      >
+        {attributeData.icon ? (
+          <DynamicIcon iconName={attributeData.icon} />
+        ) : (
+          <FontAwesomeIcon icon={faCircle} />
+        )}{" "}
+        {attributeData.name} <FontAwesomeIcon icon={faEdit} />
+      </Dropdown> :
+      <>
+        {attributeData.icon ? (
+          <DynamicIcon iconName={attributeData.icon} />
+        ) : (
+          <FontAwesomeIcon icon={faCircle} />
+        )}{" "}
+        {attributeData.name}
+      </>
+    }
     <Modal 
       open={confirmDelete} 
       setOpen={setConfirmDelete}

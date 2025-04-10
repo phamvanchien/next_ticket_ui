@@ -39,8 +39,8 @@ const TaskAttributeFilter: React.FC<TaskAttributeFilterProps> = ({ className, at
               options={attribute.childrens.map((child, idx) => ({
                 value: child.id,
                 label: (
-                  <div style={{ color: child.color }}>
-                    <DynamicIcon iconName={child.icon} /> {child.value}
+                  <div>
+                    <DynamicIcon iconName={child.icon} style={{ color: child.color ?? '#3333', marginRight: 5 }} /> {child.value}
                   </div>
                 )
               }))}

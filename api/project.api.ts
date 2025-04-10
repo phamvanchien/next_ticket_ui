@@ -48,7 +48,7 @@ export const userInvite = async (workspaceId: number, projectId: number, keyword
   });
 }
 
-export const sendInvite = async (workspaceId: number, projectId: number, payload: {members: number[]}): Promise<BaseResponseType> => {
+export const sendInvite = async (workspaceId: number, projectId: number, payload: {members: {id: number, owner: number | null}[]}): Promise<BaseResponseType> => {
   return request({
     method: API_METHOD_ENUM.POST,
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/send-invite',

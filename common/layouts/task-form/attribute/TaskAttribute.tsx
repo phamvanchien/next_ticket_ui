@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import TaskAttributeCreate from "./TaskAttributeCreate";
 import TaskAttributeItem from "./TaskAttributeItem";
 import { TaskAttributeType } from "@/types/task.type";
+import { useSelector } from "react-redux";
+import { RootState } from "@/reduxs/store.redux";
 
 interface TaskAttributeProps {
   className?: string;
@@ -16,6 +18,7 @@ interface TaskAttributeProps {
 
 const TaskAttribute: React.FC<TaskAttributeProps> = ({ className, attributes, projectId, workspaceId, taskId, attributesSelected, setAttributesSelected }) => {
   const [attributesList, setAttributesList] = useState<ProjectAttributeType[]>(attributes);
+  const isOwner = useSelector((state: RootState) => state.projectSlide).isOwner;
   useEffect(() => {
     setAttributesList(attributes);
   }, [attributes, taskId]);
@@ -34,12 +37,15 @@ const TaskAttribute: React.FC<TaskAttributeProps> = ({ className, attributes, pr
         />
       ))
     }
-    <div className={className}>
-      <TaskAttributeCreate 
-        workspaceId={workspaceId} 
-        projectId={projectId} 
-      />
-    </div>
+    {
+      isOwner &&
+      <div className={className}>
+        <TaskAttributeCreate 
+          workspaceId={workspaceId} 
+          projectId={projectId} 
+        />
+      </div>
+    }
   </>
 };
 

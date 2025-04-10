@@ -129,7 +129,8 @@
         "no_project_message": "No projects yet",
         "no_project_description": "Create your first project",
         "no_description": "No description",
-        "project_joined_message": "You are already a member of the project"
+        "project_joined_message": "You are already a member of the project",
+        "owner_label": "Owner"
     },
     "private_check": "Private",
     "public_check": "Public",

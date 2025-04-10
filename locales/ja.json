@@ -129,7 +129,8 @@
         "no_project_message": "まだプロジェクトはありません",
         "no_project_description": "最初のプロジェクトを作成する",
         "no_description": "説明なし",
-        "project_joined_message": "あなたはすでにプロジェクトのメンバーです"
+        "project_joined_message": "あなたはすでにプロジェクトのメンバーです",
+        "owner_label": "所有者"
     },
     "private_check": "非公開",
     "public_check": "公開",

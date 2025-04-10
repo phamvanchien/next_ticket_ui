@@ -13,6 +13,8 @@ import TaskBoardEditStatus from "./TaskBoardEditStatus";
 import { useTranslations } from "next-intl";
 import TaskBoardLoading from "./TaskBoardLoading";
 import { ProjectStatusType } from "@/types/project.type";
+import { useSelector } from "react-redux";
+import { RootState } from "@/reduxs/store.redux";
 
 interface TaskBoardProps {
   tasksBoardData?: ResponseTaskBoardDataType[];
@@ -36,6 +38,7 @@ const TaskBoard: React.FC<TaskBoardProps> = ({
   setTasksBoardData
 }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
+  const isOwner = useSelector((state: RootState) => state.projectSlide).isOwner;
   const [boardData, setBoardData] = useState(tasksBoardData || []);
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const [draggedId, setDraggedId] = useState<number>();
@@ -219,21 +222,24 @@ const TaskBoard: React.FC<TaskBoardProps> = ({
             <div
               className="card-header d-flex align-items-center justify-content-between"
               style={{ background: item.color ?? '#3333' }}
-              draggable
-              onDragStart={(e) => handleDragStart(e, index, item.id)}
+              draggable={isOwner}
+              onDragStart={isOwner ? (e) => handleDragStart(e, index, item.id) : undefined}
               onDragOver={(e) => handleDragOver(e, item.id)}
               onDrop={(e) => handleDrop(e, index, item.id)}
             >
               <div className="d-flex align-items-center">
-                <span className="mr-2 cursor-pointer" style={{ marginRight: 5 }}>
-                  <FontAwesomeIcon
-                    icon={faGripVertical}
-                    style={{ pointerEvents: "none" }}
-                  />
-                </span>
+                {
+                  (isOwner && tasksBoardData) &&
+                  <span className="mr-2 cursor-pointer" style={{ marginRight: 5 }}>
+                    <FontAwesomeIcon
+                      icon={faGripVertical}
+                      style={{ pointerEvents: "none" }}
+                    />
+                  </span>
+                }
                 <h6 className="card-title m-unset">{item.name}</h6>
               </div>
-              <TaskBoardEditStatus workspaceId={workspaceId} projectId={projectId} status={item} />
+              {isOwner && <TaskBoardEditStatus workspaceId={workspaceId} projectId={projectId} status={item} />}
             </div>
             <div className="card-body status-item-body">
               {item.tasks.map(task => (
@@ -254,7 +260,7 @@ const TaskBoard: React.FC<TaskBoardProps> = ({
             </div>
           </div>
         ))}
-        <TaskBoardCreateStatus workspaceId={workspaceId} projectId={projectId} />
+        {isOwner && <TaskBoardCreateStatus workspaceId={workspaceId} projectId={projectId} />}
       </div>
     </div>
   );

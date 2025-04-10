@@ -21,7 +21,7 @@ import TaskEdit from "./components/TaskEdit";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "@/reduxs/store.redux";
 import { members } from "@/api/workspace.api";
-import { setKeywordSearchMembers, setMembersProject } from "@/reduxs/project.redux";
+import { setIsOwnerProject, setKeywordSearchMembers, setMembersProject } from "@/reduxs/project.redux";
 import { membersList } from "@/api/project.api";
 import TaskList from "./components/TaskList";
 import TaskBoardFilter from "./components/filter/TaskBoardFilter";
@@ -109,6 +109,9 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
       displaySmallMessage('error', (error as BaseResponseType).error?.message);
     }
   }
+  useEffect(() => {
+    dispatch(setIsOwnerProject(project.is_owner));
+  }, [project]);
   useEffect(() => {
     if (keywordSearchMember) {
       dispatch(setKeywordSearchMembers(''));
@@ -263,7 +266,7 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
           <Button color="default" className="float-right mt-1" onClick={() => setOpenFilter (true)}>
             <FontAwesomeIcon icon={faFilter} /> {t('tasks.filter_label')}
           </Button>
-          <TaskSort className="float-right mt-1" />
+          {/* <TaskSort className="float-right mt-1" /> */}
           <TaskInputSearch keyword={keyword} handleChange={handleChange} className="d-none d-lg-block float-right mt-2" />
         </div>
       </div>
