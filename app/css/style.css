@@ -10773,7 +10773,7 @@ body {
   flex-basis: 225px;
   flex-shrink: 0;
   transition: transform 0.15s ease-in-out;
-  z-index: 1038;
+  z-index: 900;
   transform: translateX(-225px);
 }
 #layoutSidenav #layoutSidenav_content {

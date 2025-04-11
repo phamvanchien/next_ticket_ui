@@ -5,6 +5,7 @@ import Input from "@/common/components/Input";
 import Loading from "@/common/components/Loading";
 import Sidebar from "@/common/layouts/Sidebar";
 import TaskAttribute from "@/common/layouts/task-form/attribute/TaskAttribute";
+import TaskCheckList from "@/common/layouts/task-form/checklist/TaskCheckList";
 import TaskAssignee from "@/common/layouts/task-form/TaskAssignee";
 import TaskDescription from "@/common/layouts/task-form/TaskDescription";
 import TaskStatus from "@/common/layouts/task-form/TaskStatus";
@@ -165,6 +166,7 @@ const TaskEdit: React.FC<TaskEditProps> = ({
         attributesSelected={attributesSelected}
         setAttributesSelected={setAttributesSelected}
       />
+      <TaskCheckList className="mt-4" task={task} />
       <TaskDescription description={description} setDescription={setDescription} taskId={taskId} />
     </Sidebar>
   )

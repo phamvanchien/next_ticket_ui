@@ -61,6 +61,10 @@
     width: 30% !important;
 }
 
+.w-80 {
+    width: 80% !important;
+}
+
 .p-t-10 {
     padding-top: 10px !important;
 }
@@ -164,4 +168,8 @@
     .logo-auth-box {
         top: 200px;
     }    
+}
+
+.line-through {
+    text-decoration: line-through !important;
 }

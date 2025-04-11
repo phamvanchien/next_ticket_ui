@@ -333,3 +333,15 @@
     min-width: auto;
   }
 }
+
+.checklist-control {
+  display: none;
+}
+
+.checklist-item:hover .checklist-control {
+  display: inline-block;
+}
+
+.checklist-control:hover {
+  font-size: 20px;
+}

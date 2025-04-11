@@ -168,9 +168,12 @@ const ProjectView: React.FC<ProjectViewProps> = ({ workspaceId }) => {
         ) : (
           <div className="col-12">
             <NoData message={t('projects.no_project_message')} description={t('projects.no_project_description')}>
-              <center>
-                <Button color="primary" className="d-flex align-items-center rounded d-none d-md-flex" onClick={() => setOpenCreate (true)}>
+              <center className="d-none d-lg-block">
+                <Button color="primary" style={{ marginRight: 10 }} onClick={() => setOpenCreate (true)}>
                   <FontAwesomeIcon icon={faPlus} style={{ marginRight: 5 }} /> {t('btn_new')}
+                </Button>
+                <Button color="light" onClick={() => setOpenInvite (true)}>
+                  <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: 5 }} /> {t('top_menu.invitation')}
                 </Button>
               </center>
             </NoData>

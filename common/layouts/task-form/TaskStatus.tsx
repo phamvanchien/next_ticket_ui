@@ -47,13 +47,13 @@ const TaskStatus: React.FC<TaskStatusProps> = ({ className, statusList, statusSe
       </div>
       <div className="col-9">
         <SelectSingle
-          className="status-dropdown" 
+          // className="status-dropdown" 
           options={statusData.map(status => {
             return {
               value: status.id,
               label: (
-                <div className="status-card" style={{ background: status.color }}>
-                  <FontAwesomeIcon icon={faCircle} size="sm" className="text-secondary" /> {status.name}
+                <div>
+                  <FontAwesomeIcon icon={faCircle} style={{ color: status.color }} /> {status.name}
                 </div>
               )
             }

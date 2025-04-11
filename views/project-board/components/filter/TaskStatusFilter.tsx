@@ -51,8 +51,8 @@ const TaskStatusFilter: React.FC<TaskStatusFilterProps> = ({ className, statusLi
             return {
               value: status.id,
               label: (
-                <div className="status-card" style={{ color: status.color, minWidth: 100 }}>
-                  <FontAwesomeIcon icon={faCircle} size="sm" style={{ color: status.color }} /> {status.name}
+                <div>
+                  <FontAwesomeIcon icon={faCircle} style={{ color: status.color }} /> {status.name}
                 </div>
               )
             }

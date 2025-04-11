@@ -5,10 +5,10 @@ import { WorkspaceType } from "./workspace.type";
 export interface RequestCreateTaskType {
   parent_id?: number
   status_id: number
-  type_id: number
+  type_id?: number
   title: string
   description?: string
-  priority: number
+  priority?: number
   due?: Date
   tags?: number[]
   assigns?: number[]
