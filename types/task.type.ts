@@ -61,7 +61,13 @@ export interface TaskType {
   workspace_id: number
   project_id: number
   title: string
+  parent_id: number | null
   description: string
+  // percent: number
+  sub_tasks: {
+    total: number,
+    totalDone: number
+  },
   due: string
   created_at: string,
   priority: TaskPriorityType

@@ -130,7 +130,7 @@ const ProjectView: React.FC<ProjectViewProps> = ({ workspaceId }) => {
             <FontAwesomeIcon icon={faSearch} className="position-absolute ms-3 wp-search-icon" />
             <input
               type="text"
-              className="form-control ps-5 rounded wp-search-input"
+              className="form-control ps-5 rounded search-input"
               placeholder={t('projects.placeholder_input_search') + '...'}
               value={keywordProject}
               onChange={handleChangeProject}
@@ -161,7 +161,7 @@ const ProjectView: React.FC<ProjectViewProps> = ({ workspaceId }) => {
       <div className="row">
         {(projectsTotal > 0) ? (
           projectsData.map((project) => (
-            <div key={project.id} className="col-lg-3 col-md-4 col-6 mb-4">
+            <div key={project.id} className="col-lg-3 col-md-4 col-12 mb-4">
               <ProjectItem project={project} setOpenAddMember={setOpenAddMember} />
             </div>
           ))

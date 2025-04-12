@@ -47,6 +47,10 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
   const taskCreated = useSelector((state: RootState) => state.taskSlide).taskCreated;
   const taskUpdated = useSelector((state: RootState) => state.taskSlide).taskUpdated;
   const taskFilter = useSelector((state: RootState) => state.taskSlide).taskFilter;
+  const subTaskDone = useSelector((state: RootState) => state.taskSlide).subTaskDone;
+  const subTaskUnDo = useSelector((state: RootState) => state.taskSlide).subTaskUnDo;
+  const subTaskDeleted = useSelector((state: RootState) => state.taskSlide).subTaskDeleted;
+  const subTaskCreated = useSelector((state: RootState) => state.taskSlide).subTaskCreated;
 
   const [pageSizeList, setPageSizeList] = useState(defaultSizeList);
   const [loadingLoadMoreList, setLoadingLoadMoreList] = useState(false);
@@ -227,7 +231,210 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
       });
     }
   }, [statusDeletedId]);
-
+  useEffect(() => {
+    if (subTaskDone && tasksBoardData) {
+      setTasksBoardData((prevTasksBoardData) => {
+        if (!prevTasksBoardData) return prevTasksBoardData;
+  
+        const updatedTasksBoardData = prevTasksBoardData.map((board) => {
+          const updatedTasks = board.tasks.map((task) => {
+            if (task.id === subTaskDone.taskId) {
+              return {
+                ...task,
+                sub_tasks: {
+                  ...task.sub_tasks,
+                  totalDone: (task.sub_tasks?.totalDone || 0) + 1,
+                },
+              };
+            }
+            return task;
+          });
+  
+          return {
+            ...board,
+            tasks: updatedTasks,
+          };
+        });
+  
+        return updatedTasksBoardData;
+      });
+  
+      setTaskList((prevTaskList) => {
+        if (!prevTaskList) return prevTaskList;
+  
+        const updatedItems = prevTaskList.items.map((task) => {
+          if (task.id === subTaskDone.taskId) {
+            return {
+              ...task,
+              sub_tasks: {
+                ...task.sub_tasks,
+                totalDone: (task.sub_tasks?.totalDone || 0) + 1,
+              },
+            };
+          }
+          return task;
+        });
+  
+        return {
+          ...prevTaskList,
+          items: updatedItems,
+        };
+      });
+    }
+  }, [subTaskDone]);  
+  useEffect(() => {
+    if (subTaskUnDo && tasksBoardData) {
+      setTasksBoardData((prevTasksBoardData) => {
+        if (!prevTasksBoardData) return prevTasksBoardData;
+  
+        const updatedTasksBoardData = prevTasksBoardData.map((board) => {
+          const updatedTasks = board.tasks.map((task) => {
+            if (task.id === subTaskUnDo.taskId) {
+              return {
+                ...task,
+                sub_tasks: {
+                  ...task.sub_tasks,
+                  totalDone: (task.sub_tasks?.totalDone || 0) - 1,
+                },
+              };
+            }
+            return task;
+          });
+  
+          return {
+            ...board,
+            tasks: updatedTasks,
+          };
+        });
+  
+        return updatedTasksBoardData;
+      });
+  
+      setTaskList((prevTaskList) => {
+        if (!prevTaskList) return prevTaskList;
+  
+        const updatedItems = prevTaskList.items.map((task) => {
+          if (task.id === subTaskUnDo.taskId) {
+            return {
+              ...task,
+              sub_tasks: {
+                ...task.sub_tasks,
+                totalDone: (task.sub_tasks?.totalDone || 0) - 1,
+              },
+            };
+          }
+          return task;
+        });
+  
+        return {
+          ...prevTaskList,
+          items: updatedItems,
+        };
+      });
+    }
+  }, [subTaskUnDo]);
+  useEffect(() => {
+    if (subTaskDeleted && tasksBoardData) {
+      setTasksBoardData((prevTasksBoardData) => {
+        if (!prevTasksBoardData) return prevTasksBoardData;
+  
+        const updatedTasksBoardData = prevTasksBoardData.map((board) => {
+          const updatedTasks = board.tasks.map((task) => {
+            if (task.id === subTaskDeleted.taskId) {
+              return {
+                ...task,
+                sub_tasks: {
+                  ...task.sub_tasks,
+                  total: (task.sub_tasks?.total || 0) - 1,
+                },
+              };
+            }
+            return task;
+          });
+  
+          return {
+            ...board,
+            tasks: updatedTasks,
+          };
+        });
+  
+        return updatedTasksBoardData;
+      });
+  
+      setTaskList((prevTaskList) => {
+        if (!prevTaskList) return prevTaskList;
+  
+        const updatedItems = prevTaskList.items.map((task) => {
+          if (task.id === subTaskDeleted.taskId) {
+            return {
+              ...task,
+              sub_tasks: {
+                ...task.sub_tasks,
+                total: (task.sub_tasks?.total || 0) - 1,
+              },
+            };
+          }
+          return task;
+        });
+  
+        return {
+          ...prevTaskList,
+          items: updatedItems,
+        };
+      });
+    }
+  }, [subTaskDeleted]);
+  useEffect(() => {
+    if (subTaskCreated && tasksBoardData) {
+      setTasksBoardData((prevTasksBoardData) => {
+        if (!prevTasksBoardData) return prevTasksBoardData;
+  
+        const updatedTasksBoardData = prevTasksBoardData.map((board) => {
+          const updatedTasks = board.tasks.map((task) => {
+            if (task.id === subTaskCreated.taskId) {
+              return {
+                ...task,
+                sub_tasks: {
+                  ...task.sub_tasks,
+                  total: (task.sub_tasks?.total || 0) + 1,
+                },
+              };
+            }
+            return task;
+          });
+  
+          return {
+            ...board,
+            tasks: updatedTasks,
+          };
+        });
+  
+        return updatedTasksBoardData;
+      });
+  
+      setTaskList((prevTaskList) => {
+        if (!prevTaskList) return prevTaskList;
+  
+        const updatedItems = prevTaskList.items.map((task) => {
+          if (task.id === subTaskCreated.taskId) {
+            return {
+              ...task,
+              sub_tasks: {
+                ...task.sub_tasks,
+                total: (task.sub_tasks?.total || 0) + 1,
+              },
+            };
+          }
+          return task;
+        });
+  
+        return {
+          ...prevTaskList,
+          items: updatedItems,
+        };
+      });
+    }
+  }, [subTaskCreated]);  
   return <>
     <div className="container-fluid">
       <div className="row board-wrapper">

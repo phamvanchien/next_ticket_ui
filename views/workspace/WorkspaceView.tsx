@@ -124,7 +124,7 @@ const WorkspaceView = () => {
                 <FontAwesomeIcon icon={faSearch} className="position-absolute ms-3 wp-search-icon" />
                 <input
                   type="text"
-                  className="form-control ps-5 rounded wp-search-input"
+                  className="form-control ps-5 rounded search-input"
                   placeholder={t('workspaces.placeholder_input_search') + '...'}
                   value={keyword}
                   onChange={handleChange}

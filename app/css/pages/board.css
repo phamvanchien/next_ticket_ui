@@ -33,11 +33,6 @@
     color: #888;
 }
 
-.wp-search-input {
-    border: none !important;
-    background-color: #f7f7f7 !important;
-}
-
 .status-wrapper {
     display: flex;
     gap: 1rem;

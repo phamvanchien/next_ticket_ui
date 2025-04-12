@@ -11175,7 +11175,22 @@ body {
   font-weight: 700;
 }
 
+.main-header {
+  background: #fff;
+}
+
 @media (max-width: 992px) {
+  .btn-open-sidebar, .btn-toggle-menu {
+    color:  #fff !important;
+  }
+  .main-header {
+    background: #0d6efd;
+  }
+  .text-logo-header {
+    color: #fff !important;
+    font-weight: 700;
+  }
+
     .mobile-icons {
       position: absolute;
       top: 10px;

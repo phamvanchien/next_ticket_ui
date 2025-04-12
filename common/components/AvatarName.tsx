@@ -6,16 +6,17 @@ interface AvatarNameProps {
   avatar?: string
   className?: string
   square?: boolean
+  style?: React.CSSProperties;
 }
 
-const UserAvatar: React.FC<AvatarNameProps> = ({ name, avatar, className, square }) => {
+const UserAvatar: React.FC<AvatarNameProps> = ({ name, avatar, className, square, style, ...rest }) => {
   if (!avatar) {
     return (
-      <Avatar className={className} shape={square ? 'square' : undefined} style={{ backgroundColor: '#fde3cf', color: '#f56a00', fontWeight: 500 }}>
+      <Avatar {...rest} className={className} shape={square ? 'square' : undefined} style={{ backgroundColor: '#fde3cf', color: '#f56a00', fontWeight: 500 }}>
         {name.substring(0, 1)}
       </Avatar>
     )
   }
-  return <Avatar className={className} shape={square ? 'square' : undefined} src={avatar} />
+  return <Avatar {...rest} className={className} shape={square ? 'square' : undefined} src={avatar} />
 }
 export default UserAvatar;

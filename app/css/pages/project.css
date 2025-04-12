@@ -16,11 +16,6 @@
     color: #888;
   }
   
-  .wp-search-input {
-    border: none !important;
-    background-color: #f7f7f7 !important;
-  }
-  
   .floating-buttons {
     position: fixed;
     bottom: 20px;

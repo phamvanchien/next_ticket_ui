@@ -50,11 +50,11 @@ const Header = () => {
     }
   }, [pathname]);
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark" style={{ borderBottom: "1px solid #dee2e6", padding: 'unset', height: 50 }}>
+    <nav className="navbar navbar-expand-lg navbar-dark main-header" style={{ borderBottom: "1px solid #dee2e6", padding: 'unset', height: 50 }}>
       <div className="container-fluid">
         {
           showBarBtn &&
-          <Button color="default" className="navbar-brand text-dark m-unset" onClick={() => {
+          <Button color="default" className="navbar-brand text-dark m-unset btn-open-sidebar" onClick={() => {
             document.body.classList.toggle("sb-sidenav-toggled");
           }}>
             <FontAwesomeIcon icon={faGripVertical} size="lg" />
@@ -72,9 +72,9 @@ const Header = () => {
         <div className="d-lg-none d-flex align-items-center ms-auto mobile-icons">
           <LanguageDropdown />
 
-          <button className="btn me-2" onClick={() => setShowSearch(!showSearch)}>
+          {/* <button className="btn me-2" onClick={() => setShowSearch(!showSearch)}>
             <FontAwesomeIcon icon={faSearch} />
-          </button>
+          </button> */}
 
           <div className="position-relative">
             <UserAvatar name={userLogged?.first_name ?? 'U'} avatar={userLogged?.avatar} />
@@ -95,25 +95,27 @@ const Header = () => {
             <li className="nav-item">
               <Link className="nav-link text-dark" href="/calendar">Calendar</Link>
             </li>
-            <li className="nav-item d-none d-lg-block" style={{ lineHeight: '3.5' }}>
+            {/* <li className="nav-item d-none d-lg-block" style={{ lineHeight: '3.5' }}>
               <LanguageDropdown />
-            </li>
+            </li> */}
           </ul>
 
           <form className="d-none d-lg-flex ms-auto me-3">
-            <div className="input-group">
+            {/* <div className="input-group">
               <input className="form-control" type="text" placeholder={t('search_label')} aria-label="Search" />
               <button className="btn btn-primary" type="button">
                 <FontAwesomeIcon icon={faSearch} />
               </button>
-            </div>
+            </div> */}
+              <LanguageDropdown />
+              <UserAvatar name={userLogged?.first_name ?? 'U'} className="m-l-10" avatar={userLogged?.avatar} />
           </form>
 
-          <ul className="navbar-nav d-none d-lg-flex">
+          {/* <ul className="navbar-nav d-none d-lg-flex">
             <li className="nav-item">
               <UserAvatar name={userLogged?.first_name ?? 'U'} avatar={userLogged?.avatar} />
             </li>
-          </ul>
+          </ul> */}
         </div>
 
         {showSearch && (

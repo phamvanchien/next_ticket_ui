@@ -45,7 +45,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project, setOpenAddMember }) 
         </p>
         {project.percent_done.toString()}%
         <div className="progress progress-project">
-          <div className="progress-bar progress-bar-striped progress-bar-animated" style={{ width: `${project.percent_done}%` }}></div>
+          <div className={`progress-bar progress-bar-striped progress-bar-animated ${project.percent_done >= 90 ? 'bg-success' : ''}`} style={{ width: `${project.percent_done}%` }}></div>
         </div>
       </div>
     </div>

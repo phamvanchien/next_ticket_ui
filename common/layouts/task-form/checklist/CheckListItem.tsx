@@ -3,6 +3,8 @@ import Button from "@/common/components/Button";
 import Input from "@/common/components/Input";
 import Loading from "@/common/components/Loading";
 import { API_CODE } from "@/enums/api.enum";
+import { useAppDispatch } from "@/reduxs/store.redux";
+import { setSubtaskDeleted, setSubtaskDone, setSubtaskUndo } from "@/reduxs/task.redux";
 import { BaseResponseType } from "@/types/base.type";
 import { TaskType } from "@/types/task.type";
 import { displaySmallMessage } from "@/utils/helper.util";
@@ -21,7 +23,7 @@ const CheckListItem: React.FC<CheckListItemProps> = ({ checkListItem, setCheckLi
   const [title, setTitle] = useState<string>(checkListItem.title);
   const [loadingEdit, setLoadingEdit] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
-
+  const dispatch = useAppDispatch();
   const t = useTranslations();
   const completeSubtask = async (taskId: number, checked: boolean) => {
     const checkedTask = checked;
@@ -32,6 +34,17 @@ const CheckListItem: React.FC<CheckListItemProps> = ({ checkListItem, setCheckLi
       });
       if (response && response.code === API_CODE.OK) {
         setChecked(response.data.due ? true : false);
+        if (response.data.due) {
+          dispatch(setSubtaskDone({
+            taskId: response.data.parent_id || 0,
+            date: new Date().toTimeString()
+          }));
+        } else {
+          dispatch(setSubtaskUndo({
+            taskId: response.data.parent_id || 0,
+            date: new Date().toTimeString()
+          }));
+        }
         return;
       }
       setChecked(checkedTask);
@@ -66,6 +79,10 @@ const CheckListItem: React.FC<CheckListItemProps> = ({ checkListItem, setCheckLi
     try {
       const response = await removeTask(checkListItem.workspace_id, checkListItem.project_id, checkListItem.id);
       if (response && response.code === API_CODE.OK) {
+        dispatch(setSubtaskDeleted({
+          taskId: checkListItem.parent_id || 0,
+          date: new Date().toTimeString()
+        }));
         setCheckListDeleted(checkListItem.id);
         return;
       }

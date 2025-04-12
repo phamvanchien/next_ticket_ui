@@ -3,6 +3,8 @@ import Button from "@/common/components/Button";
 import Input from "@/common/components/Input";
 import Loading from "@/common/components/Loading";
 import { API_CODE } from "@/enums/api.enum";
+import { useAppDispatch } from "@/reduxs/store.redux";
+import { setSubtaskCreated } from "@/reduxs/task.redux";
 import { BaseResponseType } from "@/types/base.type";
 import { TaskType } from "@/types/task.type";
 import { displayMessage } from "@/utils/helper.util";
@@ -20,6 +22,7 @@ interface CheckListCreateProps {
 
 const CheckListCreate: React.FC<CheckListCreateProps> = ({ openCreate, task, setOpenCreate, setCheckListCreated }) => {
   const t = useTranslations();
+  const dispatch = useAppDispatch();
   const [title, setTitle] = useState<string>();
   const [loadingCreate, setLoadingCreate] = useState(false);
   const handleCreateSubtask = async () => {
@@ -39,6 +42,10 @@ const CheckListCreate: React.FC<CheckListCreateProps> = ({ openCreate, task, set
       setLoadingCreate(false);
       if (response && response.code === API_CODE.CREATED) {
         setCheckListCreated(response.data);
+        dispatch(setSubtaskCreated({
+          taskId: response.data.parent_id || 0,
+          date: new Date().toTimeString()
+        }));
         setTitle('');
         setOpenCreate(false);
         return;

@@ -1,6 +1,7 @@
 import UserAvatar from "@/common/components/AvatarName";
 import DynamicIcon from "@/common/components/DynamicIcon";
 import UserGroup from "@/common/components/UserGroup";
+import { RootState } from "@/reduxs/store.redux";
 import { ProjectAttributeItemType } from "@/types/project.type";
 import { TaskType } from "@/types/task.type";
 import { dateToString, getDaysDifference } from "@/utils/helper.util";
@@ -9,6 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Avatar } from "antd";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 
 interface TaskBoardItemProps {
   task: TaskType
@@ -46,6 +48,9 @@ const TaskBoardItem: React.FC<TaskBoardItemProps> = ({
   const [priority, setPriority] = useState<ProjectAttributeItemType>();
   const [type, setType] = useState<ProjectAttributeItemType>();
   const [isExpire, setIsExpire] = useState<number>(1);
+  const [totalSubtask, setTotalSubtask] = useState(task.sub_tasks.total);
+  const [totalSubtaskDone, setTotalSubtaskDone] = useState(task.sub_tasks.totalDone);
+  const [taskPercent, setTaskPercent] = useState((totalSubtaskDone / totalSubtask) * 100);
   useEffect(() => {
     const priority = task.attributes.find(a => a.default_name === 'priority');
     if (priority) {
@@ -60,7 +65,13 @@ const TaskBoardItem: React.FC<TaskBoardItemProps> = ({
     }
 
     setIsExpire(getDaysDifference(new Date(task.due)));
+    setTotalSubtaskDone(task.sub_tasks.totalDone);
+    setTotalSubtask(task.sub_tasks.total);
   }, [task]);
+  useEffect(() => {
+    console.log('totalSubtask: ', totalSubtaskDone, totalSubtask)
+    setTaskPercent((totalSubtaskDone / totalSubtask) * 100);
+  }), [totalSubtask, totalSubtaskDone];
   return (
     <div
       className={`card task-item ${draggingTask === task.id ? "dragging" : ""}`}
@@ -113,6 +124,12 @@ const TaskBoardItem: React.FC<TaskBoardItemProps> = ({
             </span>
           }
         </div>
+        {
+          (taskPercent > 0) &&
+          <div className="progress mt-2" style={{ height: 5 }}>
+            <div className={`progress-bar progress-bar-striped ${taskPercent >= 100 ? 'bg-success' : ''}`} role="progressbar" style={{ width: `${taskPercent}%` }}></div>
+          </div>
+        }
       </div>
     </div>
   )
