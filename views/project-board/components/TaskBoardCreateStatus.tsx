@@ -104,7 +104,7 @@ const TaskBoardCreateStatus: React.FC<TaskBoardCreateStatusProps> = ({ workspace
               }
             ]}
             handleChange={(value) => setCategory (Number(value))}
-            placeholder={t("select_color")}
+            placeholder={t("select_category")}
           />
         </div>
       )

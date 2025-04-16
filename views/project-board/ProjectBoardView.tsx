@@ -11,7 +11,7 @@ import { useTranslations } from "next-intl";
 import TaskInputSearch from "./components/TaskInputSearch";
 import TaskBoard from "./components/TaskBoard";
 import { tasks, tasksBoard } from "@/api/task.api";
-import { displaySmallMessage } from "@/utils/helper.util";
+import { displaySmallMessage, removeQueryParamUrl } from "@/utils/helper.util";
 import { BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import { API_CODE } from "@/enums/api.enum";
 import { ResponseTaskBoardDataType, TaskType } from "@/types/task.type";
@@ -25,6 +25,7 @@ import { setIsOwnerProject, setKeywordSearchMembers, setMembersProject } from "@
 import { membersList } from "@/api/project.api";
 import TaskList from "./components/TaskList";
 import TaskBoardFilter from "./components/filter/TaskBoardFilter";
+import { usePathname, useSearchParams } from "next/navigation";
 
 interface ProjectBoardViewProps {
   project: ProjectType
@@ -33,6 +34,9 @@ export const defaultSizeList = 20;
 const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
   const t = useTranslations();
   const dispatch = useAppDispatch();
+  const searchParams = useSearchParams();
+  const taskParam = searchParams.get('task');
+  const pathname = usePathname();
   const [tasksBoardData, setTasksBoardData] = useState<ResponseTaskBoardDataType[]>();
   const [openCreate, setOpenCreate] = useState(false);
   const [taskSelected, setTaskSelected] = useState<TaskType>();
@@ -46,6 +50,7 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
   const membersProject = useSelector((state: RootState) => state.projectSlide).membersProject;
   const taskCreated = useSelector((state: RootState) => state.taskSlide).taskCreated;
   const taskUpdated = useSelector((state: RootState) => state.taskSlide).taskUpdated;
+  const taskDeleted = useSelector((state: RootState) => state.taskSlide).taskDeleted;
   const taskFilter = useSelector((state: RootState) => state.taskSlide).taskFilter;
   const subTaskDone = useSelector((state: RootState) => state.taskSlide).subTaskDone;
   const subTaskUnDo = useSelector((state: RootState) => state.taskSlide).subTaskUnDo;
@@ -205,6 +210,29 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
     });         
     }
   }, [taskUpdated]);
+  useEffect(() => {
+    if (taskDeleted) {
+      setTasksBoardData((prevTasksBoardData) => {
+        if (!prevTasksBoardData) return prevTasksBoardData;
+  
+        const updatedTasksBoardData = prevTasksBoardData.map((board) => ({
+          ...board,
+          tasks: board.tasks.filter((task) => task.id !== taskDeleted.id),
+        }));
+  
+        return updatedTasksBoardData;
+      });
+  
+      setTaskList((prevTaskList) => {
+        if (!prevTaskList) return prevTaskList;
+  
+        return {
+          ...prevTaskList,
+          items: prevTaskList.items.filter((task) => task.id !== taskDeleted.id),
+        };
+      });
+    }
+  }, [taskDeleted]);
   useEffect(() => {
     if (statusCreated) {
       setTasksBoardData((prevTasksBoardData) => {
@@ -434,7 +462,23 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
         };
       });
     }
-  }, [subTaskCreated]);  
+  }, [subTaskCreated]);
+  useEffect(() => {
+    if (taskParam && tasksBoardData) {
+      for (let i = 0; i < tasksBoardData.length; i++) {
+        const boardItem = tasksBoardData[i];
+        const taskFind = boardItem.tasks.find(t => t.id === Number(taskParam));
+        if (taskFind) {
+          setTaskSelected(taskFind);
+          const params = new URLSearchParams(searchParams.toString());
+          params.delete("task");
+          const newUrl = `${pathname}${params.toString() ? "?" + params.toString() : ""}`;
+          window.history.replaceState(null, "", newUrl);
+          break;
+        }
+      }
+    }
+  }, [taskParam, tasksBoardData])
   return <>
     <div className="container-fluid">
       <div className="row board-wrapper">
@@ -473,7 +517,6 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
           <Button color="default" className="float-right mt-1" onClick={() => setOpenFilter (true)}>
             <FontAwesomeIcon icon={faFilter} /> {t('tasks.filter_label')}
           </Button>
-          {/* <TaskSort className="float-right mt-1" /> */}
           <TaskInputSearch keyword={keyword} handleChange={handleChange} className="d-none d-lg-block float-right mt-2" />
         </div>
       </div>
@@ -485,6 +528,7 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
           tasksBoardData={tasksBoardData} 
           workspaceId={project.workspace_id} 
           projectId={project.id} 
+          taskSelected={taskSelected}
           setTaskSelected={setTaskSelected}
           setCreateWithStatus={setCreateWithStatus}
           setTasksBoardData={setTasksBoardData}

@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 interface TaskSliceType {
   taskCreated?: TaskType
   taskUpdated?: TaskType
+  taskDeleted?: TaskType
   taskFilter: RequestGetTaskType
   subTaskDone?: CheckListReduxType
   subTaskUnDo?: CheckListReduxType
@@ -19,6 +20,7 @@ interface CheckListReduxType {
 const initialState: TaskSliceType = {
   taskCreated: undefined,
   taskUpdated: undefined,
+  taskDeleted: undefined,
   taskFilter: {},
   subTaskDone: undefined,
   subTaskUnDo: undefined,
@@ -35,6 +37,9 @@ const projectSlice = createSlice({
     },
     setTaskUpdated(state, action: PayloadAction<TaskType>) {
       state.taskUpdated = action.payload;
+    },
+    setTaskDeleted(state, action: PayloadAction<TaskType>) {
+      state.taskDeleted = action.payload;
     },
     setTaskFilter(state, action: PayloadAction<RequestGetTaskType>) {
       state.taskFilter = action.payload;
@@ -54,6 +59,6 @@ const projectSlice = createSlice({
   },
 });
 
-export const { setTaskCreated, setTaskUpdated, setTaskFilter, setSubtaskDone, setSubtaskUndo, setSubtaskDeleted, setSubtaskCreated } = projectSlice.actions;
+export const { setTaskCreated, setTaskUpdated, setTaskFilter, setSubtaskDone, setSubtaskUndo, setSubtaskDeleted, setSubtaskCreated, setTaskDeleted } = projectSlice.actions;
 
 export default projectSlice.reducer;

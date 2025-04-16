@@ -123,3 +123,14 @@ export interface HistoryContentType {
   before: string
   after: string
 }
+
+export interface TaskFileType {
+  id: number
+  workspace_id: number
+  project_id: number
+  task_id: number
+  name: string
+  ext: string
+  size: number
+  url: string
+}

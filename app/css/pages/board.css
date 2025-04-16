@@ -340,3 +340,63 @@
 .checklist-control:hover {
   font-size: 20px;
 }
+
+.input-create-comment {
+  border-top: unset !important;
+  border-right: unset !important;
+  border-left: unset !important;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.comment-box {
+  border: 1px solid #dee2e6;
+  padding: 7px !important;
+  border-radius: 10px !important;
+  padding-left: 10px !important;
+  color: #343a40 !important;
+  min-height: 20px;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+.comment-box p a, .comment-box a {
+  color: #0958d9;
+}
+
+.comment-box-deleted {
+  background-color: #e9ecef;
+  padding: 7px !important;
+  border-radius: 10px !important;
+  padding-left: 10px !important;
+  color: #343a40 !important;
+  min-height: 20px;
+  overflow-wrap: break-word;
+  white-space: normal;
+}
+
+.menu-property-task {
+  border: 1px solid #adb5bd;
+}
+
+.file-item {
+  margin-top: 7px;
+  border: 1px solid #f0f0f0;
+  border-radius: 8px;
+  padding: 5px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.3s ease;
+}
+
+.history-avatar {
+  width: 25px;
+  height: 25px;
+}
+
+.history-card {
+  border-top: unset !important;
+  border-left: unset !important;
+  border-right: unset !important;
+}

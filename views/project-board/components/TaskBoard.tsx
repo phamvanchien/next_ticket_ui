@@ -22,6 +22,7 @@ interface TaskBoardProps {
   projectId: number;
   projectStatus: ProjectStatusType[]
   loadingTaskBoard: boolean
+  taskSelected?: TaskType
   setTaskSelected: (taskSelected?: TaskType) => void
   setCreateWithStatus: (createWithStatus: number) => void
   setTasksBoardData: React.Dispatch<SetStateAction<ResponseTaskBoardDataType[] | undefined>>
@@ -33,6 +34,7 @@ const TaskBoard: React.FC<TaskBoardProps> = ({
   projectId, 
   projectStatus,
   loadingTaskBoard,
+  taskSelected,
   setTaskSelected, 
   setCreateWithStatus,
   setTasksBoardData
@@ -247,6 +249,7 @@ const TaskBoard: React.FC<TaskBoardProps> = ({
                   task={task} 
                   statusId={item.id} 
                   key={task.id} 
+                  taskSelected={taskSelected}
                   setDraggingTask={setDraggingTask} 
                   setDragOverStatus={setDragOverStatus}
                   setTaskSelected={setTaskSelected} 

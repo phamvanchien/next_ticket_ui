@@ -1,24 +1,31 @@
-import { update } from "@/api/task.api";
+import { create, removeTask, update } from "@/api/task.api";
 import Button from "@/common/components/Button";
 import DatePickerCustom from "@/common/components/DatePickerCustom";
+import Dropdown from "@/common/components/Dropdown";
 import Input from "@/common/components/Input";
 import Loading from "@/common/components/Loading";
+import Modal from "@/common/components/Modal";
+import TaskComment from "@/common/layouts/comment-form/TaskComment";
 import Sidebar from "@/common/layouts/Sidebar";
 import TaskAttribute from "@/common/layouts/task-form/attribute/TaskAttribute";
 import TaskCheckList from "@/common/layouts/task-form/checklist/TaskCheckList";
 import TaskAssignee from "@/common/layouts/task-form/TaskAssignee";
+import TaskCloneForm from "@/common/layouts/task-form/TaskCloneForm";
 import TaskDescription from "@/common/layouts/task-form/TaskDescription";
+import TaskFile from "@/common/layouts/task-form/TaskFile";
+import TaskHistory from "@/common/layouts/task-form/history/TaskHistory";
 import TaskStatus from "@/common/layouts/task-form/TaskStatus";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState, useAppDispatch } from "@/reduxs/store.redux";
-import { setTaskUpdated } from "@/reduxs/task.redux";
+import { setTaskCreated, setTaskDeleted, setTaskUpdated } from "@/reduxs/task.redux";
 import { BaseResponseType } from "@/types/base.type";
 import { ProjectAttributeType, ProjectType } from "@/types/project.type";
 import { TaskAttributeType, TaskType } from "@/types/task.type";
 import { UserType } from "@/types/user.type";
 import { displayMessage } from "@/utils/helper.util";
-import { faCalendar } from "@fortawesome/free-solid-svg-icons";
+import { faCalendar, faClone, faComment, faEllipsisV, faExpand, faGripVertical, faHistory, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { MenuProps } from "antd";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
@@ -47,16 +54,14 @@ const TaskEdit: React.FC<TaskEditProps> = ({
   const [taskId, setTaskId] = useState<number>(task ? task.id : 0);
   const [description, setDescription] = useState<string>('');
   const [projectAttributes, setProjectAttributes] = useState<ProjectAttributeType[]>(project.attributes);
+  const [openDelete, setOpenDelete] = useState(false);
+  const [loadingDelete, setLoadingDelete] = useState(false);
+  const [openClone, setOpenClone] = useState(false);
+  const [activityLayout, setActivityLayout] = useState(1);
   const attributeCreated = useSelector((state: RootState) => state.projectSlide).attributeCreated;
   const attributeDeleted = useSelector((state: RootState) => state.projectSlide).attributeDeleted;
   const attributeUpdated = useSelector((state: RootState) => state.projectSlide).attributeUpdated;
   const handleSaveTask = async () => {
-    // console.log('title: ', title)
-    // console.log('assignee: ', assignee)
-    // console.log('dueDate: ', dueDate)
-    // console.log('status: ', status)
-    // console.log('attributesSelected: ', attributesSelected)
-
     try {
       if (!title || !status || !task) {
         return;
@@ -89,6 +94,23 @@ const TaskEdit: React.FC<TaskEditProps> = ({
       displayMessage('error', (error as BaseResponseType).error?.message);
     }
   }
+  const handleDeleteTask = async () => {
+    try {
+      if (!task) {
+        return;
+      }
+      setLoadingDelete(true);
+      const response = await removeTask(task.workspace_id, task.project_id, task.id);
+      if (response && response.code === API_CODE.OK) {
+        dispatch(setTaskDeleted(task));
+        setOpenDelete(false);
+        setOpenModal(undefined);
+      }
+    } catch (error) {
+      setLoadingDelete(false);
+      displayMessage('error', (error as BaseResponseType).error?.message);
+    }
+  }
   useEffect(() => {
     setMemberList([...memberList, project.user]);
   }, []);
@@ -97,7 +119,6 @@ const TaskEdit: React.FC<TaskEditProps> = ({
       setOpenModal(undefined);
     }
   }, [open]);
-
   useEffect(() => {
     setOpen(!!task);
   }, [task]);
@@ -130,16 +151,41 @@ const TaskEdit: React.FC<TaskEditProps> = ({
         )
       );
     }
-  }, [attributeUpdated]);  
+  }, [attributeUpdated]);
+  const items: MenuProps['items'] = [
+    {
+      key: 1,
+      label: (
+        <div className="text-secondary" onClick={() => setOpenClone (true)}>
+          <FontAwesomeIcon icon={faClone} /> {t('btn_clone')}
+        </div>
+      ),
+    },
+    {
+      key: 2,
+      label: (
+        <div className="text-danger" onClick={() => setOpenDelete (true)}>
+          <FontAwesomeIcon icon={faTrashAlt} /> {t('btn_move_to_trash')}
+        </div>
+      ),
+    }
+  ];
   return (
     <Sidebar 
       open={open}
-      width={800}
+      width={1000}
       setOpen={setOpen}
       headerElement={
-        <Button color={editLoading ? 'secondary' : 'primary'} onClick={handleSaveTask} disabled={editLoading}>
+        <>
+        <Dropdown items={items} className="float-right">
+          <Button color="default" className="menu-property-task">
+            <FontAwesomeIcon icon={faEllipsisV} />
+          </Button>
+        </Dropdown>
+        <Button color={editLoading ? 'secondary' : 'primary'} className="float-right m-r-5" onClick={handleSaveTask} disabled={editLoading}>
           {editLoading ? <Loading color="light" /> : t('btn_save')}
         </Button>
+        </>
       }
     >
       <div className="row">
@@ -164,10 +210,50 @@ const TaskEdit: React.FC<TaskEditProps> = ({
         taskId={taskId}
         attributes={projectAttributes} 
         attributesSelected={attributesSelected}
+        createBtn
         setAttributesSelected={setAttributesSelected}
       />
+      <TaskFile className="mt-3" task={task} />
       <TaskCheckList className="mt-4" task={task} />
       <TaskDescription description={description} setDescription={setDescription} taskId={taskId} />
+      <div className="row mt-3">
+        <div className="col-12">
+          <ul className="board-menu">
+            <li className={`board-menu-item ${activityLayout === 1 ? 'active' : ''}`} onClick={() => setActivityLayout (1)}>
+              <FontAwesomeIcon icon={faComment} style={{ marginRight: 5 }} /> {t('tasks.comment_label')}
+            </li>
+            <li className={`board-menu-item ${activityLayout === 2 ? 'active' : ''}`} onClick={() => setActivityLayout (2)}>
+              <FontAwesomeIcon icon={faHistory} style={{ marginRight: 5 }} /> {t('tasks.history_label')}
+            </li>
+          </ul>
+        </div>
+      </div>
+      {activityLayout === 1 && <TaskComment className="mt-2" task={task} />}
+      {activityLayout === 2 && <TaskHistory task={task} />}
+      <Modal 
+        open={openDelete} 
+        title={t('tasks.delete_task_message')}
+        footerBtn={[
+          <Button color='default' key={1} onClick={() => setOpenDelete (false)} className='mr-2' disabled={loadingDelete}>
+            {t('btn_cancel')}
+          </Button>,
+          <Button key={2} color={loadingDelete ? 'secondary' : 'primary'} type="submit" disabled={loadingDelete} onClick={handleDeleteTask}>
+            {loadingDelete ? <Loading color="light" /> : t('btn_delete')}
+          </Button>
+        ]
+        }
+        setOpen={setOpenDelete} 
+      >
+        <div className="row"></div>
+      </Modal>
+      <Modal 
+        open={openClone} 
+        title={t('tasks.clone_task_message')}
+        footerBtn={[]}
+        setOpen={setOpenClone} 
+      >
+        <TaskCloneForm task={task} project={project} openClone={openClone} setOpenClone={setOpenClone} />
+      </Modal>
     </Sidebar>
   )
 }

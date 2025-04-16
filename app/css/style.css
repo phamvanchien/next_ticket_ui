@@ -10785,6 +10785,7 @@ body {
   flex-grow: 1;
   min-height: calc(100vh - 56px);
   margin-left: -225px;
+  z-index: 800;
 }
 
 .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {
@@ -11209,5 +11210,19 @@ body {
       padding: 10px;
       z-index: 1000;
     }
+  }
+
+  .glow-box-primary {
+    border: 2px solid #9ec5fe;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 0 8px rgba(158, 197, 254, 0.6);
+  }
+
+  .glow-box-success {
+    border: 2px solid #a3cfbb;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0 0 8px rgba(158, 197, 254, 0.6);
   }
   

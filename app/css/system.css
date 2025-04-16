@@ -65,6 +65,10 @@
     width: 80% !important;
 }
 
+.w-90 {
+    width: 90% !important;
+}
+
 .p-t-10 {
     padding-top: 10px !important;
 }
@@ -95,6 +99,9 @@
     border-radius: 10px !important;
     padding-left: 10px !important;
     color: #000 !important;
+    min-height: 20px;
+    overflow-wrap: break-word;
+    white-space: normal;
 }
 
 .ant-select-single {

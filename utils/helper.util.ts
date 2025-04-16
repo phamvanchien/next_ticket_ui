@@ -240,3 +240,45 @@ export const rangeNumber = (start: number, end: number): number[] => {
     (_, i) => start + i * 1
   );
 }
+
+export const removeQueryParamUrl = (paramKey: string) => {
+  const params = new URLSearchParams(paramKey);
+  params.delete("openInvite");
+  const newUrl = `${window.location.pathname}${params.toString() ? "?" + params.toString() : ""}`;
+  window.history.replaceState(null, "", newUrl);
+}
+
+export function formatRelativeTime(dateString: string): string {
+  const now = new Date();
+  const inputDate = new Date(dateString);
+  const diffMs = now.getTime() - inputDate.getTime();
+
+  const diffSeconds = Math.floor(diffMs / 1000);
+  const diffMinutes = Math.floor(diffSeconds / 60);
+  const diffHours = Math.floor(diffMinutes / 60);
+  const diffDays = Math.floor(diffHours / 24);
+
+  if (diffSeconds < 60) {
+    return `${diffSeconds || 1} giây trước`;
+  } else if (diffMinutes < 60) {
+    return `${diffMinutes} phút trước`;
+  } else if (diffHours < 24) {
+    return `${diffHours} giờ trước`;
+  } else if (diffDays <= 30) {
+    return `${diffDays} ngày trước`;
+  } else {
+    const day = inputDate.getDate().toString().padStart(2, '0');
+    const month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
+    const year = inputDate.getFullYear();
+    return `${day}/${month}/${year}`;
+  }
+}
+
+export const isJsonLike = (str: string): boolean => {
+  try {
+    JSON.parse(str);
+    return true;
+  } catch {
+    return false;
+  }
+};

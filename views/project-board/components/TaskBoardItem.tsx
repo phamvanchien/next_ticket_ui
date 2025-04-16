@@ -16,6 +16,7 @@ interface TaskBoardItemProps {
   task: TaskType
   statusId: number
   draggingTask?: number
+  taskSelected?: TaskType
   setDraggingTask: (draggingTask?: number) => void;
   setDragOverStatus: (dragOverStatus?: number) => void;
   setTaskSelected: (taskSelected?: TaskType) => void;
@@ -25,11 +26,13 @@ const TaskBoardItem: React.FC<TaskBoardItemProps> = ({
   task, 
   statusId, 
   draggingTask, 
+  taskSelected,
   setDraggingTask, 
   setDragOverStatus,
   setTaskSelected
 }) => {
   const t = useTranslations();
+  const taskCreated = useSelector((state: RootState) => state.taskSlide).taskCreated;
   const handleDragStart = (e: React.DragEvent) => {
     e.dataTransfer.setData("task", JSON.stringify(task));
     e.dataTransfer.setData("source", statusId.toString());
@@ -69,8 +72,12 @@ const TaskBoardItem: React.FC<TaskBoardItemProps> = ({
     setTotalSubtask(task.sub_tasks.total);
   }, [task]);
   useEffect(() => {
-    console.log('totalSubtask: ', totalSubtaskDone, totalSubtask)
-    setTaskPercent((totalSubtaskDone / totalSubtask) * 100);
+    console.log(totalSubtaskDone, totalSubtask, (totalSubtaskDone / totalSubtask) * 100)
+    if (totalSubtask > 0) {
+      setTaskPercent((totalSubtaskDone / totalSubtask) * 100);
+    } else {
+      setTaskPercent(0);
+    }
   }), [totalSubtask, totalSubtaskDone];
   return (
     <div
@@ -80,7 +87,10 @@ const TaskBoardItem: React.FC<TaskBoardItemProps> = ({
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
-      <div className="card-body task-item-body" onClick={() => setTaskSelected (task)}>
+      <div 
+        className={`card-body task-item-body ${(taskCreated && taskCreated.id === task.id) ? 'glow-box-success' : ''} ${(taskSelected && taskSelected.id === task.id) ? 'glow-box-primary' : ''}`} 
+        onClick={() => setTaskSelected (task)}
+      >
         <h6>
           <span className={`${isExpire === -1 ? 'text-secondary' : 'text-dark'} full-text`}>{task.title}</span>
           {

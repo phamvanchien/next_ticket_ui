@@ -13,10 +13,11 @@ interface TaskAttributeProps {
   taskId: number
   attributes: ProjectAttributeType[]
   attributesSelected: TaskAttributeType[]
+  createBtn?: boolean
   setAttributesSelected: (attributesSelected: TaskAttributeType[]) => void
 }
 
-const TaskAttribute: React.FC<TaskAttributeProps> = ({ className, attributes, projectId, workspaceId, taskId, attributesSelected, setAttributesSelected }) => {
+const TaskAttribute: React.FC<TaskAttributeProps> = ({ className, attributes, projectId, workspaceId, taskId, attributesSelected, createBtn, setAttributesSelected }) => {
   const [attributesList, setAttributesList] = useState<ProjectAttributeType[]>(attributes);
   const isOwner = useSelector((state: RootState) => state.projectSlide).isOwner;
   useEffect(() => {
@@ -38,7 +39,7 @@ const TaskAttribute: React.FC<TaskAttributeProps> = ({ className, attributes, pr
       ))
     }
     {
-      isOwner &&
+      (isOwner && createBtn) &&
       <div className={className}>
         <TaskAttributeCreate 
           workspaceId={workspaceId} 

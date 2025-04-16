@@ -62,13 +62,6 @@ const TaskCreate: React.FC<TaskCreateProps> = ({
     }
   }, [createWithStatus])
   const handleSaveTask = async () => {
-    // console.log('title: ', title)
-    // console.log('assignee: ', assignee)
-    // console.log('dueDate: ', dueDate)
-    // console.log('status: ', status)
-    // console.log('attributesSelected: ', attributesSelected)
-    // return;
-
     try {
       if (!title || !status) {
         return;
@@ -124,7 +117,7 @@ const TaskCreate: React.FC<TaskCreateProps> = ({
   return (
     <Sidebar 
       open={open}
-      width={800}
+      width={1000}
       headerTitle={t('tasks.btn_create_task')}
       setOpen={setOpen}
       headerElement={
@@ -155,6 +148,7 @@ const TaskCreate: React.FC<TaskCreateProps> = ({
         workspaceId={project.workspace_id} 
         attributes={projectAttributes} 
         attributesSelected={attributesSelected}
+        createBtn
         setAttributesSelected={setAttributesSelected}
       />
       <TaskDescription description={description} setDescription={setDescription} taskId={0} />

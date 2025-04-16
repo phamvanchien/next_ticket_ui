@@ -8,6 +8,7 @@ interface TaskDescriptionProps {
   className?: string
   description: string
   taskId: number
+  placeholder?: string
   setDescription: Dispatch<SetStateAction<string>>
 }
 
@@ -34,7 +35,7 @@ const TaskDescription: React.FC<TaskDescriptionProps> = ({ className, taskId, de
             <EditorArea value={description} setValue={setDescription} placeholder={placeholderText} />
           </div>
         ) : (
-          (description) && (
+          (description && description !== '') && (
             <p
               dangerouslySetInnerHTML={{
                 __html: (readMore || (description.length < maxContentSize))

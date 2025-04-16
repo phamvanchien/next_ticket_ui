@@ -217,7 +217,24 @@
         "attribute_add_value_label": "Thêm giá trị",
         "attribute_value_is_required": "Vui lòng thêm ít nhất 1 giá trị",
         "enter_text_attribute_placeholder": "Nhập văn bản",
-        "write_description_label": "Mô tả về vé này"
+        "write_description_label": "Mô tả về vé này",
+        "confirm_delete_comment_message": "Bạn có chắc chắn xóa bình luận này chứ ?",
+        "attach_file": "Đính kèm tệp",
+        "delete_file_warning_message": "Bạn có chắc chắn muốn xóa tệp này ?",
+        "comment_label": "Bình luận",
+        "history": {
+            "added_label": "Đã thêm",
+            "updated_label": "Đã thay đổi",
+            "added_due": "Đã thêm hạn hoàn thành",
+            "updated_due": "Đã thay đổi hạn hoàn thành",
+            "updated_title": "Tiêu đề đã được thay đổi",
+            "updated_status": "Trạng thái đã được thay đổi",
+            "added_assign": "Đã thêm người phụ trách",
+            "updated_assign": "Đã thay đổi người phụ trách",
+            "no_value": "Không có giá trị",
+            "added_file": "Đã đính kèm tệp",
+            "removed_file": "Đã xóa tệp"
+        }
     },
     "project_setting": {
         "message_update": "Đã cập nhật dự án",
@@ -246,12 +263,15 @@
     "btn_ok": "Đồng ý",
     "empty_label": "Trống",
     "select_icon": "Chọn biểu tượng",
+    "select_category": "Phân loại",
     "select_color": "Chọn màu",
+    "select_file": "Chọn tệp",
     "btn_save": "Lưu",
     "btn_delete": "Xóa",
     "btn_add_new": "Thêm mới",
     "language_label": "Ngôn ngữ",
     "upload_image_label": "Chọn ảnh",
+    "btn_move_to_trash": "Xóa vé này",
     "country": {
         "vietnam": "Việt Nam",
         "england": "Anh/Mỹ",

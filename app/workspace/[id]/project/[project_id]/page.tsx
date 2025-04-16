@@ -7,7 +7,7 @@ import { BaseResponseType } from "@/types/base.type";
 import { ProjectType } from "@/types/project.type";
 import ProjectBoardView from "@/views/project-board/ProjectBoardView";
 import { cookies } from "next/headers";
-import React from "react";
+import React, { Suspense } from "react";
 import '../../../../css/pages/board.css';
 import { Metadata } from "next";
 
@@ -29,7 +29,9 @@ const ProjectBoard: React.FC<ProjectBoardProps> = async ({ params }) => {
   if (!project || project.code !== API_CODE.OK) {
     return <ErrorPage code={project.code} />;
   }
-  return <ProjectBoardView project={project.data} />
+  return <Suspense>
+    <ProjectBoardView project={project.data} />
+  </Suspense>
 }
 
 const fetchProject = async (workspaceId: number, projectId: number): Promise<BaseResponseType<ProjectType>> => {

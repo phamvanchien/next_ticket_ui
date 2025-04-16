@@ -33,7 +33,7 @@ export const APP_CONFIG: AppConfigType = {
         url: '/task',
         uploadFile: '/task/upload-file',
         removeFile: '/task/remove-file',
-        remove: '/task/remove-task'
+        remove: '/task/remove-task',
       },
       comment: {
         url: '/comment'
