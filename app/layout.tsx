@@ -14,10 +14,12 @@ import MainLayout from "@/common/layouts/MainLayout";
 import { Metadata } from "next";
 
 const inter = Inter({ subsets: ["latin"] });
-export const metadata: Metadata = {
-  title: 'My App',
-  viewport: 'width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no',
-}
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: 'no',
+};
 const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const pathname = headers().get("x-pathname") || "/";
 

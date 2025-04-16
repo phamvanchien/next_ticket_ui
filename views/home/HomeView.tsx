@@ -20,11 +20,7 @@ const HomeView = () => {
   
   return (
     <>
-      <Head>
-        <title>Next Tech - Quản lý Dự Án</title>
-        <meta name="description" content="Next Tech - Nền tảng quản lý dự án thông minh" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-      </Head>
+
 
       <header className="fixed-top bg-white shadow-sm">
         <div className="container">
