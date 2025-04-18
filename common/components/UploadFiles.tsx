@@ -4,6 +4,7 @@ import type { UploadProps } from 'antd';
 import { Button, Upload, Space, Typography, Image, message } from 'antd';
 import type { UploadFile } from 'antd/es/upload/interface';
 import { displaySmallMessage } from '@/utils/helper.util';
+import { useTranslations } from 'next-intl';
 
 const { Text } = Typography;
 
@@ -14,13 +15,14 @@ interface UploadFilesProps {
 }
 
 const UploadFiles: React.FC<UploadFilesProps> = ({ files, children, setFiles }) => {
+  const t = useTranslations();
   const props: UploadProps = {
     listType: 'picture',
     fileList: files,
     beforeUpload: (file) => {
       const MAX_SIZE = 10 * 1024 * 1024;
       if (file.size > MAX_SIZE) {
-        displaySmallMessage('error', `File "${file.name}" vượt quá 5MB.`);
+        displaySmallMessage('error', t('tasks.file_exceeded'));
         return Upload.LIST_IGNORE;
       }
 
@@ -63,7 +65,7 @@ const UploadFiles: React.FC<UploadFilesProps> = ({ files, children, setFiles }) 
             <div>
               <Text strong>{file.name}</Text>
               <br />
-              <Text type="secondary" style={{ fontSize: 12 }}>
+              <Text type="secondary" style={{ fontSize: 12, float: 'left' }}>
                 {(file.size || 0) / 1024 < 1024
                   ? `${(file.size || 0 / 1024).toFixed(2)} KB`
                   : `${((file.size || 0) / 1024 / 1024).toFixed(2)} MB`}

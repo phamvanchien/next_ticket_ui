@@ -82,7 +82,7 @@ const TaskBoardCreateStatus: React.FC<TaskBoardCreateStatusProps> = ({ workspace
                 value: 1,
                 label: (
                   <div>
-                    <FontAwesomeIcon icon={faCircle} style={{ color: '#feb272' }} /> To Do
+                    <FontAwesomeIcon icon={faCircle} style={{ color: '#feb272' }} /> {t('tasks.report.todo_label')}
                   </div>
                 )
               },
@@ -90,7 +90,7 @@ const TaskBoardCreateStatus: React.FC<TaskBoardCreateStatusProps> = ({ workspace
                 value: 2,
                 label: (
                   <div>
-                    <FontAwesomeIcon icon={faCircle} style={{ color: '#6ea8fe' }} /> In Progress
+                    <FontAwesomeIcon icon={faCircle} style={{ color: '#6ea8fe' }} /> {t('tasks.report.in_progress_label')}
                   </div>
                 )
               },
@@ -98,7 +98,7 @@ const TaskBoardCreateStatus: React.FC<TaskBoardCreateStatusProps> = ({ workspace
                 value: 3,
                 label: (
                   <div>
-                    <FontAwesomeIcon icon={faCircle} style={{ color: '#75b798' }} /> Done
+                    <FontAwesomeIcon icon={faCircle} style={{ color: '#75b798' }} /> {t('tasks.report.done_label')}
                   </div>
                 )
               }

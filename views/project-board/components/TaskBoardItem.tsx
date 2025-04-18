@@ -72,7 +72,6 @@ const TaskBoardItem: React.FC<TaskBoardItemProps> = ({
     setTotalSubtask(task.sub_tasks.total);
   }, [task]);
   useEffect(() => {
-    console.log(totalSubtaskDone, totalSubtask, (totalSubtaskDone / totalSubtask) * 100)
     if (totalSubtask > 0) {
       setTaskPercent((totalSubtaskDone / totalSubtask) * 100);
     } else {

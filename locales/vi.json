@@ -156,7 +156,6 @@
         "page_title_project_setting": "Cài đặt dự án",
         "page_title_project_report": "Báo cáo tiến độ",
         "setting": "Cài đặt",
-        "report": "Báo cáo",
         "clone": "Nhân bản",
         "board": "Dạng bảng",
         "list": "Danh sách",
@@ -220,6 +219,7 @@
         "write_description_label": "Mô tả về vé này",
         "confirm_delete_comment_message": "Bạn có chắc chắn xóa bình luận này chứ ?",
         "attach_file": "Đính kèm tệp",
+        "file_exceeded": "Tệp đã vượt quá 10MB",
         "delete_file_warning_message": "Bạn có chắc chắn muốn xóa tệp này ?",
         "comment_label": "Bình luận",
         "history": {
@@ -233,7 +233,20 @@
             "updated_assign": "Đã thay đổi người phụ trách",
             "no_value": "Không có giá trị",
             "added_file": "Đã đính kèm tệp",
-            "removed_file": "Đã xóa tệp"
+            "removed_file": "Đã xóa tệp",
+            "sec_label": "giây",
+            "minute_label": "phút",
+            "hour_label": "giờ",
+            "day_label": "ngày"
+        },
+        "report": {
+            "report_label": "Thống kê",
+            "todo_label": "Chưa làm",
+            "in_progress_label": "Đang xử lý",
+            "done_label": "Hoàn thành",
+            "over_due_label": "Đã quá hạn",
+            "pie_chart_status": "Biểu đồ thể hiện các trạng thái",
+            "bar_chart_label": "Biểu đồ thể hiện công việc theo từng thành viên"
         }
     },
     "project_setting": {

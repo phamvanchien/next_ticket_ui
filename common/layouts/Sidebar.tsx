@@ -9,7 +9,7 @@ interface SidebarProps {
   headerElement?: JSX.Element;
   headerTitle?: string
   children: React.ReactNode;
-  width?: number
+  width?: number | string
   setOpen: (open: boolean) => void
 }
 

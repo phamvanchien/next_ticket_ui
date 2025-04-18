@@ -1,7 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import type { MenuProps } from 'antd';
 import { Dropdown as DropdownAnt } from 'antd';
-import Button from "@/common/components/Button";
 
 interface DropdownProps {
   children: React.ReactNode

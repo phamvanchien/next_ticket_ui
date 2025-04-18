@@ -189,3 +189,7 @@
 :where(.css-dev-only-do-not-override-tjsggz).ant-avatar-group .ant-avatar {
     border-color: none !important;
 }
+
+.border-unset {
+    border: unset !important;
+}

@@ -9,3 +9,23 @@
 .m-r-5 {
     margin-right: 5px !important;
 }
+
+.custom-scrollbar {
+    overflow-x: auto;
+    scrollbar-width: thin; /* Firefox */
+  
+    /* WebKit browsers */
+    &::-webkit-scrollbar {
+      height: 6px;
+    }
+  
+    &::-webkit-scrollbar-thumb {
+      background: #ccc;
+      border-radius: 4px;
+    }
+  
+    &::-webkit-scrollbar-track {
+      background: #f0f0f0;
+    }
+  }
+  

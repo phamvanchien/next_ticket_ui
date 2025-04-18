@@ -1,6 +1,6 @@
 import { HistoryType } from "@/types/task.type";
 import { useTranslations } from "next-intl"
-import React from "react";
+import React, { useEffect, useState } from "react";
 import UserAvatar from "@/common/components/AvatarName";
 import { dateToString, formatRelativeTime, isJsonLike } from "@/utils/helper.util";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
@@ -12,12 +12,34 @@ interface TaskHistoryItemProps {
 
 const TaskHistoryItem: React.FC<TaskHistoryItemProps> = ({ history }) => {
   const t = useTranslations();
+  const [timeText, setTimeText] = useState<string>('');
+  useEffect(() => {
+    const formatTime = formatRelativeTime(history.created_at);
+    const formatTimeType = formatTime.type;
+    const formatTimeNumber = formatTime.number;
+    if (formatTimeType === 's') {
+      setTimeText(formatTimeNumber + ' ' + t('tasks.history.sec_label'));
+      return;
+    }
+    if (formatTimeType === 'm') {
+      setTimeText(formatTimeNumber + ' ' +t ('tasks.history.minute_label'));
+      return;
+    }
+    if (formatTimeType === 'h') {
+      setTimeText(formatTimeNumber + ' ' + t('tasks.history.hour_label'));
+      return;
+    }
+    if (formatTimeType === 'd') {
+      setTimeText(formatTimeNumber + ' ' + t('tasks.history.day_label'));
+      return;
+    }
+  }, [t]);
   return (
     <div className="col-12 mt-2">
       <div className="card history-card">
-        <div className="card-body">
+        <div className="card-body p-unset">
           <UserAvatar className="wp-logo me-2 float-left history-avatar" name={history.user.first_name} avatar={history.user.avatar} />
-          <b>{history.user.first_name} {history.user.last_name}</b> <span className="text-muted">{formatRelativeTime(history.created_at)}</span>
+          <b>{history.user.first_name} {history.user.last_name}</b> <span className="text-muted">{timeText}</span>
           <div className="text-muted mt-3">
             {
               history.content.map((history, key) => {

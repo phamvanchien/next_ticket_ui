@@ -55,7 +55,7 @@
     transition: all 0.2s ease;
   }
   
-  .card-header {
+  .status-item .card-header {
     background-color: #007bff;
     color: white;
     padding: 0.75rem 1rem;
@@ -68,7 +68,7 @@
     height: 30px;
   }
   
-  .card-header:hover {
+  .status-item .card-header:hover {
     background-color: #0056b3;
   }
   

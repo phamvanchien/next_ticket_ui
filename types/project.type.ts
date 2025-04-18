@@ -135,3 +135,23 @@ export interface RequestCloneProjectType {
   project_name_clone: string
   is_public_clone?: boolean
 }
+
+export interface ReportTaskWithCategory {
+  category_id: number
+  task_count: number,
+  overdue_count: number
+  color: string
+}
+
+export interface ReportTaskWithStatus {
+  name: string
+  color: string
+  category_id: number
+  task_count: number
+}
+
+export interface ReportTaskWithAssignee {
+  avatar: string
+  task_count: number
+  name: string
+}

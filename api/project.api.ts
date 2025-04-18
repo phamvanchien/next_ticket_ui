@@ -1,4 +1,4 @@
-import { RequestCreateProjectType, RequestUpdateProjectType, RequestCreateTagType, RequestStatusListType, RequestUpdateTagType, ProjectStatusType, ProjectType, ProjectInviteType, ReportStatusType, ReportAssigneeType, RequestCloneProjectType, RequestAddAttributeType, ProjectAttributeType, RequestUpdateAttributeType, RequestCreateStatusType } from "@/types/project.type";
+import { RequestCreateProjectType, RequestUpdateProjectType, RequestCreateTagType, RequestStatusListType, RequestUpdateTagType, ProjectStatusType, ProjectType, ProjectInviteType, ReportStatusType, ReportAssigneeType, RequestCloneProjectType, RequestAddAttributeType, ProjectAttributeType, RequestUpdateAttributeType, RequestCreateStatusType, ReportTaskWithCategory, ReportTaskWithStatus, ReportTaskWithAssignee } from "@/types/project.type";
 import { request } from "./base.api";
 import { API_METHOD_ENUM } from "@/enums/api.enum";
 import { BaseResponseType, RequestWithPaginationType, ResponseWithPaginationType } from "@/types/base.type";
@@ -170,42 +170,6 @@ export const removeMember = async (workspaceId: number, projectId: number, membe
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/' + memberId + '/remove-member'
   });
 }
-
-export const reportByStatus = async (workspaceId: number, projectId: number): Promise<BaseResponseType<ReportStatusType[]>> => {
-  return request({
-    method: API_METHOD_ENUM.GET,
-    url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/report-by-status'
-  });
-}
-
-export const reportByAssignee = async (workspaceId: number, projectId: number): Promise<BaseResponseType<ReportAssigneeType[]>> => {
-  return request({
-    method: API_METHOD_ENUM.GET,
-    url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/report-by-assignee'
-  });
-}
-
-export const reportByPriority = async (workspaceId: number, projectId: number): Promise<BaseResponseType<ReportStatusType[]>> => {
-  return request({
-    method: API_METHOD_ENUM.GET,
-    url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/report-by-priority'
-  });
-}
-
-export const reportByType = async (workspaceId: number, projectId: number): Promise<BaseResponseType<ReportStatusType[]>> => {
-  return request({
-    method: API_METHOD_ENUM.GET,
-    url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/report-by-type'
-  });
-}
-
-export const reportByTag = async (workspaceId: number, projectId: number): Promise<BaseResponseType<ReportStatusType[]>> => {
-  return request({
-    method: API_METHOD_ENUM.GET,
-    url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/report-by-tag'
-  });
-}
-
 export const cloneProject = async (workspaceId: number, projectId: number, payload: RequestCloneProjectType): Promise<BaseResponseType> => {
   return request({
     method: API_METHOD_ENUM.POST,
@@ -234,5 +198,26 @@ export const updateAttribute = async (workspaceId: number, projectId: number, at
     method: API_METHOD_ENUM.PATCH,
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/' + attributeId + '/update-attribute',
     data: payload
+  });
+}
+
+export const reportByStatusWithCategory = async (workspaceId: number, projectId: number): Promise<BaseResponseType<ReportTaskWithCategory[]>> => {
+  return request({
+    method: API_METHOD_ENUM.GET,
+    url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/report-by-status-category'
+  });
+}
+
+export const reportByStatus = async (workspaceId: number, projectId: number): Promise<BaseResponseType<ReportTaskWithStatus[]>> => {
+  return request({
+    method: API_METHOD_ENUM.GET,
+    url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/report-by-status'
+  });
+}
+
+export const reportByAssignee = async (workspaceId: number, projectId: number): Promise<BaseResponseType<ReportTaskWithAssignee[]>> => {
+  return request({
+    method: API_METHOD_ENUM.GET,
+    url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/report-by-assignee'
   });
 }

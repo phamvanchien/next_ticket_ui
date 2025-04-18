@@ -156,7 +156,6 @@
         "page_title_project_setting": "プロジェクト設定",
         "page_title_project_report": "進捗レポート",
         "setting": "設定",
-        "report": "レポート",
         "clone": "複製",
         "board": "ボード",
         "list": "リスト",
@@ -220,6 +219,7 @@
         "write_description_label": "「このチケットの説明」",
         "confirm_delete_comment_message": "このコメントを削除してもよろしいですか ?",
         "attach_file": "ファイルを添付",
+        "file_exceeded": "ファイルが10MBを超えました",
         "delete_file_warning_message": "このファイルを削除してもよろしいですか ?",
         "comment_label": "コメント",
         "history": {
@@ -233,7 +233,20 @@
             "updated_assign": "担当者を変更しました",
             "no_value": "値がありません",
             "added_file": "ファイルを添付しました",
-            "removed_file": "ファイルを削除しました"
+            "removed_file": "ファイルを削除しました",
+            "sec_label": "秒",
+            "minute_label": "分",
+            "hour_label": "時間",
+            "day_label": "日"
+        },
+        "report": {
+            "report_label": "統計",
+            "todo_label": "未処理",
+            "in_progress_label": "進行中",
+            "done_label": "完了",
+            "over_due_label": "期限超過",
+            "pie_chart_status": "図は状態を示しています。",
+            "bar_chart_label": "メンバー別の作業を示すチャート"
         }
     },
     "project_setting": {

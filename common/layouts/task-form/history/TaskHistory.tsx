@@ -14,7 +14,7 @@ interface TaskHistoryProps {
 
 const TaskHistory: React.FC<TaskHistoryProps> = ({ task }) => {
   const t = useTranslations();
-  const defaultPageSize = 2;
+  const defaultPageSize = 6;
   const [historiesData, setHistoriesData] = useState<ResponseWithPaginationType<HistoryType[]>>();
   const [pageSize, setPageSize] = useState(defaultPageSize);
   const [loadingViewMore, setLoadingViewMore] = useState(false);

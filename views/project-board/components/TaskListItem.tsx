@@ -45,6 +45,8 @@ const TaskListItem: React.FC<TaskListItemProps> = ({ task }) => {
           }
         </h6>
       </div>
+      <div className="task-col-date">{formatToTimestampString(new Date(task.created_at))}</div>
+      <div className="task-col-date">{formatToTimestampString(new Date(task.due))}</div>
       <div className={`task-col-status`} style={{ color: task.status.color }}>
         {task.status.name}
       </div>
@@ -60,7 +62,6 @@ const TaskListItem: React.FC<TaskListItemProps> = ({ task }) => {
           </UserGroup>
         }
       </div>
-      <div className="task-col-date">{formatToTimestampString(new Date(task.due))}</div>
       <div className={`task-col-priority`}>
         {priority && <DynamicIcon className="mr-2" iconName={priority.icon} style={{ color: priority.color }} />} {priority?.value}
       </div>

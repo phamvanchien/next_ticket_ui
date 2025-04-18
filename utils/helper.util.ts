@@ -1,6 +1,5 @@
 import { APP_CONFIG } from "@/configs/app.config";
 import { APP_ERROR } from "@/enums/app.enum";
-import { BaseResponseType } from "@/types/base.type";
 import { message, notification } from "antd"
 
 export const displayMessage = (type: 'error' | 'success' | 'warning', message?: string, duration: number = 5) => {
@@ -248,7 +247,7 @@ export const removeQueryParamUrl = (paramKey: string) => {
   window.history.replaceState(null, "", newUrl);
 }
 
-export function formatRelativeTime(dateString: string): string {
+export function formatRelativeTime(dateString: string): {number: number | string, type: string} {
   const now = new Date();
   const inputDate = new Date(dateString);
   const diffMs = now.getTime() - inputDate.getTime();
@@ -259,18 +258,33 @@ export function formatRelativeTime(dateString: string): string {
   const diffDays = Math.floor(diffHours / 24);
 
   if (diffSeconds < 60) {
-    return `${diffSeconds || 1} giây trước`;
+    return {
+      number: diffSeconds || 1,
+      type: 's'
+    };
   } else if (diffMinutes < 60) {
-    return `${diffMinutes} phút trước`;
+    return {
+      number: diffMinutes,
+      type: 'm'
+    };
   } else if (diffHours < 24) {
-    return `${diffHours} giờ trước`;
+    return {
+      number: diffHours,
+      type: 'h'
+    };
   } else if (diffDays <= 30) {
-    return `${diffDays} ngày trước`;
+    return {
+      number: diffDays,
+      type: 'd'
+    };
   } else {
     const day = inputDate.getDate().toString().padStart(2, '0');
     const month = (inputDate.getMonth() + 1).toString().padStart(2, '0');
     const year = inputDate.getFullYear();
-    return `${day}/${month}/${year}`;
+    return {
+      number: `${day}/${month}/${year}`,
+      type: ''
+    };
   }
 }
 

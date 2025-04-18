@@ -3,7 +3,7 @@ import UserAvatar from "@/common/components/AvatarName";
 import Button from "@/common/components/Button";
 import UserGroup from "@/common/components/UserGroup";
 import { ProjectType } from "@/types/project.type";
-import { faCheckSquare, faFilter, faGrip, faList, faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faCheckSquare, faFilter, faGrip, faLineChart, faList, faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import TaskSort from "./components/TaskSort";
@@ -26,6 +26,8 @@ import { membersList } from "@/api/project.api";
 import TaskList from "./components/TaskList";
 import TaskBoardFilter from "./components/filter/TaskBoardFilter";
 import { usePathname, useSearchParams } from "next/navigation";
+import ProjectBoardChart from "./components/ProjectBoardChart";
+import Dropdown from "@/common/components/Dropdown";
 
 interface ProjectBoardViewProps {
   project: ProjectType
@@ -61,6 +63,13 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
   const [loadingLoadMoreList, setLoadingLoadMoreList] = useState(false);
   const [loadingTaskBoard, setLoadingTaskBoard] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
+
+  const [sortTitle, setSortTitle] = useState<"DESC" | "ASC">();
+  const [sortCreatedAt, setSortCreatedAt] = useState<"DESC" | "ASC">();
+  const [sortDue, setSortDue] = useState<"DESC" | "ASC">();
+
+  const [openBoardchart, setOpenBoardChart] = useState(false);
+
   const { value: keyword, debouncedValue, handleChange } = useDelaySearch("", 500);
   const loadTasksBoard = async () => {
     try {
@@ -105,7 +114,11 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
       const response = await tasks(project.workspace_id, project.id, {
         keyword: debouncedValue,
         page: 1,
-        size: pageSizeList
+        size: pageSizeList,
+        sortTitle: sortTitle,
+        sortCreatedAt: sortCreatedAt,
+        sortDue: sortDue,
+        ...taskFilter
       });
       setLoadingLoadMoreList(false);
       if (response && response.code === API_CODE.OK) {
@@ -136,10 +149,11 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
   }, [project, keywordSearchMember]);
   useEffect(() => {
     loadTasksBoard();
-  }, [project, debouncedValue, taskFilter]);
+    loadTaskList();
+  }, [debouncedValue, taskFilter]);
   useEffect(() => {
     loadTaskList();
-  }, [project, debouncedValue, pageSizeList])
+  }, [project, debouncedValue, pageSizeList, sortTitle, sortCreatedAt, sortDue])
   useEffect(() => {
     if (taskCreated) {
       setTasksBoardData((prevTasksBoardData) => {
@@ -505,6 +519,27 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
         </div>
         <div className="col-6 col-lg-6 mt-2">
           <ul className="board-menu">
+            {/* <li className={`board-menu-item ${layout === 1 ? 'active' : ''}`} onClick={() => setLayout (1)}>
+              <Dropdown
+                items={[
+                  {
+                    key: 1,
+                    label: <div onClick={() => setLayout (1)}><FontAwesomeIcon icon={faGrip} style={{ marginRight: 5 }} /> {t('tasks.board')}</div>
+                  },
+                  {
+                    key: 2,
+                    label: <div onClick={() => setLayout (2)}><FontAwesomeIcon icon={faList} style={{ marginRight: 5 }} /> {t('tasks.list')}</div>
+                  }
+                ]}
+              >
+                {
+                  layout === 1 && <><FontAwesomeIcon icon={faGrip} style={{ marginRight: 5 }} /> {t('tasks.board')}</>
+                }
+                {
+                  layout === 2 && <><FontAwesomeIcon icon={faList} style={{ marginRight: 5 }} /> {t('tasks.list')}</>
+                }
+              </Dropdown>
+            </li> */}
             <li className={`board-menu-item ${layout === 1 ? 'active' : ''}`} onClick={() => setLayout (1)}>
               <FontAwesomeIcon icon={faGrip} style={{ marginRight: 5 }} /> {t('tasks.board')}
             </li>
@@ -516,6 +551,9 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
         <div className="col-6 col-lg-6 mt-2">
           <Button color="default" className="float-right mt-1" onClick={() => setOpenFilter (true)}>
             <FontAwesomeIcon icon={faFilter} /> {t('tasks.filter_label')}
+          </Button>
+          <Button color="default" className="float-right mt-1" onClick={() => setOpenBoardChart (true)}>
+            <FontAwesomeIcon icon={faLineChart} /> {t('tasks.report.report_label')}
           </Button>
           <TaskInputSearch keyword={keyword} handleChange={handleChange} className="d-none d-lg-block float-right mt-2" />
         </div>
@@ -540,8 +578,14 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
           taskList={taskList} 
           pageSizeList={pageSizeList}
           loadingLoadMoreList={loadingLoadMoreList}
+          sortTitle={sortTitle}
+          sortCreatedAt={sortCreatedAt}
+          sortDue={sortDue}
+          setSortCreatedAt={setSortCreatedAt}
           setPageSizeList={setPageSizeList}
           setLoadingLoadMoreList={setLoadingLoadMoreList}
+          setSortTitle={setSortTitle}
+          setSortDue={setSortDue}
         />
       }
       <TaskCreate 
@@ -562,6 +606,11 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
         setOpen={setOpenFilter} 
         setLoadingTaskBoard={setLoadingTaskBoard} 
         loadingTaskBoard={loadingTaskBoard} 
+      />
+      <ProjectBoardChart
+        project={project}
+        open={openBoardchart}
+        setOpen={setOpenBoardChart}
       />
     </div>
   </>
