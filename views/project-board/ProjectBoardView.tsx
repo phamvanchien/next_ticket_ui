@@ -21,13 +21,14 @@ import TaskEdit from "./components/TaskEdit";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "@/reduxs/store.redux";
 import { members } from "@/api/workspace.api";
-import { setIsOwnerProject, setKeywordSearchMembers, setMembersProject } from "@/reduxs/project.redux";
+import { setIsMemberProject, setIsOwnerProject, setKeywordSearchMembers, setMembersProject } from "@/reduxs/project.redux";
 import { membersList } from "@/api/project.api";
 import TaskList from "./components/TaskList";
 import TaskBoardFilter from "./components/filter/TaskBoardFilter";
 import { usePathname, useSearchParams } from "next/navigation";
 import ProjectBoardChart from "./components/ProjectBoardChart";
 import Dropdown from "@/common/components/Dropdown";
+import { setSidebarSelected } from "@/reduxs/menu.redux";
 
 interface ProjectBoardViewProps {
   project: ProjectType
@@ -45,6 +46,7 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
   const [createWithStatus, setCreateWithStatus] = useState<number>();
   const [layout, setLayout] = useState(1);
   const [taskList, setTaskList] = useState<ResponseWithPaginationType<TaskType[]>>();
+  const userLogged = useSelector((state: RootState) => state.userSlice).data;
   const statusCreated = useSelector((state: RootState) => state.projectSlide).statusCreated;
   const statusUpdated = useSelector((state: RootState) => state.projectSlide).statusUpdated;
   const statusDeletedId = useSelector((state: RootState) => state.projectSlide).statusDeletedId;
@@ -58,6 +60,7 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
   const subTaskUnDo = useSelector((state: RootState) => state.taskSlide).subTaskUnDo;
   const subTaskDeleted = useSelector((state: RootState) => state.taskSlide).subTaskDeleted;
   const subTaskCreated = useSelector((state: RootState) => state.taskSlide).subTaskCreated;
+  const isMember = useSelector((state: RootState) => state.projectSlide).isMember;
 
   const [pageSizeList, setPageSizeList] = useState(defaultSizeList);
   const [loadingLoadMoreList, setLoadingLoadMoreList] = useState(false);
@@ -132,7 +135,13 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
     }
   }
   useEffect(() => {
+    dispatch(setSidebarSelected('project'));
     dispatch(setIsOwnerProject(project.is_owner));
+    dispatch(
+      setIsMemberProject(
+        ((userLogged && project.members.find(m => m.id === userLogged.id) || project.is_owner)) ? true : false
+      )
+    );
   }, [project]);
   useEffect(() => {
     if (keywordSearchMember) {
@@ -492,15 +501,18 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
         }
       }
     }
-  }, [taskParam, tasksBoardData])
+  }, [taskParam, tasksBoardData]);
   return <>
     <div className="container-fluid">
       <div className="row board-wrapper">
         <div className="col-12">
           <h3 className="m-unset lh-50 float-left"><FontAwesomeIcon icon={faCheckSquare} className="text-success" /> {project.name}</h3>
-          <Button color="primary" className="float-right mt-2" style={{ marginLeft: 7 }} onClick={() => setOpenCreate (true)}>
-            <FontAwesomeIcon icon={faPlus} /> {t('tasks.btn_create_task')}
-          </Button>
+          {
+            isMember &&
+            <Button color="primary" className="float-right mt-2" style={{ marginLeft: 7 }} onClick={() => setOpenCreate (true)}>
+              <FontAwesomeIcon icon={faPlus} /> {t('tasks.btn_create_task')}
+            </Button>
+          }
           {
             (!project.is_public && membersProject && membersProject.length > 0) &&
             <UserGroup className="float-right mt-2">
@@ -552,9 +564,12 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
           <Button color="default" className="float-right mt-1" onClick={() => setOpenFilter (true)}>
             <FontAwesomeIcon icon={faFilter} /> {t('tasks.filter_label')}
           </Button>
-          <Button color="default" className="float-right mt-1" onClick={() => setOpenBoardChart (true)}>
-            <FontAwesomeIcon icon={faLineChart} /> {t('tasks.report.report_label')}
-          </Button>
+          {
+            isMember &&
+            <Button color="default" className="float-right mt-1" onClick={() => setOpenBoardChart (true)}>
+              <FontAwesomeIcon icon={faLineChart} /> {t('tasks.report.report_label')}
+            </Button>
+          }
           <TaskInputSearch keyword={keyword} handleChange={handleChange} className="d-none d-lg-block float-right mt-2" />
         </div>
       </div>
@@ -565,7 +580,7 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
           projectStatus={project.status}
           tasksBoardData={tasksBoardData} 
           workspaceId={project.workspace_id} 
-          projectId={project.id} 
+          projectId={project.id}
           taskSelected={taskSelected}
           setTaskSelected={setTaskSelected}
           setCreateWithStatus={setCreateWithStatus}
@@ -586,6 +601,7 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
           setLoadingLoadMoreList={setLoadingLoadMoreList}
           setSortTitle={setSortTitle}
           setSortDue={setSortDue}
+          setTaskSelected={setTaskSelected}
         />
       }
       <TaskCreate 

@@ -22,10 +22,18 @@ export const create = async (payload: RequestCreateWorkspaceType): Promise<BaseR
 };
 
 export const update = async (workspaceId: number, payload: RequestCreateWorkspaceType): Promise<BaseResponseType<WorkspaceType>> => {
+  const formData = new FormData();
+  formData.append("name", payload.name);
+  if (payload.description) formData.append("description", payload.description);
+  if (payload.logo) formData.append("logo", payload.logo);
+
   return request({
     method: API_METHOD_ENUM.PATCH,
     url: APP_CONFIG.API.PREFIX.workspace.url + '/' + workspaceId,
-    data: payload
+    data: formData,
+    headers: {
+      "Content-Type": "multipart/form-data"
+    },
   });
 }
 

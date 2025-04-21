@@ -193,3 +193,9 @@
 .border-unset {
     border: unset !important;
 }
+
+.wp-search-icon {
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+  }

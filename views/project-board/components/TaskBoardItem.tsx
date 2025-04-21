@@ -54,6 +54,7 @@ const TaskBoardItem: React.FC<TaskBoardItemProps> = ({
   const [totalSubtask, setTotalSubtask] = useState(task.sub_tasks.total);
   const [totalSubtaskDone, setTotalSubtaskDone] = useState(task.sub_tasks.totalDone);
   const [taskPercent, setTaskPercent] = useState((totalSubtaskDone / totalSubtask) * 100);
+  const isMember = useSelector((state: RootState) => state.projectSlide).isMember;
   useEffect(() => {
     const priority = task.attributes.find(a => a.default_name === 'priority');
     if (priority) {
@@ -81,14 +82,14 @@ const TaskBoardItem: React.FC<TaskBoardItemProps> = ({
   return (
     <div
       className={`card task-item ${draggingTask === task.id ? "dragging" : ""}`}
-      draggable
+      draggable={isMember}
       onMouseDown={(e) => e.stopPropagation()}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
     >
       <div 
         className={`card-body task-item-body ${(taskCreated && taskCreated.id === task.id) ? 'glow-box-success' : ''} ${(taskSelected && taskSelected.id === task.id) ? 'glow-box-primary' : ''}`} 
-        onClick={() => setTaskSelected (task)}
+        onClick={!isMember ? undefined : () => setTaskSelected (task)}
       >
         <h6>
           <span className={`${isExpire === -1 ? 'text-secondary' : 'text-dark'} full-text`}>{task.title}</span>

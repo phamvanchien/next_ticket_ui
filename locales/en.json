@@ -245,8 +245,10 @@
             "in_progress_label": "In progress",
             "done_label": "Done",
             "over_due_label": "Over due",
-            "pie_chart_status": "The diagram shows the states.",
-            "bar_chart_label": "Chart showing work by member"
+            "pie_chart_status": "Chart of statistics by tasks status",
+            "bar_chart_label": "Statistical chart by member",
+            "priority_chart_label": "Priority statistics chart",
+            "type_chart_label": "Statistical chart by tasks type"
         }
     },
     "project_setting": {
@@ -314,12 +316,14 @@
     },
     "workspace_setting": {
         "page_title": "Workspace setting",
+        "edit_label": "Edit workspace",
         "setting_member_message": "You can add or remove members of the workspace here.",
         "setting_delete_message_start": "You will delete",
         "setting_delete_message_end": "from this workspace",
         "setting_delete_title": "Delete workspace",
         "setting_delete_message": "Deleting this project will also delete the related data and it cannot be recovered.",
-        "modal_delete_message": "Type in the workspace name and delete it"
+        "modal_delete_message": "Type in the workspace name and delete it",
+        "delete_member_message": "Are you sure you want to remove this member from the workspace?"
     },
     "personal_profile": {
         "page_title": "Profile",

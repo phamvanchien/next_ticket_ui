@@ -1,22 +1,26 @@
 "use client"
-import { useAppDispatch } from "@/reduxs/store.redux";
+import { RootState, useAppDispatch } from "@/reduxs/store.redux";
 import { setWorkspaceSelected } from "@/reduxs/workspace.redux";
 import { WorkspaceType } from "@/types/workspace.type";
-import { faGear } from "@fortawesome/free-solid-svg-icons";
+import { faBullseye, faGear } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import UserAvatar from "../components/AvatarName";
+import { useSelector } from "react-redux";
 
 interface MenuSidebarProps {
   workspace: WorkspaceType;
 }
 
 const MenuSidebar: React.FC<MenuSidebarProps> = ({ workspace }) => {
+  const sidebarSelected = useSelector((state: RootState) => state.menuSlide).sidebarSelected;
+  const workspaceUpdated = useSelector((state: RootState) => state.workspaceSlide).workspaceUpdated;
+  const [workspaceData, setWorkspaceData] = useState(workspace);
   const t = useTranslations();
   const router = useRouter();
-  const dispatch = useAppDispatch();
   const boxRef = useRef<HTMLDivElement>(null);
 
   const closeSidebar = () => {
@@ -49,10 +53,10 @@ const MenuSidebar: React.FC<MenuSidebarProps> = ({ workspace }) => {
   }, []);
 
   useEffect(() => {
-    if (workspace) {
-      dispatch(setWorkspaceSelected(workspace));
+    if (workspaceUpdated) {
+      setWorkspaceData(workspaceUpdated);
     }
-  }, [workspace]);
+  }, [workspaceUpdated]);
 
   return (
     <div id="layoutSidenav_nav" ref={boxRef}>
@@ -61,18 +65,30 @@ const MenuSidebar: React.FC<MenuSidebarProps> = ({ workspace }) => {
         id="sidenavAccordion"
       >
         <div className="sb-sidenav-menu">
-          <div className="nav">
-            <div className="sb-sidenav-menu-heading">{t('sidebar.project')}</div>
-            <Link className="nav-link" href={`/workspace/${workspace.id}/project`} onClick={handleClickItem}>
-              <div className="sb-nav-link-icon">
-                <i className="fas fa-tachometer-alt" />
+          <div className="nav" style={{ marginBottom: 10 }}>
+            <div className="d-flex align-items-center sidebar-wp">
+              {
+                workspaceData.logo ?
+                <img src={workspaceData.logo} width={30} height={30} />: 
+                <UserAvatar name={workspaceData.name} />
+              }
+              <div style={{ marginLeft: 7 }}>
+                <h5 className="mb-1">
+                  <Link href={`/workspace/${workspaceData.id}`}>{workspaceData.name}</Link>
+                </h5>
               </div>
-              {t('sidebar.project')}
+            </div>
+          </div>
+          <div className={`nav mt-2 ${sidebarSelected === 'project' ? 'menu-item-active' : ''}`}>
+            <Link className="nav-link" href={`/workspace/${workspaceData.id}/project`} onClick={handleClickItem}>
+              <FontAwesomeIcon icon={faBullseye} style={{ marginRight: 7 }} /> {t('sidebar.project')}
             </Link>
           </div>
-        </div>
-        <div className="sb-sidenav-footer">
-          <FontAwesomeIcon className="mt-2" icon={faGear} /> {t('workspace_setting.page_title')}
+          <div className={`nav mt-2 ${sidebarSelected === 'workspace_setting' ? 'menu-item-active' : ''}`}>
+            <Link className="nav-link" href={`/workspace/${workspaceData.id}/setting`} onClick={handleClickItem}>
+              <FontAwesomeIcon icon={faGear} style={{ marginRight: 7 }} /> {t('workspace_setting.page_title')}
+            </Link>
+          </div>
         </div>
       </nav>
     </div>

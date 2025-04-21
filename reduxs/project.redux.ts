@@ -12,6 +12,7 @@ interface ProjectSliceType {
   attributeDeleted?: number
   attributeUpdated?: ProjectAttributeType,
   isOwner: boolean
+  isMember: boolean
 }
 
 const initialState: ProjectSliceType = {
@@ -23,7 +24,8 @@ const initialState: ProjectSliceType = {
   attributeCreated: undefined,
   attributeDeleted: undefined,
   attributeUpdated: undefined,
-  isOwner: false
+  isOwner: false,
+  isMember: false
 };
 
 const projectSlice = createSlice({
@@ -56,6 +58,9 @@ const projectSlice = createSlice({
     },
     setIsOwnerProject(state, action: PayloadAction<boolean>) {
       state.isOwner = action.payload;
+    },
+    setIsMemberProject(state, action: PayloadAction<boolean>) {
+      state.isMember = action.payload;
     }
   },
 });
@@ -69,7 +74,8 @@ export const {
   setAttributeCreated, 
   setAttributeDeleted,
   setAttributeUpdated,
-  setIsOwnerProject
+  setIsOwnerProject,
+  setIsMemberProject
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

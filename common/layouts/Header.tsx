@@ -61,8 +61,8 @@ const Header = () => {
           </Button>
         }
         <Logo width={40} height={40} />
-        <a className="navbar-brand ps-2 text-dark text-logo-header m-unset" href="index.html">
-          {workspaceSelected ? workspaceSelected.name : 'Next Tech'}
+        <a className="navbar-brand ps-2 text-dark text-logo-header m-unset">
+          Next Tech
         </a>
 
         <button className="btn btn-toggle-menu d-block d-lg-none me-auto" onClick={() => setShowMenu(!showMenu)}>

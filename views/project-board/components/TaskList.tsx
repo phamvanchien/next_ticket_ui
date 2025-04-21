@@ -22,6 +22,7 @@ interface TaskListProps {
   setSortTitle: (sortTitle?: "DESC" | "ASC") => void
   setSortCreatedAt: (sortCreatedAt?: "DESC" | "ASC") => void
   setSortDue: (sortDue?: "DESC" | "ASC") => void
+  setTaskSelected: (taskSelected?: TaskType) => void
 }
 
 const TaskList: React.FC<TaskListProps> = ({ 
@@ -35,7 +36,8 @@ const TaskList: React.FC<TaskListProps> = ({
   setPageSizeList,
   setSortTitle,
   setSortCreatedAt,
-  setSortDue
+  setSortDue,
+  setTaskSelected
 }) => {
   const t = useTranslations();
 
@@ -120,7 +122,7 @@ const TaskList: React.FC<TaskListProps> = ({
                 </div>
               </div>
               {taskList.items.map((task, index) => (
-                <TaskListItem key={index} task={task} />
+                <TaskListItem setTaskSelected={setTaskSelected} key={index} task={task} />
               ))}
             </div>
           </div>

@@ -1,4 +1,4 @@
-import { RequestCreateProjectType, RequestUpdateProjectType, RequestCreateTagType, RequestStatusListType, RequestUpdateTagType, ProjectStatusType, ProjectType, ProjectInviteType, ReportStatusType, ReportAssigneeType, RequestCloneProjectType, RequestAddAttributeType, ProjectAttributeType, RequestUpdateAttributeType, RequestCreateStatusType, ReportTaskWithCategory, ReportTaskWithStatus, ReportTaskWithAssignee } from "@/types/project.type";
+import { RequestCreateProjectType, RequestUpdateProjectType, RequestCreateTagType, RequestStatusListType, RequestUpdateTagType, ProjectStatusType, ProjectType, ProjectInviteType, ReportStatusType, ReportAssigneeType, RequestCloneProjectType, RequestAddAttributeType, ProjectAttributeType, RequestUpdateAttributeType, RequestCreateStatusType, ReportTaskWithCategory, ReportTaskWithStatus, ReportTaskWithAssignee, ReportTaskWithAttribute } from "@/types/project.type";
 import { request } from "./base.api";
 import { API_METHOD_ENUM } from "@/enums/api.enum";
 import { BaseResponseType, RequestWithPaginationType, ResponseWithPaginationType } from "@/types/base.type";
@@ -219,5 +219,15 @@ export const reportByAssignee = async (workspaceId: number, projectId: number): 
   return request({
     method: API_METHOD_ENUM.GET,
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/report-by-assignee'
+  });
+}
+
+export const reportByAttribute = async (workspaceId: number, projectId: number, reportType: 'priority' | 'type'): Promise<BaseResponseType<ReportTaskWithAttribute[]>> => {
+  return request({
+    method: API_METHOD_ENUM.GET,
+    url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId + '/report-by-attribute',
+    params: {
+      report_type: reportType
+    }
   });
 }

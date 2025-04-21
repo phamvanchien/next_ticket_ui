@@ -84,8 +84,8 @@ const StatusChart: React.FC<StatusChartProps> = ({ project }) => {
           <div className="card-body">
             <ul className="list-group list-group-flush">
               {
-                chartData && chartData.map(chart => (
-                  <li className="list-group-item d-flex justify-content-between align-items-center">
+                chartData && chartData.map((chart, index) => (
+                  <li className="list-group-item d-flex justify-content-between align-items-center" key={index}>
                     <span>
                       <span
                         className="badge me-2"

@@ -155,3 +155,10 @@ export interface ReportTaskWithAssignee {
   task_count: number
   name: string
 }
+
+export interface ReportTaskWithAttribute {
+  name: string
+  color: string
+  icon: string
+  task_count: number
+}

@@ -41,6 +41,7 @@ const TaskBoard: React.FC<TaskBoardProps> = ({
 }) => {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const isOwner = useSelector((state: RootState) => state.projectSlide).isOwner;
+  const isMember = useSelector((state: RootState) => state.projectSlide).isMember;
   const [boardData, setBoardData] = useState(tasksBoardData || []);
   const [draggedIndex, setDraggedIndex] = useState<number | null>(null);
   const [draggedId, setDraggedId] = useState<number>();
@@ -256,14 +257,17 @@ const TaskBoard: React.FC<TaskBoardProps> = ({
                 />
               ))}
             </div>
-            <div className="card-footer">
-              <a className="text-secondary pointer" onClick={() => setCreateWithStatus (item.id)}>
-                <FontAwesomeIcon icon={faPlus} /> {t('tasks.btn_create_task')}
-              </a>
-            </div>
+            {
+              isMember &&
+              <div className="card-footer">
+                <a className="text-secondary pointer" onClick={() => setCreateWithStatus (item.id)}>
+                  <FontAwesomeIcon icon={faPlus} /> {t('tasks.btn_create_task')}
+                </a>
+              </div>
+            }
           </div>
         ))}
-        {isOwner && <TaskBoardCreateStatus workspaceId={workspaceId} projectId={projectId} />}
+        {(isOwner) && <TaskBoardCreateStatus workspaceId={workspaceId} projectId={projectId} />}
       </div>
     </div>
   );

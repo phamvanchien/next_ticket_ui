@@ -245,8 +245,10 @@
             "in_progress_label": "進行中",
             "done_label": "完了",
             "over_due_label": "期限超過",
-            "pie_chart_status": "図は状態を示しています。",
-            "bar_chart_label": "メンバー別の作業を示すチャート"
+            "pie_chart_status": "タスクステータス別の統計グラフ",
+            "bar_chart_label": "会員別統計チャート",
+            "priority_chart_label": "優先度統計チャート",
+            "type_chart_label": "タスクタイプ別の統計チャート"
         }
     },
     "project_setting": {
@@ -314,12 +316,14 @@
     },
     "workspace_setting": {
         "page_title": "ワークスペース設定",
+        "edit_label": "ワークスペースを編集",
         "setting_member_message": "ここでワークスペースのメンバーを追加または削除できます",
         "setting_delete_message_start": "削除する",
         "setting_delete_message_end": "このワークスペースから",
         "setting_delete_title": "ワークスペースを削除",
         "setting_delete_message": "このワークスペースを削除すると、関連するすべてのデータも削除され、復元できません",
-        "modal_delete_message": "ワークスペース名を入力して削除してください"
+        "modal_delete_message": "ワークスペース名を入力して削除してください",
+        "delete_member_message": "このメンバーをワークスペースから削除してもよろしいですか？"
     },
     "personal_profile": {
         "page_title": "個人プロフィール",

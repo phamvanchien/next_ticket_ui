@@ -245,8 +245,10 @@
             "in_progress_label": "Đang xử lý",
             "done_label": "Hoàn thành",
             "over_due_label": "Đã quá hạn",
-            "pie_chart_status": "Biểu đồ thể hiện các trạng thái",
-            "bar_chart_label": "Biểu đồ thể hiện công việc theo từng thành viên"
+            "pie_chart_status": "Biểu đồ thống kê theo trạng thái vé",
+            "bar_chart_label": "Biểu đồ thống kê theo từng thành viên",
+            "priority_chart_label": "Biểu đồ thống kê theo độ ưu tiên",
+            "type_chart_label": "Biểu đồ thống kê theo loại vé"
         }
     },
     "project_setting": {
@@ -314,12 +316,14 @@
     },
     "workspace_setting": {
         "page_title": "Cài đặt phòng làm việc",
+        "edit_label": "Chỉnh sửa phòng làm việc",
         "setting_member_message": "Bạn có thể thêm hoặc xóa thành viên ra khỏi phòng làm việc tại đây",
         "setting_delete_message_start": "Bạn sẽ xóa",
         "setting_delete_message_end": "ra khỏi phòng này",
         "setting_delete_title": "Xóa phòng",
         "setting_delete_message": "Nếu xóa phòng này thì những dữ liệu liên quan cũng sẽ bị xóa và không thể khôi phục",
-        "modal_delete_message": "Hãy nhập lại tên phòng để xóa nó"
+        "modal_delete_message": "Hãy nhập lại tên phòng để xóa nó",
+        "delete_member_message": "Bạn có chắc chắn muốn xóa thành viên này ra khỏi phòng ?"
     },
     "personal_profile": {
         "page_title": "Hồ sơ cá nhân",

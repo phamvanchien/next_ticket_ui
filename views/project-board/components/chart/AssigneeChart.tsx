@@ -13,23 +13,6 @@ import {
 } from "recharts";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid } from "recharts";
 
-const memberTaskData = [
-  { name: "An", tasks: 10 },
-  { name: "Bình", tasks: 15 },
-  { name: "Chi", tasks: 7 },
-  { name: "Dũng", tasks: 20 },
-  { name: "Hà", tasks: 5 },
-  { name: "An", tasks: 10 },
-  { name: "Bình", tasks: 15 },
-  { name: "Chi", tasks: 7 },
-  { name: "Dũng", tasks: 20 },
-  { name: "Hà", tasks: 5 },
-  { name: "An", tasks: 10 },
-  { name: "Bình", tasks: 15 },
-  { name: "Chi", tasks: 7 },
-  { name: "Dũng", tasks: 20 }
-];
-
 interface AssigneeChartProps {
   project: ProjectType
 }
@@ -52,7 +35,7 @@ const AssigneeChart: React.FC<AssigneeChartProps> = ({ project }) => {
   useEffect(() => {
     loadChartData();
   }, [project]);
-  if (!chartData) {
+  if (!chartData || project.members.length === 0) {
     return <></>
   }
   return (
@@ -66,24 +49,20 @@ const AssigneeChart: React.FC<AssigneeChartProps> = ({ project }) => {
             <div style={{ width: `${chartData.length * 80}px` }}>
               <ResponsiveContainer width="100%" height={500}>
                 <BarChart
+                  layout="vertical"
                   data={chartData.map(chart => {
                     return {
                       name: chart.name || t('tasks.unassigned_label'),
                       tasks: chart.task_count
                     }
                   })}
-                  margin={{ top: 20, right: 5, left: 0, bottom: 50 }}
+                  margin={{ top: 10, right: 0, left: 100, bottom: 20 }}
                 >
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis
-                    dataKey="name"
-                    angle={-45}
-                    textAnchor="end"
-                    interval={0}
-                  />
-                  <YAxis />
+                  <XAxis type="number" />
+                  <YAxis dataKey="name" type="category" width={100} />
                   <Tooltip />
-                  <Bar dataKey="tasks" fill="#1890ff" barSize={30} />
+                  <Bar dataKey="tasks" fill="#1890ff" barSize={20} />
                 </BarChart>
               </ResponsiveContainer>
             </div>

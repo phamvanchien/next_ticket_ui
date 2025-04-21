@@ -5,6 +5,7 @@ import { ProjectType } from "@/types/project.type";
 import { useTranslations } from "next-intl";
 import StatusChart from "./chart/StatusChart";
 import AssigneeChart from "./chart/AssigneeChart";
+import AttributeChart from "./chart/AttributeChart";
 
 interface ProjectBoardChartProps {
   project: ProjectType
@@ -22,6 +23,7 @@ const ProjectBoardChart: React.FC<ProjectBoardChartProps> = ({
     <Sidebar open={open} width={1500} headerTitle={t('tasks.report.report_label')} setOpen={setOpen}>
       {open && <TaskStatisticalBoard project={project} />}
       {open && <StatusChart project={project} />}
+      {open && <AttributeChart project={project} />}
       {open && <AssigneeChart project={project} />}
     </Sidebar>
   );

@@ -2,11 +2,13 @@ import { WorkspaceType } from '@/types/workspace.type';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface WorkspaceSliceType {
-  workspaceSelected?: WorkspaceType
+  workspaceSelected?: WorkspaceType,
+  workspaceUpdated?: WorkspaceType
 }
 
 const initialState: WorkspaceSliceType = {
-  workspaceSelected: undefined
+  workspaceSelected: undefined,
+  workspaceUpdated:  undefined
 };
 
 const workspaceSlice = createSlice({
@@ -15,12 +17,16 @@ const workspaceSlice = createSlice({
   reducers: {
     setWorkspaceSelected(state, action: PayloadAction<WorkspaceType | undefined>) {
       state.workspaceSelected = action.payload;
+    },
+    setWorkspaceUpdated(state, action: PayloadAction<WorkspaceType | undefined>) {
+      state.workspaceUpdated = action.payload;
     }
   },
 });
 
 export const { 
-  setWorkspaceSelected
+  setWorkspaceSelected,
+  setWorkspaceUpdated
 } = workspaceSlice.actions;
 
 export default workspaceSlice.reducer;

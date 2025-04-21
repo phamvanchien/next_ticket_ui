@@ -21,6 +21,8 @@ import useDelaySearch from "@/hooks/useDelaySearch";
 import ProjectItem from "./components/ProjectItem";
 import ProjectAddMember from "./components/ProjectAddMember";
 import ProjectInvite from "./components/invite/ProjectInvite";
+import { useAppDispatch } from "@/reduxs/store.redux";
+import { setSidebarSelected } from "@/reduxs/menu.redux";
 
 interface ProjectViewProps {
   workspaceId: number
@@ -28,6 +30,7 @@ interface ProjectViewProps {
 
 const ProjectView: React.FC<ProjectViewProps> = ({ workspaceId }) => {
   const t = useTranslations();
+  const dispatch = useAppDispatch();
   const [projectsData, setProjectsData] = useState<ProjectType[]>([]);
   const [projectsTotal, setProjectsTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -91,6 +94,7 @@ const ProjectView: React.FC<ProjectViewProps> = ({ workspaceId }) => {
   }, [debouncedKeywordProject, workspaceId]);
   useEffect(() => {
     loadWorkspaceMember();
+    dispatch(setSidebarSelected('project'));
   }, [workspaceId]);
   useEffect(() => {
     if (projectCreated) {
