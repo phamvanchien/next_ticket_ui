@@ -35,7 +35,7 @@ const AssigneeChart: React.FC<AssigneeChartProps> = ({ project }) => {
   useEffect(() => {
     loadChartData();
   }, [project]);
-  if (!chartData || project.members.length === 0) {
+  if (!chartData || chartData.filter(_v => _v.task_count > 5).length === 0 || project.members.length === 0) {
     return <></>
   }
   return (

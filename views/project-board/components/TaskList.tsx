@@ -9,6 +9,7 @@ import { useTranslations } from "next-intl";
 import { defaultSizeList } from "../ProjectBoardView";
 import Loading from "@/common/components/Loading";
 import { faSortAmountAsc } from "@fortawesome/free-solid-svg-icons/faSortAmountAsc";
+import NoData from "@/common/components/NoData";
 
 interface TaskListProps {
   taskList?: ResponseWithPaginationType<TaskType[]>
@@ -93,6 +94,16 @@ const TaskList: React.FC<TaskListProps> = ({
       setSortDue(undefined);
       return;
     }
+  }
+
+  if (taskList.total === 0) {
+    return (
+      <NoData message={t('tasks.task_not_found')}>
+        <center className="d-none d-lg-block">
+          
+        </center>
+      </NoData>
+    )
   }
 
   return (

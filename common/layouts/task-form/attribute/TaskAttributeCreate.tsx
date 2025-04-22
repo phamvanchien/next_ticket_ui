@@ -230,7 +230,7 @@ const TaskAttributeCreate: React.FC<TaskAttributeCreateProps> = ({
 
   return (
     <div className="row mt-2">
-      <div className="col-12">
+      <div className="col-12 col-lg-4">
         <Dropdown items={items} classButton="btn-add-property" isDropdownOpen={isDropdownOpen} setIsDropdownOpen={setIsDropdownOpen}>
           <span className="text-secondary pointer"><FontAwesomeIcon icon={faPlus} /> {t("tasks.add_property_label")}</span>
         </Dropdown>

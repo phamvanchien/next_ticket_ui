@@ -8,10 +8,12 @@ interface ModalProps {
   title?: string
   children: React.ReactNode
   footerBtn: JSX.Element[]
+  width?: number
+  closable?: boolean
   setOpen: (open: boolean) => void
 }
 
-const Modal: React.FC<ModalProps> = ({ open, title, children, footerBtn, setOpen }) => {
+const Modal: React.FC<ModalProps> = ({ open, title, children, footerBtn, width, closable, setOpen }) => {
   const t = useTranslations();
   const handleOk = () => {
     alert('Click OK')
@@ -24,6 +26,8 @@ const Modal: React.FC<ModalProps> = ({ open, title, children, footerBtn, setOpen
   return (
     <>
       <ModalAnt
+        width={width}
+        closable={closable}
         open={open}
         title={title}
         onOk={handleOk}

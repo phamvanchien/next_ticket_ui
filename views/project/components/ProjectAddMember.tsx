@@ -6,6 +6,7 @@ import Loading from "@/common/components/Loading";
 import Modal from "@/common/components/Modal";
 import { API_CODE } from "@/enums/api.enum";
 import useDelaySearch from "@/hooks/useDelaySearch";
+import { setKeywordSearchMembers } from "@/reduxs/project.redux";
 import { BaseResponseType } from "@/types/base.type";
 import { UserType } from "@/types/user.type";
 import { displayMessage, displaySmallMessage } from "@/utils/helper.util";
@@ -17,7 +18,8 @@ import React, { useEffect, useState } from "react";
 interface ProjectAddMemberProps {
   projectId?: number;
   workspaceId: number;
-  setOpenModal: (projectId?: number) => void;
+  open: boolean
+  setOpenModal: (open: boolean) => void;
 }
 
 interface UserSelectedType {
@@ -25,12 +27,11 @@ interface UserSelectedType {
   owner: number | null
 }
 
-const ProjectAddMember: React.FC<ProjectAddMemberProps> = ({ projectId, setOpenModal, workspaceId }) => {
+const ProjectAddMember: React.FC<ProjectAddMemberProps> = ({ projectId, open, setOpenModal, workspaceId }) => {
   const t = useTranslations();
   const [loading, setLoading] = useState(false);
   const [userInviteData, setUserInviteData] = useState<UserType[]>([]);
   const [userSelected, setUserSelected] = useState<UserSelectedType[]>([]);
-  const [open, setOpen] = useState(!!projectId);
   const [sendLoading, setSendLoading] = useState(false);
   const { value: keyword, debouncedValue, handleChange } = useDelaySearch("", 1000);
   const loadUsersInvite = async () => {
@@ -56,20 +57,6 @@ const ProjectAddMember: React.FC<ProjectAddMemberProps> = ({ projectId, setOpenM
   useEffect(() => {
     loadUsersInvite();
   }, [debouncedValue, projectId]);
-
-  useEffect(() => {
-    if (!open){ 
-      setOpenModal(undefined);
-      resetKeyword();
-    }
-  }, [open]);
-
-  useEffect(() => {
-    setOpen(!!projectId);
-    if (!projectId) {
-      resetKeyword();
-    }
-  }, [projectId]);
 
   const handleSelectUser = (user: UserType) => {
     if (!userSelected.some((u) => u.user.id === user.id)) {
@@ -100,8 +87,7 @@ const ProjectAddMember: React.FC<ProjectAddMemberProps> = ({ projectId, setOpenM
       setSendLoading(false);
       if (response && response.code === API_CODE.OK) {
         displayMessage("success", t('create_project.send_invite_success_label'));
-        setOpenModal(undefined);
-        setOpen(false);
+        setOpenModal(false);
         setUserSelected([]);
         setUserInviteData([]);
         resetKeyword();
@@ -128,12 +114,20 @@ const ProjectAddMember: React.FC<ProjectAddMemberProps> = ({ projectId, setOpenM
     );
   };
 
+  useEffect(() => {
+    if (!open) {
+      setUserSelected([]);
+      setUserInviteData([]);
+      resetKeyword();
+    }
+  }, [open]);
+
   return (
     <Modal
       open={open}
       title={t("create_project.add_members_text")}
       footerBtn={[
-        <Button color="default" key="cancel" onClick={() => setOpenModal(undefined)} className="mr-2" disabled={sendLoading}>
+        <Button color="default" key="cancel" onClick={() => setOpenModal(false)} className="mr-2" disabled={sendLoading}>
           {t("btn_cancel")}
         </Button>,
         <Button 
@@ -145,7 +139,7 @@ const ProjectAddMember: React.FC<ProjectAddMemberProps> = ({ projectId, setOpenM
           {sendLoading ? <Loading color="light" /> : t("btn_send")}
         </Button>,
       ]}
-      setOpen={setOpen}
+      setOpen={setOpenModal}
     >
       <div className="row">
         <div className="col-12">

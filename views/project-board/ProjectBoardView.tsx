@@ -1,17 +1,14 @@
 "use client"
-import UserAvatar from "@/common/components/AvatarName";
 import Button from "@/common/components/Button";
-import UserGroup from "@/common/components/UserGroup";
 import { ProjectType } from "@/types/project.type";
-import { faCheckSquare, faFilter, faGrip, faLineChart, faList, faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faCheckCircle, faCheckSquare, faCopy, faFilter, faGear, faGrip, faLineChart, faList, faPlus, faSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
-import TaskSort from "./components/TaskSort";
 import { useTranslations } from "next-intl";
 import TaskInputSearch from "./components/TaskInputSearch";
 import TaskBoard from "./components/TaskBoard";
 import { tasks, tasksBoard } from "@/api/task.api";
-import { displaySmallMessage, removeQueryParamUrl } from "@/utils/helper.util";
+import { displayMessage, displaySmallMessage } from "@/utils/helper.util";
 import { BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import { API_CODE } from "@/enums/api.enum";
 import { ResponseTaskBoardDataType, TaskType } from "@/types/task.type";
@@ -22,13 +19,16 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "@/reduxs/store.redux";
 import { members } from "@/api/workspace.api";
 import { setIsMemberProject, setIsOwnerProject, setKeywordSearchMembers, setMembersProject } from "@/reduxs/project.redux";
-import { membersList } from "@/api/project.api";
+import { cloneProject, membersList } from "@/api/project.api";
 import TaskList from "./components/TaskList";
 import TaskBoardFilter from "./components/filter/TaskBoardFilter";
-import { usePathname, useSearchParams } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import ProjectBoardChart from "./components/ProjectBoardChart";
-import Dropdown from "@/common/components/Dropdown";
 import { setSidebarSelected } from "@/reduxs/menu.redux";
+import Modal from "@/common/components/Modal";
+import Loading from "@/common/components/Loading";
+import Input from "@/common/components/Input";
+import ProjectSetting from "./components/setting/ProjectSetting";
 
 interface ProjectBoardViewProps {
   project: ProjectType
@@ -40,17 +40,20 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
   const searchParams = useSearchParams();
   const taskParam = searchParams.get('task');
   const pathname = usePathname();
+  const router = useRouter();
   const [tasksBoardData, setTasksBoardData] = useState<ResponseTaskBoardDataType[]>();
   const [openCreate, setOpenCreate] = useState(false);
   const [taskSelected, setTaskSelected] = useState<TaskType>();
   const [createWithStatus, setCreateWithStatus] = useState<number>();
   const [layout, setLayout] = useState(1);
   const [taskList, setTaskList] = useState<ResponseWithPaginationType<TaskType[]>>();
+  const [projectData, setProjectData] = useState(project);
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
   const statusCreated = useSelector((state: RootState) => state.projectSlide).statusCreated;
   const statusUpdated = useSelector((state: RootState) => state.projectSlide).statusUpdated;
   const statusDeletedId = useSelector((state: RootState) => state.projectSlide).statusDeletedId;
   const keywordSearchMember = useSelector((state: RootState) => state.projectSlide).keywordSearchMember;
+  const projectUpdated = useSelector((state: RootState) => state.projectSlide).projectUpdated;
   const membersProject = useSelector((state: RootState) => state.projectSlide).membersProject;
   const taskCreated = useSelector((state: RootState) => state.taskSlide).taskCreated;
   const taskUpdated = useSelector((state: RootState) => state.taskSlide).taskUpdated;
@@ -61,19 +64,52 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
   const subTaskDeleted = useSelector((state: RootState) => state.taskSlide).subTaskDeleted;
   const subTaskCreated = useSelector((state: RootState) => state.taskSlide).subTaskCreated;
   const isMember = useSelector((state: RootState) => state.projectSlide).isMember;
+  const isOwner = useSelector((state: RootState) => state.projectSlide).isOwner;
 
   const [pageSizeList, setPageSizeList] = useState(defaultSizeList);
   const [loadingLoadMoreList, setLoadingLoadMoreList] = useState(false);
   const [loadingTaskBoard, setLoadingTaskBoard] = useState(false);
   const [openFilter, setOpenFilter] = useState(false);
-
   const [sortTitle, setSortTitle] = useState<"DESC" | "ASC">();
   const [sortCreatedAt, setSortCreatedAt] = useState<"DESC" | "ASC">();
   const [sortDue, setSortDue] = useState<"DESC" | "ASC">();
-
   const [openBoardchart, setOpenBoardChart] = useState(false);
+  const [openClone, setOpenClone] = useState(false);
+  const [cloneLoading, setCloneLoading] = useState(false);
+  const [projectCloneName, setProjectCloneName] = useState(project.name + ' Copy');
+  const [openCloneSuccess, setOpenCloneSuccess] = useState(false);
+  const [projectIdCloned, setProjectIdCloned] = useState();
+  const [projectCloneSetting, setProjectCloneSetting] = useState({
+    include_attribute: true,
+    include_member: false
+  });
+  const [openSetting, setOpenSetting] = useState(false);
 
   const { value: keyword, debouncedValue, handleChange } = useDelaySearch("", 500);
+  const handleCloneProject = async () => {
+    try {
+      if (!projectCloneName || projectCloneName === '') {
+        return;
+      }
+      setCloneLoading(true);
+      const response = await cloneProject(project.workspace_id, project.id, {
+        project_name_clone: projectCloneName,
+        ...projectCloneSetting
+      });
+      setCloneLoading(false);
+      if (response && response.code === API_CODE.CREATED) {
+        setOpenClone(false);
+        setProjectCloneName(project.name + ' Copy');
+        setOpenCloneSuccess(true);
+        setProjectIdCloned(response.data);
+        return;
+      }
+      displayMessage('error', response.error?.message);
+    } catch (error) {
+      setCloneLoading(false);
+      displayMessage('error', (error as BaseResponseType).error?.message);
+    }
+  }
   const loadTasksBoard = async () => {
     try {
       setLoadingTaskBoard(true);
@@ -246,14 +282,15 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
         return updatedTasksBoardData;
       });
   
-      setTaskList((prevTaskList) => {
-        if (!prevTaskList) return prevTaskList;
+      // setTaskList((prevTaskList) => {
+      //   if (!prevTaskList) return prevTaskList;
   
-        return {
-          ...prevTaskList,
-          items: prevTaskList.items.filter((task) => task.id !== taskDeleted.id),
-        };
-      });
+      //   return {
+      //     ...prevTaskList,
+      //     items: prevTaskList.items.filter((task) => task.id !== taskDeleted.id),
+      //   };
+      // });
+      loadTaskList();
     }
   }, [taskDeleted]);
   useEffect(() => {
@@ -502,18 +539,42 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
       }
     }
   }, [taskParam, tasksBoardData]);
+  useEffect(() => {
+    if (projectUpdated) {
+      if (projectUpdated.is_public !== projectData.is_public) {
+        loadMembersBoard();
+      }
+      setProjectData(projectUpdated);
+    }
+  }, [projectUpdated]);
   return <>
     <div className="container-fluid">
       <div className="row board-wrapper">
         <div className="col-12">
-          <h3 className="m-unset lh-50 float-left"><FontAwesomeIcon icon={faCheckSquare} className="text-success" /> {project.name}</h3>
+          <h3 className="m-unset lh-50 float-left"><FontAwesomeIcon icon={faCheckSquare} className="text-success" /> {projectData.name}</h3>
+          {
+            isOwner && <>
+            <Button color="default" className="float-right mt-2 text-secondary" onClick={() => setOpenSetting (true)}>
+              <FontAwesomeIcon
+                icon={faGear}
+                style={{ pointerEvents: "none" }}
+              />
+            </Button>
+            <Button color="default" className="float-right mt-2 text-secondary" onClick={() => setOpenClone (true)}>
+              <FontAwesomeIcon
+                icon={faCopy}
+                style={{ pointerEvents: "none" }}
+              />
+            </Button>
+            </>
+          }
           {
             isMember &&
             <Button color="primary" className="float-right mt-2" style={{ marginLeft: 7 }} onClick={() => setOpenCreate (true)}>
               <FontAwesomeIcon icon={faPlus} /> {t('tasks.btn_create_task')}
             </Button>
           }
-          {
+          {/* {
             (!project.is_public && membersProject && membersProject.length > 0) &&
             <UserGroup className="float-right mt-2">
               {
@@ -522,7 +583,7 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
                 ))
               }
             </UserGroup>
-          }
+          } */}
         </div>
       </div>
       <div className="row">
@@ -531,27 +592,6 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
         </div>
         <div className="col-6 col-lg-6 mt-2">
           <ul className="board-menu">
-            {/* <li className={`board-menu-item ${layout === 1 ? 'active' : ''}`} onClick={() => setLayout (1)}>
-              <Dropdown
-                items={[
-                  {
-                    key: 1,
-                    label: <div onClick={() => setLayout (1)}><FontAwesomeIcon icon={faGrip} style={{ marginRight: 5 }} /> {t('tasks.board')}</div>
-                  },
-                  {
-                    key: 2,
-                    label: <div onClick={() => setLayout (2)}><FontAwesomeIcon icon={faList} style={{ marginRight: 5 }} /> {t('tasks.list')}</div>
-                  }
-                ]}
-              >
-                {
-                  layout === 1 && <><FontAwesomeIcon icon={faGrip} style={{ marginRight: 5 }} /> {t('tasks.board')}</>
-                }
-                {
-                  layout === 2 && <><FontAwesomeIcon icon={faList} style={{ marginRight: 5 }} /> {t('tasks.list')}</>
-                }
-              </Dropdown>
-            </li> */}
             <li className={`board-menu-item ${layout === 1 ? 'active' : ''}`} onClick={() => setLayout (1)}>
               <FontAwesomeIcon icon={faGrip} style={{ marginRight: 5 }} /> {t('tasks.board')}
             </li>
@@ -627,6 +667,72 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
         project={project}
         open={openBoardchart}
         setOpen={setOpenBoardChart}
+      />
+      <Modal
+        open={openClone}
+        setOpen={setOpenClone}
+        title={t('tasks.clone_task_message')}
+        footerBtn={[
+          <Button color="default" key="cancel"className="mr-2" onClick={() => setOpenClone (false)} disabled={cloneLoading}>
+            {t("btn_cancel")}
+          </Button>,
+          <Button color={cloneLoading ? 'secondary' : 'primary'} key="save" type="submit" onClick={handleCloneProject} disabled={cloneLoading || !projectCloneName || projectCloneName === ''}>
+            {cloneLoading ? <Loading color="light" /> : t("tasks.clone")}
+          </Button>
+        ]}
+      >
+        <div className="row">
+          <div className="col-12">
+            <Input 
+              type="text" 
+              value={projectCloneName} 
+              placeholder={t('create_project.placeholder_input_project_name')} 
+              onChange={(e) => setProjectCloneName (e.target.value)}
+            />
+          </div>
+          <div className="col-12 text-secondary mt-2">
+            <span 
+              className={`pointer ${projectCloneSetting.include_attribute ? 'text-success' : 'text-secondary'}`} 
+              onClick={() => setProjectCloneSetting ({include_member: projectCloneSetting.include_member, include_attribute: projectCloneSetting.include_attribute ? false : true})}
+            >
+              <FontAwesomeIcon icon={projectCloneSetting.include_attribute ? faCheckSquare : faSquare} /> {t('project_setting.clone_with_attribute')}
+            </span><br/>
+            <span 
+              className={`pointer mt-2 ${projectCloneSetting.include_member ? 'text-success' : 'text-secondary'}`}
+              onClick={() => setProjectCloneSetting ({include_member: projectCloneSetting.include_member ? false : true, include_attribute: projectCloneSetting.include_attribute})}
+            >
+              <FontAwesomeIcon icon={projectCloneSetting.include_member ? faCheckSquare : faSquare} /> {t('project_setting.clone_with_member')}
+            </span>
+          </div>
+        </div>
+      </Modal>
+      <Modal
+        open={openCloneSuccess}
+        setOpen={setOpenCloneSuccess}
+        title=""
+        footerBtn={[]}
+        width={300}
+        closable={false}
+      >
+        <div className="row">
+          <div className="col-12 text-center">
+            <FontAwesomeIcon icon={faCheckCircle} style={{ fontSize: 50 }} className="text-success" />
+          </div>
+          <div className="col-12 text-center mb-4 text-success">
+            {t('project_setting.create_project_success')}
+          </div>
+          <div className="col-12">
+            <Button color="primary" className="w-100" onClick={() => router.push(`/workspace/${project.workspace_id}/project/${projectIdCloned}`)}>
+              {t('project_setting.view_project_btn')}
+            </Button>
+            <Button color="light" className="w-100 mt-2" onClick={() => setOpenCloneSuccess (false)}>{t('btn_cancel')}</Button>
+          </div>
+        </div>
+      </Modal>
+      <ProjectSetting
+        project={project}
+        open={openSetting}
+        setOpen={setOpenSetting}
       />
     </div>
   </>

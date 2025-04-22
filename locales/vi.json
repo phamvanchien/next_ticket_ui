@@ -103,6 +103,7 @@
     "btn_cancel": "Hủy",
     "btn_send": "Gửi",
     "search_label": "Tìm phòng, dự án, vé, ...",
+    "change_btn": "Thay đổi",
     "sidebar": {
         "workspace": "Phòng của bạn",
         "project": "Dự án",
@@ -152,12 +153,13 @@
         "page_title": "Thêm thành viên"
     },
     "tasks": {
+        "task_not_found": "Không tìm thấy vé nào",
         "page_title_task": "Quản lý vé",
         "page_title_project_setting": "Cài đặt dự án",
         "page_title_project_report": "Báo cáo tiến độ",
         "setting": "Cài đặt",
         "clone": "Nhân bản",
-        "board": "Dạng bảng",
+        "board": "Bảng",
         "list": "Danh sách",
         "priority_sort": "Độ ưu tiên",
         "due_sort": "Hạn chót",
@@ -273,7 +275,15 @@
         "add_attribute_title": "Tạo thuộc tính",
         "delete_attribute_warning": "Bạn có chắc chắn muốn xóa thuộc tính này ?",
         "delete_attribute_warning_message": "Nếu xóa hết giá trị trong thuộc tính thì nó sẽ không hiển thị",
-        "select_status_category_label": "Chọn loại trạng thái"
+        "select_status_category_label": "Chọn loại trạng thái",
+        "view_project_btn": "Xem dự án",
+        "create_project_success": "Tạo dự án thành công",
+        "clone_with_attribute": "Bao gồm thuộc tính",
+        "clone_with_member": "Bao gồm tất cả thành viên",
+        "project_visibility_title": "Riêng tư/Công khai",
+        "project_public_note": "Dự án này đang ở chế độ công khai - những ai không phải là thành viên của dự án cũng sẽ nhìn thấy được một số dữ liệu trong dự án",
+        "project_private_note": "Dự án này đang ở chế độ riêng tự - chỉ những ai là thành viên trong dự án mới được phép xem và chỉnh sửa dữ liệu trong dự án",
+        "message_delete_member": "Bạn có chắc chắn xóa thành viên này ra khỏi dự án?"
     },
     "btn_ok": "Đồng ý",
     "empty_label": "Trống",

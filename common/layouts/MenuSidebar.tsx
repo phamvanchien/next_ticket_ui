@@ -16,6 +16,7 @@ interface MenuSidebarProps {
 }
 
 const MenuSidebar: React.FC<MenuSidebarProps> = ({ workspace }) => {
+  const userLogged = useSelector((state: RootState) => state.userSlice).data;
   const sidebarSelected = useSelector((state: RootState) => state.menuSlide).sidebarSelected;
   const workspaceUpdated = useSelector((state: RootState) => state.workspaceSlide).workspaceUpdated;
   const [workspaceData, setWorkspaceData] = useState(workspace);
@@ -84,11 +85,14 @@ const MenuSidebar: React.FC<MenuSidebarProps> = ({ workspace }) => {
               <FontAwesomeIcon icon={faBullseye} style={{ marginRight: 7 }} /> {t('sidebar.project')}
             </Link>
           </div>
-          <div className={`nav mt-2 ${sidebarSelected === 'workspace_setting' ? 'menu-item-active' : ''}`}>
-            <Link className="nav-link" href={`/workspace/${workspaceData.id}/setting`} onClick={handleClickItem}>
-              <FontAwesomeIcon icon={faGear} style={{ marginRight: 7 }} /> {t('workspace_setting.page_title')}
-            </Link>
-          </div>
+          {
+            workspaceData.user_id === userLogged?.id &&
+            <div className={`nav mt-2 ${sidebarSelected === 'workspace_setting' ? 'menu-item-active' : ''}`}>
+              <Link className="nav-link" href={`/workspace/${workspaceData.id}/setting`} onClick={handleClickItem}>
+                <FontAwesomeIcon icon={faGear} style={{ marginRight: 7 }} /> {t('workspace_setting.page_title')}
+              </Link>
+            </div>
+          }
         </div>
       </nav>
     </div>

@@ -1,8 +1,9 @@
-import { ProjectAttributeType, ProjectStatusType } from '@/types/project.type';
+import { ProjectAttributeType, ProjectStatusType, ProjectType } from '@/types/project.type';
 import { UserType } from '@/types/user.type';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface ProjectSliceType {
+  projectUpdated?: ProjectType
   statusCreated?: ProjectStatusType
   statusUpdated?: ProjectStatusType
   statusDeletedId?: number
@@ -16,6 +17,7 @@ interface ProjectSliceType {
 }
 
 const initialState: ProjectSliceType = {
+  projectUpdated: undefined,
   statusCreated: undefined,
   statusUpdated: undefined,
   statusDeletedId: undefined,
@@ -61,6 +63,9 @@ const projectSlice = createSlice({
     },
     setIsMemberProject(state, action: PayloadAction<boolean>) {
       state.isMember = action.payload;
+    },
+    setProjectUpdated(state, action: PayloadAction<ProjectType>) {
+      state.projectUpdated = action.payload;
     }
   },
 });
@@ -75,7 +80,8 @@ export const {
   setAttributeDeleted,
   setAttributeUpdated,
   setIsOwnerProject,
-  setIsMemberProject
+  setIsMemberProject,
+  setProjectUpdated
 } = projectSlice.actions;
 
 export default projectSlice.reducer;

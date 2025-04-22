@@ -21,7 +21,7 @@ export const projects = async (workspaceId: number, payload: RequestWithPaginati
   });
 }
 
-export const update = async (workspaceId: number, projectId: number, payload: RequestUpdateProjectType): Promise<BaseResponseType> => {
+export const update = async (workspaceId: number, projectId: number, payload: RequestUpdateProjectType): Promise<BaseResponseType<ProjectType>> => {
   return request({
     method: API_METHOD_ENUM.PATCH,
     url: APP_CONFIG.API.PREFIX.project.url + '/' + workspaceId + '/' + projectId,

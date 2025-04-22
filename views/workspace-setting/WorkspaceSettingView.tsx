@@ -1,15 +1,13 @@
 "use client"
-import UserAvatar from "@/common/components/AvatarName";
 import Button from "@/common/components/Button";
 import Input from "@/common/components/Input";
 import { setSidebarSelected } from "@/reduxs/menu.redux";
 import { RootState, useAppDispatch } from "@/reduxs/store.redux";
 import { WorkspaceType } from "@/types/workspace.type";
-import { dateToString, displayMessage } from "@/utils/helper.util";
-import { faGear, faPencil, faSearch, faTimes, faTrash, faUserGroup, faUserPlus } from "@fortawesome/free-solid-svg-icons";
+import { displayMessage } from "@/utils/helper.util";
+import { faGear, faTrash, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslations } from "next-intl";
-import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import WorkspaceSettingInfo from "./components/WorkspaceSettingInfo";
 import WorkspaceAddMember from "../workspace/components/WorkspaceAddMember";
@@ -90,6 +88,7 @@ const WorkspaceSettingView: React.FC<WorkspaceSettingViewProps> = ({ workspace }
         setOpenModal={setOpenAddMember} 
       />
       <Modal 
+        closable={false}
         open={openDeleteWorkspace} 
         title={t('workspace_setting.modal_delete_message')}
         footerBtn={[

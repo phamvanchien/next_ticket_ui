@@ -132,6 +132,10 @@
   box-shadow: none !important;
 }
 
+textarea {
+    height: 70px !important;
+}
+
 .form-control {
   border: 1px solid #e0e0e0 !important;
 }

@@ -216,6 +216,7 @@ const TaskFile: React.FC<TaskFileProps> = ({ className, task }) => {
         </div>
       }
       <Modal
+        closable={false}
         open={confirmDeleteFile}
         setOpen={setConfirmDeleteFile}
         title={t('tasks.delete_file_warning_message')}

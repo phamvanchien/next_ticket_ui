@@ -103,6 +103,7 @@
     "btn_cancel": "キャンセル",
     "btn_send": "送信",
     "search_label": "ワークスペース、プロジェクト、チケットなどを検索します。",
+    "change_btn": "変更",
     "sidebar": {
         "workspace": "ワークスペース",
         "project": "プロジェクト",
@@ -152,6 +153,7 @@
         "page_title": "メンバーを追加"
     },
     "tasks": {
+        "task_not_found": "チケットが見つかりません",
         "page_title_task": "チケット管理",
         "page_title_project_setting": "プロジェクト設定",
         "page_title_project_report": "進捗レポート",
@@ -273,7 +275,15 @@
         "add_attribute_title": "属性を作成",
         "delete_attribute_warning": "この属性を削除してもよろしいですか ?",
         "delete_attribute_warning_message": "属性内の値をすべて削除すると表示されなくなります。",
-        "select_status_category_label": "カテゴリーを選択"
+        "select_status_category_label": "カテゴリーを選択",
+        "view_project_btn": "プロジェクトを表示",
+        "create_project_success": "プロジェクトの作成に成功しました",
+        "clone_with_attribute": "属性を含める",
+        "clone_with_member": "すべてのメンバーを含める",
+        "project_visibility_title": "プロジェクトの可視性",
+        "project_public_note": "このプロジェクトは公開モードです。プロジェクトのメンバーでない人も一部のデータを閲覧できます。",
+        "project_private_note": "このプロジェクトは非公開モードです。プロジェクトのメンバーのみがデータを閲覧および編集できます。",
+        "message_delete_member": "このメンバーをプロジェクトから削除してもよろしいですか？"
     },
     "btn_ok": "同意する",
     "empty_label": "空",

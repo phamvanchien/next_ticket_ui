@@ -103,6 +103,7 @@
     "btn_cancel": "Cancel",
     "btn_send": "Send",
     "search_label": "Search workspaces, projects, tickets, ...",
+    "change_btn": "Change",
     "sidebar": {
         "workspace": "Workspaces",
         "project": "Projects",
@@ -152,6 +153,7 @@
         "page_title": "Add members"
     },
     "tasks": {
+        "task_not_found": "No tasks found",
         "page_title_task": "Tasks",
         "page_title_project_setting": "Project setting",
         "page_title_project_report": "Project report",
@@ -273,7 +275,15 @@
         "add_attribute_title": "Create attribute",
         "delete_attribute_warning": "Are you sure you want to delete this attribute ?",
         "delete_attribute_warning_message": "If you delete all values ​​in the attribute, it will not be displayed.",
-        "select_status_category_label": "Select category"
+        "select_status_category_label": "Select category",
+        "view_project_btn": "View project",
+        "create_project_success": "Project creation successful",
+        "clone_with_attribute": "Include attributes",
+        "clone_with_member": "Include all members",
+        "project_visibility_title": "Project visibility",
+        "project_public_note": "This project is set to public mode – some data will be visible even to those who are not project members.",
+        "project_private_note": "This project is set to private mode – only members of the project are allowed to view and edit its data.",
+        "message_delete_member": "Are you sure you want to remove this member from the project?"
     },
     "btn_ok": "OK",
     "empty_label": "Empty",
@@ -321,7 +331,7 @@
         "setting_delete_message_start": "You will delete",
         "setting_delete_message_end": "from this workspace",
         "setting_delete_title": "Delete workspace",
-        "setting_delete_message": "Deleting this project will also delete the related data and it cannot be recovered.",
+        "setting_delete_message": "Deleting this workspace will also delete the related data and it cannot be recovered.",
         "modal_delete_message": "Type in the workspace name and delete it",
         "delete_member_message": "Are you sure you want to remove this member from the workspace?"
     },

@@ -1,4 +1,4 @@
-import { members, removeMember } from "@/api/workspace.api";
+import { ProjectType } from "@/types/project.type";
 import UserAvatar from "@/common/components/AvatarName";
 import Button from "@/common/components/Button";
 import Loading from "@/common/components/Loading";
@@ -9,16 +9,18 @@ import { BaseResponseType, ResponseWithPaginationType } from "@/types/base.type"
 import { UserType } from "@/types/user.type";
 import { WorkspaceType } from "@/types/workspace.type";
 import { displayMessage } from "@/utils/helper.util";
-import { faMinus, faSearch, faUserGroup } from "@fortawesome/free-solid-svg-icons";
+import { faMinus, faSearch, faUserGroup, faUserPlus } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
+import { membersList, removeMember } from "@/api/project.api";
+import ProjectAddMember from "@/views/project/components/ProjectAddMember";
 
-interface WorkspaceMemberProps {
-  workspace: WorkspaceType
+interface ProjectSettingMemberProps {
+  project: ProjectType
 }
 
-const WorkspaceMember: React.FC<WorkspaceMemberProps> = ({ workspace }) => {
+const ProjectSettingMember: React.FC<ProjectSettingMemberProps> = ({ project }) => {
   const t = useTranslations();
   const defaultPageSize = 5;
   const [memberData, setMemberData] = useState<ResponseWithPaginationType<UserType[]>>();
@@ -28,9 +30,10 @@ const WorkspaceMember: React.FC<WorkspaceMemberProps> = ({ workspace }) => {
   const [openDeleteMember, setOpenDeleteMember] = useState(false);
   const [deleteId, setDeleteId] = useState<number>();
   const [loadingDelete, setLoadingDelete] = useState(false);
+  const [openAddMember, setOpenAddMember] = useState<boolean>(false);
   const loadWorkspaceMembers = async () => {
     try {
-      const response = await members(workspace.id, 1, pageSize, debouncedValue);
+      const response = await membersList(project.workspace_id, project.id, 1, pageSize, debouncedValue);
       setLoadingViewMore(false);
       if (response && response.code === API_CODE.OK) {
         setMemberData(response.data);
@@ -51,7 +54,7 @@ const WorkspaceMember: React.FC<WorkspaceMemberProps> = ({ workspace }) => {
       if (!openDeleteMember || !deleteId) {
         return;
       }
-      const response = await removeMember(workspace.id, deleteId);
+      const response = await removeMember(project.workspace_id, project.id, deleteId);
       setLoadingDelete(false);
       if (response && response.code === API_CODE.OK) {
         loadWorkspaceMembers();
@@ -65,39 +68,39 @@ const WorkspaceMember: React.FC<WorkspaceMemberProps> = ({ workspace }) => {
   }
   useEffect(() => {
     loadWorkspaceMembers();
-  }, [workspace, pageSize, debouncedValue]);
+  }, [project, pageSize, debouncedValue]);
   useEffect(() => {
     if (!openDeleteMember) {
       setDeleteId(undefined);
     }
   }, [openDeleteMember]);
-  if (!memberData || (memberData && memberData.total === 0)) {
-    return <></>
-  }
+
   return (
-    <div className="row mt-4">
-      <div className="col-12 col-lg-6">
+    <div className="row mt-2">
+      <div className="col-12 text-secondary">
+        <h6 className="text-dark">{t('projects.member_label')}</h6>
+      </div>
+      <div className="col-12 col-lg-12">
         <div className="bg-white rounded-4 shadow-sm border p-3">
           <div className="d-flex justify-content-between align-items-center mb-3 px-2">
-            <h6 className="mb-0 text-secondary">
-              <FontAwesomeIcon icon={faUserGroup} className="me-2" />
-              {t('member_label')}
-            </h6>
             <div className="position-relative">
               <FontAwesomeIcon icon={faSearch} className="position-absolute ms-3 wp-search-icon" />
               <input
                 type="text"
-                className="form-control ps-5 rounded search-input"
+                className="form-control ps-5 rounded search-input float-right"
                 placeholder={t('tasks.placeholder_search_member') + '...'}
                 value={keyword}
                 onChange={handleChange}
               />
             </div>
+            <Button color="primary" className="float-right" onClick={() => setOpenAddMember (true)}>
+              <FontAwesomeIcon icon={faUserPlus} />
+            </Button>
           </div>
           <div className="table-responsive mb-2">
             <table className="table align-middle mb-0">
               <tbody>
-                {memberData.items.map((member, index) => (
+                {memberData && memberData.items.map((member, index) => (
                   <tr key={index} className="border-bottom">
                     <td>
                       <UserAvatar name={member.first_name} avatar={member.avatar} />
@@ -115,7 +118,7 @@ const WorkspaceMember: React.FC<WorkspaceMemberProps> = ({ workspace }) => {
             </table>
           </div>
           {
-            pageSize < memberData.total &&
+            (memberData && pageSize < memberData.total) &&
             <a className="text-secondary pointer mt-2" onClick={loadingViewMore ? undefined : handleViewMore}>
               {t('btn_view_more')} {loadingViewMore && <Loading color="secondary" />}
             </a>
@@ -123,9 +126,9 @@ const WorkspaceMember: React.FC<WorkspaceMemberProps> = ({ workspace }) => {
         </div>
       </div>
       <Modal 
-        open={openDeleteMember} 
         closable={false}
-        title={t('workspace_setting.delete_member_message')}
+        open={openDeleteMember} 
+        title={t('project_setting.message_delete_member')}
         footerBtn={[
           <Button color='default' key={1} onClick={() => setOpenDeleteMember (false)} className='mr-2' disabled={loadingDelete}>
             {t('btn_cancel')}
@@ -141,7 +144,13 @@ const WorkspaceMember: React.FC<WorkspaceMemberProps> = ({ workspace }) => {
           
         </div>
       </Modal>
+      <ProjectAddMember
+        workspaceId={project.workspace_id}
+        projectId={project.id}
+        open={openAddMember}
+        setOpenModal={setOpenAddMember}
+      />
     </div>
   )
 }
-export default WorkspaceMember;
+export default ProjectSettingMember;

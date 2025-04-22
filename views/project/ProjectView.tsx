@@ -37,7 +37,6 @@ const ProjectView: React.FC<ProjectViewProps> = ({ workspaceId }) => {
   const [openCreate, setOpenCreate] = useState(false);
   const [workspaceMembers, setWorkspaceData] = useState<UserType[]>([]);
   const [projectCreated, setProjectCreated] = useState<ProjectType>();
-  const [openAddMember, setOpenAddMember] = useState<number>();
   const [invitesData, setInvitesData] = useState<ResponseWithPaginationType<ProjectInviteType[]>>();
   const [openInvite, setOpenInvite] = useState(false);
   const [inviteDecline, setInviteDecline] = useState(0);
@@ -166,7 +165,7 @@ const ProjectView: React.FC<ProjectViewProps> = ({ workspaceId }) => {
         {(projectsTotal > 0) ? (
           projectsData.map((project) => (
             <div key={project.id} className="col-lg-3 col-md-4 col-12 mb-4">
-              <ProjectItem project={project} setOpenAddMember={setOpenAddMember} />
+              <ProjectItem project={project} />
             </div>
           ))
         ) : (
@@ -206,11 +205,11 @@ const ProjectView: React.FC<ProjectViewProps> = ({ workspaceId }) => {
       handleChange={handleChange}
       setProjectCreated={setProjectCreated}
     />
-    <ProjectAddMember 
+    {/* <ProjectAddMember 
       projectId={openAddMember} 
       workspaceId={workspaceId}
       setOpenModal={setOpenAddMember} 
-    />
+    /> */}
     <ProjectInvite
       open={openInvite}
       setOpen={setOpenInvite}

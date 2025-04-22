@@ -133,7 +133,9 @@ export interface ReportAssigneeType {
 
 export interface RequestCloneProjectType {
   project_name_clone: string
-  is_public_clone?: boolean
+  is_public_clone?: boolean,
+  include_attribute?: boolean,
+  include_member?: boolean
 }
 
 export interface ReportTaskWithCategory {

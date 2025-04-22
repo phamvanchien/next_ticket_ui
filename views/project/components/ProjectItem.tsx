@@ -12,10 +12,9 @@ import { useSelector } from "react-redux";
 
 interface ProjectItemProps {
   project: ProjectType
-  setOpenAddMember: (openAddMember?: number) => void
 }
 
-const ProjectItem: React.FC<ProjectItemProps> = ({ project, setOpenAddMember }) => {
+const ProjectItem: React.FC<ProjectItemProps> = ({ project }) => {
   const t = useTranslations();
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
   return (
@@ -25,10 +24,10 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project, setOpenAddMember }) 
         <h5 className="card-title">
           <FontAwesomeIcon icon={project.is_public ? faGlobe : faLock} className="text-secondary" style={{marginRight: 3}} />
           <Link href={`/workspace/${project.workspace_id}/project/${project.id}`}>{project.name}</Link>
-          {
+          {/* {
             project.user_id === userLogged?.id && 
             <Avatar src={'/images/icons/user-plus.png'} className="pointer float-right" onClick={setOpenAddMember ? () => setOpenAddMember (project.id) : undefined} />
-          }
+          } */}
           {
             project.members.filter(m => m.id !== userLogged?.id).length > 0 && <UserGroup className="float-right">
               {
