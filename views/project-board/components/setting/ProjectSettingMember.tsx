@@ -75,6 +75,24 @@ const ProjectSettingMember: React.FC<ProjectSettingMemberProps> = ({ project }) 
     }
   }, [openDeleteMember]);
 
+  if (project.members.length === 0) {
+    return (
+      <div className="row mt-2">
+        <div className="col-12 text-secondary">
+          <Button color="secondary" outline onClick={() => setOpenAddMember (true)}>
+            <FontAwesomeIcon icon={faUserPlus} /> {t('create_project.add_members_text')}
+          </Button>
+        </div>
+        <ProjectAddMember
+          workspaceId={project.workspace_id}
+          projectId={project.id}
+          open={openAddMember}
+          setOpenModal={setOpenAddMember}
+        />
+      </div>
+    )
+  }
+
   return (
     <div className="row mt-2">
       <div className="col-12 text-secondary">

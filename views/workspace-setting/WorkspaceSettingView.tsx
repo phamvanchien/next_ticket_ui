@@ -71,7 +71,7 @@ const WorkspaceSettingView: React.FC<WorkspaceSettingViewProps> = ({ workspace }
           {t('workspace_setting.page_title')}
         </h3>
         <Button color="primary" onClick={() => setOpenAddMember (workspaceData.id)}>
-            <FontAwesomeIcon icon={faUserPlus} /> {t('sidebar.invite_member')}
+            <FontAwesomeIcon icon={faUserPlus} />
         </Button>
       </div>
       <WorkspaceSettingInfo workspace={workspaceData} />
