@@ -12,8 +12,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Image, Space, Typography, UploadFile } from "antd";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
-import { DeleteOutlined } from '@ant-design/icons';
+import { DeleteOutlined, FileImageOutlined } from '@ant-design/icons';
 import Link from "next/link";
+import FileIcon from "@/common/components/FileIcon";
 
 interface TaskFileProps {
   className?: string;
@@ -105,10 +106,10 @@ const TaskFile: React.FC<TaskFileProps> = ({ className, task }) => {
         setConfirmDeleteFile(false);
         return;
       }
-      displaySmallMessage('error', response.error?.message);
+      displayMessage('error', response.error?.message);
     } catch (error) {
       setDeleteLoading(false);
-      displaySmallMessage('error', (error as BaseResponseType).error?.message);
+      displayMessage('error', (error as BaseResponseType).error?.message);
     }
   }
   const handleDownload = (url: string, filename: string) => {
@@ -143,7 +144,7 @@ const TaskFile: React.FC<TaskFileProps> = ({ className, task }) => {
         setOpen={setOpenUpload}
       >
         <div className="row mt-4">
-          <div className="col-12 text-center">
+          <div className="col-12 text-center upload-wrapper">
             <UploadFiles files={files} setFiles={setFiles}>
               <span className="text-secondary pointer">
                 <FontAwesomeIcon icon={faUpload} /> {t('select_file')}
@@ -185,7 +186,7 @@ const TaskFile: React.FC<TaskFileProps> = ({ className, task }) => {
                     style={{ objectFit: 'cover', borderRadius: 4 }}
                   />
                 ) : (
-                  <FontAwesomeIcon className="text-secondary" icon={faFile} style={{ fontSize: 24 }} />
+                  <FileIcon ext={file.ext} />
                 )}
                 <div>
                   <Link href={file.url} target="_blank" onClick={() => handleDownload (file.url, file.name)}>{file.name.substring(0, 18)}</Link>

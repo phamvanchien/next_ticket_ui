@@ -5,6 +5,7 @@ import { Button, Upload, Space, Typography, Image, message } from 'antd';
 import type { UploadFile } from 'antd/es/upload/interface';
 import { displaySmallMessage } from '@/utils/helper.util';
 import { useTranslations } from 'next-intl';
+import FileIcon from './FileIcon';
 
 const { Text } = Typography;
 
@@ -49,7 +50,7 @@ const UploadFiles: React.FC<UploadFilesProps> = ({ files, children, setFiles }) 
           : undefined);
 
       return (
-        <div className="file-item">
+        <div className="file-item mt-2">
           <Space>
             {isImage && imageSrc ? (
               <Image
@@ -60,7 +61,7 @@ const UploadFiles: React.FC<UploadFilesProps> = ({ files, children, setFiles }) 
                 style={{ objectFit: 'cover', borderRadius: 4 }}
               />
             ) : (
-              <FileImageOutlined style={{ fontSize: 24 }} />
+              <FileIcon ext={file.name.split('.').pop()?.toLowerCase()} />
             )}
             <div>
               <Text strong>{file.name}</Text>
@@ -77,6 +78,7 @@ const UploadFiles: React.FC<UploadFilesProps> = ({ files, children, setFiles }) 
             icon={<DeleteOutlined />}
             onClick={() => actions.remove()}
             danger
+            style={{marginLeft: 10}}
           />
         </div>
       );

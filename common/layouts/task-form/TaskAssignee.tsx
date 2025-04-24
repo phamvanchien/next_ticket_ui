@@ -23,7 +23,9 @@ const TaskAssignee: React.FC<TaskAssigneeProps> = ({ className, projectMembers, 
   const t = useTranslations();
   const dispatch = useAppDispatch();
   const membersProject = useSelector((state: RootState) => state.projectSlide).membersProject;
-  const [memberList, setMemberList] = useState(projectMembers);
+  const [memberList, setMemberList] = useState<UserType[]>(
+    Array.from(new Map(projectMembers.map(m => [m.id, m])).values())
+  );
   const options: SelectProps['options'] = memberList.map(member => {
     return {
       label: <div>
@@ -46,9 +48,10 @@ const TaskAssignee: React.FC<TaskAssigneeProps> = ({ className, projectMembers, 
   };
   useEffect(() => {
     if (membersProject) {
-      setMemberList(membersProject);
+      const uniqueMembers = Array.from(new Map(membersProject.map(m => [m.id, m])).values());
+      setMemberList(uniqueMembers);
     }
-  }, [membersProject]);
+  }, [membersProject]);  
   return (
     <div className={`row ${className ?? ''}`}>
       <div className="col-lg-3 col-12 text-secondary mt-2">

@@ -128,7 +128,7 @@ const TaskCreate: React.FC<TaskCreateProps> = ({
     >
       <div className="row">
         <div className="col-12">
-          <Input type="text" value={title} classInput="task-title" placeholder={t('tasks.task_title_default')} onChange={(e) => setTitle (e.target.value)} />
+          <Input type="text" value={title} classInput="task-title-input" placeholder={t('tasks.task_title_default')} onChange={(e) => setTitle (e.target.value)} />
         </div>
       </div>
       <TaskAssignee className="mt-4 dropdown-assignee" projectMembers={memberList} assigneeSelected={assignee} setAssigneeSelected={setAssignee} />

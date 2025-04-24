@@ -8,21 +8,6 @@
     padding-left: unset !important;
 }
 
-.board-menu-item {
-    list-style: none;
-    float: left;
-    margin-right: 10px;
-    height: 40px;
-    line-height: 40px;
-    cursor: pointer;
-    min-width: 70px;
-    text-align: center;
-}
-
-.board-menu-item.active {
-    border-bottom: 2px solid #333;
-}
-
 .filter-wrapper button {
     float: right;
 }
@@ -78,32 +63,58 @@
   
   .task-item {
     background-color: #fff;
-    margin: 0.5rem 0;
+    margin-bottom: 0.75rem;
     border-radius: 6px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 1px 2px rgba(9, 30, 66, 0.1);
+    transition: all 0.2s ease;
   }
   
   .task-item:hover {
+    box-shadow: 0 2px 4px rgba(9, 30, 66, 0.2);
     transform: translateY(-1px);
+    cursor: pointer;
   }
   
   .task-item-body {
-    padding: 0.75rem;
+    padding: 0.75rem 1rem;
+    font-size: 14px;
+    color: #172b4d;
   }
-
+  
   .status-item-body {
-    padding-left: unset !important;
-    padding-right: unset !important;
-    background: #f8f9fa !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    background: #f4f5f7 !important;
   }
-
+  
   .task-item.dragging {
-    opacity: 0.6;
-    transform: scale(1.05);
+    opacity: 0.8;
+    transform: rotate(1deg) scale(1.02);
     background-color: #cfe2ff;
-    box-shadow: rgba(0, 0, 0, 0.2) 0px 1px 3px;
-    cursor: move;
-}
+    border: 1px dashed #cfe2ff;
+    box-shadow: 0 4px 8px rgba(9, 30, 66, 0.25);
+    cursor: grabbing;
+  }
+  
+  .task-title {
+    font-weight: 500;
+    font-size: 15px;
+    word-break: break-word;
+    flex: 1;
+  }
+  
+  .priority-icon {
+    font-size: 16px;
+  }
+  
+  .progress-bar {
+    background-color: #0052cc;
+  }
+  
+  .bg-success {
+    background-color: #36b37e !important;
+  }
 
 .status-item.drag-over {
   border: 1px dashed #3333 !important;
@@ -138,7 +149,7 @@
   padding-left: unset !important;
 }
 
-.task-title {
+.task-title-input {
   padding-left: unset !important;
   font-size: 20px !important;
   border: unset !important;
@@ -376,18 +387,6 @@
 
 .menu-property-task {
   border: 1px solid #adb5bd;
-}
-
-.file-item {
-  margin-top: 7px;
-  border: 1px solid #f0f0f0;
-  border-radius: 8px;
-  padding: 5px;
-  margin-bottom: 8px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  transition: 0.3s ease;
 }
 
 .history-avatar {

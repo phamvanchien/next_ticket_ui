@@ -61,7 +61,7 @@ const WorkspaceInviteItem: React.FC<WorkspaceInviteItemProps> = ({ invite, setIn
     return <></>
   }
   return (
-    <div className="card">
+    <div className="card mt-2">
       <div className="card-body">
         <div className="d-flex align-items-center">
           <UserAvatar className="wp-logo me-3" square name={invite.workspace.name} avatar={invite.workspace.logo} />

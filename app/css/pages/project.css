@@ -1,15 +1,54 @@
 .project-card {
-    border-radius: 12px;
-    overflow: hidden;
-    transition: transform 0.2s ease-in-out;
-  }
-  .project-card:hover {
-    transform: scale(1.05);
-  }
-  .project-header {
-    height: 8px;
-    width: 100%;
-  }
+  border: 1px solid #dfe1e6;
+  border-radius: 8px;
+  background-color: #ffffff;
+  transition: box-shadow 0.2s ease-in-out, transform 0.1s ease;
+  cursor: pointer;
+  overflow: hidden;
+  padding: 1rem;
+}
+
+.project-card:hover {
+  box-shadow: 0 4px 12px rgba(9, 30, 66, 0.15);
+  transform: translateY(-2px);
+}
+
+.project-card .card-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #172b4d;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.project-card .project-members {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.project-card .project-progress {
+  height: 6px;
+  border-radius: 4px;
+  background-color: #ebecf0;
+  overflow: hidden;
+  margin-top: 0.5rem;
+}
+
+.project-card .project-progress .progress-bar {
+  height: 100%;
+  background-color: #0052cc;
+  transition: width 0.3s ease;
+}
+
+.project-card .description {
+  color: #5e6c84;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
   .wp-search-icon {
     top: 50%;
     transform: translateY(-50%);

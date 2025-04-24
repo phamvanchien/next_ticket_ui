@@ -18,36 +18,43 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project }) => {
   const t = useTranslations();
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
   return (
-    <div className="card project-card border-0 shadow-sm">
-      <div className="project-header" style={{ backgroundColor: '#3333' }}></div>
-      <div className="card-body">
-        <h5 className="card-title">
-          <FontAwesomeIcon icon={project.is_public ? faGlobe : faLock} className="text-secondary" style={{marginRight: 3}} />
-          <Link href={`/workspace/${project.workspace_id}/project/${project.id}`}>{project.name}</Link>
-          {/* {
-            project.user_id === userLogged?.id && 
-            <Avatar src={'/images/icons/user-plus.png'} className="pointer float-right" onClick={setOpenAddMember ? () => setOpenAddMember (project.id) : undefined} />
-          } */}
-          {
-            project.members.filter(m => m.id !== userLogged?.id).length > 0 && <UserGroup className="float-right">
-              {
-                project.members.filter(m => m.id !== userLogged?.id).map(pm => (
-                  <UserAvatar name={pm.first_name} avatar={pm.avatar} key={pm.id} />
-                ))
-              }
-            </UserGroup>
-          }
-        </h5>
-        <p className="card-text text-muted m-unset">{t('projects.created_by_text')}: {project.user.first_name} {project.user.last_name}</p>
-        <p className="card-text text-muted">
-          <i>{project.description ? project.description : t('projects.no_description')}</i>
-        </p>
-        {project.percent_done.toString()}%
-        <div className="progress progress-project">
-          <div className={`progress-bar progress-bar-striped progress-bar-animated ${project.percent_done >= 90 ? 'bg-success' : ''}`} style={{ width: `${project.percent_done}%` }}></div>
+    <div className="project-card">
+      <div className="card-title">
+        <div>
+          <FontAwesomeIcon icon={project.is_public ? faGlobe : faLock} className="text-muted me-2" />
+          <Link href={`/workspace/${project.workspace_id}/project/${project.id}`}>
+            {project.name}
+          </Link>
+        </div>
+        <div className="project-members">
+          <UserGroup>
+          {project.members
+            .filter(m => m.id !== userLogged?.id)
+            .map(pm => (
+              <UserAvatar key={pm.id} name={pm.first_name} avatar={pm.avatar} />
+            ))}
+          </UserGroup>
         </div>
       </div>
+
+      <div className="text-muted small">
+        {t('projects.created_by_text')}: {project.user.first_name} {project.user.last_name}
+      </div>
+
+      <div className="description">
+        <i>{project.description || t('projects.no_description')}</i>
+      </div>
+
+      <div className="project-progress">
+        <div
+          className="progress-bar"
+          style={{
+            width: `${project.percent_done}%`,
+            backgroundColor: project.percent_done >= 90 ? '#36b37e' : undefined,
+          }}
+        ></div>
+      </div>
     </div>
-  )
+  );
 }
 export default ProjectItem;

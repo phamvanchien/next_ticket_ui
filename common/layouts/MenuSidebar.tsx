@@ -2,7 +2,7 @@
 import { RootState, useAppDispatch } from "@/reduxs/store.redux";
 import { setWorkspaceSelected } from "@/reduxs/workspace.redux";
 import { WorkspaceType } from "@/types/workspace.type";
-import { faBullseye, faGear } from "@fortawesome/free-solid-svg-icons";
+import { faBullseye, faFileText, faGear } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
@@ -83,6 +83,11 @@ const MenuSidebar: React.FC<MenuSidebarProps> = ({ workspace }) => {
           <div className={`nav mt-2 ${sidebarSelected === 'project' ? 'menu-item-active' : ''}`}>
             <Link className="nav-link" href={`/workspace/${workspaceData.id}/project`} onClick={handleClickItem}>
               <FontAwesomeIcon icon={faBullseye} style={{ marginRight: 7 }} /> {t('sidebar.project')}
+            </Link>
+          </div>
+          <div className={`nav mt-2 ${sidebarSelected === 'document' ? 'menu-item-active' : ''}`}>
+            <Link className="nav-link" href={`/workspace/${workspaceData.id}/document`} onClick={handleClickItem}>
+              <FontAwesomeIcon icon={faFileText} style={{ marginRight: 7 }} /> {t('sidebar.document')}
             </Link>
           </div>
           {

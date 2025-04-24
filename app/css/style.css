@@ -10936,7 +10936,7 @@ body {
 }
 .sb-sidenav-dark .sb-sidenav-menu .nav-link {
   color: #333;
-  font-size: 15px;
+  font-size: 14px;
 }
 .sb-sidenav-dark .sb-sidenav-menu .nav-link .sb-nav-link-icon {
   color: #333;
@@ -11239,5 +11239,9 @@ body {
     width: 95%;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
+  }
+
+  .menu-item-active a {
+    color: #0d6efd !important;
   }
   

@@ -282,7 +282,7 @@
         "clone_with_member": "Bao gồm tất cả thành viên",
         "project_visibility_title": "Riêng tư/Công khai",
         "project_public_note": "Dự án này đang ở chế độ công khai - những ai không phải là thành viên của dự án cũng sẽ nhìn thấy được một số dữ liệu trong dự án",
-        "project_private_note": "Dự án này đang ở chế độ riêng tự - chỉ những ai là thành viên trong dự án mới được phép xem và chỉnh sửa dữ liệu trong dự án",
+        "project_private_note": "Dự án này đang ở chế độ riêng tư - chỉ những ai là thành viên trong dự án mới được phép xem và chỉnh sửa dữ liệu trong dự án",
         "message_delete_member": "Bạn có chắc chắn xóa thành viên này ra khỏi dự án?"
     },
     "btn_ok": "Đồng ý",
@@ -314,15 +314,22 @@
     "btn_hide_read_more": "Ẩn bớt",
     "documents": {
         "page_title": "Tài liệu",
+        "placeholder_enter_title": "Nhập tiêu đề tài liệu",
         "placeholder_search_document": "Tìm tài liệu",
         "share_in_project_label": "Chia sẻ trong dự án",
         "share_with_member": "Chia sẻ cho thành viên",
-        "just_you": "hoặc chỉ riêng bạn",
-        "share_member_message": "Nếu bạn không chọn bất kỳ thành viên nào thì chỉ có bạn mới có thể xem được tài liệu này",
+        "just_you": "Chỉ riêng tôi",
         "permission_label": "Toàn quyền",
         "placeholder_document": "Nhập nội dung tài liệu ở đây",
         "document_title_default": "Tài liệu mới",
-        "last_modify_label": "Chỉnh sửa lần cuối bởi"
+        "last_modify_label": "Chỉnh sửa lần cuối",
+        "save_label": "Lưu tài liệu",
+        "is_owner": "Tài liệu của tôi",
+        "with_member": "Được chia sẻ",
+        "in_project": "Trong dự án",
+        "no_data": "Không có tài liệu nào",
+        "delete_file_warning_message": "Bạn có chắc chắn muốn xóa tệp này ?",
+        "delete_document_warning_message": "Bạn có chắc chắn muốn xóa tài liệu này? Hành động này không thể hoàn tác."
     },
     "workspace_setting": {
         "page_title": "Cài đặt phòng làm việc",

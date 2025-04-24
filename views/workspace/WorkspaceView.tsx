@@ -17,6 +17,7 @@ import WorkspaceCreate from "./components/WorkspaceCreate";
 import WorkspaceAddMember from "./components/WorkspaceAddMember";
 import WorkspaceInvite from "./components/invite/WorkspaceInvite";
 import { usePathname, useSearchParams } from "next/navigation";
+import WorkspaceLoading from "./components/WorkspaceLoading";
 
 const WorkspaceView = () => {
   const t = useTranslations();
@@ -93,15 +94,7 @@ const WorkspaceView = () => {
   }, [openInviteParam, invitesData]);
 
   if (loading) {
-    return (
-      <div className="container-fluid mt-4 wp-container">
-        <div className="justify-content-between align-items-center mb-4 mt-4">
-          <center>
-            <LoadingGif />
-          </center>
-        </div>
-      </div>
-    );
+    return <WorkspaceLoading />
   }
 
   return (
@@ -158,13 +151,16 @@ const WorkspaceView = () => {
         </>
       }
       <div className="mb-5"></div>
-      <Button color="primary" className="rounded-circle position-fixed d-md-none btn-add-wp-mobile" onClick={() => setOpenCreate (true)}>
-        <FontAwesomeIcon icon={faPlus} size="lg" />
-      </Button>
-
-      <Button color="secondary" className="rounded-circle position-fixed d-md-none btn-add-member-mobile" onClick={() => setOpenInvite (true)}>
-        <FontAwesomeIcon icon={faEnvelope} size="lg" />
-      </Button>
+      <div className="d-md-none">
+        <div className="floating-buttons">
+          <Button color="primary" className="rounded-circle shadow" onClick={() => setOpenCreate (true)}>
+            <FontAwesomeIcon icon={faPlus} size="lg" />
+          </Button>
+          <Button color="secondary" className="rounded-circle shadow" onClick={() => setOpenInvite (true)}>
+            <FontAwesomeIcon icon={faEnvelope} size="lg" />
+          </Button>
+        </div>
+      </div>
       <WorkspaceCreate open={openCreate} setOpen={setOpenCreate} />
       <WorkspaceInvite 
         open={openInvite} 

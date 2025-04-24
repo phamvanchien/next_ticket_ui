@@ -281,15 +281,6 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
   
         return updatedTasksBoardData;
       });
-  
-      // setTaskList((prevTaskList) => {
-      //   if (!prevTaskList) return prevTaskList;
-  
-      //   return {
-      //     ...prevTaskList,
-      //     items: prevTaskList.items.filter((task) => task.id !== taskDeleted.id),
-      //   };
-      // });
       loadTaskList();
     }
   }, [taskDeleted]);

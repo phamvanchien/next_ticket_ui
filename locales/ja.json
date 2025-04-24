@@ -314,15 +314,22 @@
     "btn_hide_read_more": "非表示を減らす",
     "documents": {
         "page_title": "ドキュメント",
+        "placeholder_enter_title": "ドキュメントのタイトルを入力",
         "placeholder_search_document": "ドキュメントを検索",
         "share_in_project_label": "プロジェクト内で共有",
         "share_with_member": "メンバーと共有",
-        "just_you": "または自分のみ",
-        "share_member_message": "メンバーを選択しない場合、このドキュメントを閲覧できるのはあなただけです",
+        "just_you": "自分のみ",
         "permission_label": "フルアクセス",
-        "placeholder_document": "ここにドキュメントの内容を入力",
+        "placeholder_document": "ここにドキュメントの内容を入力してください",
         "document_title_default": "新しいドキュメント",
-        "last_modify_label": "最終編集者"
+        "last_modify_label": "最終編集",
+        "save_label": "ドキュメントを保存",
+        "is_owner": "自分のドキュメント",
+        "with_member": "共有されたもの",
+        "in_project": "プロジェクト内",
+        "no_data": "利用可能な文書がありません",
+        "delete_file_warning_message": "このファイルを削除してもよろしいですか ?",
+        "delete_document_warning_message": "「このドキュメントを削除してもよろしいですか？この操作は元に戻せません。」"
     },
     "workspace_setting": {
         "page_title": "ワークスペース設定",
