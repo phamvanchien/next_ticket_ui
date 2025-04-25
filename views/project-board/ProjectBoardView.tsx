@@ -29,6 +29,7 @@ import Modal from "@/common/components/Modal";
 import Loading from "@/common/components/Loading";
 import Input from "@/common/components/Input";
 import ProjectSetting from "./components/setting/ProjectSetting";
+import { setTaskFilter } from "@/reduxs/task.redux";
 
 interface ProjectBoardViewProps {
   project: ProjectType
@@ -183,11 +184,38 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
     if (keywordSearchMember) {
       dispatch(setKeywordSearchMembers(''));
     }
+    if (Object.keys(taskFilter).length > 0) {
+      dispatch(setTaskFilter({}));
+    }
   }, [project]);
   useEffect(() => {
     if (keywordSearchMember) {
       dispatch(setKeywordSearchMembers(''));
     }
+    if (taskSelected) {
+      const storageKey = "recent_tasks";
+      let storedTasks: { id: number, date: string }[] = [];
+    
+      try {
+        const stored = localStorage.getItem(storageKey);
+        storedTasks = stored ? JSON.parse(stored) : [];
+      } catch (err) {
+        console.error("Failed to read localStorage", err);
+      }
+    
+      storedTasks = storedTasks.filter(task => task.id !== taskSelected.id);
+    
+      storedTasks.unshift({
+        id: taskSelected.id,
+        date: new Date().toISOString()
+      });
+    
+      if (storedTasks.length > 10) {
+        storedTasks.pop();
+      }
+    
+      localStorage.setItem(storageKey, JSON.stringify(storedTasks));
+    }        
   }, [openCreate, taskSelected]);
   useEffect(() => {
     loadMembersBoard();

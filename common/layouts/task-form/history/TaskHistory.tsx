@@ -7,6 +7,7 @@ import React, { useEffect, useState } from "react";
 import Loading from "@/common/components/Loading";
 import { useTranslations } from "next-intl";
 import TaskHistoryItem from "./TaskHistoryItem";
+import SkeletonLoading from "@/common/components/SkeletonLoading";
 
 interface TaskHistoryProps {
   task?: TaskType;
@@ -45,7 +46,15 @@ const TaskHistory: React.FC<TaskHistoryProps> = ({ task }) => {
   useEffect(() => {
     loadTaskHistories();
   }, [task, pageSize]);
-
+  if (!historiesData) {
+    return <div>
+      <SkeletonLoading heigth={70} className="mt-3" />
+      <SkeletonLoading heigth={70} className="mt-3" />
+      <SkeletonLoading heigth={70} className="mt-3" />
+      <SkeletonLoading heigth={70} className="mt-3" />
+      <SkeletonLoading heigth={70} className="mt-3" />
+    </div>
+  }
   return (
     <div className="row">
       {

@@ -33,7 +33,7 @@ const TaskCloneForm: React.FC<TaskCloneFormProps> = ({ task, project, openClone,
   const dispatch = useAppDispatch();
   const [title, setTitle] = useState<string>(task ? task.title + ' Copy' : '');
   const [assignee, setAssignee] = useState<UserType[]>(task ? task.assign : []);
-  const [memberList, setMemberList] = useState(project.members);
+  const [memberList, setMemberList] = useState<UserType[]>();
   const [dueDate, setDueDate] = useState<Date | null>(task ? new Date(task.due) : null);
   const [status, setStatus] = useState<number>(task ? task.status.id : project.status[0].id);
   const [attributesSelected, setAttributesSelected] = useState<TaskAttributeType[]>([]);
@@ -75,7 +75,7 @@ const TaskCloneForm: React.FC<TaskCloneFormProps> = ({ task, project, openClone,
     }
   }
   useEffect(() => {
-    setMemberList([...memberList, project.user]);
+    setMemberList([...project.members, project.user]);
   }, []);
   useEffect(() => {
     if (task) {
@@ -113,7 +113,7 @@ const TaskCloneForm: React.FC<TaskCloneFormProps> = ({ task, project, openClone,
         <Input type="text" value={title} placeholder={t('tasks.task_title_default')} onChange={(e) => setTitle (e.target.value)} />
       </div>
     </div>
-    <TaskAssignee className="mt-2 dropdown-assignee" projectMembers={memberList} assigneeSelected={assignee} setAssigneeSelected={setAssignee} />
+    {memberList && <TaskAssignee className="mt-2 dropdown-assignee" projectMembers={memberList} assigneeSelected={assignee} setAssigneeSelected={setAssignee} />}
     <div className="row mt-3 due-date-row">
       <div className="col-3 text-secondary">
         <FontAwesomeIcon icon={faCalendar} /> {t('tasks.placeholder_due_date')}:

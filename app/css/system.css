@@ -25,6 +25,10 @@
     margin-right: 10px !important;
 }
 
+.m-l-10 {
+    margin-left: 10px !important;
+}
+
 .float-left {
     float: left !important;
 }
@@ -39,6 +43,14 @@
 
 :where(.css-dev-only-do-not-override-tjsggz).ant-avatar >img {
     width: unset !important;
+}
+
+.m-l-unset {
+    margin-left: unset !important;
+}
+
+.p-l-unset {
+    padding-left: unset !important;
 }
 
 .lh-50 {

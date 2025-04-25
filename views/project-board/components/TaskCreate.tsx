@@ -133,10 +133,10 @@ const TaskCreate: React.FC<TaskCreateProps> = ({
       </div>
       <TaskAssignee className="mt-4 dropdown-assignee" projectMembers={memberList} assigneeSelected={assignee} setAssigneeSelected={setAssignee} />
       <div className="row mt-3">
-        <div className="col-3 text-secondary">
+        <div className="col-4 col-lg-3 text-secondary">
           <FontAwesomeIcon icon={faCalendar} /> {t('tasks.placeholder_due_date')}:
         </div>
-        <div className="col-9">
+        <div className="col-8 col-lg-9">
           <DatePickerCustom setDate={setDueDate} date={dueDate} />
         </div>
       </div>

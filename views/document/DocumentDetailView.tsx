@@ -161,7 +161,7 @@ const DocumentDetailView: React.FC<DocumentDetailViewProps> = ({ _document }) =>
         <div className="document-user-info">
           <UserAvatar avatar={documentData.creator.avatar} name={documentData.creator.first_name} />
           <span className="creator-info">
-            {documentData.creator.first_name} {documentData.creator.last_name} - {dateToString(new Date(documentData.created_at))}
+            {documentData.creator.first_name} {documentData.creator.last_name} - {dateToString(new Date(documentData.created_at), '/', true)}
           </span>
         </div>
         <div className="document-actions">
@@ -202,7 +202,7 @@ const DocumentDetailView: React.FC<DocumentDetailViewProps> = ({ _document }) =>
 
       <div className="document-meta">
         <Badge
-          text={`${t('documents.last_modify_label')}: ${documentData.updator.first_name} ${documentData.updator.last_name} - ${dateToString(new Date(documentData.updated_at))}`}
+          text={`${t('documents.last_modify_label')}: ${documentData.updator.first_name} ${documentData.updator.last_name} - ${dateToString(new Date(documentData.updated_at), '/', true)}`}
           showZero
           color="#198754"
         />

@@ -151,8 +151,9 @@
 
 .task-title-input {
   padding-left: unset !important;
-  font-size: 20px !important;
+  font-size: 24px !important;
   border: unset !important;
+  font-weight: 500;
 }
 
 .btn-add-property {
@@ -398,4 +399,68 @@
   border-top: unset !important;
   border-left: unset !important;
   border-right: unset !important;
+}
+
+.comment-item {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 16px;
+  margin-bottom: 16px;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  font-size: 14px;
+  padding-top: 10px;
+  padding-bottom: 7px;
+
+  .comment-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    .comment-user-info {
+      margin-left: 12px;
+      flex-grow: 1;
+    }
+
+    .comment-actions {
+      .icon {
+        margin-left: 12px;
+        cursor: pointer;
+        color: #6b778c;
+        transition: color 0.2s;
+
+        &.edit:hover {
+          color: #0052cc;
+        }
+
+        &.delete:hover {
+          color: #de350b;
+        }
+      }
+    }
+  }
+
+  .comment-body {
+    margin-top: 12px;
+
+    .comment-content {
+      line-height: 1.5;
+      white-space: pre-wrap;
+    }
+
+    .comment-deleted {
+      color: #a5adba;
+      font-style: italic;
+    }
+
+    .comment-edit-actions {
+      margin-top: 10px;
+      display: flex;
+      justify-content: flex-end;
+
+      button + button {
+        margin-left: 8px;
+      }
+    }
+  }
 }

@@ -5,6 +5,7 @@ import UserAvatar from "@/common/components/AvatarName";
 import { dateToString, formatRelativeTime, isJsonLike } from "@/utils/helper.util";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import RelativeTime from "@/common/components/RelativeTime";
 
 interface TaskHistoryItemProps {
   history: HistoryType
@@ -39,7 +40,7 @@ const TaskHistoryItem: React.FC<TaskHistoryItemProps> = ({ history }) => {
       <div className="card history-card">
         <div className="card-body p-unset">
           <UserAvatar className="wp-logo me-2 float-left history-avatar" name={history.user.first_name} avatar={history.user.avatar} />
-          <b>{history.user.first_name} {history.user.last_name}</b> <span className="text-muted">{timeText}</span>
+          <b>{history.user.first_name} {history.user.last_name}</b> <RelativeTime time={history.created_at} className="m-l-10" icon />
           <div className="text-muted mt-3">
             {
               history.content.map((history, key) => {

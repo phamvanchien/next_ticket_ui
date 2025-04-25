@@ -26,7 +26,7 @@ const DocumentItem: React.FC<DocumentItemProps> = ({ document }) => {
           <h5 className="document-item-title mb-0 text-truncate w-75 pointer" onClick={() => router.push(`/workspace/${document.workspace_id}/document/${document.id}`)}>
             {document.title}
           </h5>
-          <Badge className="document-item-badge mt-2 mb-2" text={`${t('documents.last_modify_label')}: ${dateToString(new Date(document.updated_at))}`} showZero color="#198754" />
+          <Badge className="document-item-badge mt-2 mb-2" text={`${t('documents.last_modify_label')}: ${dateToString(new Date(document.updated_at), '/', true)}`} showZero color="#198754" />
           <br />
           <a className="document-item-share-link text-secondary">
             {document.share_type === 1 && <><FontAwesomeIcon icon={faLock} /> {t('documents.just_you')}</>}

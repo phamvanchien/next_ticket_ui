@@ -22,13 +22,15 @@ import { BaseResponseType } from "@/types/base.type";
 import { ProjectAttributeType, ProjectType } from "@/types/project.type";
 import { TaskAttributeType, TaskType } from "@/types/task.type";
 import { UserType } from "@/types/user.type";
-import { displayMessage } from "@/utils/helper.util";
-import { faCalendar, faClone, faComment, faEllipsisV, faExpand, faGripVertical, faHistory, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { dateToString, displayMessage } from "@/utils/helper.util";
+import { faCalendar, faClone, faComment, faEllipsisV, faExpand, faGripVertical, faHistory, faTrashAlt, faUser } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { MenuProps } from "antd";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
+import UserAvatar from "@/common/components/AvatarName";
+import { useRouter } from "next/navigation";
 
 interface TaskEditProps {
   project: ProjectType
@@ -41,6 +43,7 @@ const TaskEdit: React.FC<TaskEditProps> = ({
   project, 
   setOpenModal
 }) => {
+  const router = useRouter();
   const t = useTranslations();
   const dispatch = useAppDispatch();
   const [open, setOpen] = useState(!!task);
@@ -105,7 +108,10 @@ const TaskEdit: React.FC<TaskEditProps> = ({
         dispatch(setTaskDeleted(task));
         setOpenDelete(false);
         setOpenModal(undefined);
+        return;
       }
+      setLoadingDelete(false);
+      displayMessage('error', response.error?.message);
     } catch (error) {
       setLoadingDelete(false);
       displayMessage('error', (error as BaseResponseType).error?.message);
@@ -182,6 +188,9 @@ const TaskEdit: React.FC<TaskEditProps> = ({
             <FontAwesomeIcon icon={faEllipsisV} />
           </Button>
         </Dropdown>
+        <Button color={'default'} className="float-right m-r-5 d-md-block d-none" disabled={editLoading} onClick={() => router.push(`/workspace/${task?.workspace_id}/project/${task?.project_id}/task/${task?.id}`)}>
+          <FontAwesomeIcon icon={faExpand} />
+        </Button>
         <Button color={editLoading ? 'secondary' : 'primary'} className="float-right m-r-5" onClick={handleSaveTask} disabled={editLoading}>
           {editLoading ? <Loading color="light" /> : t('btn_save')}
         </Button>
@@ -193,12 +202,22 @@ const TaskEdit: React.FC<TaskEditProps> = ({
           <Input type="text" value={title} classInput="task-title-input" placeholder={t('tasks.task_title_default')} onChange={(e) => setTitle (e.target.value)} />
         </div>
       </div>
-      <TaskAssignee className="mt-4 dropdown-assignee" projectMembers={memberList} assigneeSelected={assignee} setAssigneeSelected={setAssignee} />
+
+      <div className="row mt-4">
+        <div className="col-lg-3 col-12 mt-2 text-secondary">
+          <FontAwesomeIcon icon={faUser} /> {t('projects.created_by_text')}:
+        </div>
+        <div className="col-12 col-lg-9 mt-2">
+          <UserAvatar avatar={task?.user.avatar} name={task?.user.first_name ?? 'U'} /> {task?.user.first_name} {task?.user.last_name} - <i>{dateToString(new Date(task?.created_at ?? ''), '/', true)}</i>
+        </div>
+      </div>
+
+      <TaskAssignee className="mt-3 dropdown-assignee" projectMembers={memberList} assigneeSelected={assignee} setAssigneeSelected={setAssignee} />
       <div className="row mt-3 due-date-row">
-        <div className="col-3 text-secondary">
+        <div className="col-4 col-lg-3 text-secondary">
           <FontAwesomeIcon icon={faCalendar} /> {t('tasks.placeholder_due_date')}:
         </div>
-        <div className="col-9">
+        <div className="col-8 col-lg-9">
           <DatePickerCustom setDate={setDueDate} date={dueDate} />
         </div>
       </div>

@@ -110,7 +110,15 @@
         "invite_member": "Invite members",
         "document": "Documents",
         "calendar": "Calendar",
-        "setting": "Setting"
+        "setting": "Setting",
+        "recent": "Recent"
+    },
+    "recent": {
+        "project_recent": "Recent Projects",
+        "task_recent": "Recent Tasks",
+        "no_data": "The projects and tasks you have viewed recently will appear here.",
+        "view_at": "Viewed",
+        "in_project": "In project"
     },
     "projects": {
         "page_title": "Projects",

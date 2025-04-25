@@ -110,7 +110,15 @@
         "invite_member": "Mời thành viên",
         "document": "Tài liệu",
         "calendar": "Lịch trình",
-        "setting": "Cài đặt"
+        "setting": "Cài đặt",
+        "recent": "Xem gần đây"
+    },
+    "recent": {
+        "project_recent": "Dự án gần đây",
+        "task_recent": "Vé gần đây",
+        "no_data": "Những dự án và vé mà bạn đã xem sẽ xuất hiện ở đây.",
+        "view_at": "Đã xem",
+        "in_project": "Trong dự án"
     },
     "projects": {
         "page_title": "Dự án",

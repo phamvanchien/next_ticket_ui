@@ -3,6 +3,7 @@ import UserAvatar from "@/common/components/AvatarName";
 import Button from "@/common/components/Button";
 import EditorArea from "@/common/components/EditorArea";
 import Loading from "@/common/components/Loading";
+import RelativeTime from "@/common/components/RelativeTime";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
 import { BaseResponseType } from "@/types/base.type";
@@ -59,49 +60,53 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment, openEdit, setOpenEdi
     setDeleted(comment.deleted);
   }, [comment]);
   return (
-    <div className="row mt-3">
-      <div className="col-12">
-        <span className="float-left mb-2">
-          <UserAvatar name={comment.user.first_name} avatar={comment.user.avatar} /> {comment.user.first_name} {comment.user.last_name}
-        </span>
+    <div className="comment-item">
+      <div className="comment-header">
+        <UserAvatar name={comment.user.first_name} avatar={comment.user.avatar} />
+        <div className="comment-user-info">
+          <strong>{comment.user.first_name} {comment.user.last_name}</strong>
+          <RelativeTime className="m-l-10" icon time={comment.created_at} />
+        </div>
         {
-          ((openEdit !== comment.id) && userLogged?.id === comment.user.id && !deleted) &&
-          <span className="float-right mt-2">
-            <FontAwesomeIcon icon={faPencil} className="text-secondary pointer" onClick={() => setOpenEdit (comment.id)} style={{marginRight: 7}} />
-            <FontAwesomeIcon icon={faTrashAlt} className="text-danger pointer" onClick={() => setConfirmDelete (comment.id)} />
-          </span>
+          (userLogged?.id === comment.user.id && !deleted) &&
+          <div className="comment-actions">
+            <FontAwesomeIcon icon={faPencil} className="icon edit" onClick={() => setOpenEdit(comment.id)} />
+            <FontAwesomeIcon icon={faTrashAlt} className="icon delete" onClick={() => setConfirmDelete(comment.id)} />
+          </div>
         }
       </div>
-      {
-        deleted &&
-        <div className="col-12">
-          <div className="comment-box-deleted">{t('tasks.deleted_comment_message')}</div>
-        </div>
-      }
-      {
-        !deleted &&
-        <div className="col-12">
-          {
-            (openEdit && openEdit === comment.id) ?
-            <>
-              <EditorArea value={contentEdit} setValue={setContentEdit} />
-              <Button color={loading ? 'secondary' : 'primary'} className="float-right" disabled={loading} onClick={handleSubmitComment}>
-                {loading ? <Loading color="light" /> : t('btn_save')}
-              </Button>
-              <Button color="default" className="float-right mr-2" onClick={() => setOpenEdit (undefined)} disabled={loading}>
-                {t('btn_cancel')}
-              </Button>
-            </> :
-            <div className="comment-box" dangerouslySetInnerHTML={{
-                __html: (readMore || (content.length < maxContentSize))
-                  ? content
-                  : content.substring(0, maxContentSize),
-              }}>
-            </div>
-          }
-        </div>
-      }
+  
+      <div className="comment-body">
+        {
+          deleted ? (
+            <div className="comment-deleted">{t('tasks.deleted_comment_message')}</div>
+          ) : (
+            (openEdit === comment.id) ? (
+              <>
+                <EditorArea value={contentEdit} setValue={setContentEdit} />
+                <div className="comment-edit-actions">
+                  <Button color={loading ? 'secondary' : 'primary'} disabled={loading} onClick={handleSubmitComment}>
+                    {loading ? <Loading color="light" /> : t('btn_save')}
+                  </Button>
+                  <Button color="default" className="ml-2" onClick={() => setOpenEdit(undefined)} disabled={loading}>
+                    {t('btn_cancel')}
+                  </Button>
+                </div>
+              </>
+            ) : (
+              <div
+                className="comment-content"
+                dangerouslySetInnerHTML={{
+                  __html: (readMore || (content.length < maxContentSize))
+                    ? content
+                    : content.substring(0, maxContentSize),
+                }}
+              />
+            )
+          )
+        }
+      </div>
     </div>
-  )
+  );
 }
 export default CommentItem;

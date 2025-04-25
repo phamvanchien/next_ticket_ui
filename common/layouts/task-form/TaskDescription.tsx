@@ -9,11 +9,13 @@ interface TaskDescriptionProps {
   description: string
   taskId: number
   placeholder?: string
+  disableReadMore?: boolean
+  contentSize?: number
   setDescription: Dispatch<SetStateAction<string>>
 }
 
-const TaskDescription: React.FC<TaskDescriptionProps> = ({ className, taskId, description, setDescription }) => {
-  const maxContentSize = 800;
+const TaskDescription: React.FC<TaskDescriptionProps> = ({ className, taskId, disableReadMore, description, contentSize, setDescription }) => {
+  const maxContentSize = contentSize ?? 800;
   const t = useTranslations();
   const [readMore, setReadMore] = useState(false);
   const [edit, setEdit] = useState(true);
@@ -37,7 +39,7 @@ const TaskDescription: React.FC<TaskDescriptionProps> = ({ className, taskId, de
         ) : (
           (description && description !== '') && (
             <p
-              dangerouslySetInnerHTML={{
+              dangerouslySetInnerHTML={disableReadMore ? {__html: description} : {
                 __html: (readMore || (description.length < maxContentSize))
                   ? description
                   : description.substring(0, maxContentSize),

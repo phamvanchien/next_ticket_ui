@@ -47,6 +47,7 @@ export interface RequestGetTaskType {
   sortDue?: "DESC" | "ASC";
   sortCreatedAt?: "DESC" | "ASC";
   sortTitle?: "DESC" | "ASC";
+  ids?: string
 }
 
 export interface ResponseTaskBoardDataType {

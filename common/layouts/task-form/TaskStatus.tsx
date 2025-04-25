@@ -42,10 +42,10 @@ const TaskStatus: React.FC<TaskStatusProps> = ({ className, statusList, statusSe
   }, [statusDeletedId]);
   return (
     <div className={`row ${className ?? ''}`}>
-      <div className="col-3 text-secondary">
+      <div className="col-4 col-lg-3 text-secondary">
         <FontAwesomeIcon icon={faClipboardList} /> {t('tasks.status_label')}:
       </div>
-      <div className="col-9">
+      <div className="col-8 col-lg-9">
         <SelectSingle
           // className="status-dropdown" 
           options={statusData.map(status => {

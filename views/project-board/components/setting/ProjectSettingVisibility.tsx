@@ -74,7 +74,7 @@ const ProjectSettingVisibility: React.FC<ProjectSettingVisibilityProps> = ({ pro
         </span>
       }
     </div>
-    <div className="col-4 col-lg-3 mt-2">
+    <div className="col-6 col-lg-3 mt-2">
       <Dropdown items={items}>
         <Button color="secondary" outline>{t('change_btn')}</Button>
       </Dropdown>

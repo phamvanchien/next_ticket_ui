@@ -48,9 +48,9 @@ export const formatToTimestampString = (date: Date) => {
   return `${year}-${month}-${day}`;
 }
 
-export const dateToString = (date: Date, character = '/') => {
+export const dateToString = (date: Date, character = '/', time?: boolean) => {
   const month = date.getMonth() + 1;
-  return `${date.getDate() >= 10 ? date.getDate() : '0' + date.getDate().toString()}/${month >= 10 ? month : '0' + month.toString()}/${date.getFullYear()}`;
+  return `${date.getDate() >= 10 ? date.getDate() : '0' + date.getDate().toString()}${character}${month >= 10 ? month : '0' + month.toString()}${character}${date.getFullYear()} ${time ? `${date.getHours() >= 10 ? date.getHours() : '0' + date.getHours()}:${date.getMinutes() >= 10 ? date.getMinutes() : '0' + date.getMinutes()}` : ''}`;
 }
 
 export const colorRange = () => {

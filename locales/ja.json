@@ -110,7 +110,15 @@
         "invite_member": "メンバーを招待",
         "document": "ドキュメント",
         "calendar": "カレンダー",
-        "setting": "設定"
+        "setting": "設定",
+        "recent": "最近の"
+    },
+    "recent": {
+        "project_recent": "最近のプロジェクト",
+        "task_recent": "最近のタスク",
+        "no_data": "最近閲覧したプロジェクトとタスクがここに表示されます。",
+        "view_at": "閲覧済み",
+        "in_project": "プロジェクト内"
     },
     "projects": {
         "page_title": "プロジェクト",

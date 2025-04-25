@@ -15,6 +15,10 @@ export interface RequestAddAttributeType {
   icon?: string;
 }
 
+export interface RequestGetProjectsType extends RequestWithPaginationType {
+  ids?: string
+}
+
 export interface RequestUpdateAttributeType {
   name: string
   value: {

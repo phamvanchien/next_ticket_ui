@@ -172,10 +172,10 @@ const TaskAttributeItem: React.FC<TaskAttributeItemProps> = ({
 
   return (
     <div className={`row ${className ?? ""}`}>
-      <div className={`col-lg-3 col-${(attribute.default_name && ['priority', 'type'].includes(attribute.default_name)) ? '3' : '12'} text-secondary pointer`}>
+      <div className={`col-lg-3 col-${(attribute.default_name && ['priority', 'type'].includes(attribute.default_name)) ? '4' : '12'} text-secondary pointer`}>
         <TaskAttributeEdit projectId={projectId} workspaceId={workspaceId} attribute={attribute} />
       </div>
-      <div className={`col-lg-9 col-${(attribute.default_name && ['priority', 'type'].includes(attribute.default_name)) ? '9' : '12 attribute-item-value'}`}>
+      <div className={`col-lg-9 col-${(attribute.default_name && ['priority', 'type'].includes(attribute.default_name)) ? '8' : '12 attribute-item-value'}`}>
         {attributeData.type === 1 && (
           <Input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder={t('empty_label')} />
         )}

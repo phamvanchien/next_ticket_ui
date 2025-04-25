@@ -4,6 +4,7 @@ import { API_METHOD_ENUM } from "@/enums/api.enum";
 import { BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import { ResponseUserDataType, UserType } from "@/types/user.type";
 import { APP_CONFIG } from "@/configs/app.config";
+import { RequestGetTaskType, TaskType } from "@/types/task.type";
 
 export const create = async (payload: RequestCreateWorkspaceType): Promise<BaseResponseType<WorkspaceType>> => {
   const formData = new FormData();
@@ -126,5 +127,13 @@ export const removeWorkspace = async (workspaceId: number): Promise<BaseResponse
   return request({
     method: API_METHOD_ENUM.DELETE,
     url: APP_CONFIG.API.PREFIX.workspace.url + '/' + workspaceId
+  });
+}
+
+export const tasks = async (workspaceId: number, payload: RequestGetTaskType): Promise<BaseResponseType<ResponseWithPaginationType<TaskType[]>>> => {
+  return request({
+    method: API_METHOD_ENUM.GET,
+    url: APP_CONFIG.API.PREFIX.workspace.url + '/' + workspaceId + '/tasks',
+    params: payload
   });
 }

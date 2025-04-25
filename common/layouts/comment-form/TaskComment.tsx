@@ -14,6 +14,7 @@ import Modal from "@/common/components/Modal";
 import Button from "@/common/components/Button";
 import { useTranslations } from "next-intl";
 import Loading from "@/common/components/Loading";
+import SkeletonLoading from "@/common/components/SkeletonLoading";
 
 interface TaskCommentProps {
   className?: string
@@ -84,6 +85,15 @@ const TaskComment: React.FC<TaskCommentProps> = ({ className, task }) => {
       setOpenDelete(false);
     }
   }, [confirmDelete]);
+  if (!commentsData) {
+    return <div>
+      <SkeletonLoading heigth={70} className="mt-3" />
+      <SkeletonLoading heigth={70} className="mt-3" />
+      <SkeletonLoading heigth={70} className="mt-3" />
+      <SkeletonLoading heigth={70} className="mt-3" />
+      <SkeletonLoading heigth={70} className="mt-3" />
+    </div>
+  }
   return <div className={className}>
     <CommentCreate task={task} setCommentCreated={setCommentCreated} />
     {
