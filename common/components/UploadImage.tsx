@@ -17,10 +17,11 @@ const getBase64 = (file: FileType): Promise<string> =>
 interface UploadImageProps {
   multiple?: boolean;
   fileList: UploadFile[];
+  listType?: "picture-circle" | "picture-card"
   setFileList: (files: UploadFile[]) => void;
 }
 
-const UploadImage: React.FC<UploadImageProps> = ({ multiple = false, fileList, setFileList }) => {
+const UploadImage: React.FC<UploadImageProps> = ({ multiple = false, fileList, listType, setFileList }) => {
   const t = useTranslations();
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewImage, setPreviewImage] = useState("");
@@ -49,11 +50,12 @@ const UploadImage: React.FC<UploadImageProps> = ({ multiple = false, fileList, s
   return (
     <>
       <Upload
-        listType="picture-card"
+        listType={listType ?? 'picture-card'}
         fileList={fileList}
         onPreview={handlePreview}
         onChange={handleChange}
         beforeUpload={beforeUpload}
+        accept="image/*"
       >
         {multiple || fileList.length === 0 ? uploadButton : null}
       </Upload>

@@ -21,8 +21,9 @@ import { useRouter } from "next/navigation";
 import Modal from "@/common/components/Modal";
 import FileIcon from "@/common/components/FileIcon";
 import DocumentSetting from "./components/DocumentSetting";
-import { useAppDispatch } from "@/reduxs/store.redux";
+import { RootState, useAppDispatch } from "@/reduxs/store.redux";
 import { setSidebarSelected } from "@/reduxs/menu.redux";
+import { useSelector } from "react-redux";
 
 interface DocumentDetailViewProps {
   _document: DocumentType
@@ -34,6 +35,7 @@ const DocumentDetailView: React.FC<DocumentDetailViewProps> = ({ _document }) =>
   const t = useTranslations();
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const userLogged = useSelector((state: RootState) => state.userSlice).data;
 
   const [documentData, setDocumentData] = useState<DocumentType>();
   const [documentContent, setDocumentContent] = useState<string>('');
@@ -190,9 +192,12 @@ const DocumentDetailView: React.FC<DocumentDetailViewProps> = ({ _document }) =>
                   <Button color="default" onClick={() => setOpenEdit(true)}>
                     <FontAwesomeIcon icon={faPencil} />
                   </Button>
-                  <Button color="default" onClick={() => setConfirmDelete(true)}>
-                    <FontAwesomeIcon icon={faTrashAlt} className="text-danger" />
-                  </Button>
+                  {
+                    documentData.user_id === userLogged?.id &&
+                    <Button color="default" onClick={() => setConfirmDelete(true)}>
+                      <FontAwesomeIcon icon={faTrashAlt} className="text-danger" />
+                    </Button>
+                  }
                 </>
               )}
             </>

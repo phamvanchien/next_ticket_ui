@@ -167,8 +167,8 @@ const ProjectAddMember: React.FC<ProjectAddMemberProps> = ({ projectId, open, se
           )}
         </div>
 
-        {userSelected.map((user) => (
-          <div className="col-12 mt-3">
+        {userSelected.map((user, index) => (
+          <div className="col-12 mt-3" key={index}>
             <div key={user.user.id} className="selected-user-item-project">
               <FontAwesomeIcon icon={faTimes} className="remove-icon-member-project" onClick={() => handleRemoveUser(user.user.id)} />
               <UserAvatar name={user.user.first_name} avatar={user.user.avatar} className="me-2" />

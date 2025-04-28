@@ -113,7 +113,7 @@ const DocumentCreateView: React.FC<DocumentCreateViewProps> = ({ workspaceId }) 
           </UploadFiles>
         </div>
         <div className="col-12 mt-4">
-          <EditorArea value={description} setValue={setDescription} placeholder="......." />
+          <EditorArea value={description} setValue={setDescription} />
         </div>
       </div>
       <Modal

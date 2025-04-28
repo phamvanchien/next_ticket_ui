@@ -16,6 +16,7 @@ interface MenuSidebarProps {
 }
 
 const MenuSidebar: React.FC<MenuSidebarProps> = ({ workspace }) => {
+  const dispatch = useAppDispatch();
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
   const sidebarSelected = useSelector((state: RootState) => state.menuSlide).sidebarSelected;
   const workspaceUpdated = useSelector((state: RootState) => state.workspaceSlide).workspaceUpdated;
@@ -52,6 +53,10 @@ const MenuSidebar: React.FC<MenuSidebarProps> = ({ workspace }) => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, []);
+
+  useEffect(() => {
+    dispatch(setWorkspaceSelected(workspace));
+  }, [workspace]);
 
   useEffect(() => {
     if (workspaceUpdated) {

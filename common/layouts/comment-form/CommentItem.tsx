@@ -9,7 +9,7 @@ import { RootState } from "@/reduxs/store.redux";
 import { BaseResponseType } from "@/types/base.type";
 import { CommentType } from "@/types/comment.type";
 import { displayMessage } from "@/utils/helper.util";
-import { faHistory, faPencil, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDoubleLeft, faAngleDoubleRight, faHistory, faPencil, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
@@ -105,6 +105,24 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment, openEdit, setOpenEdi
             )
           )
         }
+        {content && !openEdit && content.length > maxContentSize && !readMore && (
+          <span
+            style={{ cursor: "pointer" }}
+            className="text-secondary"
+            onClick={() => setReadMore(true)}
+          >
+            {t('btn_read_more')} <FontAwesomeIcon icon={faAngleDoubleRight} />
+          </span>
+        )}
+        {content && !openEdit && content.length > maxContentSize && readMore && (
+          <span
+            style={{ cursor: "pointer" }}
+            className="text-secondary"
+            onClick={() => setReadMore(false)}
+          >
+            <FontAwesomeIcon icon={faAngleDoubleLeft} /> {t('btn_hide_read_more')}
+          </span>
+        )}
       </div>
     </div>
   );

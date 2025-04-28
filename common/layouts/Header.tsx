@@ -2,7 +2,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../components/Button";
 import { faChevronDown, faChevronUp, faGripVertical, faSearch } from "@fortawesome/free-solid-svg-icons";
-import AvatarName from "../components/AvatarName";
 import { useEffect, useState } from "react";
 import LanguageDropdown from "../components/LanguageDropdown";
 import Link from "next/link";
@@ -22,11 +21,12 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const pathname = usePathname();
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
-  const workspaceSelected = useSelector((state: RootState) => state.workspaceSlide).workspaceSelected;
+  const userUpdated = useSelector((state: RootState) => state.userSlice).userUpdated;
   const [pathPage, setPathPage] = useState<string>('');
   const [showSearch, setShowSearch] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [showBarBtn, setShowBarBtn] = useState(false);
+  const [userData, setUserData] = useState(userLogged);
   useEffect(() => {
     const userAuth = getCookie(APP_AUTH.COOKIE_AUTH_USER);
     if (userAuth) {
@@ -49,6 +49,16 @@ const Header = () => {
       }
     }
   }, [pathname]);
+  useEffect(() => {
+    if (userLogged) {
+      setUserData(userLogged);
+    }
+  }, [userLogged]);
+  useEffect(() => {
+    if (userUpdated) {
+      setUserData(userUpdated);
+    }
+  }, [userUpdated]);
   return (
     <nav className="navbar navbar-expand-lg navbar-dark main-header" style={{ borderBottom: "1px solid #dee2e6", padding: 'unset', height: 50 }}>
       <div className="container-fluid">
@@ -76,8 +86,10 @@ const Header = () => {
             <FontAwesomeIcon icon={faSearch} />
           </button> */}
 
-          <div className="position-relative">
-            <UserAvatar name={userLogged?.first_name ?? 'U'} avatar={userLogged?.avatar} />
+          <div className="position-relative pointer">
+            <Link href={'/profile'}>
+              <UserAvatar name={userData?.first_name ?? 'U'} avatar={userData?.avatar} />
+            </Link>
           </div>
         </div>
 
@@ -108,12 +120,14 @@ const Header = () => {
               </button>
             </div> */}
               <LanguageDropdown />
-              <UserAvatar name={userLogged?.first_name ?? 'U'} className="m-l-10" avatar={userLogged?.avatar} />
+              <Link href={'/profile'}>
+                <UserAvatar name={userData?.first_name ?? 'U'} className="m-l-10 pointer" avatar={userData?.avatar} />
+              </Link>
           </form>
 
           {/* <ul className="navbar-nav d-none d-lg-flex">
             <li className="nav-item">
-              <UserAvatar name={userLogged?.first_name ?? 'U'} avatar={userLogged?.avatar} />
+              <UserAvatar name={userData?.first_name ?? 'U'} avatar={userData?.avatar} />
             </li>
           </ul> */}
         </div>

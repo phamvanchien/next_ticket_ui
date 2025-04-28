@@ -11,6 +11,8 @@ import { Switch } from "antd";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { MemberShareType } from "@/types/document.type";
+import { useSelector } from "react-redux";
+import { RootState } from "@/reduxs/store.redux";
 
 interface DocumentMemberListProps {
   workspaceId: number
@@ -21,6 +23,8 @@ interface DocumentMemberListProps {
 const DocumentMemberList: React.FC<DocumentMemberListProps> = ({ workspaceId, userShare, setUserShare }) => {
   const [membersData, setMembersData] = useState<ResponseWithPaginationType<UserType[]>>();
   const [memberSelected, setMemberSelected] = useState<MemberShareType[]>(userShare);
+  const userLogged = useSelector((state: RootState) => state.userSlice).data;
+  const workspaceSelected = useSelector((state: RootState) => state.workspaceSlide).workspaceSelected;
   const { value: keyword, debouncedValue, handleChange } = useDelaySearch("", 500);
   const t = useTranslations();
   const loadMembers = async () => {
@@ -30,8 +34,12 @@ const DocumentMemberList: React.FC<DocumentMemberListProps> = ({ workspaceId, us
         return;
       };
       const response = await members(workspaceId, 1, 5, debouncedValue);
-      if (response?.code === API_CODE.OK) {
-        setMembersData(response.data);
+      if (response?.code === API_CODE.OK && workspaceSelected) {
+        const data = response.data;
+        if (workspaceSelected.user && userLogged && userLogged.id !== workspaceSelected.user_id && !data.items.find(m => m.id === workspaceSelected.user_id)) {
+          data.items.push(workspaceSelected.user);
+        }
+        setMembersData(data);
       } else {
         setMembersData(undefined);
       }

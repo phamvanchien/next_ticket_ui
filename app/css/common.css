@@ -202,3 +202,92 @@ html, body {
   font-size: 14px;
   font-weight: 500;
 }
+
+/* Toàn bộ khung editor */
+.ql-container {
+  border-radius: 12px;
+  border: 1px solid #e0e0e0;
+  font-family: 'Inter', sans-serif;
+  font-size: 16px;
+  padding: 12px;
+  background: #fafafa;
+}
+
+/* Thanh toolbar */
+.ql-toolbar {
+  border-radius: 12px 12px 0 0;
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  padding: 8px;
+}
+
+/* Các nút trong toolbar */
+.ql-toolbar .ql-formats button {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-right: 6px;
+  width: 32px;
+  height: 32px;
+}
+
+.ql-toolbar .ql-formats button:hover {
+  background: #eee;
+}
+
+/* Text editor */
+.ql-editor {
+  font-size: 14px;
+  min-height: 200px;
+  padding: 12px;
+  background-color: white;
+  border-radius: 0 0 12px 12px;
+}
+
+/* Placeholder đẹp hơn */
+.ql-editor.ql-blank::before {
+  color: #aaa;
+  font-style: italic;
+}
+
+/* Heading */
+.ql-editor h1 {
+  font-size: 28px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.ql-editor h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 14px;
+}
+
+/* Paragraph */
+.ql-editor p {
+  margin-bottom: 12px;
+  line-height: 1.6;
+}
+
+/* Link */
+.ql-editor a {
+  color: #3b82f6; /* màu xanh tươi */
+  text-decoration: underline;
+}
+
+/* Blockquote */
+.ql-editor blockquote {
+  border-left: 4px solid #ccc;
+  padding-left: 16px;
+  color: #666;
+  margin: 12px 0;
+}
+
+/* Code Block */
+.ql-editor pre {
+  background: #f4f4f4;
+  padding: 12px;
+  border-radius: 8px;
+  font-family: 'Fira Code', monospace;
+  font-size: 14px;
+}

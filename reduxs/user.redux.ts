@@ -3,10 +3,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface UserSliceType {
   data: ResponseUserDataType | null
+  userUpdated?: ResponseUserDataType
 }
 
 const initialState: UserSliceType = {
-  data: null
+  data: null,
+  userUpdated: undefined
 };
 
 const userSlice = createSlice({
@@ -15,10 +17,13 @@ const userSlice = createSlice({
   reducers: {
     setUser(state, action: PayloadAction<ResponseUserDataType>) {
       state.data = action.payload;
+    },
+    setUserUpdated(state, action: PayloadAction<ResponseUserDataType>) {
+      state.userUpdated = action.payload;
     }
   },
 });
 
-export const { setUser } = userSlice.actions;
+export const { setUser, setUserUpdated } = userSlice.actions;
 
 export default userSlice.reducer;

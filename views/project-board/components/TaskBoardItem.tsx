@@ -125,7 +125,7 @@ const TaskBoardItem: React.FC<TaskBoardItemProps> = ({
           </UserGroup>
         ) : (
           <div className="d-flex align-items-center gap-2">
-            <Avatar src="/images/icons/no-user.png" size="small" />
+            <Avatar src="/images/icons/no-user.png" />
             <span className="text-muted small">{t('tasks.unassigned_label')}</span>
           </div>
         )}
