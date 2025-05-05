@@ -68,7 +68,7 @@ const WorkspaceSettingView: React.FC<WorkspaceSettingViewProps> = ({ workspace }
       <div className="d-flex justify-content-between align-items-center mb-3 mt-4">
         <h3 className="mb-0">
           <FontAwesomeIcon icon={faGear} className="text-primary me-2" />
-          {t('workspace_setting.page_title')}
+          {t('workspaces_page.setting.setting_title')}
         </h3>
         <Button color="primary" onClick={() => setOpenAddMember (workspaceData.id)}>
             <FontAwesomeIcon icon={faUserPlus} />
@@ -79,7 +79,7 @@ const WorkspaceSettingView: React.FC<WorkspaceSettingViewProps> = ({ workspace }
       <div className="row mt-4">
         <div className="col-12">
           <p className="pointer text-danger" onClick={() => setOpenDeleteWorkspace (true)}>
-            <FontAwesomeIcon icon={faTrash} /> {t('workspace_setting.setting_delete_title')}
+            <FontAwesomeIcon icon={faTrash} /> {t('workspaces_page.setting.setting_delete_title')}
           </p>
         </div>
       </div>
@@ -90,13 +90,13 @@ const WorkspaceSettingView: React.FC<WorkspaceSettingViewProps> = ({ workspace }
       <Modal 
         closable={false}
         open={openDeleteWorkspace} 
-        title={t('workspace_setting.modal_delete_message')}
+        title={t('workspaces_page.setting.delete_workspace_warning_message')}
         footerBtn={[
           <Button color='default' key={1} onClick={() => setOpenDeleteWorkspace (false)} className='mr-2' disabled={loadingDelete}>
-            {t('btn_cancel')}
+            {t('common.btn_cancel')}
           </Button>,
           <Button key={2} color={loadingDelete ? 'secondary' : 'primary'} type="submit" disabled={loadingDelete || workspaceNameDelete !== workspace.name} onClick={handleDeleteWorkspace}>
-            {loadingDelete ? <Loading color="light" /> : t('btn_delete')}
+            {loadingDelete ? <Loading color="light" /> : t('common.btn_delete')}
           </Button>
         ]
         }

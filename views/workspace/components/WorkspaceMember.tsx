@@ -45,7 +45,7 @@ const WorkspaceMember: React.FC<WorkspaceMemberProps> = ({
           type="search"
           value={keyword}
           onChange={handleChange}
-          placeholder={t("create_project.placeholder_input_search_member")}
+          placeholder={t("projects_page.create.placeholder_input_search_member")}
           disabled={loading}
         />
         {loading && (

@@ -170,10 +170,10 @@ const DocumentDetailView: React.FC<DocumentDetailViewProps> = ({ _document }) =>
           {openEdit ? (
             <>
               <Button color={loading ? 'secondary' : 'primary'} disabled={loading} onClick={handleUpdateDocument}>
-                {loading ? <Loading color="light" /> : <><FontAwesomeIcon icon={faSave} /> {t('btn_save')}</>}
+                {loading ? <Loading color="light" /> : <><FontAwesomeIcon icon={faSave} /> {t('common.btn_save')}</>}
               </Button>
               <Button color="default" className="btn-cancel" disabled={loading} onClick={() => setOpenEdit(false)}>
-                {t('btn_cancel')}
+                {t('common.btn_cancel')}
               </Button>
             </>
           ) : (
@@ -184,11 +184,14 @@ const DocumentDetailView: React.FC<DocumentDetailViewProps> = ({ _document }) =>
               <Button color="default" onClick={() => router.push(`/workspace/${documentData.workspace_id}/document/new`)}>
                 <FontAwesomeIcon icon={faPlus} />
               </Button>
+              {
+                documentData.user_id === userLogged?.id &&
+                <Button color="default" onClick={() => setOpenSetting(true)}>
+                  <FontAwesomeIcon icon={faInfoCircle} />
+                </Button>
+              }
               {documentData.full_permission && (
                 <>
-                  <Button color="default" onClick={() => setOpenSetting(true)}>
-                    <FontAwesomeIcon icon={faInfoCircle} />
-                  </Button>
                   <Button color="default" onClick={() => setOpenEdit(true)}>
                     <FontAwesomeIcon icon={faPencil} />
                   </Button>
@@ -229,7 +232,7 @@ const DocumentDetailView: React.FC<DocumentDetailViewProps> = ({ _document }) =>
 
           {!openEdit && documentData.full_permission && (
             <div className="upload-trigger" onClick={() => setOpenUpload(true)}>
-              <FontAwesomeIcon icon={faLink} /> {t('tasks.attach_file')}
+              <FontAwesomeIcon icon={faLink} /> {t('tasks_page.file.attach_file')}
             </div>
           )}
 
@@ -282,10 +285,10 @@ const DocumentDetailView: React.FC<DocumentDetailViewProps> = ({ _document }) =>
           <div className="row">
             <div className="col-12 mt-2">
               <Button color={deleteLoading ? 'secondary' : 'primary'} className="float-right m-r-5" onClick={handleDeleteFile} disabled={deleteLoading}>
-                {deleteLoading ? <Loading color="light" /> : t('btn_delete')}
+                {deleteLoading ? <Loading color="light" /> : t('common.btn_delete')}
               </Button>
               <Button color="default" className="float-right" onClick={handleCloseConfirmDelete}>
-                {t('btn_cancel')}
+                {t('common.btn_cancel')}
               </Button>
             </div>
           </div>
@@ -299,7 +302,7 @@ const DocumentDetailView: React.FC<DocumentDetailViewProps> = ({ _document }) =>
             <div className="col-12 text-center upload-wrapper">
               <UploadFiles files={files} setFiles={setFiles}>
                 <span className="text-secondary pointer">
-                  <FontAwesomeIcon icon={faUpload} /> {t('select_file')}
+                  <FontAwesomeIcon icon={faUpload} /> {t('common.select_file')}
                 </span>
               </UploadFiles>
             </div>
@@ -307,7 +310,7 @@ const DocumentDetailView: React.FC<DocumentDetailViewProps> = ({ _document }) =>
               {files.length > 0 && (
                 <div className="col-12 mt-2">
                   <Button color={loading ? 'secondary' : 'primary'} className="float-right" onClick={handleUploadFile} disabled={loading}>
-                    {loading ? <Loading color="light" /> : t("btn_save")}
+                    {loading ? <Loading color="light" /> : t("common.btn_save")}
                   </Button>
                   <Button
                     color="default"
@@ -315,7 +318,7 @@ const DocumentDetailView: React.FC<DocumentDetailViewProps> = ({ _document }) =>
                     onClick={() => setOpenUpload(false)}
                     disabled={loading}
                   >
-                    {t("btn_cancel")}
+                    {t("common.btn_cancel")}
                   </Button>
                 </div>
               )}
@@ -332,10 +335,10 @@ const DocumentDetailView: React.FC<DocumentDetailViewProps> = ({ _document }) =>
         <div className="row">
           <div className="col-12 mt-2">
             <Button color={deleteLoading ? 'secondary' : 'primary'} className="float-right m-r-5" onClick={handleDeleteDocument} disabled={deleteLoading}>
-              {deleteLoading ? <Loading color="light" /> : t('btn_delete')}
+              {deleteLoading ? <Loading color="light" /> : t('common.btn_delete')}
             </Button>
             <Button color="default" className="float-right" onClick={() => setConfirmDelete (false)}>
-              {t('btn_cancel')}
+              {t('common.btn_cancel')}
             </Button>
           </div>
         </div>

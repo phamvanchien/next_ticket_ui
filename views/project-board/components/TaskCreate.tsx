@@ -118,26 +118,26 @@ const TaskCreate: React.FC<TaskCreateProps> = ({
     <Sidebar 
       open={open}
       width={1000}
-      headerTitle={t('tasks.btn_create_task')}
+      headerTitle={t('tasks_page.create.create_title')}
       setOpen={setOpen}
       headerElement={
         <Button color={createLoading ? 'secondary' : 'primary'} onClick={handleSaveTask} disabled={createLoading}>
-          {createLoading ? <Loading color="light" /> : t('btn_save')}
+          {createLoading ? <Loading color="light" /> : t('common.btn_save')}
         </Button>
       }
     >
       <div className="row">
         <div className="col-12">
-          <Input type="text" value={title} classInput="task-title-input" placeholder={t('tasks.task_title_default')} onChange={(e) => setTitle (e.target.value)} />
+          <Input type="text" value={title} classInput="task-title-input" placeholder={t('tasks_page.create.task_title_default')} onChange={(e) => setTitle (e.target.value)} />
         </div>
       </div>
       <TaskAssignee className="mt-4 dropdown-assignee" projectMembers={memberList} assigneeSelected={assignee} setAssigneeSelected={setAssignee} />
       <div className="row mt-3">
         <div className="col-4 col-lg-3 text-secondary">
-          <FontAwesomeIcon icon={faCalendar} /> {t('tasks.placeholder_due_date')}:
+          <FontAwesomeIcon icon={faCalendar} /> {t('tasks_page.placeholder_due_date')}:
         </div>
         <div className="col-8 col-lg-9">
-          <DatePickerCustom setDate={setDueDate} date={dueDate} />
+          <DatePickerCustom className="duedate-task" setDate={setDueDate} date={dueDate} />
         </div>
       </div>
       <TaskStatus className="mt-3" statusList={project.status} statusSelected={status} setStatusSelected={setStatus} />

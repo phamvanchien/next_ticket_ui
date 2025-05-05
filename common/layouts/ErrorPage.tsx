@@ -1,7 +1,7 @@
 "use client"
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import React, { useEffect } from "react";
+import React from "react";
 
 interface ErrorPageProps {
   code: number

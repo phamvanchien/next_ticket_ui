@@ -133,7 +133,7 @@ const DocumentView: React.FC<DocumentViewProps> = ({ workspaceId }) => {
         </div>
         
         <Button color="primary" className="d-flex align-items-center rounded d-none d-md-flex" onClick={() => router.push(`/workspace/${workspaceId}/document/new`)}>
-          <FontAwesomeIcon icon={faPlus} style={{ marginRight: 5 }} /> {t('btn_new')}
+          <FontAwesomeIcon icon={faPlus} style={{ marginRight: 5 }} /> {t('common.btn_new')}
         </Button>
       </div>
     </div>

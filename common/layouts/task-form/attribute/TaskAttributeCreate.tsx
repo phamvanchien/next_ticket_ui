@@ -10,7 +10,6 @@ import { API_CODE } from "@/enums/api.enum";
 import { setAttributeCreated } from "@/reduxs/project.redux";
 import { useAppDispatch } from "@/reduxs/store.redux";
 import { BaseResponseType } from "@/types/base.type";
-import { ProjectAttributeType } from "@/types/project.type";
 import { colorRange, displayMessage } from "@/utils/helper.util";
 import {
   faAlignJustify,
@@ -95,7 +94,7 @@ const TaskAttributeCreate: React.FC<TaskAttributeCreateProps> = ({
       label: (
         <Input
           type="text"
-          placeholder={t("tasks.placeholder_attribute_name")}
+          placeholder={t("tasks_page.attribute.placeholder_attribute_name")}
           onClick={(e) => e.stopPropagation()}
           onChange={(e) => setAttributeName(e.target.value)}
           value={attributeName}
@@ -117,7 +116,7 @@ const TaskAttributeCreate: React.FC<TaskAttributeCreateProps> = ({
               </div>
             ),
           }))}
-          placeholder={t('select_icon')}
+          placeholder={t('common.select_icon')}
         />
       ),
     },
@@ -156,7 +155,7 @@ const TaskAttributeCreate: React.FC<TaskAttributeCreateProps> = ({
                 onChange={(e) => handleValueChange(index, "value", e.target.value)}
                 onClick={(e) => e.stopPropagation()}
                 classGroup="me-2 flex-grow-1"
-                placeholder={t('tasks.enter_text_attribute_placeholder')}
+                placeholder={t('tasks_page.attribute.enter_text_attribute_placeholder')}
               />
               <SelectSingle
                 onClick={(e) => e.stopPropagation()}
@@ -170,7 +169,7 @@ const TaskAttributeCreate: React.FC<TaskAttributeCreateProps> = ({
                   ),
                 }))}
                 handleChange={(icon) => handleValueChange(index, "icon", icon)}
-                placeholder={t('select_icon')}
+                placeholder={t('common.select_icon')}
               />
               <SelectSingle
                 onClick={(e) => e.stopPropagation()}
@@ -182,7 +181,7 @@ const TaskAttributeCreate: React.FC<TaskAttributeCreateProps> = ({
                   ),
                 }))}
                 handleChange={(color) => handleValueChange(index, "color", color)}
-                placeholder={t('select_color')}
+                placeholder={t('common.select_color')}
               />
               <FontAwesomeIcon
                 className="text-danger"
@@ -202,7 +201,7 @@ const TaskAttributeCreate: React.FC<TaskAttributeCreateProps> = ({
               addValueInput();
             }}
           >
-            + {t("tasks.attribute_add_value_label")}
+            + {t("tasks_page.attribute.attribute_add_value_label")}
           </Button>
         </div>
       ),
@@ -222,7 +221,7 @@ const TaskAttributeCreate: React.FC<TaskAttributeCreateProps> = ({
           }}
           disabled={createLoading}
         >
-          {createLoading ? <Loading color="light" /> : t("btn_save")}
+          {createLoading ? <Loading color="light" /> : t("common.btn_save")}
         </Button>
       </div>
     ),
@@ -232,7 +231,7 @@ const TaskAttributeCreate: React.FC<TaskAttributeCreateProps> = ({
     <div className="row mt-2">
       <div className="col-12 col-lg-4">
         <Dropdown items={items} classButton="btn-add-property" isDropdownOpen={isDropdownOpen} setIsDropdownOpen={setIsDropdownOpen}>
-          <span className="text-secondary pointer"><FontAwesomeIcon icon={faPlus} /> {t("tasks.add_property_label")}</span>
+          <span className="text-secondary pointer"><FontAwesomeIcon icon={faPlus} /> {t("tasks_page.attribute.add_property_label")}</span>
         </Dropdown>
       </div>
     </div>

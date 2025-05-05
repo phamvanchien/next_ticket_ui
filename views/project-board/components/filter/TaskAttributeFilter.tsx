@@ -46,7 +46,7 @@ const TaskAttributeFilter: React.FC<TaskAttributeFilterProps> = ({ className, at
               }))}
               handleChange={(values) => handleCollectAttributes(attribute.id, values.map(v => Number(v)))}
               values={attributesSelected[attribute.id] || []}
-              placeholder={t('empty_label')}
+              placeholder={t('common.empty_label')}
             />
           </div>
         </div>

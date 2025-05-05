@@ -261,7 +261,7 @@ const TaskBoard: React.FC<TaskBoardProps> = ({
               isMember &&
               <div className="card-footer text-center">
                 <a className="text-secondary pointer" onClick={() => setCreateWithStatus (item.id)}>
-                  <FontAwesomeIcon icon={faPlus} /> {t('tasks.btn_create_task')}
+                  <FontAwesomeIcon icon={faPlus} /> {t('tasks_page.btn_create_task')}
                 </a>
               </div>
             }

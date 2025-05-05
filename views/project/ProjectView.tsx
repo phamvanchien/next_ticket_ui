@@ -23,6 +23,7 @@ import ProjectAddMember from "./components/ProjectAddMember";
 import ProjectInvite from "./components/invite/ProjectInvite";
 import { useAppDispatch } from "@/reduxs/store.redux";
 import { setSidebarSelected } from "@/reduxs/menu.redux";
+import ProjectLoading from "./components/ProjectLoading";
 
 interface ProjectViewProps {
   workspaceId: number
@@ -118,106 +119,110 @@ const ProjectView: React.FC<ProjectViewProps> = ({ workspaceId }) => {
     loadInvites();
   }, [inviteDecline, projectJoined]);
 
+  if (loading) {
+    return <ProjectLoading />
+  }
+
   return <>
-  <div className="container-fluid px-3 py-3">
-    <div className="d-flex justify-content-between align-items-center mb-3 mt-4">
-      <h3 className="mb-0">
-        <FontAwesomeIcon icon={faBullseye} className="text-primary me-2" />
-        {t("projects.page_title")}
-      </h3>
+    <div className="container-fluid px-3 py-3">
+      <div className="d-flex justify-content-between align-items-center mb-3 mt-4">
+        <h3 className="mb-0">
+          <FontAwesomeIcon icon={faBullseye} className="text-primary me-2" />
+          {t("projects_page.page_title")}
+        </h3>
+
+        {
+          (projectsTotal > 0) &&
+          <div className="d-flex gap-3">
+            <div className="position-relative">
+              <FontAwesomeIcon icon={faSearch} className="position-absolute ms-3 wp-search-icon" />
+              <input
+                type="text"
+                className="form-control ps-5 rounded search-input"
+                placeholder={t('projects_page.placeholder_input_search') + '...'}
+                value={keywordProject}
+                onChange={handleChangeProject}
+              />
+            </div>
+            
+            <Button color="primary" className="d-flex align-items-center rounded d-none d-md-flex" onClick={() => setOpenCreate (true)}>
+              <FontAwesomeIcon icon={faPlus} style={{ marginRight: 5 }} /> {t('common.btn_new')}
+            </Button>
+
+            <Button color="default" className="d-flex align-items-center rounded d-none d-md-flex" onClick={() => setOpenInvite (true)}>
+              <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: 5 }} /> {t('top_menu.invitation')}
+            </Button>
+          </div>
+        }
+      </div>
 
       {
-        (projectsTotal > 0) &&
-        <div className="d-flex gap-3">
-          <div className="position-relative">
-            <FontAwesomeIcon icon={faSearch} className="position-absolute ms-3 wp-search-icon" />
-            <input
-              type="text"
-              className="form-control ps-5 rounded search-input"
-              placeholder={t('projects.placeholder_input_search') + '...'}
-              value={keywordProject}
-              onChange={handleChangeProject}
-            />
+        loading && <div className="row">
+          <div className="col-12 text-center">
+            <LoadingGif />
           </div>
-          
-          <Button color="primary" className="d-flex align-items-center rounded d-none d-md-flex" onClick={() => setOpenCreate (true)}>
-            <FontAwesomeIcon icon={faPlus} style={{ marginRight: 5 }} /> {t('btn_new')}
-          </Button>
-
-          <Button color="default" className="d-flex align-items-center rounded d-none d-md-flex" onClick={() => setOpenInvite (true)}>
-            <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: 5 }} /> {t('top_menu.invitation')}
-          </Button>
         </div>
       }
-    </div>
 
-    {
-      loading && <div className="row">
-        <div className="col-12 text-center">
-          <LoadingGif />
-        </div>
-      </div>
-    }
-
-    {
-      !loading && <>
-      <div className="row">
-        {(projectsTotal > 0) ? (
-          projectsData.map((project) => (
-            <div key={project.id} className="col-lg-3 col-md-4 col-12 mb-4">
-              <ProjectItem project={project} />
+      {
+        !loading && <>
+        <div className="row">
+          {(projectsTotal > 0) ? (
+            projectsData.map((project) => (
+              <div key={project.id} className="col-lg-3 col-md-4 col-12 mb-4">
+                <ProjectItem project={project} />
+              </div>
+            ))
+          ) : (
+            <div className="col-12">
+              <NoData message={t('projects_page.no_project_message')} description={t('projects_page.no_project_description')}>
+                <center className="d-none d-lg-block">
+                  <Button color="primary" style={{ marginRight: 10 }} onClick={() => setOpenCreate (true)}>
+                    <FontAwesomeIcon icon={faPlus} style={{ marginRight: 5 }} /> {t('common.btn_new')}
+                  </Button>
+                  <Button color="light" onClick={() => setOpenInvite (true)}>
+                    <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: 5 }} /> {t('top_menu.invitation')}
+                  </Button>
+                </center>
+              </NoData>
             </div>
-          ))
-        ) : (
-          <div className="col-12">
-            <NoData message={t('projects.no_project_message')} description={t('projects.no_project_description')}>
-              <center className="d-none d-lg-block">
-                <Button color="primary" style={{ marginRight: 10 }} onClick={() => setOpenCreate (true)}>
-                  <FontAwesomeIcon icon={faPlus} style={{ marginRight: 5 }} /> {t('btn_new')}
-                </Button>
-                <Button color="light" onClick={() => setOpenInvite (true)}>
-                  <FontAwesomeIcon icon={faEnvelope} style={{ marginRight: 5 }} /> {t('top_menu.invitation')}
-                </Button>
-              </center>
-            </NoData>
-          </div>
-        )}
-      </div>
-      <div className="d-md-none">
-        <div className="floating-buttons">
-          <Button color="primary" className="rounded-circle shadow" onClick={() => setOpenCreate (true)}>
-            <FontAwesomeIcon icon={faPlus} size="lg" />
-          </Button>
-          <Button color="secondary" className="rounded-circle shadow" onClick={() => setOpenInvite (true)}>
-            <FontAwesomeIcon icon={faEnvelope} size="lg" />
-          </Button>
+          )}
         </div>
-      </div>
-      </>
-    }
-    <ProjectCreate
-      workspaceMembers={workspaceMembers}
-      open={openCreate}
-      setOpen={setOpenCreate}
-      workspaceId={workspaceId}
-      keyword={keyword}
-      debouncedValue={debouncedValue}
-      handleChange={handleChange}
-      setProjectCreated={setProjectCreated}
-    />
-    {/* <ProjectAddMember 
-      projectId={openAddMember} 
-      workspaceId={workspaceId}
-      setOpenModal={setOpenAddMember} 
-    /> */}
-    <ProjectInvite
-      open={openInvite}
-      setOpen={setOpenInvite}
-      invitesData={invitesData}
-      setInviteDecline={setInviteDecline}
-      setProjectJoined={setProjectJoined}
-    />
-  </div>
+        <div className="d-md-none">
+          <div className="floating-buttons">
+            <Button color="primary" className="rounded-circle shadow" onClick={() => setOpenCreate (true)}>
+              <FontAwesomeIcon icon={faPlus} size="lg" />
+            </Button>
+            <Button color="secondary" className="rounded-circle shadow" onClick={() => setOpenInvite (true)}>
+              <FontAwesomeIcon icon={faEnvelope} size="lg" />
+            </Button>
+          </div>
+        </div>
+        </>
+      }
+      <ProjectCreate
+        workspaceMembers={workspaceMembers}
+        open={openCreate}
+        setOpen={setOpenCreate}
+        workspaceId={workspaceId}
+        keyword={keyword}
+        debouncedValue={debouncedValue}
+        handleChange={handleChange}
+        setProjectCreated={setProjectCreated}
+      />
+      {/* <ProjectAddMember 
+        projectId={openAddMember} 
+        workspaceId={workspaceId}
+        setOpenModal={setOpenAddMember} 
+      /> */}
+      <ProjectInvite
+        open={openInvite}
+        setOpen={setOpenInvite}
+        invitesData={invitesData}
+        setInviteDecline={setInviteDecline}
+        setProjectJoined={setProjectJoined}
+      />
+    </div>
   </>
 };
 

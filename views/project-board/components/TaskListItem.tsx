@@ -45,7 +45,7 @@ const TaskListItem: React.FC<TaskListItemProps> = ({ task, setTaskSelected }) =>
           <span className={isExpire === -1 ? 'text-secondary' : 'text-dark'}>{task.title}</span>
           {
             isExpire === -1 &&
-            <p className="m-unset mt-1 text-secondary" style={{ fontSize: 12 }}><FontAwesomeIcon icon={faClock} /> {t('tasks.expire_label')}</p>
+            <p className="m-unset mt-1 text-secondary" style={{ fontSize: 12 }}><FontAwesomeIcon icon={faClock} /> {t('tasks_page.expire_label')}</p>
           }
         </h6>
       </div>

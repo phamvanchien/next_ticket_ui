@@ -62,7 +62,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment, openEdit, setOpenEdi
   return (
     <div className="comment-item">
       <div className="comment-header">
-        <UserAvatar name={comment.user.first_name} avatar={comment.user.avatar} />
+        <UserAvatar size={30} name={comment.user.first_name} avatar={comment.user.avatar} />
         <div className="comment-user-info">
           <strong>{comment.user.first_name} {comment.user.last_name}</strong>
           <RelativeTime className="m-l-10" icon time={comment.created_at} />
@@ -79,17 +79,17 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment, openEdit, setOpenEdi
       <div className="comment-body">
         {
           deleted ? (
-            <div className="comment-deleted">{t('tasks.deleted_comment_message')}</div>
+            <div className="comment-deleted">{t('tasks_page.comment.deleted_comment_message')}</div>
           ) : (
             (openEdit === comment.id) ? (
               <>
                 <EditorArea value={contentEdit} setValue={setContentEdit} />
                 <div className="comment-edit-actions">
                   <Button color={loading ? 'secondary' : 'primary'} disabled={loading} onClick={handleSubmitComment}>
-                    {loading ? <Loading color="light" /> : t('btn_save')}
+                    {loading ? <Loading color="light" /> : t('common.btn_save')}
                   </Button>
                   <Button color="default" className="ml-2" onClick={() => setOpenEdit(undefined)} disabled={loading}>
-                    {t('btn_cancel')}
+                    {t('common.btn_cancel')}
                   </Button>
                 </div>
               </>
@@ -111,7 +111,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment, openEdit, setOpenEdi
             className="text-secondary"
             onClick={() => setReadMore(true)}
           >
-            {t('btn_read_more')} <FontAwesomeIcon icon={faAngleDoubleRight} />
+            {t('common.btn_read_more')} <FontAwesomeIcon icon={faAngleDoubleRight} />
           </span>
         )}
         {content && !openEdit && content.length > maxContentSize && readMore && (
@@ -120,7 +120,7 @@ const CommentItem: React.FC<CommentItemProps> = ({ comment, openEdit, setOpenEdi
             className="text-secondary"
             onClick={() => setReadMore(false)}
           >
-            <FontAwesomeIcon icon={faAngleDoubleLeft} /> {t('btn_hide_read_more')}
+            <FontAwesomeIcon icon={faAngleDoubleLeft} /> {t('common.btn_hide_read_more')}
           </span>
         )}
       </div>

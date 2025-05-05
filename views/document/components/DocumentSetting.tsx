@@ -70,10 +70,10 @@ const DocumentSetting: React.FC<DocumentSettingProps> = ({ open, document, setOp
       title={t('documents.save_label')}
       footerBtn={[
         <Button color="default" key="cancel" onClick={() => setOpen(false)} className="mr-2" disabled={loading}>
-          {t("btn_cancel")}
+          {t("common.btn_cancel")}
         </Button>,
         <Button color={loading ? 'secondary' : 'primary'} key="save" type="submit" disabled={loading} onClick={handleUpdateDocument}>
-          {loading ? <Loading color="light" /> : t("btn_save")}
+          {loading ? <Loading color="light" /> : t("common.btn_save")}
         </Button>
       ]}
     >

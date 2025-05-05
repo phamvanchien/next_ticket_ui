@@ -118,11 +118,11 @@ const TaskBoardFilter: React.FC<TaskBoardFilterProps> = ({ open, project, loadin
         {
           (assignee.length > 0 || creator.length > 0 || dueDateFrom || dueDateTo || createDateFrom || createDateTo || statusSelected.length > 0 || Object.values(attributesSelected).flat().join(',').length > 0) &&
           <Button color={'light'} disabled={loadingTaskBoard} onClick={handleClearFilter}>
-            {t('tasks.btn_clear_filter')}
+            {t('tasks_page.btn_clear_filter')}
           </Button>
         }
         <Button color={loadingTaskBoard ? 'secondary' : 'primary'} style={{ marginLeft: 5 }} onClick={handleSubmitFilter} disabled={loadingTaskBoard}>
-          {loadingTaskBoard ? <Loading color="light" /> : t('tasks.filter_label')}
+          {loadingTaskBoard ? <Loading color="light" /> : t('tasks_page.filter_label')}
         </Button>
         </>
       }
@@ -132,19 +132,19 @@ const TaskBoardFilter: React.FC<TaskBoardFilterProps> = ({ open, project, loadin
         projectMembers={memberList} 
         setAssigneeSelected={setAssignee} 
         className="dropdown-assignee" 
-        placeholder={t('empty_label')}
+        placeholder={t('common.empty_label')}
       />
       <TaskAssignee 
-        label={t('tasks.creator_label')} 
+        label={t('tasks_page.creator_label')} 
         assigneeSelected={creator} 
         projectMembers={memberList} 
         setAssigneeSelected={setCreator} 
         className="mt-2 dropdown-assignee" 
-        placeholder={t('empty_label')}
+        placeholder={t('common.empty_label')}
       />
       <div className="row mt-3">
         <div className="col-lg-3 col-12 text-secondary">
-          <FontAwesomeIcon icon={faCalendar} /> {t('tasks.placeholder_due_date')}:
+          <FontAwesomeIcon icon={faCalendar} /> {t('tasks_page.placeholder_due_date')}:
         </div>
         <div className="col-lg-9 col-12">
           <DatePickerCustom className="date-filter m-r-10" setDate={setDueDateFrom} date={dueDateFrom} />
@@ -153,7 +153,7 @@ const TaskBoardFilter: React.FC<TaskBoardFilterProps> = ({ open, project, loadin
       </div>
       <div className="row mt-3">
         <div className="col-lg-3 col-12 text-secondary">
-          <FontAwesomeIcon icon={faCalendar} /> {t('tasks.created_at_label')}:
+          <FontAwesomeIcon icon={faCalendar} /> {t('common.created_at_label')}:
         </div>
         <div className="col-lg-9 col-12">
           <DatePickerCustom className="m-r-10 date-filter" setDate={setCreateDateFrom} date={createDateFrom} />

@@ -47,7 +47,7 @@ const ProjectSettingVisibility: React.FC<ProjectSettingVisibilityProps> = ({ pro
       key: '1',
       label: (
         <span className="pointer" onClick={() => handleUpdateProject (false)}>
-          <FontAwesomeIcon icon={faLock} style={{ marginRight: 7 }} /> {t('private_check')} {!projectData.is_public && <FontAwesomeIcon icon={faCheck} className="text-success float-right" />}
+          <FontAwesomeIcon icon={faLock} style={{ marginRight: 7 }} /> {t('common.private_check')} {!projectData.is_public && <FontAwesomeIcon icon={faCheck} className="text-success float-right" />}
         </span>
       ),
     },
@@ -55,28 +55,28 @@ const ProjectSettingVisibility: React.FC<ProjectSettingVisibilityProps> = ({ pro
       key: '2',
       label: (
         <span className="pointer" onClick={() => handleUpdateProject (true)}>
-          <FontAwesomeIcon icon={faGlobe} style={{ marginRight: 7 }} /> {t('public_check')} {projectData.is_public && <FontAwesomeIcon icon={faCheck} className="text-success float-right" />}
+          <FontAwesomeIcon icon={faGlobe} style={{ marginRight: 7 }} /> {t('common.public_check')} {projectData.is_public && <FontAwesomeIcon icon={faCheck} className="text-success float-right" />}
         </span>
       ),
     }
   ];
   return <div className="row">
     <div className="col-12 text-secondary">
-      <h6 className="text-dark">{t('project_setting.project_visibility_title')}</h6>
+      <h6 className="text-dark">{t('projects_page.setting.project_visibility_title')}</h6>
       <FontAwesomeIcon icon={projectData.is_public ? faGlobe : faLock} style={{ marginRight: 7 }} />
       {
         projectData.is_public ? 
         <span>
-          {t('project_setting.project_public_note')}
+          {t('projects_page.setting.project_public_note')}
         </span> : 
         <span>
-          {t('project_setting.project_private_note')}
+          {t('projects_page.setting.project_private_note')}
         </span>
       }
     </div>
     <div className="col-6 col-lg-3 mt-2">
       <Dropdown items={items}>
-        <Button color="secondary" outline>{t('change_btn')}</Button>
+        <Button color="secondary" outline>{t('common.change_btn')}</Button>
       </Dropdown>
     </div>
     <div className="col-12">

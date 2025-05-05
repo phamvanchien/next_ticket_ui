@@ -109,7 +109,7 @@ const TaskBoardItem: React.FC<TaskBoardItemProps> = ({
         {isExpire === -1 && (
           <span className="ms-2 text-secondary">
             <FontAwesomeIcon icon={faClock} className="me-1" style={{ color: '#ffda6a' }} />
-            {t('tasks.expire_label')}
+            {t('tasks_page.expire_label')}
           </span>
         )}
       </div>
@@ -126,7 +126,7 @@ const TaskBoardItem: React.FC<TaskBoardItemProps> = ({
         ) : (
           <div className="d-flex align-items-center gap-2">
             <Avatar src="/images/icons/no-user.png" />
-            <span className="text-muted small">{t('tasks.unassigned_label')}</span>
+            <span className="text-muted small">{t('tasks_page.unassigned_label')}</span>
           </div>
         )}
       </div>

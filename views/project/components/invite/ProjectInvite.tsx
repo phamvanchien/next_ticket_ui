@@ -20,14 +20,14 @@ const ProjectInvite: React.FC<ProjectInviteProps> = ({ open, invitesData, setOpe
     <Sidebar 
       open={open}
       width={450}
-      headerTitle={t('projects.invitation_title')}
+      headerTitle={t('projects_page.invitation_btn')}
       setOpen={setOpen}
     >
       <div className="row">
         {
           (invitesData && invitesData.total === 0) &&
           <div className="col-12 text-secondary">
-            <NoData message={t('workspaces.no_data_invite')} />
+            <NoData message={t('workspaces_page.no_data_invite')} />
           </div>
         }
         {

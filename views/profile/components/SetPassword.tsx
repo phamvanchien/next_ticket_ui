@@ -67,13 +67,13 @@ const SetPassword = () => {
     }
     if (userData.login_type === 'common' && (isEmpty(currentPassword) || !currentPassword)) {
       if (action === 'click') {
-        setErrorMessage(t('authenticate_message.password_is_required'));
+        setErrorMessage(t('login_page.error.password_is_required'));
       }
       return true;
     }
     if (isEmpty(password) || !password) {
       if (action === 'click') {
-        setErrorMessage(userData.login_type === 'common' ? t('personal_profile.new_passoword_required') : t('authenticate_message.password_is_required'));
+        setErrorMessage(userData.login_type === 'common' ? t('personal_profile.new_passoword_required') : t('login_page.error.password_is_required'));
       }
       return true;
     }
@@ -122,14 +122,14 @@ const SetPassword = () => {
           </a> : 
           <>
           <Button color="default" onClick={() => setOpenUpdate (false)} disabled={loadingUpdate}>
-            {t('btn_cancel')}
+            {t('common.btn_cancel')}
           </Button>
           <Button 
             color={loadingUpdate ? 'secondary' : 'primary'} 
             onClick={handleUpdatePassword} 
             disabled={disabledSubmit || loadingUpdate}
           >
-            {loadingUpdate ? <Loading color="light" /> : t('btn_save')}
+            {loadingUpdate ? <Loading color="light" /> : t('common.btn_save')}
           </Button>
           </>
         }
@@ -149,7 +149,7 @@ const SetPassword = () => {
               validates={[
                 {
                   type: 'is_required',
-                  message: t('authenticate_message.password_is_required')
+                  message: t('login_page.error.password_is_required')
                 }
               ]}
             />
@@ -165,7 +165,7 @@ const SetPassword = () => {
             validates={[
               {
                 type: 'is_required',
-                message: userData.login_type === 'common' ? t('personal_profile.new_passoword_required') : t('authenticate_message.password_is_required')
+                message: userData.login_type === 'common' ? t('personal_profile.new_passoword_required') : t('login_page.error.password_is_required')
               }
             ]}
           />
@@ -205,7 +205,7 @@ const SetPassword = () => {
             {loginType === 'common' ? t('personal_profile.change_password_success_message') : t('personal_profile.set_password_success_message')}
           </div>
           <div className="col-12">
-            <Button color="primary" className="w-100 mt-2" onClick={() => {setOpenSuccess (false); setLoginType('common')}}>{t('btn_ok')}</Button>
+            <Button color="primary" className="w-100 mt-2" onClick={() => {setOpenSuccess (false); setLoginType('common')}}>{t('common.btn_ok')}</Button>
           </div>
         </div>
       </Modal>

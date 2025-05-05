@@ -30,7 +30,7 @@ const DocumentMember: React.FC<DocumentMemberProps> = ({ documentData, loadingVi
         (documentData.total > defaultPageSizeDocument && pageSize < documentData.total) &&
         <div className="col-12 mt-2">
           <a className="text-secondary pointer" onClick={!loadingViewMore ? () => setPageSize(pageSize + defaultPageSizeDocument) : undefined}>
-            {t('btn_view_more')} {loadingViewMore && <Loading color="secondary" />}
+            {t('common.btn_view_more')} {loadingViewMore && <Loading color="secondary" />}
           </a>
         </div>
       }

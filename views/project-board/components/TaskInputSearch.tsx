@@ -17,7 +17,7 @@ const TaskInputSearch: React.FC<TaskInputSearchProps> = ({ className, keyword, h
       <input
         type="text"
         className="form-control ps-5 rounded search-input"
-        placeholder={t('tasks.placeholder_input_search') + '...'}
+        placeholder={t('tasks_page.placeholder_input_search') + '...'}
         value={keyword}
         onChange={handleChange}
       />

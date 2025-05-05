@@ -30,7 +30,7 @@ const WorkspaceCreate: React.FC<WorkspaceCreateProps> = ({ open, setOpen }) => {
   const handleCreateWorkspace = async () => {
     try {
       if (isEmpty(name)) {
-        setErrorMessage(t('create_workspace.workspace_name_is_required'));
+        setErrorMessage(t('workspaces_page.create.workspace_name_is_required'));
         return;
       }
       if (!name) {
@@ -57,13 +57,13 @@ const WorkspaceCreate: React.FC<WorkspaceCreateProps> = ({ open, setOpen }) => {
   return (
     <Modal 
       open={open} 
-      title={t('workspaces.page_title_create')}
+      title={t('workspaces_page.create.create_title')}
       footerBtn={[
         <Button color='default' key={1} onClick={() => setOpen (false)} className='mr-2' disabled={loading}>
-          {t('btn_cancel')}
+          {t('common.btn_cancel')}
         </Button>,
         <Button key={2} color={loading ? 'secondary' : 'primary'} type="submit" disabled={loading} onClick={handleCreateWorkspace}>
-          {loading ? <Loading color="light" /> : t('btn_save')}
+          {loading ? <Loading color="light" /> : t('common.btn_save')}
         </Button>
       ]
       }
@@ -78,19 +78,19 @@ const WorkspaceCreate: React.FC<WorkspaceCreateProps> = ({ open, setOpen }) => {
             type="text"
             minLength={3}
             maxLength={100}
-            placeholder={t('create_workspace.input_workspace_name')} 
+            placeholder={t('workspaces_page.create.input_workspace_name')} 
             onChange={(e) => setName (e.target.value)}
             errorMessage={errorMessage}
             validates={[
               {
                 type: 'is_required',
-                message: t('create_workspace.workspace_name_is_required')
+                message: t('workspaces_page.create.workspace_name_is_required')
               }
             ]}
           />
         </div>
         <div className="col-12 mt-2">
-          <Textarea ref={descriptionRef} maxLength={300} rows={3} placeholder={t('create_workspace.placeholder_workspace_description')} />
+          <Textarea ref={descriptionRef} maxLength={300} rows={3} placeholder={t('workspaces_page.create.placeholder_workspace_description')} />
         </div>
       </div>
     </Modal>

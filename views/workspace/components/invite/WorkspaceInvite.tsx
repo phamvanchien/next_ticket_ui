@@ -20,14 +20,14 @@ const WorkspaceInvite: React.FC<WorkspaceInviteProps> = ({ open, invitesData, se
     <Sidebar 
       open={open}
       width={450}
-      headerTitle={t('workspaces.invitation_title')}
+      headerTitle={t('workspaces_page.invite.invitation_title')}
       setOpen={setOpen}
     >
       <div className="row">
         {
           (invitesData && invitesData.total === 0) &&
           <div className="col-12 text-secondary">
-            <NoData message={t('workspaces.no_data_invite')} />
+            <NoData message={t('workspaces_page.no_data_invite')} />
           </div>
         }
         {

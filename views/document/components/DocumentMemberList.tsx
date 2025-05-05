@@ -81,7 +81,7 @@ const DocumentMemberList: React.FC<DocumentMemberListProps> = ({ workspaceId, us
       <div className="col-12 mt-4">
         <Input
           type="search"
-          placeholder={t('tasks.placeholder_search_member')}
+          placeholder={t('workspaces_page.member.placeholder_input_search')}
           value={keyword}
           onChange={handleChange}
         />

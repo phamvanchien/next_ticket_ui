@@ -43,7 +43,7 @@ const UploadImage: React.FC<UploadImageProps> = ({ multiple = false, fileList, l
   const uploadButton = (
     <button style={{ border: 0, background: "none" }} type="button">
       <PlusOutlined />
-      <div style={{ marginTop: 8 }}>{t('upload_image_label')}</div>
+      <div style={{ marginTop: 8 }}>{t('common.upload_image_label')}</div>
     </button>
   );
 

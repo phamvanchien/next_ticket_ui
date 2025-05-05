@@ -53,22 +53,22 @@ const CommentCreate: React.FC<CommentCreateProps> = ({ task, setCommentCreated }
         !openCreate &&
         <div className="col-12">
           <UserAvatar avatar={userLogged?.avatar} name={userLogged?.first_name ?? 'U'} className="float-left" />
-          <Input type="text" placeholder={t('tasks.write_comment_label')} classGroup="float-left w-90" classInput="input-create-comment" onClick={() => setOpenCreate (true)} />
+          <Input type="text" placeholder={t('tasks_page.comment.write_comment_label')} classGroup="float-left w-90" classInput="input-create-comment" onClick={() => setOpenCreate (true)} />
         </div>
       }
       {
         openCreate &&
         <>
           <div className="col-12">
-            <UserAvatar avatar={userLogged?.avatar} name={userLogged?.first_name ?? 'U'} /> {t('tasks.write_comment_label')}
+            <UserAvatar avatar={userLogged?.avatar} name={userLogged?.first_name ?? 'U'} /> {t('tasks_page.comment.write_comment_label')}
           </div>
           <div className="col-12 mt-2">
-            <EditorArea value={value} setValue={setValue} placeholder={t('tasks.placeholder_comment')} />
+            <EditorArea value={value} setValue={setValue} placeholder={t('tasks_page.comment.placeholder_comment')} />
             <Button color={loading ? 'secondary' : 'primary'} className="float-right" disabled={loading} onClick={handleSubmitComment}>
-              {loading ? <Loading color="light" /> : t('btn_save')}
+              {loading ? <Loading color="light" /> : t('common.btn_save')}
             </Button>
             <Button color="default" className="float-right mr-2" onClick={() => setOpenCreate (false)} disabled={loading}>
-              {t('btn_cancel')}
+              {t('common.btn_cancel')}
             </Button>
           </div>
         </>

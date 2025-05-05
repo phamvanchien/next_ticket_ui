@@ -58,13 +58,13 @@ const CheckListCreate: React.FC<CheckListCreateProps> = ({ openCreate, task, set
   }
   return <>
     <span className="text-secondary pointer mb-2" onClick={() => setOpenCreate (true)}>
-      <FontAwesomeIcon icon={faPlus} /> {t("tasks.add_subtask_label")}
+      <FontAwesomeIcon icon={faPlus} /> {t("tasks_page.checklist.add_checklist_label")}
     </span>
     {
       openCreate &&
       <div className="row mt-2">
         <div className="col-12">
-          <Input type="text" value={title} maxLength={80} placeholder={t('tasks.placeholder_input_subtask')} classGroup="mb-2 w-80 float-left" onChange={(e) => setTitle (e.target.value)} />
+          <Input type="text" value={title} maxLength={80} placeholder={t('tasks_page.checklist.placeholder_input_checklist')} classGroup="mb-2 w-80 float-left" onChange={(e) => setTitle (e.target.value)} />
           <Button color="default" className="float-right w-10" onClick={() => setOpenCreate (false)} disabled={loadingCreate}>
             <FontAwesomeIcon icon={faTimes} />
           </Button>

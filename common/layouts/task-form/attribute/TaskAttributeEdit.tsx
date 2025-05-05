@@ -112,7 +112,7 @@ const TaskAttributeEdit: React.FC<TaskAttributeEditProps> = ({ attribute, worksp
       key: 1,
       label: (
         <div onClick={handleClickEdit} style={{ display: isDropdownOpenEdit ? "none" : "block" }}>
-          <FontAwesomeIcon icon={faEdit} /> {t("tasks.edit_label")}
+          <FontAwesomeIcon icon={faEdit} /> {t("tasks_page.edit_label")}
         </div>
       ),
     }
@@ -123,7 +123,7 @@ const TaskAttributeEdit: React.FC<TaskAttributeEditProps> = ({ attribute, worksp
       key: 2,
       label: (
         <div onClick={() => setConfirmDelete (true)}>
-          <FontAwesomeIcon icon={faTrashAlt} className="text-danger" /> {t("btn_delete")}
+          <FontAwesomeIcon icon={faTrashAlt} className="text-danger" /> {t("common.btn_delete")}
         </div>
       ),
     })
@@ -135,7 +135,7 @@ const TaskAttributeEdit: React.FC<TaskAttributeEditProps> = ({ attribute, worksp
       label: (
         <Input
           type="text"
-          placeholder={t("tasks.placeholder_attribute_name")}
+          placeholder={t("tasks_page.attribute.placeholder_attribute_name")}
           onClick={(e) => e.stopPropagation()}
           onChange={(e) => setAttributeName(e.target.value)}
           value={attributeName}
@@ -157,7 +157,7 @@ const TaskAttributeEdit: React.FC<TaskAttributeEditProps> = ({ attribute, worksp
               </div>
             ),
           }))}
-          placeholder={t("select_icon")}
+          placeholder={t("common.select_icon")}
           defaultValue={attributeIcon}
         />
       ),
@@ -179,7 +179,7 @@ const TaskAttributeEdit: React.FC<TaskAttributeEditProps> = ({ attribute, worksp
                 onChange={(e) => handleValueChange(index, "value", e.target.value)}
                 onClick={(e) => e.stopPropagation()}
                 classGroup="me-2 flex-grow-1"
-                placeholder={t("tasks.enter_text_attribute_placeholder")}
+                placeholder={t("tasks_page.attribute.enter_text_attribute_placeholder")}
               />
               <SelectSingle
                 onClick={(e) => e.stopPropagation()}
@@ -193,7 +193,7 @@ const TaskAttributeEdit: React.FC<TaskAttributeEditProps> = ({ attribute, worksp
                   ),
                 }))}
                 handleChange={(icon) => handleValueChange(index, "icon", icon)}
-                placeholder={t("select_icon")}
+                placeholder={t("common.select_icon")}
                 defaultValue={value.icon}
               />
               <SelectSingle
@@ -206,7 +206,7 @@ const TaskAttributeEdit: React.FC<TaskAttributeEditProps> = ({ attribute, worksp
                   ),
                 }))}
                 handleChange={(color) => handleValueChange(index, "color", color)}
-                placeholder={t("select_color")}
+                placeholder={t("common.select_color")}
                 defaultValue={value.color}
               />
               <FontAwesomeIcon
@@ -227,7 +227,7 @@ const TaskAttributeEdit: React.FC<TaskAttributeEditProps> = ({ attribute, worksp
               addValueInput();
             }}
           >
-            + {t("tasks.attribute_add_value_label")}
+            + {t("tasks_page.attribute.attribute_add_value_label")}
           </Button>
         </div>
       ),
@@ -248,7 +248,7 @@ const TaskAttributeEdit: React.FC<TaskAttributeEditProps> = ({ attribute, worksp
           }}
           disabled={editLoading}
         >
-          {editLoading ? <Loading color="light" /> : t("btn_save")}
+          {editLoading ? <Loading color="light" /> : t("common.btn_save")}
         </Button>
         {!attribute.default_name && <Button
           color="danger"
@@ -257,7 +257,7 @@ const TaskAttributeEdit: React.FC<TaskAttributeEditProps> = ({ attribute, worksp
           disabled={editLoading}
           onClick={(e) => {e.stopPropagation();setConfirmDelete (true)}}
         >
-          {t("btn_delete")}
+          {t("common.btn_delete")}
         </Button>}
       </div>
     ),
@@ -295,13 +295,13 @@ const TaskAttributeEdit: React.FC<TaskAttributeEditProps> = ({ attribute, worksp
     <Modal 
       open={confirmDelete} 
       setOpen={setConfirmDelete}
-      title={t('project_setting.delete_attribute_warning')}
+      title={t('projects_page.setting.delete_attribute_warning')}
       footerBtn={[
         <Button color="default" key="cancel"className="mr-2" onClick={(e) => {e.stopPropagation();setConfirmDelete (false)}} disabled={deleteLoading}>
-          {t("btn_cancel")}
+          {t("common.btn_cancel")}
         </Button>,
         <Button color={deleteLoading ? 'secondary' : 'primary'} key="save" type="submit" onClick={handleDeleteAttribute} disabled={deleteLoading}>
-          {deleteLoading ? <Loading color="light" /> : t("btn_delete")}
+          {deleteLoading ? <Loading color="light" /> : t("common.btn_delete")}
         </Button>,
       ]}
     >

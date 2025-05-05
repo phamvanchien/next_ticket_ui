@@ -78,4 +78,6 @@ export interface UserType {
   last_name: string
   email: string
   avatar: string
+  phone: string
+  created_at: string
 }

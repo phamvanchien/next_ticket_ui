@@ -33,7 +33,26 @@ export const ICON_CONFIG = {
     'star',
     'sticky-note',
     'users',
-    'caret-square-o-down',
-    'check-square'
+    'check-square',
+    'home',
+    'image',
+    'laptop',
+    'language',
+    'list',
+    'mail-reply',
+    'mail-reply-all',
+    'male',
+    'marker',
+    'navicon',
+    'paperclip',
+    'paper-plane',
+    'pencil',
+    'phone-square',
+    'qrcode',
+    'reorder',
+    'share-alt',
+    'table',
+    'trash',
+    'wifi'
   ]
 }

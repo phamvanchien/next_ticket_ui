@@ -99,7 +99,7 @@ const CheckListItem: React.FC<CheckListItemProps> = ({ checkListItem, setCheckLi
     {
       openEdit &&
       <div className="col-12 mt-2">
-        <Input type="text" value={title} maxLength={80} placeholder={t('tasks.placeholder_input_subtask')} classGroup="mb-2 w-80 float-left" onChange={(e) => setTitle (e.target.value)} />
+        <Input type="text" value={title} maxLength={80} placeholder={t('tasks_page.checklist.placeholder_input_checklist')} classGroup="mb-2 w-80 float-left" onChange={(e) => setTitle (e.target.value)} />
         <Button color="default" className="float-right w-10" onClick={() => setOpenEdit (false)} disabled={loadingEdit}>
           <FontAwesomeIcon icon={faTimes} />
         </Button>

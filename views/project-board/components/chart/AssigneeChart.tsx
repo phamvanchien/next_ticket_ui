@@ -43,7 +43,7 @@ const AssigneeChart: React.FC<AssigneeChartProps> = ({ project }) => {
       <div className="col-12">
         <div className="card border-unset shadow-sm mb-4">
           <div className="card-header border-unset text-primary">
-            <FontAwesomeIcon icon={faBarChart} /> {t('tasks.report.bar_chart_label')}
+            <FontAwesomeIcon icon={faBarChart} /> {t('tasks_page.report.bar_chart_label')}
           </div>
           <div className="card-body custom-scrollbar" style={{ overflowX: "auto",  minWidth: 100 }}>
             <div style={{ width: `${chartData.length * 80}px` }}>
@@ -52,7 +52,7 @@ const AssigneeChart: React.FC<AssigneeChartProps> = ({ project }) => {
                   layout="vertical"
                   data={chartData.map(chart => {
                     return {
-                      name: chart.name || t('tasks.unassigned_label'),
+                      name: chart.name || t('tasks_page.unassigned_label'),
                       tasks: chart.task_count
                     }
                   })}

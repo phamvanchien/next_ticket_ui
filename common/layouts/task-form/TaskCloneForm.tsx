@@ -110,16 +110,16 @@ const TaskCloneForm: React.FC<TaskCloneFormProps> = ({ task, project, openClone,
   return <>
     <div className="row mt-4">
       <div className="col-12">
-        <Input type="text" value={title} placeholder={t('tasks.task_title_default')} onChange={(e) => setTitle (e.target.value)} />
+        <Input type="text" value={title} placeholder={t('tasks_page.create.task_title_default')} onChange={(e) => setTitle (e.target.value)} />
       </div>
     </div>
     {memberList && <TaskAssignee className="mt-2 dropdown-assignee" projectMembers={memberList} assigneeSelected={assignee} setAssigneeSelected={setAssignee} />}
     <div className="row mt-3 due-date-row">
       <div className="col-3 text-secondary">
-        <FontAwesomeIcon icon={faCalendar} /> {t('tasks.placeholder_due_date')}:
+        <FontAwesomeIcon icon={faCalendar} /> {t('tasks_page.placeholder_due_date')}:
       </div>
       <div className="col-9">
-        <DatePickerCustom setDate={setDueDate} date={dueDate} />
+        <DatePickerCustom className="duedate-task" setDate={setDueDate} date={dueDate} />
       </div>
     </div>
     <TaskStatus className="mt-3" statusList={project.status} statusSelected={status} setStatusSelected={setStatus} />
@@ -136,10 +136,10 @@ const TaskCloneForm: React.FC<TaskCloneFormProps> = ({ task, project, openClone,
     <div className="row mt-4">
       <div className="col-12">
         <Button key={2} color={loading ? 'secondary' : 'primary'} type="submit" className="float-right" disabled={loading} onClick={handleCloneTask}>
-          {loading ? <Loading color="light" /> : t('btn_clone')}
+          {loading ? <Loading color="light" /> : t('common.btn_clone')}
         </Button>
         <Button color='default' key={1} className='mr-2 float-right' disabled={loading} onClick={setOpenClone ? () => setOpenClone (false) : undefined}>
-          {t('btn_cancel')}
+          {t('common.btn_cancel')}
         </Button>
       </div>
     </div>

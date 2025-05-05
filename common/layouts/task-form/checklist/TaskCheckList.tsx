@@ -84,7 +84,7 @@ const TaskCheckList: React.FC<TaskCheckListProps> = ({ className, task }) => {
                   pageSize < checkListData.total &&
                   <div className="col-12 mt-2">
                     <a className="text-secondary pointer" onClick={!loadingViewMore ? handleLoadMore : undefined}>
-                      {loadingViewMore ? <Loading color="secondary" /> : t('btn_view_more')}
+                      {loadingViewMore ? <Loading color="secondary" /> : t('common.btn_view_more')}
                     </a>
                   </div>
                 }

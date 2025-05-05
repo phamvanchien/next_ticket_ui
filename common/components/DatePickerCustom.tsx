@@ -36,14 +36,14 @@ const DatePickerCustom: React.FC<DatePickerCustomProps> = ({ setDate, date, plac
 
   return (
     <ConfigProvider locale={localeMap[localeFromCookie] || enUS}>
-      <Space direction="vertical">
+      <Space direction="vertical" className={className}>
         <DatePicker
-          format="YYYY-MM-DD"
+          format="DD-MM-YYYY"
           onChange={onChange}
           value={date ? dayjs(date) : undefined}
           getPopupContainer={(trigger) => trigger.parentElement || document.body}
           placeholder={placeholder}
-          className={className}
+          // className={className}
         />
       </Space>
     </ConfigProvider>

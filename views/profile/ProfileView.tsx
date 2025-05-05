@@ -128,15 +128,15 @@ const ProfileView = () => {
         </div>
       </div>
       <div className="row mt-4">
-        <div className="col-lg-2 col-3">
+        <div className="col-lg-2 col-6">
           {
             editProfile ?
             <>
               <Button color="default" onClick={() => {setEditProfile (false); setUserData(userData)}} disabled={loadingEdit}>
-                {t('btn_cancel')}
+                {t('common.btn_cancel')}
               </Button>
               <Button color={loadingEdit ? 'secondary' : 'primary'} onClick={handleUpdateProfile} disabled={loadingEdit || isEmpty(firstName) || !firstName || isEmpty(lastName) || !lastName}>
-                {loadingEdit ? <Loading color="light" /> : t('btn_save')}
+                {loadingEdit ? <Loading color="light" /> : t('common.btn_save')}
               </Button>
             </> :
             <a className="link pointer text-primary" onClick={() => setEditProfile (true)}>
@@ -144,23 +144,23 @@ const ProfileView = () => {
             </a>
           }
         </div>
-        <div className="col-lg-10 col-9">
+        <div className="col-lg-10 col-6">
 
         </div>
       </div>
       <div className="row mt-4">
-        <div className="col-lg-2 col-3">
+        <div className="col-lg-2 col-4">
           <b><FontAwesomeIcon icon={faEnvelope} /> {t('personal_profile.email_label')}</b>
         </div>
-        <div className="col-lg-10 col-9">
+        <div className="col-lg-10 col-8">
           {userData.email}
         </div>
       </div>
       <div className={`row mt-${editProfile ? '4' : '3'}`}>
-        <div className="col-lg-2 col-3">
+        <div className="col-lg-2 col-4">
           <b><FontAwesomeIcon icon={faPhone} /> {t('personal_profile.phone_label')}</b>
         </div>
-        <div className="col-lg-10 col-9">
+        <div className="col-lg-10 col-8">
           {
             editProfile ?
             <Input type="text" value={userData.phone} onChange={(e) => setPhone (e.target.value)} minLength={11} maxLength={12} />:
@@ -168,57 +168,61 @@ const ProfileView = () => {
           }
         </div>
       </div>
+      {
+        editProfile && <>
+          <div className="row mt-3">
+            <div className="col-lg-2 col-4">
+              <b><FontAwesomeIcon icon={faUser} /> {t('personal_profile.first_name_label')}</b>
+            </div>
+            <div className="col-lg-10 col-8">
+              {
+                editProfile ?
+                <Input 
+                  type="text" 
+                  errorMessage={errorMessage}
+                  value={userData.first_name}
+                  onChange={(e) => setFirstName (e.target.value)}
+                  validates={[
+                    {
+                      type: 'is_required',
+                      message: t('register.firstname_is_required')
+                    }
+                  ]}
+                />:
+                userData.first_name
+              }
+            </div>
+          </div>
+          <div className="row mt-3">
+            <div className="col-lg-2 col-4">
+              <b><FontAwesomeIcon icon={faUser} /> {t('personal_profile.last_name_label')}</b>
+            </div>
+            <div className="col-lg-10 col-8">
+              {
+                editProfile ?
+                <Input 
+                  type="text" 
+                  errorMessage={errorMessage}
+                  value={userData.last_name}
+                  onChange={(e) => setLastName (e.target.value)}
+                  validates={[
+                    {
+                      type: 'is_required',
+                      message: t('register.lastname_is_required')
+                    }
+                  ]}
+                />:
+                userData.last_name
+              }
+            </div>
+          </div>
+        </>
+      }
       <div className="row mt-3">
-        <div className="col-lg-2 col-3">
-          <b><FontAwesomeIcon icon={faUser} /> {t('personal_profile.first_name_label')}</b>
-        </div>
-        <div className="col-lg-10 col-9">
-          {
-            editProfile ?
-            <Input 
-              type="text" 
-              errorMessage={errorMessage}
-              value={userData.first_name}
-              onChange={(e) => setFirstName (e.target.value)}
-              validates={[
-                {
-                  type: 'is_required',
-                  message: t('register.firstname_is_required')
-                }
-              ]}
-            />:
-            userData.first_name
-          }
-        </div>
-      </div>
-      <div className="row mt-3">
-        <div className="col-lg-2 col-3">
-          <b><FontAwesomeIcon icon={faUser} /> {t('personal_profile.last_name_label')}</b>
-        </div>
-        <div className="col-lg-10 col-9">
-          {
-            editProfile ?
-            <Input 
-              type="text" 
-              errorMessage={errorMessage}
-              value={userData.last_name}
-              onChange={(e) => setLastName (e.target.value)}
-              validates={[
-                {
-                  type: 'is_required',
-                  message: t('register.lastname_is_required')
-                }
-              ]}
-            />:
-            userData.last_name
-          }
-        </div>
-      </div>
-      <div className="row mt-3">
-        <div className="col-lg-2 col-3">
+        <div className="col-lg-2 col-4">
           <b><FontAwesomeIcon icon={faUserCheck} /> {t('personal_profile.join_at')}</b>
         </div>
-        <div className="col-lg-10 col-9">
+        <div className="col-lg-10 col-8">
           {dateToString(new Date(userData.created_at))}
         </div>
       </div>

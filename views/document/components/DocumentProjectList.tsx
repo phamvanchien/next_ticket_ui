@@ -59,7 +59,7 @@ const DocumentProjectList: React.FC<DocumentProjectListProps> = ({ workspaceId, 
       <div className="col-12 mt-4">
         <Input
           type="search"
-          placeholder={t('projects.placeholder_input_search')}
+          placeholder={t('projects_page.placeholder_input_search')}
           value={keyword}
           onChange={handleChange}
         />

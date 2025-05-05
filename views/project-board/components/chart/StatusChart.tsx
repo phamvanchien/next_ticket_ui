@@ -49,7 +49,7 @@ const StatusChart: React.FC<StatusChartProps> = ({ project }) => {
       <div className="col-12 col-lg-6">
         <div className="card border-unset shadow-sm mb-4">
           <div className="card-header border-unset text-primary">
-            <FontAwesomeIcon icon={faPieChart} /> {t('tasks.report.pie_chart_status')}
+            <FontAwesomeIcon icon={faPieChart} /> {t('tasks_page.report.pie_chart_status')}
           </div>
           <div className="card-body">
             <ResponsiveContainer width="100%" height={300}>

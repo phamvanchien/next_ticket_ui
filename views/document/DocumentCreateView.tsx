@@ -97,7 +97,7 @@ const DocumentCreateView: React.FC<DocumentCreateViewProps> = ({ workspaceId }) 
             onClick={() => setOpenSave (true)}
             disabled={(!title || title === '') && description === ''}
           >
-            <FontAwesomeIcon icon={faSave} style={{ marginRight: 5 }} /> {t('btn_save')}
+            <FontAwesomeIcon icon={faSave} style={{ marginRight: 5 }} /> {t('common.btn_save')}
           </Button>
         </div>
       </div>
@@ -108,7 +108,7 @@ const DocumentCreateView: React.FC<DocumentCreateViewProps> = ({ workspaceId }) 
         <div className="col-12 mt-4">
           <UploadFiles files={files} setFiles={setFiles}>
             <span className="text-secondary pointer">
-              <FontAwesomeIcon icon={faLink} /> {t('tasks.attach_file')}
+              <FontAwesomeIcon icon={faLink} /> {t('tasks_page.file.attach_file')}
             </span>
           </UploadFiles>
         </div>
@@ -122,10 +122,10 @@ const DocumentCreateView: React.FC<DocumentCreateViewProps> = ({ workspaceId }) 
         title={t('documents.save_label')}
         footerBtn={[
           <Button color="default" key="cancel" onClick={() => setOpenSave(false)} className="mr-2" disabled={loading}>
-            {t("btn_cancel")}
+            {t("common.btn_cancel")}
           </Button>,
           <Button color={loading ? 'secondary' : 'primary'} key="save" type="submit" disabled={loading} onClick={handleCreateDocument}>
-            {loading ? <Loading color="light" /> : t("btn_save")}
+            {loading ? <Loading color="light" /> : t("common.btn_save")}
           </Button>
         ]}
       >

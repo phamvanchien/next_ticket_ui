@@ -38,11 +38,11 @@ const  AttributeChart: React.FC<AttributeChartProps> = ({ project }) => {
   const attributes: AttributeReportType[] = [
     {
       type: 'priority',
-      title: t('tasks.report.priority_chart_label')
+      title: t('tasks_page.report.priority_chart_label')
     },
     {
       type: 'type',
-      title: t('tasks.report.type_chart_label')
+      title: t('tasks_page.report.type_chart_label')
     }
   ];
   const loadReportByAttribute = async () => {

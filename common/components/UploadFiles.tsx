@@ -23,7 +23,7 @@ const UploadFiles: React.FC<UploadFilesProps> = ({ files, children, setFiles }) 
     beforeUpload: (file) => {
       const MAX_SIZE = 10 * 1024 * 1024;
       if (file.size > MAX_SIZE) {
-        displaySmallMessage('error', t('tasks.file_exceeded'));
+        displaySmallMessage('error', t('tasks_page.file.file_exceeded'));
         return Upload.LIST_IGNORE;
       }
 

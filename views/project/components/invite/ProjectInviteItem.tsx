@@ -44,7 +44,7 @@ const ProjectInviteItem: React.FC<ProjectInviteItemProps> = ({ invite, setInvite
       const response = await joinProject(invite.project.workspace_id, invite.project.id);
       setJoinLoading(false);
       if (response && response.code === API_CODE.OK) {
-        displayMessage('success', t('projects.project_joined_message'));
+        displayMessage('success', t('projects_page.invitation.project_joined_message'));
         if (setProjectJoined) {
           setProjectJoined(invite.project);
         }
@@ -69,7 +69,7 @@ const ProjectInviteItem: React.FC<ProjectInviteItemProps> = ({ invite, setInvite
             <h6 className="mb-1">
               {invite.project.name}
             </h6>
-            <p className="m-unset">{t('create_project.user_invite_label')}: <b>{invite.project.user.first_name} {invite.project.user.last_name}</b></p>
+            <p className="m-unset">{t('projects_page.invitation.user_invite_label')}: <b>{invite.project.user.first_name} {invite.project.user.last_name}</b></p>
           </div>
         </div>
       </div>
@@ -77,12 +77,12 @@ const ProjectInviteItem: React.FC<ProjectInviteItemProps> = ({ invite, setInvite
         <div className="row">
           <div className="col-6">
             <Button color={joinLoading ? 'secondary' : 'primary'} className="w-100" disabled={removeLoading || joinLoading} onClick={handleJoinProject}>
-              {joinLoading ? <Loading color="light" /> : t('create_project.join_label')}
+              {joinLoading ? <Loading color="light" /> : t('projects_page.invitation.join_label')}
             </Button>
           </div>
           <div className="col-6">
             <Button color="light" className="w-100" onClick={handleRemoveInvite} disabled={removeLoading || joinLoading}>
-              {removeLoading ? <Loading color="secondary" /> : t('create_project.remove_invite_label')}
+              {removeLoading ? <Loading color="secondary" /> : t('projects_page.invitation.remove_invite_label')}
             </Button>
           </div>
         </div>

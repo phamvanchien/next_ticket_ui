@@ -101,9 +101,9 @@ const WorkspaceView = () => {
     <div className="container-fluid mt-4 wp-container">
       {
         (workspacesData && workspaceTotal === 0) ? (
-          <NoData message={t("workspaces.no_data")} description={t("workspaces.no_data_description")}>
+          <NoData message={t("workspaces_page.no_data")} description={t("workspaces_page.no_data_description")}>
             <Button color="primary" className="mt-3 rounded" onClick={() => setOpenCreate (true)} style={{ marginRight: 10 }}>
-              <FontAwesomeIcon icon={faPlus} /> {t("btn_new")}
+              <FontAwesomeIcon icon={faPlus} /> {t("common.btn_new")}
             </Button>
             <Button color="light" className="mt-3 rounded" onClick={() => setOpenInvite (true)}>
               <FontAwesomeIcon icon={faEnvelope} className="mr-2" style={{marginRight: 5}} /> {t('top_menu.invitation')}
@@ -111,21 +111,21 @@ const WorkspaceView = () => {
           </NoData>
         ) : <>
           <div className="d-flex justify-content-between align-items-center mb-4">
-            <h3 className="fw-semibold">{t('workspaces.page_title')}</h3>
+            <h3 className="fw-semibold">{t('workspaces_page.page_title')}</h3>
             <div className="d-flex gap-3">
               <div className="position-relative">
                 <FontAwesomeIcon icon={faSearch} className="position-absolute ms-3 wp-search-icon" />
                 <input
                   type="text"
                   className="form-control ps-5 rounded search-input"
-                  placeholder={t('workspaces.placeholder_input_search') + '...'}
+                  placeholder={t('workspaces_page.placeholder_input_search') + '...'}
                   value={keyword}
                   onChange={handleChange}
                 />
               </div>
               
               <Button color="primary" className="d-flex align-items-center rounded d-none d-md-flex" onClick={() => setOpenCreate (true)}>
-                <FontAwesomeIcon icon={faPlus} style={{marginRight: 5}} /> {t('btn_new')}
+                <FontAwesomeIcon icon={faPlus} style={{marginRight: 5}} /> {t('common.btn_new')}
               </Button>
 
               <Button color="default" className="d-flex align-items-center rounded d-none d-md-flex" onClick={() => setOpenInvite (true)}>

@@ -86,7 +86,7 @@ const ProjectAddMember: React.FC<ProjectAddMemberProps> = ({ projectId, open, se
       );
       setSendLoading(false);
       if (response && response.code === API_CODE.OK) {
-        displayMessage("success", t('create_project.send_invite_success_label'));
+        displayMessage("success", t('projects_page.invitation.send_invite_success_label'));
         setOpenModal(false);
         setUserSelected([]);
         setUserInviteData([]);
@@ -125,10 +125,10 @@ const ProjectAddMember: React.FC<ProjectAddMemberProps> = ({ projectId, open, se
   return (
     <Modal
       open={open}
-      title={t("create_project.add_members_text")}
+      title={t("projects_page.create.add_members_text")}
       footerBtn={[
         <Button color="default" key="cancel" onClick={() => setOpenModal(false)} className="mr-2" disabled={sendLoading}>
-          {t("btn_cancel")}
+          {t("common.btn_cancel")}
         </Button>,
         <Button 
           color={sendLoading ? 'secondary' : 'primary'} 
@@ -136,7 +136,7 @@ const ProjectAddMember: React.FC<ProjectAddMemberProps> = ({ projectId, open, se
           type="submit" disabled={sendLoading || userSelected.length === 0}
           onClick={handleSendInvite}
         >
-          {sendLoading ? <Loading color="light" /> : t("btn_send")}
+          {sendLoading ? <Loading color="light" /> : t("common.btn_send")}
         </Button>,
       ]}
       setOpen={setOpenModal}
@@ -147,7 +147,7 @@ const ProjectAddMember: React.FC<ProjectAddMemberProps> = ({ projectId, open, se
             type="search"
             value={keyword}
             onChange={handleChange}
-            placeholder={t("create_project.placeholder_input_search_member")}
+            placeholder={t("projects_page.create.placeholder_input_search_member")}
             disabled={sendLoading}
           />
           {loading && (
@@ -175,7 +175,7 @@ const ProjectAddMember: React.FC<ProjectAddMemberProps> = ({ projectId, open, se
               <span>{user.user.first_name} {user.user.last_name}</span>
               <div className="form-check mt-1 form-check-owner">
                 <label className="form-check-label" htmlFor="ownerCheck">
-                  {t('projects.owner_label')}
+                  {t('projects_page.owner_label')}
                 </label>
                 <input
                   className="form-check-input"

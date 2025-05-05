@@ -117,7 +117,7 @@ const RecentView: React.FC<RecentViewProps> = ({ workspaceId }) => {
     <div className="container-fluid recent-view px-3 py-4">
       <div className="d-flex align-items-center mb-4">
         <FontAwesomeIcon icon={faHistory} className="me-2 text-dark" />
-        <h2 className="mb-0">{t("sidebar.recent")}</h2>
+        <h2 className="mb-0">{t("recent.page_title")}</h2>
       </div>
 
       {
@@ -144,7 +144,7 @@ const RecentView: React.FC<RecentViewProps> = ({ workspaceId }) => {
                     </div>
                   </div>
                   <span className="float-right d-md-block d-none" style={{ fontSize: 12 }}>
-                    <FontAwesomeIcon icon={project.is_public ? faGlobe : faLock} /> {project.is_public ? t('public_check') : t('private_check')}
+                    <FontAwesomeIcon icon={project.is_public ? faGlobe : faLock} /> {project.is_public ? t('common.public_check') : t('common.private_check')}
                   </span>
                   <UserAvatar className="float-right" name={project.user.first_name} avatar={project.user.avatar} />
                 </li>

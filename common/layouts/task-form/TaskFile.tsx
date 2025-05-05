@@ -132,7 +132,7 @@ const TaskFile: React.FC<TaskFileProps> = ({ className, task }) => {
         className="col-lg-3 col-12 text-secondary mt-2 pointer"
         onClick={() => setOpenUpload(true)}
       >
-        <FontAwesomeIcon icon={faPaperclip} /> {t("tasks.attach_file")}
+        <FontAwesomeIcon icon={faPaperclip} /> {t("tasks_page.file.attach_file")}
       </div>
       <div className="col-lg-9 col-12 mt-2">
 
@@ -147,7 +147,7 @@ const TaskFile: React.FC<TaskFileProps> = ({ className, task }) => {
           <div className="col-12 text-center upload-wrapper">
             <UploadFiles files={files} setFiles={setFiles}>
               <span className="text-secondary pointer">
-                <FontAwesomeIcon icon={faUpload} /> {t('select_file')}
+                <FontAwesomeIcon icon={faUpload} /> {t('common.select_file')}
               </span>
             </UploadFiles>
           </div>
@@ -155,7 +155,7 @@ const TaskFile: React.FC<TaskFileProps> = ({ className, task }) => {
             {files.length > 0 && (
               <div className="col-12 mt-2">
                 <Button color={loading ? 'secondary' : 'primary'} className="float-right" onClick={handleSavaFile} disabled={loading}>
-                  {loading ? <Loading color="light" /> : t("btn_save")}
+                  {loading ? <Loading color="light" /> : t("common.btn_save")}
                 </Button>
                 <Button
                   color="default"
@@ -163,7 +163,7 @@ const TaskFile: React.FC<TaskFileProps> = ({ className, task }) => {
                   onClick={() => setOpenUpload(false)}
                   disabled={loading}
                 >
-                  {t("btn_cancel")}
+                  {t("common.btn_cancel")}
                 </Button>
               </div>
             )}
@@ -212,7 +212,7 @@ const TaskFile: React.FC<TaskFileProps> = ({ className, task }) => {
         (filesData && filesData.total > defaultPageSize && pageSize < filesData.total) &&
         <div className="col-12 mt-2">
           <a className="text-secondary pointer" onClick={!loadingViewMore ? handleLoadMore : undefined}>
-            {loadingViewMore ? <Loading color="secondary" /> : t('btn_view_more')}
+            {loadingViewMore ? <Loading color="secondary" /> : t('common.btn_view_more')}
           </a>
         </div>
       }
@@ -220,16 +220,16 @@ const TaskFile: React.FC<TaskFileProps> = ({ className, task }) => {
         closable={false}
         open={confirmDeleteFile}
         setOpen={setConfirmDeleteFile}
-        title={t('tasks.delete_file_warning_message')}
+        title={t('tasks_page.file.delete_file_warning_message')}
         footerBtn={[]}
       >
         <div className="row">
           <div className="col-12 mt-2">
             <Button color={deleteLoading ? 'secondary' : 'primary'} className="float-right m-r-5" onClick={handleDeleteFile} disabled={deleteLoading}>
-              {deleteLoading ? <Loading color="light" /> : t('btn_delete')}
+              {deleteLoading ? <Loading color="light" /> : t('common.btn_delete')}
             </Button>
             <Button color="default" className="float-right" onClick={handleCloseConfirmDelete}>
-              {t('btn_cancel')}
+              {t('common.btn_cancel')}
             </Button>
           </div>
         </div>

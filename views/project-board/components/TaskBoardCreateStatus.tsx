@@ -62,7 +62,7 @@ const TaskBoardCreateStatus: React.FC<TaskBoardCreateStatusProps> = ({ workspace
           <Input 
             type="text" 
             value={name}
-            placeholder={t('project_setting.placeholder_input_status')} 
+            placeholder={t('projects_page.placeholder_input_status_name')} 
             onClick={(e) => e.stopPropagation()} 
             onChange={(e) => setName (e.target.value)}
             maxLength={50}
@@ -82,7 +82,7 @@ const TaskBoardCreateStatus: React.FC<TaskBoardCreateStatusProps> = ({ workspace
                 value: 1,
                 label: (
                   <div>
-                    <FontAwesomeIcon icon={faCircle} style={{ color: '#feb272' }} /> {t('tasks.report.todo_label')}
+                    <FontAwesomeIcon icon={faCircle} style={{ color: '#feb272' }} /> {t('tasks_page.report.todo_label')}
                   </div>
                 )
               },
@@ -90,7 +90,7 @@ const TaskBoardCreateStatus: React.FC<TaskBoardCreateStatusProps> = ({ workspace
                 value: 2,
                 label: (
                   <div>
-                    <FontAwesomeIcon icon={faCircle} style={{ color: '#6ea8fe' }} /> {t('tasks.report.in_progress_label')}
+                    <FontAwesomeIcon icon={faCircle} style={{ color: '#6ea8fe' }} /> {t('tasks_page.report.in_progress_label')}
                   </div>
                 )
               },
@@ -98,13 +98,13 @@ const TaskBoardCreateStatus: React.FC<TaskBoardCreateStatusProps> = ({ workspace
                 value: 3,
                 label: (
                   <div>
-                    <FontAwesomeIcon icon={faCircle} style={{ color: '#75b798' }} /> {t('tasks.report.done_label')}
+                    <FontAwesomeIcon icon={faCircle} style={{ color: '#75b798' }} /> {t('tasks_page.report.done_label')}
                   </div>
                 )
               }
             ]}
             handleChange={(value) => setCategory (Number(value))}
-            placeholder={t("select_category")}
+            placeholder={t("common.select_category")}
           />
         </div>
       )
@@ -123,7 +123,7 @@ const TaskBoardCreateStatus: React.FC<TaskBoardCreateStatusProps> = ({ workspace
               ),
             }))}
             handleChange={(value) => setColor (value)}
-            placeholder={t("select_color")}
+            placeholder={t("common.select_color")}
           />
         </div>
       )
@@ -132,7 +132,7 @@ const TaskBoardCreateStatus: React.FC<TaskBoardCreateStatusProps> = ({ workspace
       key: 4,
       label: (
         <Button color={createLoading ? 'secondary' : 'primary'} className="w-100" disabled={createLoading} onClick={(e) =>{ e.stopPropagation(); handleCreateStatus();}}>
-          {createLoading ? <Loading color="light" /> : t('btn_create')}
+          {createLoading ? <Loading color="light" /> : t('common.btn_create')}
         </Button>
       )
     }

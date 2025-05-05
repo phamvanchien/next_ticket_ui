@@ -37,8 +37,8 @@ const WorkspaceItem: React.FC<WorkspaceItemProps> = ({ workspace, workspaceJoine
             <Link href={`/workspace/${workspace.id}/project`}>{workspace.name}</Link>
           </div>
           <div className="workspace-info">
-            {t('projects.created_by_text')}: {workspace.user?.first_name} {workspace.user?.last_name} <br />
-            {t('tasks.created_at_label')}: {dateToString(new Date(workspace.created_at))}
+            {t('common.created_by_label')}: {workspace.user?.first_name} {workspace.user?.last_name} <br />
+            {t('common.created_at_label')}: {dateToString(new Date(workspace.created_at))}
           </div>
         </div>
       </div>

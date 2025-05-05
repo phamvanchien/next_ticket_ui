@@ -15,6 +15,7 @@ import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { membersList, removeMember } from "@/api/project.api";
 import ProjectAddMember from "@/views/project/components/ProjectAddMember";
+import Link from "next/link";
 
 interface ProjectSettingMemberProps {
   project: ProjectType
@@ -80,7 +81,7 @@ const ProjectSettingMember: React.FC<ProjectSettingMemberProps> = ({ project }) 
       <div className="row mt-2">
         <div className="col-12 text-secondary">
           <Button color="secondary" outline onClick={() => setOpenAddMember (true)}>
-            <FontAwesomeIcon icon={faUserPlus} /> {t('create_project.add_members_text')}
+            <FontAwesomeIcon icon={faUserPlus} /> {t('projects_page.create.add_members_text')}
           </Button>
         </div>
         <ProjectAddMember
@@ -96,7 +97,7 @@ const ProjectSettingMember: React.FC<ProjectSettingMemberProps> = ({ project }) 
   return (
     <div className="row mt-2">
       <div className="col-12 text-secondary">
-        <h6 className="text-dark">{t('projects.member_label')}</h6>
+        <h6 className="text-dark">{t('projects_page.member_label')}</h6>
       </div>
       <div className="col-12 col-lg-12">
         <div className="bg-white rounded-4 shadow-sm border p-3">
@@ -106,7 +107,7 @@ const ProjectSettingMember: React.FC<ProjectSettingMemberProps> = ({ project }) 
               <input
                 type="text"
                 className="form-control ps-5 rounded search-input float-right"
-                placeholder={t('tasks.placeholder_search_member') + '...'}
+                placeholder={t('workspaces_page.member.placeholder_input_search') + '...'}
                 value={keyword}
                 onChange={handleChange}
               />
@@ -121,7 +122,7 @@ const ProjectSettingMember: React.FC<ProjectSettingMemberProps> = ({ project }) 
                 {memberData && memberData.items.map((member, index) => (
                   <tr key={index} className="border-bottom">
                     <td>
-                      <UserAvatar name={member.first_name} avatar={member.avatar} />
+                      <Link href={'/profile/' + member.id}><UserAvatar name={member.first_name} avatar={member.avatar} /></Link>
                     </td>
                     <td className="fw-semibold text-dark">{member.first_name} {member.last_name}</td>
                     <td className="text-muted">{member.email}</td>
@@ -138,7 +139,7 @@ const ProjectSettingMember: React.FC<ProjectSettingMemberProps> = ({ project }) 
           {
             (memberData && pageSize < memberData.total) &&
             <a className="text-secondary pointer mt-2" onClick={loadingViewMore ? undefined : handleViewMore}>
-              {t('btn_view_more')} {loadingViewMore && <Loading color="secondary" />}
+              {t('common.btn_view_more')} {loadingViewMore && <Loading color="secondary" />}
             </a>
           }
         </div>
@@ -146,13 +147,13 @@ const ProjectSettingMember: React.FC<ProjectSettingMemberProps> = ({ project }) 
       <Modal 
         closable={false}
         open={openDeleteMember} 
-        title={t('project_setting.message_delete_member')}
+        title={t('projects_page.setting.message_delete_member')}
         footerBtn={[
           <Button color='default' key={1} onClick={() => setOpenDeleteMember (false)} className='mr-2' disabled={loadingDelete}>
-            {t('btn_cancel')}
+            {t('common.btn_cancel')}
           </Button>,
           <Button key={2} color={loadingDelete ? 'secondary' : 'primary'} type="submit" disabled={loadingDelete} onClick={handleDeleteMember}>
-            {loadingDelete ? <Loading color="light" /> : t('btn_delete')}
+            {loadingDelete ? <Loading color="light" /> : t('common.btn_delete')}
           </Button>
         ]
         }

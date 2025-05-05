@@ -12,6 +12,7 @@ import { displayMessage } from "@/utils/helper.util";
 import { faMinus, faSearch, faUserGroup } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 interface WorkspaceMemberProps {
@@ -81,14 +82,14 @@ const WorkspaceMember: React.FC<WorkspaceMemberProps> = ({ workspace }) => {
           <div className="d-flex justify-content-between align-items-center mb-3 px-2">
             <h6 className="mb-0 text-secondary">
               <FontAwesomeIcon icon={faUserGroup} className="me-2" />
-              {t('member_label')}
+              {t('workspaces_page.member.member_title')}
             </h6>
             <div className="position-relative">
               <FontAwesomeIcon icon={faSearch} className="position-absolute ms-3 wp-search-icon" />
               <input
                 type="text"
                 className="form-control ps-5 rounded search-input"
-                placeholder={t('tasks.placeholder_search_member') + '...'}
+                placeholder={t('workspaces_page.member.placeholder_input_search') + '...'}
                 value={keyword}
                 onChange={handleChange}
               />
@@ -100,7 +101,7 @@ const WorkspaceMember: React.FC<WorkspaceMemberProps> = ({ workspace }) => {
                 {memberData.items.map((member, index) => (
                   <tr key={index} className="border-bottom">
                     <td>
-                      <UserAvatar name={member.first_name} avatar={member.avatar} />
+                      <Link href={'/profile/' + member.id}><UserAvatar name={member.first_name} avatar={member.avatar} /></Link>
                     </td>
                     <td className="fw-semibold text-dark">{member.first_name} {member.last_name}</td>
                     <td className="text-muted">{member.email}</td>
@@ -117,7 +118,7 @@ const WorkspaceMember: React.FC<WorkspaceMemberProps> = ({ workspace }) => {
           {
             pageSize < memberData.total &&
             <a className="text-secondary pointer mt-2" onClick={loadingViewMore ? undefined : handleViewMore}>
-              {t('btn_view_more')} {loadingViewMore && <Loading color="secondary" />}
+              {t('common.btn_view_more')} {loadingViewMore && <Loading color="secondary" />}
             </a>
           }
         </div>
@@ -125,13 +126,13 @@ const WorkspaceMember: React.FC<WorkspaceMemberProps> = ({ workspace }) => {
       <Modal 
         open={openDeleteMember} 
         closable={false}
-        title={t('workspace_setting.delete_member_message')}
+        title={t('workspaces_page.member.delete_member_warning_message')}
         footerBtn={[
           <Button color='default' key={1} onClick={() => setOpenDeleteMember (false)} className='mr-2' disabled={loadingDelete}>
-            {t('btn_cancel')}
+            {t('common.btn_cancel')}
           </Button>,
           <Button key={2} color={loadingDelete ? 'secondary' : 'primary'} type="submit" disabled={loadingDelete} onClick={handleDeleteMember}>
-            {loadingDelete ? <Loading color="light" /> : t('btn_delete')}
+            {loadingDelete ? <Loading color="light" /> : t('common.btn_delete')}
           </Button>
         ]
         }

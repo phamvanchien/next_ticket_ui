@@ -19,7 +19,7 @@ const TaskDescription: React.FC<TaskDescriptionProps> = ({ className, taskId, di
   const t = useTranslations();
   const [readMore, setReadMore] = useState(false);
   const [edit, setEdit] = useState(true);
-  const [placeholderText, setPlaceholderText] = useState(t('tasks.placeholder_task_description'));
+  const [placeholderText, setPlaceholderText] = useState(t('tasks_page.placeholder_task_description'));
   useEffect(() => {
     setEdit(false);
   }, [taskId])
@@ -29,7 +29,7 @@ const TaskDescription: React.FC<TaskDescriptionProps> = ({ className, taskId, di
         {
           (!edit) &&
           <i className="text-secondary pointer" onClick={() => setEdit (true)}>
-            <FontAwesomeIcon icon={faPen} /> {t('tasks.write_description_label')}
+            <FontAwesomeIcon icon={faPen} /> {t('tasks_page.write_description_label')}
           </i>
         }
         {(edit) ? (
@@ -55,7 +55,7 @@ const TaskDescription: React.FC<TaskDescriptionProps> = ({ className, taskId, di
             className="text-secondary"
             onClick={() => setReadMore(true)}
           >
-            {t('btn_read_more')} <FontAwesomeIcon icon={faAngleDoubleRight} />
+            {t('common.btn_read_more')} <FontAwesomeIcon icon={faAngleDoubleRight} />
           </span>
         )}
         {description && !edit && description.length > maxContentSize && readMore && (
@@ -64,7 +64,7 @@ const TaskDescription: React.FC<TaskDescriptionProps> = ({ className, taskId, di
             className="text-secondary"
             onClick={() => setReadMore(false)}
           >
-            <FontAwesomeIcon icon={faAngleDoubleLeft} /> {t('btn_hide_read_more')}
+            <FontAwesomeIcon icon={faAngleDoubleLeft} /> {t('common.btn_hide_read_more')}
           </span>
         )}
       </div>

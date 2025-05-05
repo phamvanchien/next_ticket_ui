@@ -66,7 +66,7 @@ const TaskHistory: React.FC<TaskHistoryProps> = ({ task }) => {
         (historiesData && historiesData.total > defaultPageSize && pageSize < historiesData.total) &&
         <div className="col-12 mt-3">
           <a className="text-secondary pointer" onClick={!loadingViewMore ? handleLoadMore : undefined}>
-            {loadingViewMore ? <Loading color="secondary" /> : t('btn_view_more')}
+            {loadingViewMore ? <Loading color="secondary" /> : t('common.btn_view_more')}
           </a>
         </div>
       }

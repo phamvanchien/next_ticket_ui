@@ -226,7 +226,7 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
   }, [debouncedValue, taskFilter]);
   useEffect(() => {
     loadTaskList();
-  }, [project, debouncedValue, pageSizeList, sortTitle, sortCreatedAt, sortDue])
+  }, [project, debouncedValue, pageSizeList, sortTitle, sortCreatedAt, sortDue]);
   useEffect(() => {
     if (taskCreated) {
       setTasksBoardData((prevTasksBoardData) => {
@@ -590,19 +590,9 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
           {
             isMember &&
             <Button color="primary" className="float-right mt-2" style={{ marginLeft: 7 }} onClick={() => setOpenCreate (true)}>
-              <FontAwesomeIcon icon={faPlus} /> {t('tasks.btn_create_task')}
+              <FontAwesomeIcon icon={faPlus} /> {t('tasks_page.btn_create_task')}
             </Button>
           }
-          {/* {
-            (!project.is_public && membersProject && membersProject.length > 0) &&
-            <UserGroup className="float-right mt-2">
-              {
-                membersProject.map((member, index) => (
-                  <UserAvatar name={member.first_name} avatar={member.avatar} key={index} />
-                ))
-              }
-            </UserGroup>
-          } */}
         </div>
       </div>
       <div className="row">
@@ -612,21 +602,21 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
         <div className="col-6 col-lg-6 mt-2">
           <ul className="board-menu">
             <li className={`board-menu-item ${layout === 1 ? 'active' : ''}`} onClick={() => setLayout (1)}>
-              <FontAwesomeIcon icon={faGrip} style={{ marginRight: 5 }} /> {t('tasks.board')}
+              <FontAwesomeIcon icon={faGrip} style={{ marginRight: 5 }} /> {t('tasks_page.board')}
             </li>
             <li className={`board-menu-item ${layout === 2 ? 'active' : ''}`} onClick={() => setLayout (2)}>
-              <FontAwesomeIcon icon={faList} style={{ marginRight: 5 }} /> {t('tasks.list')}
+              <FontAwesomeIcon icon={faList} style={{ marginRight: 5 }} /> {t('tasks_page.list')}
             </li>
           </ul>
         </div>
         <div className="col-6 col-lg-6 mt-2">
-          <Button color="default" className="float-right mt-1" onClick={() => setOpenFilter (true)}>
-            <FontAwesomeIcon icon={faFilter} /> {t('tasks.filter_label')}
+          <Button color="default" className="float-right mt-2" onClick={() => setOpenFilter (true)}>
+            <FontAwesomeIcon icon={faFilter} /> {t('tasks_page.filter_label')}
           </Button>
           {
             isMember &&
-            <Button color="default" className="float-right mt-1" onClick={() => setOpenBoardChart (true)}>
-              <FontAwesomeIcon icon={faLineChart} /> {t('tasks.report.report_label')}
+            <Button color="default" className="float-right mt-2" onClick={() => setOpenBoardChart (true)}>
+              <FontAwesomeIcon icon={faLineChart} /> {t('tasks_page.report.report_label')}
             </Button>
           }
           <TaskInputSearch keyword={keyword} handleChange={handleChange} className="d-none d-lg-block float-right mt-2" />
@@ -690,13 +680,13 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
       <Modal
         open={openClone}
         setOpen={setOpenClone}
-        title={t('tasks.clone_task_message')}
+        title={t('projects_page.clone_project_title')}
         footerBtn={[
           <Button color="default" key="cancel"className="mr-2" onClick={() => setOpenClone (false)} disabled={cloneLoading}>
-            {t("btn_cancel")}
+            {t("common.btn_cancel")}
           </Button>,
           <Button color={cloneLoading ? 'secondary' : 'primary'} key="save" type="submit" onClick={handleCloneProject} disabled={cloneLoading || !projectCloneName || projectCloneName === ''}>
-            {cloneLoading ? <Loading color="light" /> : t("tasks.clone")}
+            {cloneLoading ? <Loading color="light" /> : t("tasks_page.clone")}
           </Button>
         ]}
       >
@@ -705,7 +695,7 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
             <Input 
               type="text" 
               value={projectCloneName} 
-              placeholder={t('create_project.placeholder_input_project_name')} 
+              placeholder={t('projects_page.create.placeholder_input_project_name')} 
               onChange={(e) => setProjectCloneName (e.target.value)}
             />
           </div>
@@ -714,13 +704,13 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
               className={`pointer ${projectCloneSetting.include_attribute ? 'text-success' : 'text-secondary'}`} 
               onClick={() => setProjectCloneSetting ({include_member: projectCloneSetting.include_member, include_attribute: projectCloneSetting.include_attribute ? false : true})}
             >
-              <FontAwesomeIcon icon={projectCloneSetting.include_attribute ? faCheckSquare : faSquare} /> {t('project_setting.clone_with_attribute')}
+              <FontAwesomeIcon icon={projectCloneSetting.include_attribute ? faCheckSquare : faSquare} /> {t('projects_page.setting.clone_with_attribute')}
             </span><br/>
             <span 
               className={`pointer mt-2 ${projectCloneSetting.include_member ? 'text-success' : 'text-secondary'}`}
               onClick={() => setProjectCloneSetting ({include_member: projectCloneSetting.include_member ? false : true, include_attribute: projectCloneSetting.include_attribute})}
             >
-              <FontAwesomeIcon icon={projectCloneSetting.include_member ? faCheckSquare : faSquare} /> {t('project_setting.clone_with_member')}
+              <FontAwesomeIcon icon={projectCloneSetting.include_member ? faCheckSquare : faSquare} /> {t('projects_page.setting.clone_with_member')}
             </span>
           </div>
         </div>
@@ -738,13 +728,13 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
             <FontAwesomeIcon icon={faCheckCircle} style={{ fontSize: 50 }} className="text-success" />
           </div>
           <div className="col-12 text-center mb-4 text-success">
-            {t('project_setting.create_project_success')}
+            {t('projects_page.create.success_message')}
           </div>
           <div className="col-12">
             <Button color="primary" className="w-100" onClick={() => router.push(`/workspace/${project.workspace_id}/project/${projectIdCloned}`)}>
-              {t('project_setting.view_project_btn')}
+              {t('projects_page.setting.view_project_btn')}
             </Button>
-            <Button color="light" className="w-100 mt-2" onClick={() => setOpenCloneSuccess (false)}>{t('btn_cancel')}</Button>
+            <Button color="light" className="w-100 mt-2" onClick={() => setOpenCloneSuccess (false)}>{t('common.btn_cancel')}</Button>
           </div>
         </div>
       </Modal>

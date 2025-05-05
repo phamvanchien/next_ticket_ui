@@ -14,6 +14,7 @@ import { setCookie } from "@/utils/cookie.util";
 import { APP_AUTH, APP_LINK } from "@/enums/app.enum";
 import { APP_CONFIG } from "@/configs/app.config";
 import { useRouter, useSearchParams } from "next/navigation";
+import LoadingGif from "@/common/components/LoadingGif";
 
 const LoginView = () => {
   const t = useTranslations();
@@ -32,11 +33,11 @@ const LoginView = () => {
   const handleSubmitFetchEmail = async () => {
     try {
       if (isEmpty(emailInput)) {
-        setErrorMessage(t('authenticate_message.email_is_required'));
+        setErrorMessage(t('login_page.error.email_is_required'));
         return;
       }
       if (!isEmail(emailInput as string)) {
-        setErrorMessage(t('authenticate_message.email_is_valid'));
+        setErrorMessage(t('login_page.error.email_is_valid'));
         return;
       }
       if (!emailInput) {
@@ -66,7 +67,7 @@ const LoginView = () => {
   const handleAuthenticate = async () => {
     try {
       if (isEmpty(passwordInput) || !passwordInput) {
-        setErrorMessage(t('authenticate_message.password_is_required'));
+        setErrorMessage(t('login_page.error.password_is_required'));
         return;
       }
       if (!emailInput) {
@@ -141,23 +142,23 @@ const LoginView = () => {
   if (code && scope && authuser && prompt) {
     return (
       <div className="card shadow-sm p-4 border-0" style={{ width: "90%", maxWidth: "400px" }}>
-        <h5 className="text-center mb-3 mt-4">{t('login.login_to_label')} Next Tech</h5>
+        <h5 className="text-center mb-3 mt-4">{t('login_page.title')} Next Tech</h5>
         <center>
-          <img src="/images/icons/loading_google.gif" className="mt-4" height={70} width={150} />
+          <LoadingGif width={50} height={50} />
         </center>
       </div>
     )
   }
   return <>
     <div className="card shadow-sm p-4 border-0" style={{ width: "90%", maxWidth: "400px" }}>
-      <h5 className="text-center mb-3 mt-4">{t('login.login_to_label')} Next Tech</h5>
+      <h5 className="text-center mb-3 mt-4">{t('login_page.title')} Next Tech</h5>
       {
         fetchedEmail ?
         <Input 
           minLength={5}
           maxLength={16}
           type="password" 
-          placeholder={t('login.input_password')} 
+          placeholder={t('login_page.placeholder_input_password')} 
           classInput="rounded-2" 
           classGroup="mb-3"
           errorMessage={errorMessage}
@@ -167,13 +168,13 @@ const LoginView = () => {
           validates={[
             {
               type: 'is_required',
-              message: t('authenticate_message.password_is_required')
+              message: t('login_page.error.password_is_required')
             }
           ]}
         /> : 
         <Input 
           type="email" 
-          placeholder={t('login.input_email')} 
+          placeholder={t('login_page.placeholder_input_email')} 
           classInput="rounded-2" 
           classGroup="mb-3"
           errorMessage={errorMessage}
@@ -183,11 +184,11 @@ const LoginView = () => {
           validates={[
             {
               type: 'is_required',
-              message: t('authenticate_message.email_is_required')
+              message: t('login_page.error.email_is_required')
             },
             {
               type: 'is_email',
-              message: t('authenticate_message.email_is_valid')
+              message: t('login_page.error.email_is_valid')
             }
           ]}
         />
@@ -198,23 +199,29 @@ const LoginView = () => {
         onClick={!fetchedEmail ? handleSubmitFetchEmail : handleAuthenticate}
         disabled={loading || loadingGoogle}
       >
-        {loading ? <Loading color="light" /> : (fetchedEmail ? t('login.sign_in_btn') : t('login.continue_btn'))}
+        {loading ? <Loading color="light" /> : (fetchedEmail ? t('login_page.sign_in_btn') : t('login_page.continue_btn'))}
       </Button>
       <div className="text-center text-muted mb-3">
-        {t('login.or_text')}
+        {t('login_page.or_text')}
       </div>
-      <Button 
-        disabled={loadingGoogle || loading} 
-        color="light" 
-        className={`align-items-center shadow-sm border rounded-pill px-4 py-${loadingGoogle ? '1' : '2'} w-100`}
-        onClick={handleLoginWithGoogle}
-      >
-        {!loadingGoogle && <img src="/images/icons/google.png" alt="Google Logo" className="me-2" width="24" height="24" />}
-        <span>{loadingGoogle ? <img src="/images/icons/loading_google.gif" height={30} width={90} /> : t('login.login_google_btn')}</span>
-      </Button>
+      {
+        loadingGoogle ?
+        <center>
+          <LoadingGif width={50} height={50} />
+        </center> :
+        <Button 
+          disabled={loadingGoogle || loading} 
+          color="light" 
+          className={`align-items-center shadow-sm border rounded-pill px-4 py-${loadingGoogle ? '1' : '2'} w-100`}
+          onClick={handleLoginWithGoogle}
+        >
+          {!loadingGoogle && <img src="/images/icons/google.png" alt="Google Logo" className="me-2" width="24" height="24" />}
+          <span>{loadingGoogle ? <img src="/images/icons/loading_google.gif" height={30} width={90} /> : t('login_page.login_google_btn')}</span>
+        </Button>
+      }
       <div className="text-center mt-3">
         <Link href="#" className="text-decoration-none text-primary">
-          {t('login.create_account_btn')}
+          {t('login_page.create_account_btn')}
         </Link>
       </div>
     </div>

@@ -54,7 +54,7 @@ const TaskComment: React.FC<TaskCommentProps> = ({ className, task }) => {
       }
       setLoadingDelete(true);
       const response = await update(task.workspace_id, task.project_id, task.id, confirmDelete, {
-        content: t('tasks.deleted_comment_message'),
+        content: t('tasks_page.comment.deleted_comment_message'),
         deleted: 1
       });
       setLoadingDelete(false);
@@ -109,13 +109,13 @@ const TaskComment: React.FC<TaskCommentProps> = ({ className, task }) => {
     }
     <Modal 
       open={openDelete} 
-      title={t('tasks.confirm_delete_comment_message')}
+      title={t('tasks_page.comment.confirm_delete_comment_message')}
       footerBtn={[
         <Button color='default' key={1} onClick={() => setConfirmDelete (undefined)} className='mr-2' disabled={loadingDelete}>
-          {t('btn_cancel')}
+          {t('common.btn_cancel')}
         </Button>,
         <Button key={2} color={loadingDelete ? 'secondary' : 'primary'} type="submit" onClick={handleDeleteComment} disabled={loadingDelete}>
-          {loadingDelete ? <Loading color="light" /> : t('btn_delete')}
+          {loadingDelete ? <Loading color="light" /> : t('common.btn_delete')}
         </Button>
       ]
       }

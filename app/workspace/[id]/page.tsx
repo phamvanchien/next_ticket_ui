@@ -20,9 +20,6 @@ interface WorkspacePageProps {
   // workspace: WorkspaceType;
 }
 
-// Lỗi có thể do thiếu tham số hoặc không sử dụng đúng props.
-// Bạn cần chắc chắn rằng params và workspace được truyền đúng vào component.
-
 const WorkspaceDetail: React.FC<WorkspacePageProps> = ({ params }) => {
   return (
     <div>

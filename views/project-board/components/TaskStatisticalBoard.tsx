@@ -77,9 +77,9 @@ const TaskStatisticalBoard: React.FC<TaskStatisticalBoardProps> = ({ project }) 
             <div className="card-body d-flex justify-content-between align-items-center">
               <div>
                 <div className="text-muted small">
-                  {item.category_id === 1 && t('tasks.report.todo_label')}
-                  {item.category_id === 2 && t('tasks.report.in_progress_label')}
-                  {item.category_id === 3 && t('tasks.report.done_label')}
+                  {item.category_id === 1 && t('tasks_page.report.todo_label')}
+                  {item.category_id === 2 && t('tasks_page.report.in_progress_label')}
+                  {item.category_id === 3 && t('tasks_page.report.done_label')}
                 </div>
                 <div className="h4 mb-0">{item.task_count}</div>
               </div>
@@ -99,7 +99,7 @@ const TaskStatisticalBoard: React.FC<TaskStatisticalBoardProps> = ({ project }) 
         >
           <div className="card-body d-flex justify-content-between align-items-center">
             <div>
-              <div className="text-muted small">{t('tasks.report.over_due_label')}</div>
+              <div className="text-muted small">{t('tasks_page.report.over_due_label')}</div>
               <div className="h4 mb-0">{overDue}</div>
             </div>
             <div>

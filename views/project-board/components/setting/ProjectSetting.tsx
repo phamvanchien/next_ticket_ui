@@ -56,27 +56,27 @@ const ProjectSetting: React.FC<ProjectSettingProps> = ({ open, project, setOpen 
     }
   }, [projectUpdated]);
   return (
-    <Sidebar open={open} width={800} headerTitle={t('tasks.page_title_project_setting')} setOpen={setOpen}>
+    <Sidebar open={open} width={800} headerTitle={t('projects_page.setting.setting_title')} setOpen={setOpen}>
       <ProjectSettingInfo project={projectData} />
       <ProjectSettingVisibility project={projectData} />
       <ProjectSettingMember project={projectData} />
       <div className="row mt-4">
         <div className="col-12">
           <p className="pointer text-danger" onClick={() => setOpenDeleteProject (true)}>
-            <FontAwesomeIcon icon={faTrash} /> {t('project_setting.setting_delete_project_title')}
+            <FontAwesomeIcon icon={faTrash} /> {t('projects_page.setting.setting_delete_project_title')}
           </p>
         </div>
       </div>
       <Modal 
         closable={false}
         open={openDeleteProject} 
-        title={t('project_setting.label_delete_project')}
+        title={t('projects_page.setting.label_delete_project')}
         footerBtn={[
           <Button color='default' key={1} onClick={() => setOpenDeleteProject (false)} className='mr-2' disabled={loadingDelete}>
-            {t('btn_cancel')}
+            {t('common.btn_cancel')}
           </Button>,
           <Button key={2} color={loadingDelete ? 'secondary' : 'primary'} type="submit" disabled={loadingDelete || projectNameDelete !== projectData.name} onClick={handleDeleteProject}>
-            {loadingDelete ? <Loading color="light" /> : t('btn_delete')}
+            {loadingDelete ? <Loading color="light" /> : t('common.btn_delete')}
           </Button>
         ]
         }

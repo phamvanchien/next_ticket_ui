@@ -199,6 +199,10 @@
     /* .due-date-row {
       margin-top: 20px;
     } */
+
+    .duedate-task, .status-task, .attribute-single-task {
+      float: right;
+    }
 }
 
 
@@ -418,7 +422,7 @@
     justify-content: space-between;
 
     .comment-user-info {
-      margin-left: 12px;
+      margin-left: 8px;
       flex-grow: 1;
     }
 

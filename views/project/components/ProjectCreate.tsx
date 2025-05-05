@@ -39,7 +39,7 @@ const ProjectCreate: React.FC<ProjectCreateProps> = ({ workspaceId, workspaceMem
   const handleCreateProject = async () => {
     try {
       if (isEmpty(name)) {
-        setErrorMessage(t('create_project.project_name_required'));
+        setErrorMessage(t('projects_page.create.project_name_required'));
         return;
       }
       if (!name) {
@@ -74,13 +74,13 @@ const ProjectCreate: React.FC<ProjectCreateProps> = ({ workspaceId, workspaceMem
   return (
     <Modal 
       open={open} 
-      title={t('create_project.page_title')}
+      title={t('projects_page.create.create_title')}
       footerBtn={[
         <Button color='default' key={1} onClick={() => setOpen (false)} className='mr-2' disabled={loading}>
-          {t('btn_cancel')}
+          {t('common.btn_cancel')}
         </Button>,
         <Button key={2} color={loading ? 'secondary' : 'primary'} type="submit" disabled={loading} onClick={handleCreateProject}>
-          {loading ? <Loading color="light" /> : t('btn_save')}
+          {loading ? <Loading color="light" /> : t('common.btn_save')}
         </Button>
       ]
       }
@@ -92,27 +92,27 @@ const ProjectCreate: React.FC<ProjectCreateProps> = ({ workspaceId, workspaceMem
             type="text"
             minLength={3}
             maxLength={100}
-            placeholder={t('projects.placeholder_input_status_name')} 
+            placeholder={t('projects_page.placeholder_input_status_name')} 
             onChange={(e) => setName (e.target.value)}
             errorMessage={errorMessage}
             value={name}
             validates={[
               {
                 type: 'is_required',
-                message: t('create_project.project_name_required')
+                message: t('projects_page.create.project_name_required')
               }
             ]}
           />
         </div>
         {/* <div className="col-12 mt-2">
-          <Textarea ref={descriptionRef} maxLength={300} rows={5} style={{height: 100}} placeholder={t('create_project.placeholder_project_description')} />
+          <Textarea ref={descriptionRef} maxLength={300} rows={5} style={{height: 100}} placeholder={t('projects_page.create.placeholder_project_description')} />
         </div> */}
         <div className="col-12 mt-2">
           <p className="pointer m-unset mb-2" onClick={() => setIsPublic (true)}>
-            <FontAwesomeIcon icon={isPublic ? faCircleCheck : faCircle} className={`text-${isPublic ? 'success' : 'secondary'}`} /> {t('public_check')}
+            <FontAwesomeIcon icon={isPublic ? faCircleCheck : faCircle} className={`text-${isPublic ? 'success' : 'secondary'}`} /> {t('common.public_check')}
           </p>
           <p className="pointer" onClick={() => setIsPublic (false)}>
-            <FontAwesomeIcon icon={!isPublic ? faCircleCheck : faCircle} className={`text-${!isPublic ? 'success' : 'secondary'}`} /> {t('private_check')}
+            <FontAwesomeIcon icon={!isPublic ? faCircleCheck : faCircle} className={`text-${!isPublic ? 'success' : 'secondary'}`} /> {t('common.private_check')}
           </p>
         </div>
       </div>

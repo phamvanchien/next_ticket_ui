@@ -18,19 +18,19 @@ const RelativeTime: React.FC<RelativeTimeProps> = ({ time, icon, className }) =>
     const formatTimeType = formatTime.type;
     const formatTimeNumber = formatTime.number;
     if (formatTimeType === 's') {
-      setTimeText(formatTimeNumber + ' ' + t('tasks.history.sec_label'));
+      setTimeText(formatTimeNumber + ' ' + t('tasks_page.history.sec_label'));
       return;
     }
     if (formatTimeType === 'm') {
-      setTimeText(formatTimeNumber + ' ' +t ('tasks.history.minute_label'));
+      setTimeText(formatTimeNumber + ' ' +t ('tasks_page.history.minute_label'));
       return;
     }
     if (formatTimeType === 'h') {
-      setTimeText(formatTimeNumber + ' ' + t('tasks.history.hour_label'));
+      setTimeText(formatTimeNumber + ' ' + t('tasks_page.history.hour_label'));
       return;
     }
     if (formatTimeType === 'd') {
-      setTimeText(formatTimeNumber + ' ' + t('tasks.history.day_label'));
+      setTimeText(formatTimeNumber + ' ' + t('tasks_page.history.day_label'));
       return;
     }
     setTimeText(formatTimeNumber);

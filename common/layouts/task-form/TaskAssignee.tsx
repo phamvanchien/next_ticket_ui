@@ -55,12 +55,12 @@ const TaskAssignee: React.FC<TaskAssigneeProps> = ({ className, projectMembers, 
   return (
     <div className={`row ${className ?? ''}`}>
       <div className="col-lg-3 col-12 text-secondary mt-2">
-        <FontAwesomeIcon icon={faUser} /> {label ? label : t('tasks.assignee_label')}:
+        <FontAwesomeIcon icon={faUser} /> {label ? label : t('tasks_page.assignee_label')}:
       </div>
       <div className="col-lg-9 col-12 mt-2">
         <SelectMultiple 
           className="mt-2 dropdown-assignee" 
-          placeholder={placeholder ? placeholder : t('tasks.unassigned_label')} 
+          placeholder={placeholder ? placeholder : t('tasks_page.unassigned_label')} 
           options={options} 
           values={assigneeSelected.map(a => a.id)}
           handleChange={handleChange}

@@ -60,7 +60,7 @@ const WorkspaceAddMember: React.FC<WorkspaceAddMemberProps> = ({ workspaceId, se
       );
       setSendLoading(false);
       if (response && response.code === API_CODE.OK) {
-        displayMessage("success", t('create_project.send_invite_success_label'));
+        displayMessage("success", t('workspaces_page.member.success.send_invite_success'));
         setOpenModal(undefined);
         setOpen(false);
         setUserSelected([]);
@@ -106,13 +106,13 @@ const WorkspaceAddMember: React.FC<WorkspaceAddMemberProps> = ({ workspaceId, se
   return (
     <Modal
       open={open}
-      title={t("create_project.add_members_text")}
+      title={t("workspaces_page.member.add_title")}
       footerBtn={[
         <Button color="default" key="cancel" onClick={() => setOpenModal(undefined)} className="mr-2" disabled={sendLoading}>
-          {t("btn_cancel")}
+          {t("common.btn_cancel")}
         </Button>,
         <Button color={sendLoading ? 'secondary' : 'primary'} key="save" type="submit" onClick={handleSendInvite} disabled={sendLoading || userSelected.length === 0}>
-          {sendLoading ? <Loading color="light" /> : t("btn_send")}
+          {sendLoading ? <Loading color="light" /> : t("common.btn_send")}
         </Button>,
       ]}
       setOpen={setOpen}
@@ -123,7 +123,7 @@ const WorkspaceAddMember: React.FC<WorkspaceAddMemberProps> = ({ workspaceId, se
             type="search"
             value={keyword}
             onChange={handleChange}
-            placeholder={t("create_project.placeholder_input_search_member")}
+            placeholder={t("workspaces_page.member.placeholder_input_search_user_invite")}
             disabled={sendLoading}
           />
           {loading && (

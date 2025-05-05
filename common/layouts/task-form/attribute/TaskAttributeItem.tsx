@@ -177,10 +177,10 @@ const TaskAttributeItem: React.FC<TaskAttributeItemProps> = ({
       </div>
       <div className={`col-lg-9 col-${(attribute.default_name && ['priority', 'type'].includes(attribute.default_name)) ? '8' : '12 attribute-item-value'}`}>
         {attributeData.type === 1 && (
-          <Input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder={t('empty_label')} />
+          <Input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)} placeholder={t('common.empty_label')} />
         )}
         {attributeData.type === 2 && (
-          <Textarea rows={3} value={textareaValue} onChange={(e) => setTextareaValue(e.target.value)} placeholder={t('empty_label')} />
+          <Textarea rows={3} value={textareaValue} onChange={(e) => setTextareaValue(e.target.value)} placeholder={t('common.empty_label')} />
         )}
         {attributeData.type === 3 && (
           <SelectSingle
@@ -192,7 +192,8 @@ const TaskAttributeItem: React.FC<TaskAttributeItemProps> = ({
             }))}
             handleChange={handleChangeSingleSelect}
             value={singleSelectValue ? JSON.parse(singleSelectValue)[0]?.id : undefined}
-            placeholder={t('empty_label')}
+            placeholder={t('common.empty_label')}
+            className="attribute-single-task"
           />
         )}
         {attributeData.type === 4 && (
@@ -207,11 +208,11 @@ const TaskAttributeItem: React.FC<TaskAttributeItemProps> = ({
             }))}
             handleChange={handleChangeMultipleSelect}
             values={multipleSelectValue ? JSON.parse(multipleSelectValue)?.map((item: any) => Number(item.id)) : undefined}
-            placeholder={t('empty_label')}
+            placeholder={t('common.empty_label')}
           />
         )}
         {attributeData.type === 5 && (
-          <DatePickerCustom date={date} setDate={setDate} placeholder={t('empty_label')} />
+          <DatePickerCustom date={date} setDate={setDate} placeholder={t('common.empty_label')} />
         )}
       </div>
     </div>

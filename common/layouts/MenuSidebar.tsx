@@ -2,7 +2,7 @@
 import { RootState, useAppDispatch } from "@/reduxs/store.redux";
 import { setWorkspaceSelected } from "@/reduxs/workspace.redux";
 import { WorkspaceType } from "@/types/workspace.type";
-import { faBullseye, faFileText, faGear, faHistory } from "@fortawesome/free-solid-svg-icons";
+import { faBullseye, faCubes, faFileText, faGear, faHistory } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
@@ -85,6 +85,11 @@ const MenuSidebar: React.FC<MenuSidebarProps> = ({ workspace }) => {
               </div>
             </div>
           </div>
+          <div className={`nav mt-2`}>
+            <Link className="nav-link" href={`/workspace/`} onClick={handleClickItem}>
+              <FontAwesomeIcon icon={faCubes} style={{ marginRight: 7 }} /> {t('sidebar.workspace')}
+            </Link>
+          </div>
           <div className={`nav mt-2 ${sidebarSelected === 'project' ? 'menu-item-active' : ''}`}>
             <Link className="nav-link" href={`/workspace/${workspaceData.id}/project`} onClick={handleClickItem}>
               <FontAwesomeIcon icon={faBullseye} style={{ marginRight: 7 }} /> {t('sidebar.project')}
@@ -104,7 +109,7 @@ const MenuSidebar: React.FC<MenuSidebarProps> = ({ workspace }) => {
             workspaceData.user_id === userLogged?.id &&
             <div className={`nav mt-2 ${sidebarSelected === 'workspace_setting' ? 'menu-item-active' : ''}`}>
               <Link className="nav-link" href={`/workspace/${workspaceData.id}/setting`} onClick={handleClickItem}>
-                <FontAwesomeIcon icon={faGear} style={{ marginRight: 7 }} /> {t('workspace_setting.page_title')}
+                <FontAwesomeIcon icon={faGear} style={{ marginRight: 7 }} /> {t('workspaces_page.setting.setting_title')}
               </Link>
             </div>
           }

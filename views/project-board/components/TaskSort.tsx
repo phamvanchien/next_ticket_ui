@@ -41,7 +41,7 @@ const TaskSort: React.FC<TaskSortProps> = ({ className }) => {
   return (
     <Dropdown items={items} className={className}>
       <Button color='default' outline>
-        <FontAwesomeIcon icon={faSort} /> {t('tasks.sort_label')}
+        <FontAwesomeIcon icon={faSort} /> {t('tasks_page.sort_label')}
       </Button>
     </Dropdown>
   )

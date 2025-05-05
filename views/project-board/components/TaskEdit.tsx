@@ -49,7 +49,7 @@ const TaskEdit: React.FC<TaskEditProps> = ({
   const [open, setOpen] = useState(!!task);
   const [editLoading, setEditLoading] = useState(false);
   const [memberList, setMemberList] = useState(project.members);
-  const [dueDate, setDueDate] = useState<Date | null>(task ? new Date(task.due) : null);
+  const [dueDate, setDueDate] = useState<Date | null>((task && task.due) ? new Date(task.due) : null);
   const [assignee, setAssignee] = useState<UserType[]>(task ? task.assign : []);
   const [status, setStatus] = useState<number>(task ? task.status.id : project.status[0].id);
   const [attributesSelected, setAttributesSelected] = useState<TaskAttributeType[]>([]);
@@ -76,7 +76,7 @@ const TaskEdit: React.FC<TaskEditProps> = ({
         title: title,
         description: description,
         priority: 1,
-        due: dueDate ?? undefined,
+        due: dueDate ?? null,
         assigns: assignee.map(a => a.id),
         attributes: attributesSelected.map(a => {
           return {
@@ -132,7 +132,7 @@ const TaskEdit: React.FC<TaskEditProps> = ({
     if (task) {
       setAttributesSelected(task.attributes);
       setTitle(task.title);
-      setDueDate(new Date(task.due));
+      setDueDate(task.due ? new Date(task.due) : null);
       setAssignee(task.assign);
       setStatus(task.status.id);
       setTaskId(task.id);
@@ -163,7 +163,7 @@ const TaskEdit: React.FC<TaskEditProps> = ({
       key: 1,
       label: (
         <div className="text-secondary" onClick={() => setOpenClone (true)}>
-          <FontAwesomeIcon icon={faClone} /> {t('btn_clone')}
+          <FontAwesomeIcon icon={faClone} /> {t('common.btn_clone')}
         </div>
       ),
     },
@@ -171,7 +171,7 @@ const TaskEdit: React.FC<TaskEditProps> = ({
       key: 2,
       label: (
         <div className="text-danger" onClick={() => setOpenDelete (true)}>
-          <FontAwesomeIcon icon={faTrashAlt} /> {t('btn_move_to_trash')}
+          <FontAwesomeIcon icon={faTrashAlt} /> {t('common.btn_move_to_trash')}
         </div>
       ),
     }
@@ -192,20 +192,20 @@ const TaskEdit: React.FC<TaskEditProps> = ({
           <FontAwesomeIcon icon={faExpand} />
         </Button>
         <Button color={editLoading ? 'secondary' : 'primary'} className="float-right m-r-5" onClick={handleSaveTask} disabled={editLoading}>
-          {editLoading ? <Loading color="light" /> : t('btn_save')}
+          {editLoading ? <Loading color="light" /> : t('common.btn_save')}
         </Button>
         </>
       }
     >
       <div className="row">
         <div className="col-12">
-          <Input type="text" value={title} classInput="task-title-input" placeholder={t('tasks.task_title_default')} onChange={(e) => setTitle (e.target.value)} />
+          <Input type="text" value={title} classInput="task-title-input" placeholder={t('tasks_page.create.task_title_default')} onChange={(e) => setTitle (e.target.value)} />
         </div>
       </div>
 
       <div className="row mt-4">
         <div className="col-lg-3 col-12 mt-2 text-secondary">
-          <FontAwesomeIcon icon={faUser} /> {t('projects.created_by_text')}:
+          <FontAwesomeIcon icon={faUser} /> {t('projects_page.created_by_text')}:
         </div>
         <div className="col-12 col-lg-9 mt-2">
           <UserAvatar avatar={task?.user.avatar} name={task?.user.first_name ?? 'U'} /> {task?.user.first_name} {task?.user.last_name} - <i>{dateToString(new Date(task?.created_at ?? ''), '/', true)}</i>
@@ -215,10 +215,10 @@ const TaskEdit: React.FC<TaskEditProps> = ({
       <TaskAssignee className="mt-3 dropdown-assignee" projectMembers={memberList} assigneeSelected={assignee} setAssigneeSelected={setAssignee} />
       <div className="row mt-3 due-date-row">
         <div className="col-4 col-lg-3 text-secondary">
-          <FontAwesomeIcon icon={faCalendar} /> {t('tasks.placeholder_due_date')}:
+          <FontAwesomeIcon icon={faCalendar} /> {t('tasks_page.placeholder_due_date')}:
         </div>
         <div className="col-8 col-lg-9">
-          <DatePickerCustom setDate={setDueDate} date={dueDate} />
+          <DatePickerCustom className="duedate-task" setDate={setDueDate} date={dueDate} />
         </div>
       </div>
       <TaskStatus className="mt-3" statusList={project.status} statusSelected={status} setStatusSelected={setStatus} />
@@ -239,10 +239,10 @@ const TaskEdit: React.FC<TaskEditProps> = ({
         <div className="col-12">
           <ul className="board-menu">
             <li className={`board-menu-item ${activityLayout === 1 ? 'active' : ''}`} onClick={() => setActivityLayout (1)}>
-              <FontAwesomeIcon icon={faComment} style={{ marginRight: 5 }} /> {t('tasks.comment_label')}
+              <FontAwesomeIcon icon={faComment} style={{ marginRight: 5 }} /> {t('tasks_page.comment.comment_title')}
             </li>
             <li className={`board-menu-item ${activityLayout === 2 ? 'active' : ''}`} onClick={() => setActivityLayout (2)}>
-              <FontAwesomeIcon icon={faHistory} style={{ marginRight: 5 }} /> {t('tasks.history_label')}
+              <FontAwesomeIcon icon={faHistory} style={{ marginRight: 5 }} /> {t('tasks_page.history_label')}
             </li>
           </ul>
         </div>
@@ -251,13 +251,13 @@ const TaskEdit: React.FC<TaskEditProps> = ({
       {activityLayout === 2 && <TaskHistory task={task} />}
       <Modal 
         open={openDelete} 
-        title={t('tasks.delete_task_message')}
+        title={t('tasks_page.delete_task_message')}
         footerBtn={[
           <Button color='default' key={1} onClick={() => setOpenDelete (false)} className='mr-2' disabled={loadingDelete}>
-            {t('btn_cancel')}
+            {t('common.btn_cancel')}
           </Button>,
           <Button key={2} color={loadingDelete ? 'secondary' : 'primary'} type="submit" disabled={loadingDelete} onClick={handleDeleteTask}>
-            {loadingDelete ? <Loading color="light" /> : t('btn_delete')}
+            {loadingDelete ? <Loading color="light" /> : t('common.btn_delete')}
           </Button>
         ]
         }
@@ -267,7 +267,7 @@ const TaskEdit: React.FC<TaskEditProps> = ({
       </Modal>
       <Modal 
         open={openClone} 
-        title={t('tasks.clone_task_message')}
+        title={t('tasks_page.clone_task_message')}
         footerBtn={[]}
         setOpen={setOpenClone} 
       >

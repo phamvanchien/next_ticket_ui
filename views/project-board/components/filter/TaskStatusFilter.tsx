@@ -42,7 +42,7 @@ const TaskStatusFilter: React.FC<TaskStatusFilterProps> = ({ className, statusLi
   return (
     <div className={`row ${className ?? ''}`}>
       <div className="col-lg-3 col-12 text-secondary">
-        <FontAwesomeIcon icon={faClipboardList} /> {t('tasks.status_label')}:
+        <FontAwesomeIcon icon={faClipboardList} /> {t('tasks_page.status_label')}:
       </div>
       <div className="col-lg-9 col-12">
         <SelectMultiple
@@ -59,7 +59,7 @@ const TaskStatusFilter: React.FC<TaskStatusFilterProps> = ({ className, statusLi
           })} 
           handleChange={(values) => setStatusSelected (values.map(v => Number(v)))}
           values={statusSelected} 
-          placeholder={t('empty_label')}
+          placeholder={t('common.empty_label')}
         />
       </div>
     </div>

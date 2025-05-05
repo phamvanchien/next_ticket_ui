@@ -2,6 +2,7 @@ import UserAvatar from "@/common/components/AvatarName";
 import UserGroup from "@/common/components/UserGroup";
 import { RootState } from "@/reduxs/store.redux";
 import { ProjectType } from "@/types/project.type";
+import { dateToString } from "@/utils/helper.util";
 import { faGlobe, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslations } from "next-intl";
@@ -57,6 +58,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project }) => {
         </div>
         <div className="project-members">
           <UserGroup>
+            <UserAvatar name={project.user.first_name} avatar={project.user.avatar} />
             {project.members
               .filter(m => m.id !== userLogged?.id)
               .map(pm => (
@@ -67,11 +69,11 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project }) => {
       </div>
 
       <div className="text-muted small">
-        {t("projects.created_by_text")}: {project.user.first_name} {project.user.last_name}
+        {t("projects_page.created_by_text")}: {project.user.first_name} {project.user.last_name}
       </div>
 
-      <div className="description">
-        <i>{project.description || t("projects.no_description")}</i>
+      <div className="text-muted small">
+        {t("common.created_at_label")}: {dateToString(new Date(project.created_at))}
       </div>
 
       <div className="project-progress">

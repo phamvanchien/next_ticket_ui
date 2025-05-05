@@ -79,7 +79,7 @@ const TaskBoardEditStatus: React.FC<TaskBoardEditStatusProps> = ({ status, works
             type="text" 
             value={name} 
             maxLength={50} 
-            placeholder={t('project_setting.placeholder_input_status')} 
+            placeholder={t('projects_page.placeholder_input_status_name')} 
             onClick={(e) => e.stopPropagation()} 
             onChange={(e) => setName (e.target.value)}
           />
@@ -100,7 +100,7 @@ const TaskBoardEditStatus: React.FC<TaskBoardEditStatusProps> = ({ status, works
               ),
             }))}
             handleChange={(value) => setColor (value)}
-            placeholder={t("select_color")}
+            placeholder={t("common.select_color")}
             defaultValue={color}
           />
         </div>
@@ -110,7 +110,7 @@ const TaskBoardEditStatus: React.FC<TaskBoardEditStatusProps> = ({ status, works
       key: 3,
       label: (
         <Button color={editLoading ? 'secondary' : 'primary'} className="w-100" disabled={editLoading} onClick={(e) =>{ e.stopPropagation(); handleUpdateStatus();}}>
-          {editLoading ? <Loading color="light" /> : t('btn_save')}
+          {editLoading ? <Loading color="light" /> : t('common.btn_save')}
         </Button>
       )
     },
@@ -118,7 +118,7 @@ const TaskBoardEditStatus: React.FC<TaskBoardEditStatusProps> = ({ status, works
       key: 4,
       label: (
         <Button color={'default'} outline className="w-100 text-danger" disabled={editLoading} onClick={(e) =>{ e.stopPropagation(); setConfirmDelete(true);}}>
-          <FontAwesomeIcon icon={faTrashAlt} /> {t('btn_delete')}
+          <FontAwesomeIcon icon={faTrashAlt} /> {t('common.btn_delete')}
         </Button>
       )
     }
@@ -129,15 +129,15 @@ const TaskBoardEditStatus: React.FC<TaskBoardEditStatusProps> = ({ status, works
         <FontAwesomeIcon icon={faEllipsisV} />
       </Dropdown>
       <Modal 
-        title={t('project_setting.message_delete_status')}
+        title={t('projects_page.message_delete_status')}
         open={confirmDelete} 
         setOpen={setConfirmDelete}
         footerBtn={[
           <Button color="default" key="cancel"className="mr-2" onClick={(e) => {e.stopPropagation();setConfirmDelete (false)}} disabled={deleteLoading}>
-            {t("btn_cancel")}
+            {t("common.btn_cancel")}
           </Button>,
           <Button color={deleteLoading ? 'secondary' : 'primary'} key="save" type="submit" disabled={deleteLoading} onClick={handleDeleteStatus}>
-            {deleteLoading ? <Loading color="light" /> : t("btn_delete")}
+            {deleteLoading ? <Loading color="light" /> : t("common.btn_delete")}
           </Button>
         ]}
       >

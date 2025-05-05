@@ -1,5 +1,5 @@
 import { BaseResponseType } from "@/types/base.type";
-import { RequestChangePasswordType, RequestCreateUserType, RequestGetUsersType, RequestSetPasswordType, RequestUpdateUserType, ResponseUserDataType, ResponseUsersType, ResponseUserType } from "@/types/user.type";
+import { RequestChangePasswordType, RequestCreateUserType, RequestGetUsersType, RequestSetPasswordType, RequestUpdateUserType, ResponseUserDataType, ResponseUsersType, ResponseUserType, UserType } from "@/types/user.type";
 import { request } from "./base.api";
 import { API_METHOD_ENUM } from "@/enums/api.enum";
 import { APP_CONFIG } from "@/configs/app.config";
@@ -53,5 +53,12 @@ export const updateAvatar = async (image: File): Promise<BaseResponseType<Respon
     headers: {
       "Content-Type": "multipart/form-data"
     },
+  });
+}
+
+export const user = async (userId: number): Promise<BaseResponseType<UserType>> => {
+  return request({
+    method: API_METHOD_ENUM.GET,
+    url: APP_CONFIG.API.PREFIX.user.url + '/' + userId,
   });
 }

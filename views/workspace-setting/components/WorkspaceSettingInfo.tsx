@@ -25,7 +25,7 @@ const WorkspaceSettingInfo: React.FC<WorkspaceSettingInfoProps> = ({ workspace }
               <Link href={'#'}>{workspace.name}</Link> <FontAwesomeIcon icon={faPencil} className="text-secondary pointer" onClick={() => setOpenEdit (true)} />
             </h5>
             <p className="text-muted mb-0">
-              {t('tasks.created_at_label')}: {dateToString(new Date(workspace.created_at))}
+              {t('common.created_at_label')}: {dateToString(new Date(workspace.created_at))}
             </p>
           </div>
         </div>

@@ -19,19 +19,19 @@ const TaskHistoryItem: React.FC<TaskHistoryItemProps> = ({ history }) => {
     const formatTimeType = formatTime.type;
     const formatTimeNumber = formatTime.number;
     if (formatTimeType === 's') {
-      setTimeText(formatTimeNumber + ' ' + t('tasks.history.sec_label'));
+      setTimeText(formatTimeNumber + ' ' + t('tasks_page.history.sec_label'));
       return;
     }
     if (formatTimeType === 'm') {
-      setTimeText(formatTimeNumber + ' ' +t ('tasks.history.minute_label'));
+      setTimeText(formatTimeNumber + ' ' +t ('tasks_page.history.minute_label'));
       return;
     }
     if (formatTimeType === 'h') {
-      setTimeText(formatTimeNumber + ' ' + t('tasks.history.hour_label'));
+      setTimeText(formatTimeNumber + ' ' + t('tasks_page.history.hour_label'));
       return;
     }
     if (formatTimeType === 'd') {
-      setTimeText(formatTimeNumber + ' ' + t('tasks.history.day_label'));
+      setTimeText(formatTimeNumber + ' ' + t('tasks_page.history.day_label'));
       return;
     }
   }, [t]);
@@ -39,7 +39,7 @@ const TaskHistoryItem: React.FC<TaskHistoryItemProps> = ({ history }) => {
     <div className="col-12 mt-2">
       <div className="card history-card">
         <div className="card-body p-unset">
-          <UserAvatar className="wp-logo me-2 float-left history-avatar" name={history.user.first_name} avatar={history.user.avatar} />
+          <UserAvatar size={30} className="wp-logo me-2 float-left history-avatar" name={history.user.first_name} avatar={history.user.avatar} />
           <b>{history.user.first_name} {history.user.last_name}</b> <RelativeTime time={history.created_at} className="m-l-10" icon />
           <div className="text-muted mt-3">
             {
@@ -47,7 +47,7 @@ const TaskHistoryItem: React.FC<TaskHistoryItemProps> = ({ history }) => {
                 if (history.field === 'title') {
                   return (
                     <span key={key}>
-                      {t('tasks.history.updated_title') + ': '}
+                      {t('tasks_page.history.updated_title') + ': '}
                       <p className="m-unset">{history.before} <FontAwesomeIcon icon={faArrowRight} className="ml-2 mr-2" /> {history.after}</p>
                     </span>
                   )
@@ -55,7 +55,7 @@ const TaskHistoryItem: React.FC<TaskHistoryItemProps> = ({ history }) => {
                 if (history.field === 'due') {
                   return (
                     <span key={key}>
-                      {history.before ? t('tasks.history.updated_due') + ': ' : t('tasks.history.added_due') + ': '} 
+                      {history.before ? t('tasks_page.history.updated_due') + ': ' : t('tasks_page.history.added_due') + ': '} 
                       <p className="m-unset">{history.before && dateToString(new Date(history.before))} {history.before && <FontAwesomeIcon icon={faArrowRight} className="ml-2 mr-2" />} {dateToString(new Date(history.after))}</p>
                     </span>
                   )
@@ -63,7 +63,7 @@ const TaskHistoryItem: React.FC<TaskHistoryItemProps> = ({ history }) => {
                 if (history.field === 'status') {
                   return (
                     <span key={key}>
-                      {t('tasks.history.updated_status') + ': '}
+                      {t('tasks_page.history.updated_status') + ': '}
                       <p className="m-unset">{JSON.parse(history.before).name} <FontAwesomeIcon icon={faArrowRight} className="ml-2 mr-2" /> {JSON.parse(history.after).name}</p>
                     </span>
                   )
@@ -76,13 +76,13 @@ const TaskHistoryItem: React.FC<TaskHistoryItemProps> = ({ history }) => {
                 if (history.field === 'assignee') {
                   return (
                     <span key={key}>
-                      {(history.before && history.before !== '[]') ? t('tasks.history.updated_assign') + ': ' : t('tasks.history.added_assign') + ': '} 
+                      {(history.before && history.before !== '[]') ? t('tasks_page.history.updated_assign') + ': ' : t('tasks_page.history.added_assign') + ': '} 
                       <p className="m-unset">{
                         (history.before && history.before !== '[]' && history.before.length > 0) && JSON.parse(history.before).map((u: any) => u.first_name + ' ' + u.last_name).join(', ')
                         } {
                           (history.before && history.before !== '[]') && <FontAwesomeIcon icon={faArrowRight} className="ml-2 mr-2" />
                           } {
-                            (history.after && history.after !== '[]' && history.after.length > 0) ? JSON.parse(history.after).map((u: any) => u.first_name + ' ' + u.last_name).join(', ') : t('tasks.unassigned_label')
+                            (history.after && history.after !== '[]' && history.after.length > 0) ? JSON.parse(history.after).map((u: any) => u.first_name + ' ' + u.last_name).join(', ') : t('tasks_page.unassigned_label')
                             }
                             </p>
                     </span>
@@ -91,14 +91,14 @@ const TaskHistoryItem: React.FC<TaskHistoryItemProps> = ({ history }) => {
                 if (history.field === 'attribute') {
                   return (
                     <p key={key}>
-                      {history.before ? t('tasks.history.added_label') + ': ' : t('tasks.history.updated_label') + ': '} {(history.before) && (isJsonLike(history.before) ? JSON.parse(history.before).map((u: any) => u.value).join(', ') : history.before)} {history.before && <FontAwesomeIcon icon={faArrowRight} className="ml-2 mr-2" />} {(history.after && history.after !== '[]') ? (isJsonLike(history.after) ? JSON.parse(history.after).map((u: any) => u.value).join(', ') : history.after) : t('tasks.history.no_value')}
+                      {history.before ? t('tasks_page.history.added_label') + ': ' : t('tasks_page.history.updated_label') + ': '} {(history.before) && (isJsonLike(history.before) ? JSON.parse(history.before).map((u: any) => u.value).join(', ') : history.before)} {history.before && <FontAwesomeIcon icon={faArrowRight} className="ml-2 mr-2" />} {(history.after && history.after !== '[]') ? (isJsonLike(history.after) ? JSON.parse(history.after).map((u: any) => u.value).join(', ') : history.after) : t('tasks_page.history.no_value')}
                     </p>
                   )
                 }
                 if (history.field === 'file_added') {
                   return (
                     <span key={key}>
-                      {t('tasks.history.added_file')}:
+                      {t('tasks_page.history.added_file')}:
                       <p className="m-unset">
                         {(history.after && history.after !== '[]') ? JSON.parse(history.after).map((u: any) => u.name).join(', ') : ''}
                       </p>
@@ -108,7 +108,7 @@ const TaskHistoryItem: React.FC<TaskHistoryItemProps> = ({ history }) => {
                 if (history.field === 'file_removed') {
                   return (
                     <span key={key}>
-                      {t('tasks.history.removed_file')}:
+                      {t('tasks_page.history.removed_file')}:
                       <p className="m-unset">
                         {(history.before && history.before !== '[]') ? JSON.parse(history.before).map((u: any) => u.name).join(', ') : ''}
                       </p>

@@ -54,9 +54,9 @@ const ProjectSettingInfo: React.FC<ProjectSettingInfoProps> = ({  project}) => {
         <>
           <Input type="text" value={projectName} onChange={(e) => setProjectName (e.target.value)} /> 
           <Button color={loading ? 'secondary' : 'primary'} className="float-right mt-2" onClick={handleUpdateProject} disabled={loading}>
-            {loading ? <Loading color="light" /> : t('btn_save')}
+            {loading ? <Loading color="light" /> : t('common.btn_save')}
           </Button>
-          <Button color="default" className="float-right mt-2" onClick={() => setOpenEdit (false)} disabled={loading}>{t('btn_cancel')}</Button>
+          <Button color="default" className="float-right mt-2" onClick={() => setOpenEdit (false)} disabled={loading}>{t('common.btn_cancel')}</Button>
         </>
         :
         <h6><FontAwesomeIcon icon={faBullseye} /> {projectData.name} <FontAwesomeIcon icon={faPencil} className="pointer" onClick={() => setOpenEdit (true)} /></h6>

@@ -144,7 +144,7 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
       key: 1,
       label: (
         <div className="text-secondary" onClick={() => setOpenClone (true)}>
-          <FontAwesomeIcon icon={faClone} /> {t('btn_clone')}
+          <FontAwesomeIcon icon={faClone} /> {t('common.btn_clone')}
         </div>
       ),
     },
@@ -152,7 +152,7 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
       key: 2,
       label: (
         <div className="text-danger" onClick={() => setOpenDelete (true)}>
-          <FontAwesomeIcon icon={faTrashAlt} /> {t('btn_move_to_trash')}
+          <FontAwesomeIcon icon={faTrashAlt} /> {t('common.btn_move_to_trash')}
         </div>
       ),
     }
@@ -164,7 +164,7 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
           <UserAvatar avatar={task?.user.avatar} name={task?.user.first_name ?? 'U'} /> {task?.user.first_name} {task?.user.last_name} - <RelativeTime time={task.created_at} />
         </span>
         <Button color={editLoading ? 'secondary' : 'primary'} className="float-right" onClick={handleSaveTask} disabled={editLoading}>
-          {editLoading ? <Loading color="light" /> : t('btn_save')}
+          {editLoading ? <Loading color="light" /> : t('common.btn_save')}
         </Button>
         <Button color="default" className="float-right ml-2" onClick={() => router.push(`/workspace/${task.workspace_id}/project/${task.project_id}`)}>
           <FontAwesomeIcon icon={faList} />
@@ -189,10 +189,10 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
             <div className="col-12">
               <ul className="board-menu">
                 <li className={`board-menu-item ${activityLayout === 1 ? 'active' : ''}`} onClick={() => setActivityLayout (1)}>
-                  <FontAwesomeIcon icon={faComment} style={{ marginRight: 5 }} /> {t('tasks.comment_label')}
+                  <FontAwesomeIcon icon={faComment} style={{ marginRight: 5 }} /> {t('tasks_page.comment.comment_title')}
                 </li>
                 <li className={`board-menu-item ${activityLayout === 2 ? 'active' : ''}`} onClick={() => setActivityLayout (2)}>
-                  <FontAwesomeIcon icon={faHistory} style={{ marginRight: 5 }} /> {t('tasks.history_label')}
+                  <FontAwesomeIcon icon={faHistory} style={{ marginRight: 5 }} /> {t('tasks_page.history_label')}
                 </li>
               </ul>
             </div>
@@ -205,7 +205,7 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
             {memberList && <TaskAssignee className="dropdown-assignee" projectMembers={memberList} assigneeSelected={assignee} setAssigneeSelected={setAssignee} />}
             <div className="row mt-3 due-date-row">
               <div className="col-4 col-lg-3 text-secondary">
-                <FontAwesomeIcon icon={faCalendar} /> {t('tasks.placeholder_due_date')}:
+                <FontAwesomeIcon icon={faCalendar} /> {t('tasks_page.placeholder_due_date')}:
               </div>
               <div className="col-8 col-lg-9">
                 <DatePickerCustom setDate={setDueDate} date={dueDate} />
@@ -230,13 +230,13 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
       </div>
       <Modal 
         open={openDelete} 
-        title={t('tasks.delete_task_message')}
+        title={t('tasks_page.delete_task_message')}
         footerBtn={[
           <Button color='default' key={1} onClick={() => setOpenDelete (false)} className='mr-2' disabled={loadingDelete}>
-            {t('btn_cancel')}
+            {t('common.btn_cancel')}
           </Button>,
           <Button key={2} color={loadingDelete ? 'secondary' : 'primary'} type="submit" disabled={loadingDelete} onClick={handleDeleteTask}>
-            {loadingDelete ? <Loading color="light" /> : t('btn_delete')}
+            {loadingDelete ? <Loading color="light" /> : t('common.btn_delete')}
           </Button>
         ]
         }
@@ -246,7 +246,7 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
       </Modal>
       <Modal 
         open={openClone} 
-        title={t('tasks.clone_task_message')}
+        title={t('tasks_page.clone_task_message')}
         footerBtn={[]}
         setOpen={setOpenClone} 
       >

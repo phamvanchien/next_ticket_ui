@@ -20,7 +20,7 @@ const ProjectBoardChart: React.FC<ProjectBoardChartProps> = ({
 }) => {
   const t = useTranslations();
   return (
-    <Sidebar open={open} width={1500} headerTitle={t('tasks.report.report_label')} setOpen={setOpen}>
+    <Sidebar open={open} width={1500} headerTitle={t('tasks_page.report.report_label')} setOpen={setOpen}>
       {open && <TaskStatisticalBoard project={project} />}
       {open && <StatusChart project={project} />}
       {open && <AttributeChart project={project} />}
