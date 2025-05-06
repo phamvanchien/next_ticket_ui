@@ -370,5 +370,8 @@
         "page_title": "Đang bảo trì",
         "page_description": "Hệ thống đang được nâng cấp để mang lại trải nghiệm tốt hơn.",
         "page_description_sub": "Xin vui lòng quay lại sau"
+    },
+    "notification": {
+        "view_all": "Xem tất cả"
     }
 }

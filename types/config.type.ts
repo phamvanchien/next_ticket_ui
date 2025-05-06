@@ -44,6 +44,9 @@ export interface AppConfigType {
       document: {
         url: string
       },
+      notification: {
+        url: string
+      },
       post: {
         url: string
         category: string

@@ -44,6 +44,9 @@ export const APP_CONFIG: AppConfigType = {
       document: {
         url: '/document'
       },
+      notification: {
+        url: '/notification'
+      },
       post: {
         url: '/post',
         category: '/post/category',

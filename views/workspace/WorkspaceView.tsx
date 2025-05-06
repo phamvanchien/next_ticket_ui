@@ -11,7 +11,6 @@ import { displaySmallMessage } from "@/utils/helper.util";
 import { useTranslations } from "next-intl";
 import WorkspaceItem from "./components/WorkspaceItem";
 import useDelaySearch from "@/hooks/useDelaySearch";
-import LoadingGif from "@/common/components/LoadingGif";
 import NoData from "@/common/components/NoData";
 import WorkspaceCreate from "./components/WorkspaceCreate";
 import WorkspaceAddMember from "./components/WorkspaceAddMember";
@@ -70,7 +69,7 @@ const WorkspaceView = () => {
 
   useEffect(() => {
     loadInvites();
-  }, [inviteDecline, workspaceJoined]);
+  }, [inviteDecline, workspaceJoined, openInvite]);
 
   useEffect(() => {
     if (workspaceJoined) {

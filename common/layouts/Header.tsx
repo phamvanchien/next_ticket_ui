@@ -1,7 +1,7 @@
 "use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../components/Button";
-import { faChevronDown, faChevronUp, faGripVertical, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faBell, faChevronDown, faChevronUp, faGripVertical, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import LanguageDropdown from "../components/LanguageDropdown";
 import Link from "next/link";
@@ -15,6 +15,11 @@ import UserAvatar from "../components/AvatarName";
 import { usePathname } from "next/navigation";
 import Logo from "../components/Logo";
 import { setWorkspaceSelected } from "@/reduxs/workspace.redux";
+import NotifyBell from "./NotifyBell";
+import { NotificationType } from "@/types/notification.type";
+import { notifications } from "@/api/notification.api";
+import { API_CODE } from "@/enums/api.enum";
+import { useSocket } from "@/hooks/useSocket";
 
 const Header = () => {
   const t = useTranslations();
@@ -27,6 +32,23 @@ const Header = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showBarBtn, setShowBarBtn] = useState(false);
   const [userData, setUserData] = useState(userLogged);
+  const [notificationData, setNotificationData] = useState<NotificationType[]>([]);
+  const [notificationTotal, setNotificationTotal] = useState<number>(0);
+  const socket = useSocket();
+  const loadNotification = async () => {
+    try {
+      const response = await notifications({
+        page: 1,
+        size: 10
+      });
+      if (response && response.code === API_CODE.OK) {
+        setNotificationData(response.data.items);
+        setNotificationTotal(response.data.total);
+      }
+    } catch (error) {
+      setNotificationData([]);
+    }
+  }
   useEffect(() => {
     const userAuth = getCookie(APP_AUTH.COOKIE_AUTH_USER);
     if (userAuth) {
@@ -59,6 +81,31 @@ const Header = () => {
       setUserData(userUpdated);
     }
   }, [userUpdated]);
+  useEffect(() => {
+    loadNotification();
+  }, []);
+
+  useEffect(() => {
+    if (socket) {
+      socket.emit('join_room', userLogged?.id.toString());
+      socket.on('notify_to_user', (event: NotificationType) => {
+        setNotificationData(prev => {
+          const updated = [event, ...prev];
+          if (updated.length > 10) updated.pop();
+          return updated;
+        });
+        setNotificationTotal(prev => prev + 1);
+        console.log(event)
+      });
+    }
+  
+    return () => {
+      if (socket) {
+        socket.off('join_room');
+        socket.off('notify_to_user');
+      }
+    };
+  }, [socket]);
   return (
     <nav className="navbar navbar-expand-lg navbar-dark main-header" style={{ borderBottom: "1px solid #dee2e6", padding: 'unset', height: 50 }}>
       <div className="container-fluid">
@@ -85,7 +132,12 @@ const Header = () => {
           {/* <button className="btn me-2" onClick={() => setShowSearch(!showSearch)}>
             <FontAwesomeIcon icon={faSearch} />
           </button> */}
-
+          <NotifyBell 
+            setNotificationData={setNotificationData}
+            setNotificationTotal={setNotificationTotal}
+            notificationData={notificationData}
+            notificationTotal={notificationTotal}
+          />
           <div className="position-relative pointer">
             <Link href={'/profile'}>
               <UserAvatar name={userData?.first_name ?? 'U'} avatar={userData?.avatar} />
@@ -113,17 +165,20 @@ const Header = () => {
           </ul>
 
           <form className="d-none d-lg-flex ms-auto me-3">
-            {/* <div className="input-group">
-              <input className="form-control" type="text" placeholder={t('search_label')} aria-label="Search" />
-              <button className="btn btn-primary" type="button">
-                <FontAwesomeIcon icon={faSearch} />
-              </button>
-            </div> */}
-              <LanguageDropdown />
-              <Link href={'/profile'}>
-                <UserAvatar name={userData?.first_name ?? 'U'} className="m-l-10 pointer" avatar={userData?.avatar} />
-              </Link>
+            <LanguageDropdown />
+
+            <NotifyBell 
+              setNotificationData={setNotificationData}
+              setNotificationTotal={setNotificationTotal}
+              notificationData={notificationData}
+              notificationTotal={notificationTotal}
+            />
+
+            <Link href={'/profile'}>
+              <UserAvatar name={userData?.first_name ?? 'U'} className="m-l-10 pointer" avatar={userData?.avatar} />
+            </Link>
           </form>
+
 
           {/* <ul className="navbar-nav d-none d-lg-flex">
             <li className="nav-item">

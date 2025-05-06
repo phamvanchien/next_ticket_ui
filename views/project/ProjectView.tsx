@@ -1,17 +1,14 @@
 "use client";
 import { inviteList, projects } from "@/api/project.api";
-import UserAvatar from "@/common/components/AvatarName";
 import Button from "@/common/components/Button";
 import LoadingGif from "@/common/components/LoadingGif";
 import NoData from "@/common/components/NoData";
-import UserGroup from "@/common/components/UserGroup";
 import { API_CODE } from "@/enums/api.enum";
 import { BaseResponseType, ResponseWithPaginationType } from "@/types/base.type";
 import { ProjectInviteType, ProjectType } from "@/types/project.type";
 import { displaySmallMessage } from "@/utils/helper.util";
 import { faBullseye, faEnvelope, faPlus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Avatar } from "antd";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import ProjectCreate from "./components/ProjectCreate";
@@ -19,11 +16,11 @@ import { members } from "@/api/workspace.api";
 import { UserType } from "@/types/user.type";
 import useDelaySearch from "@/hooks/useDelaySearch";
 import ProjectItem from "./components/ProjectItem";
-import ProjectAddMember from "./components/ProjectAddMember";
 import ProjectInvite from "./components/invite/ProjectInvite";
 import { useAppDispatch } from "@/reduxs/store.redux";
 import { setSidebarSelected } from "@/reduxs/menu.redux";
 import ProjectLoading from "./components/ProjectLoading";
+import { usePathname, useSearchParams } from "next/navigation";
 
 interface ProjectViewProps {
   workspaceId: number
@@ -32,6 +29,9 @@ interface ProjectViewProps {
 const ProjectView: React.FC<ProjectViewProps> = ({ workspaceId }) => {
   const t = useTranslations();
   const dispatch = useAppDispatch();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const openInviteParam = searchParams.get("openInvite");
   const [projectsData, setProjectsData] = useState<ProjectType[]>([]);
   const [projectsTotal, setProjectsTotal] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -117,7 +117,16 @@ const ProjectView: React.FC<ProjectViewProps> = ({ workspaceId }) => {
   }, [projectJoined]);
   useEffect(() => {
     loadInvites();
-  }, [inviteDecline, projectJoined]);
+  }, [inviteDecline, projectJoined, openInvite]);
+  useEffect(() => {
+    if (openInviteParam && Number(openInviteParam) === 1 && invitesData) {
+      setOpenInvite(true);
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("openInvite");
+      const newUrl = `${pathname}${params.toString() ? "?" + params.toString() : ""}`;
+      window.history.replaceState(null, "", newUrl);
+    }
+  }, [openInviteParam, invitesData]);
 
   if (loading) {
     return <ProjectLoading />
