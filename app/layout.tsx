@@ -20,6 +20,14 @@ export const viewport = {
   maximumScale: 1,
   userScalable: 'no',
 };
+export const metadata = {
+  title: 'My Website Title',
+  description: 'Mô tả trang web của bạn',
+  icons: {
+    icon: '/favicon.png', // hoặc favicon.png nếu dùng PNG
+  },
+};
+
 const RootLayout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const pathname = headers().get("x-pathname") || "/";
 

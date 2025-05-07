@@ -26,7 +26,7 @@
         "verified": "Google認証が完了しました"
     },
     "register": {
-        "page_title_first": "Next Ticketアカウント作成",
+        "page_title_first": "Next Techアカウント作成",
         "or": "または",
         "login_link": "ログイン",
         "page_title_second": "既にアカウントをお持ちの方",
@@ -372,6 +372,8 @@
         "page_description_sub": "しばらくお待ちください"
     },
     "notification": {
-        "view_all": "すべて表示"
+        "page_title": "通知",
+        "view_all": "すべて表示",
+        "no_data_message": "新しい通知はありません"
     }
 }

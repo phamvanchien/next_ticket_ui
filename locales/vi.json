@@ -26,7 +26,7 @@
         "verified": "Xác thực Google thành công"
     },
     "register": {
-        "page_title_first": "Đăng ký tài khoản Next Ticket",
+        "page_title_first": "Đăng ký tài khoản Next Tech",
         "or": "hoặc",
         "login_link": "đăng nhập",
         "page_title_second": "nếu bạn đã có tài khoản",
@@ -372,6 +372,8 @@
         "page_description_sub": "Xin vui lòng quay lại sau"
     },
     "notification": {
-        "view_all": "Xem tất cả"
+        "page_title": "Thông báo",
+        "view_all": "Xem tất cả",
+        "no_data_message": "Chưa có thông báo mới nào"
     }
 }

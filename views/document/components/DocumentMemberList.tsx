@@ -36,9 +36,20 @@ const DocumentMemberList: React.FC<DocumentMemberListProps> = ({ workspaceId, us
       const response = await members(workspaceId, 1, 5, debouncedValue);
       if (response?.code === API_CODE.OK && workspaceSelected) {
         const data = response.data;
-        if (workspaceSelected.user && userLogged && userLogged.id !== workspaceSelected.user_id && !data.items.find(m => m.id === workspaceSelected.user_id)) {
-          data.items.push(workspaceSelected.user);
+
+        data.items = data.items.filter(member => member.id !== userLogged?.id);
+  
+        if (
+          workspaceSelected.user &&
+          userLogged &&
+          userLogged.id !== workspaceSelected.user_id &&
+          !data.items.find(m => m.id === workspaceSelected.user_id)
+        ) {
+          if (workspaceSelected.user.id !== userLogged.id) {
+            data.items.push(workspaceSelected.user);
+          }
         }
+  
         setMembersData(data);
       } else {
         setMembersData(undefined);
@@ -46,7 +57,7 @@ const DocumentMemberList: React.FC<DocumentMemberListProps> = ({ workspaceId, us
     } catch (error) {
       setMembersData(undefined);
     }
-  };
+  };  
 
   useEffect(() => {
     loadMembers();

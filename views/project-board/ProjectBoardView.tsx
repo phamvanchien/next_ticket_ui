@@ -30,6 +30,7 @@ import Loading from "@/common/components/Loading";
 import Input from "@/common/components/Input";
 import ProjectSetting from "./components/setting/ProjectSetting";
 import { setTaskFilter } from "@/reduxs/task.redux";
+import { useSocket } from "@/hooks/useSocket";
 
 interface ProjectBoardViewProps {
   project: ProjectType
@@ -85,6 +86,7 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
     include_member: false
   });
   const [openSetting, setOpenSetting] = useState(false);
+  const socket = useSocket();
 
   const { value: keyword, debouncedValue, handleChange } = useDelaySearch("", 500);
   const handleCloneProject = async () => {
@@ -250,51 +252,51 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
   useEffect(() => {
     if (taskUpdated) {
       setTasksBoardData((prevTasksBoardData) => {
-      if (!prevTasksBoardData) return prevTasksBoardData;
+        if (!prevTasksBoardData) return prevTasksBoardData;
 
-      const updatedTasksBoardData = prevTasksBoardData.map((board) => {
-        if (board.id === taskUpdated.status.id) {
-          const taskExists = board.tasks.some((task) => task.id === taskUpdated.id);
-    
+        const updatedTasksBoardData = prevTasksBoardData.map((board) => {
+          if (board.id === taskUpdated.status.id) {
+            const taskExists = board.tasks.some((task) => task.id === taskUpdated.id);
+      
+            return {
+              ...board,
+              tasks: taskExists
+                ? 
+                  board.tasks.map((task) =>
+                    task.id === taskUpdated.id ? { ...task, ...taskUpdated } : task
+                  )
+                : 
+                  [...board.tasks, taskUpdated],
+            };
+          }
           return {
             ...board,
-            tasks: taskExists
-              ? 
-                board.tasks.map((task) =>
-                  task.id === taskUpdated.id ? { ...task, ...taskUpdated } : task
-                )
-              : 
-                [...board.tasks, taskUpdated],
-          };
-        }
-        return {
-          ...board,
-          tasks: board.tasks.map((task) => {
-            if (task.id === taskUpdated.id) {
-              if (task.status.id !== taskUpdated.status.id) {
-                return null;
-              } else {
-                return { ...task, ...taskUpdated };
+            tasks: board.tasks.map((task) => {
+              if (task.id === taskUpdated.id) {
+                if (task.status.id !== taskUpdated.status.id) {
+                  return null;
+                } else {
+                  return { ...task, ...taskUpdated };
+                }
               }
-            }
-            return task;
-          }).filter(task => task !== null),
-        };
+              return task;
+            }).filter(task => task !== null),
+          };
+        });
+
+        return updatedTasksBoardData;
       });
 
-      return updatedTasksBoardData;
-    });
-
-    setTaskList((prevTasksListData) => {
-      if (!prevTasksListData) return prevTasksListData;
-    
-      return {
-        ...prevTasksListData,
-        items: prevTasksListData.items.map((task) =>
-          task.id === taskUpdated.id ? { ...task, ...taskUpdated } : task
-        ),
-      };
-    });         
+      setTaskList((prevTasksListData) => {
+        if (!prevTasksListData) return prevTasksListData;
+      
+        return {
+          ...prevTasksListData,
+          items: prevTasksListData.items.map((task) =>
+            task.id === taskUpdated.id ? { ...task, ...taskUpdated } : task
+          ),
+        };
+      });         
     }
   }, [taskUpdated]);
   useEffect(() => {
@@ -566,6 +568,85 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
       setProjectData(projectUpdated);
     }
   }, [projectUpdated]);
+  useEffect(() => {
+    if (socket) {
+      socket.emit('join_project_room', project.id.toString());
+      socket.on('new_task_event', (event: TaskType) => {
+        if (event.user.id !== userLogged?.id) {
+          setTasksBoardData((prevTasksBoardData) => {
+            if (!prevTasksBoardData) return prevTasksBoardData;
+      
+            const updatedTasksBoardData = prevTasksBoardData.map((board) => {
+              if (board.id === event.status.id) {
+                return {
+                  ...board,
+                  tasks: [...board.tasks, event],
+                };
+              }
+              return board;
+            });
+      
+            return updatedTasksBoardData;
+          });
+          loadTaskList();
+        }
+      });
+      socket.on('update_task_event', (event: TaskType) => {
+        setTasksBoardData((prevTasksBoardData) => {
+          if (!prevTasksBoardData) return prevTasksBoardData;
+  
+          const updatedTasksBoardData = prevTasksBoardData.map((board) => {
+            if (board.id === event.status.id) {
+              const taskExists = board.tasks.some((task) => task.id === event.id);
+        
+              return {
+                ...board,
+                tasks: taskExists
+                  ? 
+                    board.tasks.map((task) =>
+                      task.id === event.id ? { ...task, ...event } : task
+                    )
+                  : 
+                    [...board.tasks, event],
+              };
+            }
+            return {
+              ...board,
+              tasks: board.tasks.map((task) => {
+                if (task.id === event.id) {
+                  if (task.status.id !== event.status.id) {
+                    return null;
+                  } else {
+                    return { ...task, ...event };
+                  }
+                }
+                return task;
+              }).filter(task => task !== null),
+            };
+          });
+  
+          return updatedTasksBoardData;
+        });
+  
+        setTaskList((prevTasksListData) => {
+          if (!prevTasksListData) return prevTasksListData;
+        
+          return {
+            ...prevTasksListData,
+            items: prevTasksListData.items.map((task) =>
+              task.id === event.id ? { ...task, ...event } : task
+            ),
+          };
+        });
+      });
+    }
+  
+    return () => {
+      if (socket) {
+        socket.off('join_project_room');
+      }
+    };
+  }, [socket]);
   return <>
     <div className="container-fluid">
       <div className="row board-wrapper">

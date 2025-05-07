@@ -7,7 +7,6 @@ import Loading from "@/common/components/Loading";
 import { API_CODE } from "@/enums/api.enum";
 import { RootState } from "@/reduxs/store.redux";
 import { BaseResponseType } from "@/types/base.type";
-import { CommentType } from "@/types/comment.type";
 import { TaskType } from "@/types/task.type";
 import { displayMessage } from "@/utils/helper.util";
 import { useTranslations } from "next-intl";

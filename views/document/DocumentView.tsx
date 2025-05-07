@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import DocumentItem from "./components/DocumentItem";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import DocumentOwner from "./components/DocumentOwner";
 import DocumentMember from "./components/DocumentMember";
 import DocumentProject from "./components/DocumentProject";
@@ -37,6 +37,9 @@ const DocumentView: React.FC<DocumentViewProps> = ({ workspaceId }) => {
   const t = useTranslations();
   const router = useRouter();
   const dispatch = useAppDispatch();
+  const searchParams = useSearchParams();
+  const pathname = usePathname();
+  const openTab = searchParams.get("open");
   useEffect(() => {
     dispatch(setSidebarSelected('document'));
   }, []);
@@ -113,6 +116,15 @@ const DocumentView: React.FC<DocumentViewProps> = ({ workspaceId }) => {
     }
     loadDocumentsProjects();
   }, [pageSizeProject, debouncedValue]);
+  useEffect(() => {
+    if (openTab && [2, 3].includes(Number(openTab))) {
+      setShareType(Number(openTab));
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("open");
+      const newUrl = `${pathname}${params.toString() ? "?" + params.toString() : ""}`;
+      window.history.replaceState(null, "", newUrl);
+    }
+  }, [openTab]);
   return (
   <div className="container-fluid px-3 py-3">
     <div className="d-flex justify-content-between align-items-center mb-3 mt-4">

@@ -9,9 +9,10 @@ interface EditorAreaProps {
   value: string;
   placeholder?: string;
   toolbarExtra?: boolean
+  className?: string
 }
 
-const EditorArea: React.FC<EditorAreaProps> = ({ setValue, value, placeholder, toolbarExtra }) => {
+const EditorArea: React.FC<EditorAreaProps> = ({ setValue, value, placeholder, toolbarExtra, className }) => {
   const modules = {
     toolbar: [
       // [{ header: '1' }, { header: '2' }, { font: [] }],
@@ -34,6 +35,7 @@ const EditorArea: React.FC<EditorAreaProps> = ({ setValue, value, placeholder, t
 
   return (
     <ReactQuill
+      className={className}
       theme="snow"
       value={value}
       onChange={setValue}

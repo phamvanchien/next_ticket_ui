@@ -1,7 +1,7 @@
 "use client";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Button from "../components/Button";
-import { faBell, faChevronDown, faChevronUp, faGripVertical, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown, faChevronUp, faGripVertical, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
 import LanguageDropdown from "../components/LanguageDropdown";
 import Link from "next/link";
@@ -27,6 +27,7 @@ const Header = () => {
   const pathname = usePathname();
   const userLogged = useSelector((state: RootState) => state.userSlice).data;
   const userUpdated = useSelector((state: RootState) => state.userSlice).userUpdated;
+  const notifyViewed = useSelector((state: RootState) => state.notificationSlice).notifyViewed;
   const [pathPage, setPathPage] = useState<string>('');
   const [showSearch, setShowSearch] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -84,6 +85,16 @@ const Header = () => {
   useEffect(() => {
     loadNotification();
   }, []);
+  useEffect(() => {
+    if (notifyViewed) {
+      setNotificationData((prev) =>
+        prev.map((item) =>
+          item.id === notifyViewed ? { ...item, viewed: 1 } : item
+        )
+      );
+      setNotificationTotal((prev) => Math.max(0, prev - 1));
+    }
+  }, [notifyViewed]);
 
   useEffect(() => {
     if (socket) {
@@ -95,7 +106,6 @@ const Header = () => {
           return updated;
         });
         setNotificationTotal(prev => prev + 1);
-        console.log(event)
       });
     }
   
@@ -150,17 +160,8 @@ const Header = () => {
             <li className={`nav-item ${pathPage === 'workspace' ? 'nav-item-active' : ''}`} onClick={() => setShowMenu (false)}>
               <Link className="nav-link text-dark" href="/workspace">{t('top_menu.workspace')}</Link>
             </li>
-            <li className="nav-item">
-              <Link className="nav-link text-dark" href="/projects">Projects</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link text-dark" href="/tasks">Tasks</Link>
-            </li>
-            <li className="nav-item">
-              <Link className="nav-link text-dark" href="/calendar">Calendar</Link>
-            </li>
-            {/* <li className="nav-item d-none d-lg-block" style={{ lineHeight: '3.5' }}>
-              <LanguageDropdown />
+            {/* <li className="nav-item">
+              <Link className="nav-link text-dark" href="/projects">{t('sidebar.setting')}</Link>
             </li> */}
           </ul>
 

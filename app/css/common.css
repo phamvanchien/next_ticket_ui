@@ -239,7 +239,7 @@ html, body {
 .ql-editor {
   font-size: 14px;
   min-height: 200px;
-  padding: 12px;
+  padding: unset !important;
   background-color: white;
   border-radius: 0 0 12px 12px;
 }

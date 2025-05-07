@@ -48,11 +48,23 @@ const NotifyBell: React.FC<NotifyBellProps> = ({
     ),
   }));
 
+  if (notificationData.length === 0) {
+    items.push({
+      key: "no-data",
+      label: (
+        <a className="text-muted text-center">
+          {t('notification.no_data_message')}
+        </a>
+      ),
+      type: "group",
+    });
+  }
+
   if (notificationData.length > 9) {
     items.push({
       key: "all",
       label: (
-        <Link href="/notifications" className="dropdown-footer text-center">
+        <Link href="/notification" className="dropdown-footer text-center">
           {t('notification.view_all')}
         </Link>
       ),
