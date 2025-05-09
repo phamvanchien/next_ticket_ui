@@ -1,7 +1,7 @@
 "use client"
 import Button from "@/common/components/Button";
 import { ProjectType } from "@/types/project.type";
-import { faCheck, faCheckCircle, faCheckSquare, faCopy, faFilter, faGear, faGrip, faLineChart, faList, faPlus, faSquare } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faCheckCircle, faCheckSquare, faCopy, faFilter, faFilterCircleXmark, faGear, faGrip, faLineChart, faList, faPlus, faSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
@@ -692,7 +692,16 @@ const ProjectBoardView: React.FC<ProjectBoardViewProps> = ({ project }) => {
         </div>
         <div className="col-6 col-lg-6 mt-2">
           <Button color="default" className="float-right mt-2" onClick={() => setOpenFilter (true)}>
-            <FontAwesomeIcon icon={faFilter} /> {t('tasks_page.filter_label')}
+            <FontAwesomeIcon 
+              icon={
+                (
+                  (taskFilter.assignee && taskFilter.assignee.length > 0) 
+                  || (taskFilter.creator && taskFilter.creator.length > 0)
+                  || taskFilter.fromDue || taskFilter.toDue || taskFilter.fromCreated || taskFilter.toCreated || 
+                  (taskFilter.status && taskFilter.status.length > 0) 
+                  || (taskFilter.attributes && Object.values(taskFilter.attributes).flat().join(',').length > 0)) ? faFilterCircleXmark :
+                faFilter
+              } /> {t('tasks_page.filter_label')}
           </Button>
           {
             isMember &&

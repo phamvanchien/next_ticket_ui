@@ -104,13 +104,13 @@ const TaskEdit: React.FC<TaskEditProps> = ({
       }
       setLoadingDelete(true);
       const response = await removeTask(task.workspace_id, task.project_id, task.id);
+      setLoadingDelete(false);
       if (response && response.code === API_CODE.OK) {
         dispatch(setTaskDeleted(task));
         setOpenDelete(false);
         setOpenModal(undefined);
         return;
       }
-      setLoadingDelete(false);
       displayMessage('error', response.error?.message);
     } catch (error) {
       setLoadingDelete(false);
@@ -199,7 +199,7 @@ const TaskEdit: React.FC<TaskEditProps> = ({
     >
       <div className="row">
         <div className="col-12">
-          <Input type="text" value={title} classInput="task-title-input" placeholder={t('tasks_page.create.task_title_default')} onChange={(e) => setTitle (e.target.value)} />
+          <Input type="text" maxLength={90} value={title} classInput="task-title-input" placeholder={t('tasks_page.create.task_title_default')} onChange={(e) => setTitle (e.target.value)} />
         </div>
       </div>
 

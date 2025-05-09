@@ -25,7 +25,7 @@ const TaskDescription: React.FC<TaskDescriptionProps> = ({ className, taskId, di
   }, [taskId])
   return (
     <div className="row mt-4">
-      <div className="col-12">
+      <div className="col-12 mb-2">
         {
           (!edit) &&
           <i className="text-secondary pointer" onClick={() => setEdit (true)}>
@@ -45,7 +45,7 @@ const TaskDescription: React.FC<TaskDescriptionProps> = ({ className, taskId, di
                   : description.substring(0, maxContentSize),
               }}
               onClick={() => setEdit(true)}
-              className="mt-2"
+              className="mt-2 task-content"
             ></p>
           )
         )}

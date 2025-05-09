@@ -17,37 +17,36 @@ const HomeView = () => {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-  
+
   return (
     <>
+      <Head>
+        <title>Next Tech - Quản lý dự án chuyên nghiệp</title>
+      </Head>
 
-
-      <header className="fixed-top bg-white shadow-sm">
+      <header className="fixed-top bg-white shadow-sm py-2 transition">
         <div className="container">
           <nav className="navbar navbar-expand-lg navbar-light">
-            <a href="/" className="navbar-brand fw-bold">
-              <img src="/logo.png" width={50} height={50} style={{ marginRight: 7 }} />
+            <a href="/" className="navbar-brand fw-bold d-flex align-items-center">
+              <img src="/logo.png" width={40} height={40} className="me-2" alt="Next Tech logo" />
               Next Tech
             </a>
-            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
               <span className="navbar-toggler-icon"></span>
             </button>
             <div className="collapse navbar-collapse" id="navbarNav">
               <ul className="navbar-nav ms-auto">
-                <li className="nav-item mr-2">
-                  <a href="/" className="nav-link active">Trang Chủ</a>
+                <li className="nav-item">
+                  <a href="#features" className="nav-link">Tính Năng</a>
                 </li>
-                <li className="nav-item mr-2">
-                  <a href="#articles" className="nav-link">Bài Viết</a>
-                </li>
-                <li className="nav-item mr-2">
+                <li className="nav-item">
                   <a href="#pricing" className="nav-link">Bảng Giá</a>
                 </li>
-                <li className="nav-item mr-2">
+                <li className="nav-item">
                   <a href="#about" className="nav-link">Giới Thiệu</a>
                 </li>
                 <li className="nav-item">
-                  <a href="/login" className="btn btn-primary text-white ms-3">Đăng Nhập</a>
+                  <a href="/login" className="btn btn-outline-primary ms-3">Đăng Nhập</a>
                 </li>
               </ul>
             </div>
@@ -55,137 +54,115 @@ const HomeView = () => {
         </div>
       </header>
 
-      <section className="hero-section bg-primary text-white d-flex justify-content-center align-items-center" style={{ height: '100vh', backgroundImage: 'url(https://www.example.com/your-image.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
-        <div className="text-center">
-          <h1 className="display-4 fw-bold">Quản lý dự án thông minh với Next Tech</h1>
-          <p className="lead mb-4">Nền tảng giúp bạn tối ưu quy trình làm việc, quản lý dự án hiệu quả, và nâng cao năng suất công việc.</p>
-          <a href="#features" className="btn btn-light btn-lg">Khám Phá Ngay</a>
-        </div>
-      </section>
+      <section className="hero-section py-5 bg-light">
+  <div className="container">
+    <div className="row align-items-center">
+      {/* LEFT: TEXT + BUTTON */}
+      <div className="col-md-6 mb-4 mb-md-0">
+        <h1 className="display-5 fw-bold mb-3">
+          Kết nối mọi nhóm, công việc và dự án với <span className="text-primary">Next Tech</span>
+        </h1>
+        <p className="lead mb-4">
+          Quản lý mọi khía cạnh công việc nhóm với công cụ tối ưu dành cho doanh nghiệp hiện đại.
+        </p>
+        <button className="btn btn-primary w-100 px-4">Bắt đầu ngay</button>
+      </div>
+
+      {/* RIGHT: IMAGE MOCKUP */}
+      <div className="col-md-6 text-center">
+        <img
+          src="/images/hero-mockup.png"
+          className="img-fluid rounded shadow"
+          alt="Giao diện project board"
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
 
       <section id="features" className="py-5 bg-light">
         <div className="container">
-          <h2 className="text-center mb-5">✨ Tính Năng Nổi Bật ✨</h2>
-
-          <div className="row align-items-center mb-5">
+          <h2 className="text-center fw-bold mb-5">Tính Năng Nổi Bật</h2>
+          <div className="row g-5">
             <div className="col-md-6">
-              <img
-                src="/banners/project-manage.png"
-                alt="Quản lý Dự Án"
-                className="img-fluid rounded-3 shadow-sm"
-              />
+              <img src="/banners/project-manage.png" className="img-fluid rounded shadow-sm" alt="Quản lý dự án" />
             </div>
             <div className="col-md-6">
-              <h4>🚀 Quản Lý Dự Án Toàn Diện</h4>
-              <p className="text-muted">
-                Tối ưu hóa quy trình làm việc với công cụ quản lý dự án hiện đại, giúp bạn dễ dàng nắm bắt và kiểm soát mọi chi tiết!
-              </p>
-              <ul>
-                <li><FontAwesomeIcon icon={faCheckCircle} /> Lên kế hoạch chi tiết và theo dõi tiến độ</li>
-                <li><FontAwesomeIcon icon={faCheckCircle} /> Phân chia công việc rõ ràng theo từng giai đoạn</li>
-                <li><FontAwesomeIcon icon={faCheckCircle} /> Thiết lập mức độ ưu tiên cho từng nhiệm vụ</li>
+              <h4 className="fw-bold mb-3">Quản Lý Dự Án Toàn Diện</h4>
+              <p>Tối ưu hóa quy trình làm việc với công cụ quản lý dự án mạnh mẽ.</p>
+              <ul className="list-unstyled">
+                <li><FontAwesomeIcon icon={faCheckCircle} className="text-success me-2" /> Lập kế hoạch và phân chia công việc</li>
+                <li><FontAwesomeIcon icon={faCheckCircle} className="text-success me-2" /> Theo dõi tiến độ theo thời gian thực</li>
+                <li><FontAwesomeIcon icon={faCheckCircle} className="text-success me-2" /> Thiết lập mức độ ưu tiên linh hoạt</li>
               </ul>
             </div>
-          </div>
 
-          <div className="row align-items-center mb-5">
             <div className="col-md-6 order-md-2">
-              <img
-                src="/banners/project-board.png"
-                alt="Theo Dõi Tiến Độ"
-                className="img-fluid rounded-3 shadow-sm"
-              />
+              <img src="/banners/project-board.png" className="img-fluid rounded shadow-sm" alt="Báo cáo tiến độ" />
             </div>
             <div className="col-md-6 order-md-1">
-              <h4>📊 Theo Dõi Tiến Độ Liên Tục</h4>
-              <p className="text-muted">
-                Cập nhật tức thời tiến độ công việc với biểu đồ trực quan và báo cáo chi tiết, giúp bạn luôn nắm bắt mọi thay đổi!
-              </p>
-              <ul>
-                <li><FontAwesomeIcon icon={faCheckCircle} /> Theo dõi tiến độ công việc theo thời gian thực</li>
-                <li><FontAwesomeIcon icon={faCheckCircle} /> Báo cáo biểu đồ sinh động và dễ hiểu</li>
-                <li><FontAwesomeIcon icon={faCheckCircle} /> Nhận thông báo tự động khi có thay đổi</li>
-              </ul>
-            </div>
-          </div>
-
-          <div className="row align-items-center mb-5">
-            <div className="col-md-6">
-              <img
-                src="/banners/project-board.png"
-                alt="Báo Cáo Trực Quan"
-                className="img-fluid rounded-3 shadow-sm"
-              />
-            </div>
-            <div className="col-md-6">
-              <h4>📈 Báo Cáo Trực Quan & Thông Minh</h4>
-              <p className="text-muted">
-                Tạo báo cáo tự động với các chỉ số quan trọng và dễ dàng theo dõi hiệu suất làm việc qua các loại biểu đồ đa dạng.
-              </p>
-              <ul>
-                <li><FontAwesomeIcon icon={faCheckCircle} /> Báo cáo trực quan với các chỉ số quan trọng</li>
-                <li><FontAwesomeIcon icon={faCheckCircle} /> Đa dạng biểu đồ, bảng và danh sách dễ theo dõi</li>
-                <li><FontAwesomeIcon icon={faCheckCircle} /> Tự động cập nhật dữ liệu theo thời gian thực</li>
+              <h4 className="fw-bold mb-3">Theo Dõi & Báo Cáo Trực Quan</h4>
+              <p>Biểu đồ sinh động giúp dễ dàng nắm bắt hiệu suất.</p>
+              <ul className="list-unstyled">
+                <li><FontAwesomeIcon icon={faCheckCircle} className="text-success me-2" /> Báo cáo thời gian thực</li>
+                <li><FontAwesomeIcon icon={faCheckCircle} className="text-success me-2" /> Biểu đồ, bảng biểu sinh động</li>
+                <li><FontAwesomeIcon icon={faCheckCircle} className="text-success me-2" /> Dễ dàng chia sẻ với team</li>
               </ul>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="pricing" className="py-5 bg-light">
+      <section id="pricing" className="py-5">
         <div className="container">
-          <h2 className="text-center mb-5 fw-bold">Các Gói Dịch Vụ</h2>
-          <div className="row justify-content-center">
+          <h2 className="text-center fw-bold mb-5">Bảng Giá</h2>
+          <div className="row g-4 justify-content-center">
             <div className="col-md-4">
-              <div className="card shadow-lg border-0 rounded-3 pricing-card">
-                <div className="card-header bg-primary text-white text-center py-4">
-                  <h4 className="card-title">Gói Miễn Phí</h4>
-                  <p>Giải pháp cơ bản cho nhóm nhỏ</p>
+              <div className="card h-100 shadow text-center">
+                <div className="card-header bg-light py-3">
+                  <h4>Gói Miễn Phí</h4>
                 </div>
-                <div className="card-body text-center">
-                  <h3 className="price mb-4"><span className="currency">₫</span>0</h3>
+                <div className="card-body">
+                  <h3 className="mb-3">₫0</h3>
                   <ul className="list-unstyled">
-                    <li><FontAwesomeIcon icon={faCheckCircle} /> 1 Dự án</li>
-                    <li><FontAwesomeIcon icon={faCheckCircle} /> 5 Thành viên</li>
-                    <li><FontAwesomeIcon icon={faCheckCircle} /> Tính năng cơ bản</li>
+                    <li>1 Dự án</li>
+                    <li>5 Thành viên</li>
+                    <li>Tính năng cơ bản</li>
                   </ul>
-                  <a href="#register" className="btn btn-primary btn-lg">Đăng Ký Ngay</a>
+                  <a href="#" className="btn btn-outline-primary mt-3">Bắt đầu</a>
                 </div>
               </div>
             </div>
             <div className="col-md-4">
-              <div className="card shadow-lg border-0 rounded-3 pricing-card">
-                <div className="card-header bg-warning text-white text-center py-4">
-                  <h4 className="card-title">Gói Chuyên Nghiệp</h4>
-                  <p>Tối ưu cho đội ngũ chuyên nghiệp</p>
+              <div className="card h-100 shadow-lg text-center border-primary">
+                <div className="card-header bg-primary text-white py-3">
+                  <h4>Gói Chuyên Nghiệp</h4>
                 </div>
-                <div className="card-body text-center">
-                  <h3 className="price mb-4"><span className="currency">₫</span>500,000</h3>
+                <div className="card-body">
+                  <h3 className="mb-3">₫500,000</h3>
                   <ul className="list-unstyled">
-                    <li><FontAwesomeIcon icon={faCheckCircle} /> 10 Dự án</li>
-                    <li><FontAwesomeIcon icon={faCheckCircle} /> 50 Thành viên</li>
-                    <li><FontAwesomeIcon icon={faCheckCircle} /> Báo cáo nâng cao</li>
-                    <li><FontAwesomeIcon icon={faCheckCircle} /> Hỗ trợ 24/7</li>
+                    <li>10 Dự án</li>
+                    <li>50 Thành viên</li>
+                    <li>Báo cáo nâng cao</li>
                   </ul>
-                  <a href="#register" className="btn btn-warning btn-lg">Đăng Ký Ngay</a>
+                  <a href="#" className="btn btn-primary mt-3">Đăng ký</a>
                 </div>
               </div>
             </div>
             <div className="col-md-4">
-              <div className="card shadow-lg border-0 rounded-3 pricing-card">
-                <div className="card-header bg-dark text-white text-center py-4">
-                  <h4 className="card-title">Gói Doanh Nghiệp</h4>
-                  <p>Giải pháp toàn diện cho doanh nghiệp lớn</p>
+              <div className="card h-100 shadow text-center">
+                <div className="card-header bg-dark text-white py-3">
+                  <h4>Gói Doanh Nghiệp</h4>
                 </div>
-                <div className="card-body text-center">
-                  <h3 className="price mb-4"><span className="currency">₫</span>1,500,000</h3>
+                <div className="card-body">
+                  <h3 className="mb-3">₫1,500,000</h3>
                   <ul className="list-unstyled">
-                    <li><FontAwesomeIcon icon={faCheckCircle} /> Không giới hạn dự án</li>
-                    <li><FontAwesomeIcon icon={faCheckCircle} /> Không giới hạn thành viên</li>
-                    <li><FontAwesomeIcon icon={faCheckCircle} /> Các công cụ phân tích nâng cao</li>
-                    <li><FontAwesomeIcon icon={faCheckCircle} /> Quản lý tài chính tích hợp</li>
+                    <li>Không giới hạn dự án</li>
+                    <li>Không giới hạn thành viên</li>
+                    <li>Công cụ phân tích nâng cao</li>
                   </ul>
-                  <a href="#register" className="btn btn-dark btn-lg">Đăng Ký Ngay</a>
+                  <a href="#" className="btn btn-dark mt-3">Liên hệ</a>
                 </div>
               </div>
             </div>
@@ -193,20 +170,24 @@ const HomeView = () => {
         </div>
       </section>
 
-      <footer className="bg-dark text-white py-5 text-center">
-        <div className="container">
-          <p>Liên hệ với chúng tôi qua email: <a href="mailto:support@nexttech.com">support@nexttech.com</a></p>
-          <p>&copy; 2025 Next Tech. All rights reserved.</p>
+      <footer className="bg-dark text-white py-4 mt-5">
+        <div className="container text-center">
+          <p>© 2025 Next Tech. Mọi quyền được bảo lưu.</p>
+          <p>Liên hệ: <a href="mailto:support@nexttech.com" className="text-white">support@nexttech.com</a></p>
         </div>
       </footer>
 
       <style jsx global>{`
         body {
-          padding-top: 56px;
+          padding-top: 70px;
+        }
+        header.scrolled {
+          box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+          background-color: #fff !important;
         }
       `}</style>
     </>
   );
-}
+};
 
 export default HomeView;

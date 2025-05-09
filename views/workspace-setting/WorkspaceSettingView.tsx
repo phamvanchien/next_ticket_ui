@@ -70,12 +70,9 @@ const WorkspaceSettingView: React.FC<WorkspaceSettingViewProps> = ({ workspace }
           <FontAwesomeIcon icon={faGear} className="text-primary me-2" />
           {t('workspaces_page.setting.setting_title')}
         </h3>
-        <Button color="primary" onClick={() => setOpenAddMember (workspaceData.id)}>
-            <FontAwesomeIcon icon={faUserPlus} />
-        </Button>
       </div>
       <WorkspaceSettingInfo workspace={workspaceData} />
-      <WorkspaceMember workspace={workspace} />
+      <WorkspaceMember workspace={workspace} setOpenAddMember={setOpenAddMember} />
       <div className="row mt-4">
         <div className="col-12">
           <p className="pointer text-danger" onClick={() => setOpenDeleteWorkspace (true)}>

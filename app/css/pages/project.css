@@ -58,20 +58,3 @@
   .progress-project {
     height: 10px !important;
   }
-
-  .remove-icon-member-project {
-    margin-right: 10px;
-    cursor: pointer;
-  }
-
-  .selected-user-item-project {
-    align-items: center;
-    background: #e0e0e0;
-    padding: 5px 10px;
-    border-radius: 5px;
-  }
-
-  .form-check-owner {
-    width: 20%;
-    float: right;
-  }

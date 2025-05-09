@@ -63,6 +63,11 @@ const DocumentDetailView: React.FC<DocumentDetailViewProps> = ({ _document }) =>
       if (response?.code === API_CODE.OK) {
         setDocumentContent(response.data.content);
         setDocumentTitle(response.data.title);
+        setDocumentData({
+          ...documentData,
+          content: response.data.content,
+          title: response.data.title
+        });
         setOpenEdit(false);
       } else {
         displayMessage('error', response.error?.message);
@@ -172,7 +177,7 @@ const DocumentDetailView: React.FC<DocumentDetailViewProps> = ({ _document }) =>
               <Button color={loading ? 'secondary' : 'primary'} disabled={loading} onClick={handleUpdateDocument}>
                 {loading ? <Loading color="light" /> : <><FontAwesomeIcon icon={faSave} /> {t('common.btn_save')}</>}
               </Button>
-              <Button color="default" className="btn-cancel" disabled={loading} onClick={() => setOpenEdit(false)}>
+              <Button color="default" className="btn-cancel" disabled={loading} onClick={() => {setOpenEdit(false); setDocumentContent(documentData.content)}}>
                 {t('common.btn_cancel')}
               </Button>
             </>
@@ -270,7 +275,7 @@ const DocumentDetailView: React.FC<DocumentDetailViewProps> = ({ _document }) =>
             {openEdit ? (
               <EditorArea value={documentContent} setValue={setDocumentContent} />
             ) : (
-              <div className="document-html" dangerouslySetInnerHTML={{ __html: documentContent }} />
+              <div className="document-html ql-editor" dangerouslySetInnerHTML={{ __html: documentContent }} />
             )}
           </div>
         </div>

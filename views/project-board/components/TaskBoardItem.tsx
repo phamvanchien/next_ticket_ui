@@ -96,7 +96,9 @@ const TaskBoardItem: React.FC<TaskBoardItemProps> = ({
   >
 
     <div className="d-flex justify-content-between align-items-start mb-2">
-      <span className={`task-title ${isExpire === -1 ? 'text-secondary' : 'text-dark'}`}>{task.title}</span>
+      <span className={`task-title ${isExpire === -1 ? 'text-secondary' : 'text-dark'}`}>
+        {task.title.length > 30 ? task.title.substring(0, 30) + '...' : task.title}
+      </span>
       {priority && (
         <DynamicIcon iconName={priority.icon} className="priority-icon" style={{ color: priority.color }} />
       )}
@@ -135,7 +137,7 @@ const TaskBoardItem: React.FC<TaskBoardItemProps> = ({
       )}
     </div>
 
-    {taskPercent > 0 && (
+    {/* {taskPercent > 0 && (
       <div className="progress mt-3" style={{ height: 5 }}>
         <div
           className={`progress-bar progress-bar-striped ${taskPercent >= 100 ? 'bg-success' : ''}`}
@@ -143,7 +145,7 @@ const TaskBoardItem: React.FC<TaskBoardItemProps> = ({
           style={{ width: `${taskPercent}%` }}
         />
       </div>
-    )}
+    )} */}
   </div>
 </div>
 

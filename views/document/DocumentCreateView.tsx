@@ -17,7 +17,6 @@ import { create, uploadFiles } from "@/api/document.api";
 import { API_CODE } from "@/enums/api.enum";
 import { useRouter } from "next/navigation";
 import Loading from "@/common/components/Loading";
-import { UserType } from "@/types/user.type";
 import { ProjectType } from "@/types/project.type";
 import { MemberShareType } from "@/types/document.type";
 import { setSidebarSelected } from "@/reduxs/menu.redux";
@@ -103,7 +102,7 @@ const DocumentCreateView: React.FC<DocumentCreateViewProps> = ({ workspaceId }) 
       </div>
       <div className="row">
         <div className="col-12">
-          <Input type="text" placeholder={t('documents.placeholder_enter_title')} classInput="document-title" onChange={(e) => setTitle (e.target.value)} />
+          <Input type="text" maxLength={90} placeholder={t('documents.placeholder_enter_title')} classInput="document-title" onChange={(e) => setTitle (e.target.value)} />
         </div>
         <div className="col-12 mt-4">
           <UploadFiles files={files} setFiles={setFiles}>

@@ -95,6 +95,7 @@ const TaskAttributeCreate: React.FC<TaskAttributeCreateProps> = ({
         <Input
           type="text"
           placeholder={t("tasks_page.attribute.placeholder_attribute_name")}
+          maxLength={20}
           onClick={(e) => e.stopPropagation()}
           onChange={(e) => setAttributeName(e.target.value)}
           value={attributeName}

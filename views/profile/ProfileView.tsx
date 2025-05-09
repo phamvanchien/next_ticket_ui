@@ -9,7 +9,7 @@ import { APP_CONFIG } from "@/configs/app.config";
 import { API_CODE } from "@/enums/api.enum";
 import { APP_AUTH } from "@/enums/app.enum";
 import { RootState, useAppDispatch } from "@/reduxs/store.redux";
-import { setUserUpdated } from "@/reduxs/user.redux";
+import { setUser, setUserUpdated } from "@/reduxs/user.redux";
 import { isEmpty } from "@/services/validate.service";
 import { BaseResponseType } from "@/types/base.type";
 import { removeCookie, setCookie } from "@/utils/cookie.util";
@@ -47,6 +47,7 @@ const ProfileView = () => {
         setUserData(response.data);
         setCookie(APP_AUTH.COOKIE_AUTH_USER, JSON.stringify(response.data), { expires: APP_CONFIG.TOKEN_EXPIRE_TIME });
         dispatch(setUserUpdated(response.data));
+        dispatch(setUser(response.data));
         return;
       }
       displayMessage('error', response.error?.message);
@@ -74,6 +75,7 @@ const ProfileView = () => {
       if (response && response.code === API_CODE.OK) {
         setCookie(APP_AUTH.COOKIE_AUTH_USER, JSON.stringify(response.data), { expires: APP_CONFIG.TOKEN_EXPIRE_TIME });
         dispatch(setUserUpdated(response.data));
+        dispatch(setUser(response.data));
         setUserData(response.data);
         setEditProfile(false);
         return;

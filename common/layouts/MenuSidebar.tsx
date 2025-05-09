@@ -80,7 +80,7 @@ const MenuSidebar: React.FC<MenuSidebarProps> = ({ workspace }) => {
               }
               <div style={{ marginLeft: 7 }}>
                 <h5 className="mb-1">
-                  <Link href={`/workspace/${workspaceData.id}`}>{workspaceData.name}</Link>
+                  <Link href={`/workspace/${workspaceData.id}/project`}>{workspaceData.name}</Link>
                 </h5>
               </div>
             </div>

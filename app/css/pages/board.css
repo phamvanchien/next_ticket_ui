@@ -28,8 +28,9 @@
   }
   
   .status-item {
-    min-width: 250px;
-    max-width: 300px;
+    /* min-width: 250px;
+    max-width: 300px; */
+    width: 250px;
     border-radius: 8px;
     border: unset !important;
     background: none;

@@ -66,11 +66,11 @@ const TaskDetailView: React.FC<TaskDetailViewProps> = ({ task }) => {
       }
       setLoadingDelete(true);
       const response = await removeTask(task.workspace_id, task.project_id, task.id);
+      setLoadingDelete(false);
       if (response && response.code === API_CODE.OK) {
         router.push(`/workspace/${task.workspace_id}/project/${task.project_id}`);
         return;
       }
-      setLoadingDelete(false);
       displayMessage('error', response.error?.message);
     } catch (error) {
       setLoadingDelete(false);

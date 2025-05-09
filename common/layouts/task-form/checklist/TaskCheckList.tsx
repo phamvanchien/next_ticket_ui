@@ -1,5 +1,3 @@
-import { faCheckSquare, faSquare } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import CheckListCreate from "./CheckListCreate";

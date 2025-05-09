@@ -48,7 +48,7 @@ const ProjectItem: React.FC<ProjectItemProps> = ({ project }) => {
   };   
   
   return (
-    <div className="project-card">
+    <div className="project-card" onClick={handleProjectClick}>
       <div className="card-title">
         <div>
           <FontAwesomeIcon icon={project.is_public ? faGlobe : faLock} className="text-muted me-2" />

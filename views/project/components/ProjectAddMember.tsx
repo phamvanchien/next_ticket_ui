@@ -6,13 +6,14 @@ import Loading from "@/common/components/Loading";
 import Modal from "@/common/components/Modal";
 import { API_CODE } from "@/enums/api.enum";
 import useDelaySearch from "@/hooks/useDelaySearch";
-import { setKeywordSearchMembers } from "@/reduxs/project.redux";
 import { BaseResponseType } from "@/types/base.type";
 import { UserType } from "@/types/user.type";
 import { displayMessage, displaySmallMessage } from "@/utils/helper.util";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faMinus, faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Switch } from "antd";
 import { useTranslations } from "next-intl";
+import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 interface ProjectAddMemberProps {
@@ -38,7 +39,7 @@ const ProjectAddMember: React.FC<ProjectAddMemberProps> = ({ projectId, open, se
     if (!projectId) return;
     setLoading(true);
     try {
-      const response = await userInvite(workspaceId, projectId);
+      const response = await userInvite(workspaceId, projectId, debouncedValue);
       if (response?.code === API_CODE.OK) {
         setTimeout(() => {
           setUserInviteData(response.data);
@@ -142,54 +143,69 @@ const ProjectAddMember: React.FC<ProjectAddMemberProps> = ({ projectId, open, se
       setOpen={setOpenModal}
     >
       <div className="row">
-        <div className="col-12">
-          <Input
-            type="search"
-            value={keyword}
-            onChange={handleChange}
-            placeholder={t("projects_page.create.placeholder_input_search_member")}
-            disabled={sendLoading}
-          />
-          {loading && (
-            <center>
-              <Loading className="mt-2" color="secondary" size={20} />
-            </center>
-          )}
-          {!loading && debouncedValue && userInviteData.filter((user) => !userSelected.some((u) => u.user.id === user.id)).length > 0 && (
-            <div className="dropdown-member-container">
-              {userInviteData.filter((user) => !userSelected.some((u) => u.user.id === user.id)).map((user) => (
-                  <div key={user.id} className="dropdown-member-item" onClick={() => handleSelectUser(user)}>
-                    <UserAvatar name={user.first_name} avatar={user.avatar} className="me-2" />
-                    <span>{user.first_name} {user.last_name}</span>
-                  </div>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {userSelected.map((user, index) => (
-          <div className="col-12 mt-3" key={index}>
-            <div key={user.user.id} className="selected-user-item-project">
-              <FontAwesomeIcon icon={faTimes} className="remove-icon-member-project" onClick={() => handleRemoveUser(user.user.id)} />
-              <UserAvatar name={user.user.first_name} avatar={user.user.avatar} className="me-2" />
-              <span>{user.user.first_name} {user.user.last_name}</span>
-              <div className="form-check mt-1 form-check-owner">
-                <label className="form-check-label" htmlFor="ownerCheck">
-                  {t('projects_page.owner_label')}
-                </label>
+        <div className="col-12 col-lg-12">
+          <div className="bg-white rounded-4 shadow-sm border p-3">
+            <div className="d-flex justify-content-between align-items-center mb-3 px-2">
+              <div className="position-relative w-100">
+                <FontAwesomeIcon icon={faSearch} className="position-absolute ms-3 wp-search-icon" />
                 <input
-                  className="form-check-input"
-                  type="checkbox"
-                  checked={user.owner === 1}
-                  id={`ownerCheck_${user.user.id}`}
-                  onChange={() => changeOwnerCheck(user.user.id)}
+                  type="text"
+                  className="form-control ps-5 rounded search-input float-right"
+                  value={keyword}
+                  onChange={handleChange}
+                  placeholder={t("projects_page.create.placeholder_input_search_member")}
+                  disabled={sendLoading}
                 />
-
               </div>
             </div>
+            {
+              !loading && debouncedValue && userInviteData.filter((user) => !userSelected.some((u) => u.user.id === user.id)).length > 0 &&
+              <div className="table-responsive mb-2">
+                <table className="table align-middle mb-0">
+                  <tbody>
+                    {userInviteData.filter((user) => !userSelected.some((u) => u.user.id === user.id)).map((user, index) => (
+                      <tr key={index} className="border-bottom pointer" onClick={() => handleSelectUser(user)}>
+                        <td>
+                          <UserAvatar name={user.first_name} avatar={user.avatar} />
+                        </td>
+                        <td className="fw-semibold text-dark">{user.first_name} {user.last_name}</td>
+                        <td className="text-muted">{user.email}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            }
           </div>
-        ))}
-
+          {
+            userSelected.length > 0 &&
+            <div className="table-responsive mb-2 mt-2">
+              <table className="table align-middle mb-0">
+                <tbody>
+                  {
+                    userSelected.map((user, index) => (
+                      <tr key={index} className="border-bottom">
+                        <td className="text-muted">
+                          <p className="m-unset">{user.user.email}</p>
+                          <Switch
+                            style={{ marginRight: 7 }}
+                            onChange={() => changeOwnerCheck(user.user.id)}
+                          />
+                          {t('projects_page.owner_label')}
+                        </td>
+                        <td className="text-end">
+                          <Button size="sm" color="danger" className="px-3 rounded" onClick={() => handleRemoveUser(user.user.id)}>
+                            <FontAwesomeIcon icon={faMinus} />
+                          </Button>
+                        </td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
+            </div>
+          }
+        </div>
       </div>
     </Modal>
   );

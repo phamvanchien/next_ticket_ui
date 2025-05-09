@@ -12,7 +12,7 @@ import { displayMessage, displaySmallMessage } from "@/utils/helper.util";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faMinus, faSearch, faTimes } from "@fortawesome/free-solid-svg-icons";
 
 interface WorkspaceAddMemberProps {
   workspaceId?: number;
@@ -118,43 +118,61 @@ const WorkspaceAddMember: React.FC<WorkspaceAddMemberProps> = ({ workspaceId, se
       setOpen={setOpen}
     >
       <div className="row">
-        <div className="col-12">
-          <Input
-            type="search"
-            value={keyword}
-            onChange={handleChange}
-            placeholder={t("workspaces_page.member.placeholder_input_search_user_invite")}
-            disabled={sendLoading}
-          />
-          {loading && (
-            <center>
-              <Loading className="mt-2" color="secondary" size={20} />
-            </center>
-          )}
-          {!loading && debouncedValue && userInviteData.filter((user) => !userSelected.some((u) => u.id === user.id)).length > 0 && (
-            <div className="dropdown-member-container">
-              {userInviteData.filter((user) => !userSelected.some((u) => u.id === user.id)).map((user) => (
-                  <div key={user.id} className="dropdown-member-item" onClick={() => handleSelectUser(user)}>
-                    <UserAvatar name={user.first_name} avatar={user.avatar} className="me-2" />
-                    <span>{user.first_name} {user.last_name}</span>
-                  </div>
-              ))}
+        <div className="col-12 col-lg-12">
+          <div className="bg-white rounded-4 shadow-sm border p-3">
+            <div className="d-flex justify-content-between align-items-center mb-3 px-2">
+              <div className="position-relative w-100">
+                <FontAwesomeIcon icon={faSearch} className="position-absolute ms-3 wp-search-icon" />
+                <input
+                  type="text"
+                  className="form-control ps-5 rounded search-input float-right"
+                  value={keyword}
+                  onChange={handleChange}
+                  placeholder={t("projects_page.create.placeholder_input_search_member")}
+                  disabled={sendLoading}
+                />
+              </div>
             </div>
-          )}
-        </div>
-
-        <div className="col-12 mt-3">
-          {userSelected.length > 0 && (
-            <div className="selected-user-list">
-              {userSelected.map((user) => (
-                <div key={user.id} className="selected-user-item">
-                  <UserAvatar name={user.first_name} avatar={user.avatar} className="me-2" />
-                  <span>{user.first_name} {user.last_name}</span>
-                  <FontAwesomeIcon icon={faTimes} className="remove-icon" onClick={() => handleRemoveUser(user.id)} />
-                </div>
-              ))}
+            {
+              !loading && debouncedValue && userInviteData.filter((user) => !userSelected.some((u) => u.id === user.id)).length > 0 &&
+              <div className="table-responsive mb-2">
+                <table className="table align-middle mb-0">
+                  <tbody>
+                    {userInviteData.filter((user) => !userSelected.some((u) => u.id === user.id)).map((user, index) => (
+                      <tr key={index} className="border-bottom pointer" onClick={() => handleSelectUser(user)}>
+                        <td>
+                          <UserAvatar name={user.first_name} avatar={user.avatar} />
+                        </td>
+                        <td className="fw-semibold text-dark">{user.first_name} {user.last_name}</td>
+                        <td className="text-muted">{user.email}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            }
+          </div>
+          {
+            userSelected.length > 0 &&
+            <div className="table-responsive mb-2 mt-2">
+              <table className="table align-middle mb-0">
+                <tbody>
+                  {
+                    userSelected.map((user, index) => (
+                      <tr key={index} className="border-bottom">
+                        <td className="text-muted">{user.email}</td>
+                        <td className="text-end">
+                          <Button size="sm" color="danger" className="px-3 rounded" onClick={() => handleRemoveUser(user.id)}>
+                            <FontAwesomeIcon icon={faMinus} />
+                          </Button>
+                        </td>
+                      </tr>
+                    ))
+                  }
+                </tbody>
+              </table>
             </div>
-          )}
+          }
         </div>
       </div>
     </Modal>
