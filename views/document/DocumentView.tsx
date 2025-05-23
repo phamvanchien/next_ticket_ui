@@ -17,6 +17,7 @@ import DocumentOwner from "./components/DocumentOwner";
 import DocumentMember from "./components/DocumentMember";
 import DocumentProject from "./components/DocumentProject";
 import useDelaySearch from "@/hooks/useDelaySearch";
+import ImageIcon from "@/common/components/ImageIcon";
 
 interface DocumentViewProps {
   workspaceId: number
@@ -129,7 +130,7 @@ const DocumentView: React.FC<DocumentViewProps> = ({ workspaceId }) => {
   <div className="container-fluid px-3 py-3">
     <div className="d-flex justify-content-between align-items-center mb-3 mt-4">
       <h3 className="mb-0">
-        <FontAwesomeIcon icon={faFileText} className="text-primary me-2" />
+        <ImageIcon name="document" width={35} height={35} />
         {t('sidebar.document')}
       </h3>
       <div className="d-flex gap-3">

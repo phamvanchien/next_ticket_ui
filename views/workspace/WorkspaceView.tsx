@@ -17,6 +17,7 @@ import WorkspaceAddMember from "./components/WorkspaceAddMember";
 import WorkspaceInvite from "./components/invite/WorkspaceInvite";
 import { usePathname, useSearchParams } from "next/navigation";
 import WorkspaceLoading from "./components/WorkspaceLoading";
+import ImageIcon from "@/common/components/ImageIcon";
 
 const WorkspaceView = () => {
   const t = useTranslations();
@@ -110,7 +111,7 @@ const WorkspaceView = () => {
           </NoData>
         ) : <>
           <div className="d-flex justify-content-between align-items-center mb-4">
-            <h3 className="fw-semibold">{t('workspaces_page.page_title')}</h3>
+            <h3 className="fw-semibold"><ImageIcon name="laptop" width={40} height={40} /> {t('workspaces_page.page_title')}</h3>
             <div className="d-flex gap-3">
               <div className="position-relative">
                 <FontAwesomeIcon icon={faSearch} className="position-absolute ms-3 wp-search-icon" />

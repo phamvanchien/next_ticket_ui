@@ -296,3 +296,65 @@ export const isJsonLike = (str: string): boolean => {
     return false;
   }
 };
+
+export const formatTimeToHourString = (date: Date): string => {
+  const hour = date.getHours().toString().padStart(2, '0');
+  const minute = date.getMinutes().toString().padStart(2, '0');
+  return `${hour}:${minute}`;
+}
+
+export const formatMinutesToHourMinute = (totalMinutes: number): string => {
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+
+  let result = '';
+  if (hours > 0) result += `${hours}h`;
+  if (minutes > 0) result += `${minutes}m`;
+  if (result === '') result = '0m';
+
+  return result;
+}
+
+export const formatHourStringToDate = (hour: string) => {
+  const now = new Date();
+  const hourArray = hour.split(':');
+  if (hourArray.length > 0) {
+    now.setHours(Number(hourArray[0]));
+    now.setMinutes(Number(hourArray[1]));
+  }
+  return now;
+}
+
+export const monthList = (lang?: string) => {
+  if (lang === 'vi') {
+    return rangeNumber(1, 12).map(number => {
+      return {
+        id: number,
+        text: `Tháng ${number >= 10 ? number : '0' + number}`
+      }
+    });
+  }
+  if (lang === 'ja') {
+    return rangeNumber(1, 12).map(number => {
+      return {
+        id: number,
+        text: `${number >= 10 ? number : '0' + number}月`
+      }
+    });
+  }
+
+  return [
+    { id: 1, text: "January" },
+    { id: 2, text: "February" },
+    { id: 3, text: "March" },
+    { id: 4, text: "April" },
+    { id: 5, text: "May" },
+    { id: 6, text: "June" },
+    { id: 7, text: "July" },
+    { id: 8, text: "August" },
+    { id: 9, text: "September" },
+    { id: 10, text: "October" },
+    { id: 11, text: "November" },
+    { id: 12, text: "December" }
+  ];
+}

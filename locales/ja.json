@@ -130,7 +130,8 @@
         "btn_delete": "削除",
         "upload_image_label": "画像をアップロード",
         "btn_move_to_trash": "ゴミ箱に移動",
-        "btn_view_more": "詳細を見る"
+        "btn_view_more": "詳細を見る",
+        "search_label": "検索"
     },
     "top_menu": {
         "invitation": "招待",
@@ -375,5 +376,100 @@
         "page_title": "通知",
         "view_all": "すべて表示",
         "no_data_message": "新しい通知はありません"
+    },
+    "time_tracking": {
+        "page_title": "作業時間の記録",
+        "page_title_manage": "タイムトラッキング管理",
+        "page_title_manage_personal": "あなたの勤務時間を管理する",
+        "area_tracking": "記録対象の範囲",
+        "tracking_in_workspace": "ワークスペース全体",
+        "tracking_in_group": "特定のメンバーグループ",
+        "tracking_in_project": "プロジェクト内",
+        "placeholder_enter_title": "作業記録シートのタイトルを入力してください",
+        "permission_label": "管理者",
+        "start_at_label": "開始時刻",
+        "end_at_label": "終了時刻",
+        "start_rest_at_label": "休憩開始時刻",
+        "end_rest_at_label": "休憩終了時刻",
+        "start_working_label": "作業開始",
+        "end_working_label": "作業終了",
+        "time_sheet_label": "作業記録シートの情報",
+        "today_log_title": "本日の記録",
+        "total_time_label": "合計時間",
+        "note_label": "メモ",
+        "feature_notice": "この機能は現在無料で利用できます。今後のバージョンで有料になる可能性があります。",
+        "status_label": "ステータス",
+        "warning": {
+            "member_already_in_another_timesheet": "このメンバーは既に他の作業記録シートに参加しているため追加できません。",
+            "confirm_apply_workspace_timesheet": "ワークスペース全体にこのシートを適用すると、他の記録シートは無効になります。",
+            "timesheet_applied_to_workspace": "この記録シートはワークスペース全体に適用されています。",
+            "other_timesheets_will_be_deactivated": "このワークスペース内の他の記録シートは無効になります。"
+        },
+        "success": {
+            "timesheet_create_success": "作業記録シートを作成しました。"
+        },
+        "create": {
+            "title": "新しい作業記録シートを作成"
+        },
+        "no_record_today": "本日の作業記録はありません。",
+        "no_history_records": "あなたの作業記録履歴はここに表示されます。",
+        "progress_status": {
+            "in_progress": "作業中",
+            "start": "未開始",
+            "end": "完了",
+            "not_completed": "未完了"
+        },
+        "yesterday_label": "昨日の記録",
+        "date_label": "日付",
+        "report_monthly_label": "月次レポート",
+        "no_time_tracking_title": "タイムトラッキングがありません",
+        "no_time_tracking_message": "現在、タイムトラッキングのデータが存在しないか、この機能はまだ有効化されていません。",
+        "back_later_message": "後ほどもう一度お試しください。" ,
+        "week_day_label": "週の勤務日",
+        "week_day": {
+            "monday": "月曜日",
+            "tuesday": "火曜日",
+            "wednesday": "水曜日",
+            "thursday": "木曜日",
+            "friday": "金曜日",
+            "saturday": "土曜日",
+            "sunday": "日曜日"
+        },
+        "history_label": "勤務履歴",
+        "report_label": "提出済みレポート",
+        "break_time_label": "休暇申請",
+        "start_label": "開始",
+        "end_label": "終了",
+        "summary": {
+            "total_hour": "勤務時間合計",
+            "total_missing_hour": "残り勤務時間",
+            "go_late": "遅刻",
+            "out_soon": "早退"
+        },
+        "record_label": "記録",
+        "record_status": {
+            "not_completed": "未完了",
+            "completed": "完了",
+            "in_progress": "作業中"
+        },
+        "day_off_label": "休暇日",
+        "confirm_delete_report": "このレポートを削除してもよろしいですか？",
+        "waiting_approve_label": "承認待ち",
+        "approved_label": "承認済み",
+        "title_label": "タイトル",
+        "content_label": "内容",
+        "send_at_label": "送信日",
+        "not_check_in": "出勤打刻の追加申請",
+        "check_in_late": "遅刻申請",
+        "not_check_out": "退勤打刻の完了申請",
+        "check_out_soon": "早退申請",
+        "select_report_type_label": "レポートの種類を選択",
+        "create_report_label": "レポートを作成",
+        "no_data_report": "レポートはまだありません",
+        "cannot_active": "この勤怠表を有効にすることはできません。"
+    },
+    "coming_soon": {
+        "page_title": "近日公開",
+        "page_message": "この機能は将来的にリリースされます。新しい体験のためにぜひフォローしてください！"
     }
 }

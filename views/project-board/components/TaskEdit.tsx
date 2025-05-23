@@ -205,7 +205,7 @@ const TaskEdit: React.FC<TaskEditProps> = ({
 
       <div className="row mt-4">
         <div className="col-lg-3 col-12 mt-2 text-secondary">
-          <FontAwesomeIcon icon={faUser} /> {t('projects_page.created_by_text')}:
+          <FontAwesomeIcon icon={faUser} /> {t('projects_page.created_by_text')}
         </div>
         <div className="col-12 col-lg-9 mt-2">
           <UserAvatar avatar={task?.user.avatar} name={task?.user.first_name ?? 'U'} /> {task?.user.first_name} {task?.user.last_name} - <i>{dateToString(new Date(task?.created_at ?? ''), '/', true)}</i>
@@ -215,7 +215,7 @@ const TaskEdit: React.FC<TaskEditProps> = ({
       <TaskAssignee className="mt-3 dropdown-assignee" projectMembers={memberList} assigneeSelected={assignee} setAssigneeSelected={setAssignee} />
       <div className="row mt-3 due-date-row">
         <div className="col-4 col-lg-3 text-secondary">
-          <FontAwesomeIcon icon={faCalendar} /> {t('tasks_page.placeholder_due_date')}:
+          <FontAwesomeIcon icon={faCalendar} /> {t('tasks_page.placeholder_due_date')}
         </div>
         <div className="col-8 col-lg-9">
           <DatePickerCustom className="duedate-task" setDate={setDueDate} date={dueDate} />

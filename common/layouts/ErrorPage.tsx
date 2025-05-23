@@ -15,7 +15,7 @@ const ErrorPage: React.FC<ErrorPageProps> = ({ code }) => {
         <h1 className="display-1 text-danger">500</h1>
         <p className="lead">{t('server_error_page.page_title')}</p>
         <p className="text-muted">{t('server_error_page.page_description')}</p>
-        <Link href="/workspace" className="btn btn-primary mt-3" style={{ height: 50, lineHeight: '35px' }}>
+        <Link href="/workspace" className="link mt-3" style={{ height: 50, lineHeight: '35px' }}>
           {t('btn_back_main_page')}
         </Link>
       </div>
@@ -27,7 +27,7 @@ const ErrorPage: React.FC<ErrorPageProps> = ({ code }) => {
         <h1 className="display-1 text-primary">404</h1>
         <h2 className="mb-4">{t('not_found_page.page_title')}</h2>
         <p className="text-muted">{t('not_found_page.page_description')}</p>
-        <Link href="/workspace" className="btn btn-primary mt-3" style={{ height: 50, lineHeight: '35px' }}>
+        <Link href="/workspace" className="link mt-3" style={{ height: 50, lineHeight: '35px' }}>
           {t('btn_back_main_page')}
         </Link>
       </div>

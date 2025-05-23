@@ -36,7 +36,7 @@ const WorkspaceSetting: React.FC<WorkspaceSettingProps> = async ({ params }) => 
 
 const fetchWorkspace = async (workspaceId: number): Promise<BaseResponseType<WorkspaceType>> => {
   try {
-    const apiResponse = await fetch(APP_CONFIG.API.URL + APP_CONFIG.API.PREFIX.workspace.url + '/' + workspaceId.toString(), {
+    const apiResponse = await fetch(APP_CONFIG.API.URL + APP_CONFIG.API.PREFIX.workspace.url + '/' + workspaceId.toString() + '/owner', {
       method: API_METHOD_ENUM.GET,
       headers: {
         'Content-Type': 'application/json',

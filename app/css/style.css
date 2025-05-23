@@ -10786,6 +10786,8 @@ body {
   min-height: calc(100vh - 56px);
   margin-left: -225px;
   z-index: 800;
+
+  background: #f8f9fa;
 }
 
 .sb-sidenav-toggled #layoutSidenav #layoutSidenav_nav {

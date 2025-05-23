@@ -130,7 +130,8 @@
         "btn_delete": "Xóa",
         "upload_image_label": "Tải ảnh lên",
         "btn_move_to_trash": "Chuyển vào thùng rác",
-        "btn_view_more": "Xem thêm"
+        "btn_view_more": "Xem thêm",
+        "search_label": "Tìm kiếm"
     },
     "top_menu": {
         "invitation": "Lời mời",
@@ -375,5 +376,101 @@
         "page_title": "Thông báo",
         "view_all": "Xem tất cả",
         "no_data_message": "Chưa có thông báo mới nào"
+    },
+    "time_tracking": {
+        "page_title": "Chấm công",
+        "page_title_manage": "Quản lý chấm công",
+        "page_title_manage_personal": "Quản lý thời gian làm việc của bạn",
+        "area_tracking": "Phạm vi chấm công",
+        "tracking_in_workspace": "Toàn bộ phòng",
+        "tracking_in_group": "Một nhóm thành viên",
+        "tracking_in_project": "Trong một dự án",
+        "placeholder_enter_title": "Nhập tiêu đề cho bảng chấm công",
+        "permission_label": "Quản trị viên",
+        "start_at_label": "Thời gian bắt đầu",
+        "end_at_label": "Thời gian kết thúc",
+        "start_rest_at_label": "Thời gian bắt đầu nghỉ",
+        "end_rest_at_label": "Thời gian kết thúc nghỉ",
+        "start_working_label": "Bắt đầu làm việc",
+        "end_working_label": "Kết thúc làm việc",
+        "time_sheet_label": "Thông tin bảng chấm công",
+        "today_log_title": "Chấm công hôm nay",
+        "total_time_label": "Tổng thời gian",
+        "note_label": "Ghi chú",
+        "feature_notice": "Tính năng này hiện đang miễn phí. Chúng tôi có thể áp dụng phí trong các phiên bản sau.",
+        "status_label": "Trạng thái",
+        "warning": {
+            "member_already_in_another_timesheet": "Không thể thêm thành viên vì họ đã tham gia một bảng chấm công khác.",
+            "confirm_apply_workspace_timesheet": "Nếu bạn áp dụng bảng chấm công chung cho toàn bộ phòng, các bảng chấm công khác trong phòng sẽ bị dừng hoạt động.",
+            "timesheet_applied_to_workspace": "Bảng chấm công này đang được áp dụng cho toàn bộ phòng.",
+            "other_timesheets_will_be_deactivated": "Các bảng chấm công khác trong phòng này sẽ bị dừng hoạt động."
+        },
+        "success": {
+            "timesheet_create_success": "Tạo bảng chấm công thành công."
+        },
+        "create": {
+            "title": "Tạo bảng chấm công mới"
+        },
+        "no_record_today": "Chưa có dữ liệu chấm công cho hôm nay.",
+        "no_history_records": "Lịch sử chấm công của bạn sẽ hiện ở đây.",
+        "progress_status": {
+            "in_progress": "Đang làm việc",
+            "start": "Chưa bắt đầu",
+            "end": "Đã kết thúc",
+            "not_completed": "Chưa hoàn thành",
+            "completed": "Hoàn thành"
+        },
+        "yesterday_label": "Chấm công hôm qua",
+        "date_label": "Ngày",
+        "report_monthly_label": "Báo cáo trong tháng",
+        "no_time_tracking_title": "Chưa có bảng chấm công",
+        "no_time_tracking_message": "Hiện tại bạn chưa có dữ liệu để chấm công hoặc tính năng này chưa được kích hoạt. ",
+        "back_later_message": "Vui lòng quay lại sau.",
+        "week_day_label": "Ngày làm việc trong tuần",
+        "week_day": {
+            "monday": "Thứ 2",
+            "tuesday": "Thứ 3",
+            "wednesday": "Thứ 4",
+            "thursday": "Thứ 5",
+            "friday": "Thứ 6",
+            "saturday": "Thứ 7",
+            "sunday": "Chủ nhật"
+        },
+        "history_label": "Lịch sử chấm công",
+        "report_label": "Báo cáo đã gửi",
+        "break_time_label": "Đơn xin nghỉ",
+        "start_label": "Bắt đầu",
+        "end_label": "Kết thúc",
+        "summary": {
+            "total_hour": "Số giờ đã làm",
+            "total_missing_hour": "Số giờ còn lại",
+            "go_late": "Đi trễ",
+            "out_soon": "Ra sớm"
+        },
+        "record_label": "Bản ghi",
+        "record_status": {
+            "not_completed": "Chưa hoàn thành",
+            "completed": "Hoàn thành",
+            "in_progress": "Đang làm"
+        },
+        "day_off_label": "Ngày nghỉ",
+        "confirm_delete_report": "Bạn có chắc chắn muốn xóa bản báo cáo này không ?",
+        "waiting_approve_label": "Chờ duyệt",
+        "approved_label": "Đã duyệt",
+        "title_label": "Tiêu đề",
+        "content_label": "Nội dung",
+        "send_at_label": "Ngày gửi",
+        "not_check_in": "Xin bổ sung chấm công",
+        "check_in_late": "Xin đi trễ",
+        "not_check_out": "Xin hoàn tất chấm công",
+        "check_out_soon": "Xin ra sớm",
+        "select_report_type_label": "Chọn loại báo cáo",
+        "create_report_label": "Tạo báo cáo",
+        "no_data_report": "Chưa có bản báo cáo nào",
+        "cannot_active": "Bạn không thể kích hoạt bảng chấm công này"
+    },
+    "coming_soon": {
+        "page_title": "Sắp ra mắt",
+        "page_message": "Tính năng này sẽ ra mắt trong tương lai. Hãy theo dõi chúng tôi để trải nghiệm những điều mới mẻ"
     }
 }

@@ -2,6 +2,7 @@
 import { projects } from "@/api/project.api";
 import { tasks } from "@/api/workspace.api";
 import UserAvatar from "@/common/components/AvatarName";
+import ImageIcon from "@/common/components/ImageIcon";
 import NoData from "@/common/components/NoData";
 import RelativeTime from "@/common/components/RelativeTime";
 import SkeletonLoading from "@/common/components/SkeletonLoading";
@@ -116,7 +117,7 @@ const RecentView: React.FC<RecentViewProps> = ({ workspaceId }) => {
   return (
     <div className="container-fluid recent-view px-3 py-4">
       <div className="d-flex align-items-center mb-4">
-        <FontAwesomeIcon icon={faHistory} className="me-2 text-dark" />
+        <ImageIcon name="recently" width={35} height={35} />
         <h2 className="mb-0">{t("recent.page_title")}</h2>
       </div>
 

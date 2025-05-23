@@ -1,10 +1,11 @@
 import { projects } from "@/api/project.api";
+import Button from "@/common/components/Button";
 import Input from "@/common/components/Input";
 import { API_CODE } from "@/enums/api.enum";
 import useDelaySearch from "@/hooks/useDelaySearch";
 import { ResponseWithPaginationType } from "@/types/base.type";
 import { ProjectType } from "@/types/project.type";
-import { faCheckCircle, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faBullseye, faCheckCircle, faMinus, faSearch, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslations } from "next-intl";
 import React, { useEffect, useState } from "react";
@@ -54,51 +55,66 @@ const DocumentProjectList: React.FC<DocumentProjectListProps> = ({ workspaceId, 
   useEffect(() => {
     setProjectShare(projectsSelected);
   }, [projectsSelected]);
+
   return (
     <>
-      <div className="col-12 mt-4">
-        <Input
-          type="search"
-          placeholder={t('projects_page.placeholder_input_search')}
-          value={keyword}
-          onChange={handleChange}
-        />
-        {projectsData && (
-          <ul className="list-group">
-            {projectsData.items.map((project) => (
-              <li
-                className="list-group-item pointer"
-                key={project.id}
-                onClick={() => handleSelectProject(project)}
-              >
-                {project.name} {projectsSelected.find(_v => _v.id === project.id) && <FontAwesomeIcon icon={faCheckCircle} className="text-success float-right mt-2" />}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-
-      {projectsSelected.length > 0 && (
-        <div className="col-12 mt-4 mb-4">
-          <ul className="list-group">
-            {projectsSelected.map((item, index) => (
-              <li
-                className="list-group-item d-flex justify-content-between align-items-center"
-                key={index}
-              >
-                <div>
-                  <FontAwesomeIcon
-                    icon={faTrashAlt}
-                    className="text-danger pointer me-2"
-                    onClick={() => handleRemoveProject(item.id)}
-                  />
-                  {item.name}
-                </div>
-              </li>
-            ))}
-          </ul>
+      <div className="col-12 col-lg-12 mt-4">
+        <div className="bg-white rounded-4 shadow-sm border p-3">
+          <div className="d-flex justify-content-between align-items-center mb-3 px-2">
+            <div className="position-relative w-100">
+              <FontAwesomeIcon icon={faSearch} className="position-absolute ms-3 wp-search-icon" />
+              <input
+                type="text"
+                className="form-control ps-5 rounded search-input float-right"
+                value={keyword}
+                onChange={handleChange}
+                placeholder={t("projects_page.create.placeholder_input_search")}
+              />
+            </div>
+          </div>
+          {
+            debouncedValue && projectsData && projectsData?.items.filter((project) => !projectsSelected.some((u) => u.id === project.id)).length > 0 &&
+            <div className="table-responsive mb-2">
+              <table className="table align-middle mb-0">
+                <tbody>
+                  {projectsData?.items.filter((project) => !projectsSelected.some((u) => u.id === project.id)).map((project, index) => (
+                    <tr key={index} className="border-bottom pointer" onClick={() => handleSelectProject(project)}>
+                      <td>
+                        <FontAwesomeIcon icon={faBullseye} /> {project.name}
+                      </td>
+                      {/* <td className="fw-semibold text-dark">{user.first_name} {user.last_name}</td>
+                      <td className="text-muted">{user.email}</td> */}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          }
         </div>
-      )}
+        {
+          projectsSelected.length > 0 &&
+          <div className="table-responsive mb-2 mt-2">
+            <table className="table align-middle mb-0">
+              <tbody>
+                {
+                  projectsSelected.map((item, index) => (
+                    <tr key={index} className="border-bottom">
+                      <td className="text-muted">
+                        <p className="m-unset">{item.name}</p>
+                      </td>
+                      <td className="text-end">
+                        <Button size="sm" color="danger" className="px-3 rounded" onClick={() => handleRemoveProject(item.id)}>
+                          <FontAwesomeIcon icon={faMinus} />
+                        </Button>
+                      </td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </div>
     </>
   );
 }

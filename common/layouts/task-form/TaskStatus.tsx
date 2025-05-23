@@ -43,7 +43,7 @@ const TaskStatus: React.FC<TaskStatusProps> = ({ className, statusList, statusSe
   return (
     <div className={`row ${className ?? ''}`}>
       <div className="col-4 col-lg-3 text-secondary">
-        <FontAwesomeIcon icon={faClipboardList} /> {t('tasks_page.status_label')}:
+        <FontAwesomeIcon icon={faClipboardList} /> {t('tasks_page.status_label')}
       </div>
       <div className="col-8 col-lg-9">
         <SelectSingle

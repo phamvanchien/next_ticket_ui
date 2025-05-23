@@ -219,11 +219,11 @@ const LoginView = () => {
           <span>{loadingGoogle ? <img src="/images/icons/loading_google.gif" height={30} width={90} /> : t('login_page.login_google_btn')}</span>
         </Button>
       }
-      <div className="text-center mt-3">
+      {/* <div className="text-center mt-3">
         <Link href="#" className="text-decoration-none text-primary">
           {t('login_page.create_account_btn')}
         </Link>
-      </div>
+      </div> */}
     </div>
   </>
 }

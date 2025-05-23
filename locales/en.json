@@ -130,7 +130,8 @@
         "btn_delete": "Delete",
         "upload_image_label": "Upload image",
         "btn_move_to_trash": "Move to trash",
-        "btn_view_more": "View more"
+        "btn_view_more": "View more",
+        "search_label": "Search"
     },
     "top_menu": {
         "invitation": "Invitations",
@@ -375,5 +376,101 @@
         "page_title": "Notification",
         "view_all": "View all",
         "no_data_message": "No new notifications"
+    },
+    "time_tracking": {
+        "page_title": "Time Tracking",
+        "page_title_manage": "Time Tracking Management",
+        "page_title_manage_personal": "Manage Your Work Time",
+        "area_tracking": "Tracking Scope",
+        "tracking_in_workspace": "Entire Workspace",
+        "tracking_in_group": "A Group of Members",
+        "tracking_in_project": "Within a Project",
+        "placeholder_enter_title": "Enter a title for the time tracking sheet",
+        "permission_label": "Administrator",
+        "start_at_label": "Start Time",
+        "end_at_label": "End Time",
+        "start_rest_at_label": "Break Start Time",
+        "end_rest_at_label": "Break End Time",
+        "start_working_label": "Start Working",
+        "end_working_label": "End Working",
+        "time_sheet_label": "Time Tracking Sheet Info",
+        "today_log_title": "Today's Log",
+        "total_time_label": "Total Time",
+        "note_label": "Note",
+        "feature_notice": "This feature is currently free. We may introduce charges in future versions.",
+        "status_label": "Status",
+        "warning": {
+            "member_already_in_another_timesheet": "Cannot add this member because they are already in another time tracking sheet.",
+            "confirm_apply_workspace_timesheet": "If you apply this sheet to the entire workspace, other time tracking sheets will be deactivated.",
+            "timesheet_applied_to_workspace": "This time tracking sheet is currently applied to the entire workspace.",
+            "other_timesheets_will_be_deactivated": "Other time tracking sheets in this workspace will be deactivated."
+        },
+        "success": {
+            "timesheet_create_success": "Time tracking sheet created successfully."
+        },
+        "create": {
+            "title": "Create New Time Tracking Sheet"
+        },
+        "no_record_today": "No time tracking data for today.",
+        "no_history_records": "Your time tracking history will appear here.",
+        "progress_status": {
+            "in_progress": "In progress",
+            "start": "Not started",
+            "end": "Ended",
+            "not_completed": "Not completed",
+            "completed": "Completed"
+        },
+        "yesterday_label": "Yesterday's Log",
+        "date_label": "Date",
+        "report_monthly_label": "Monthly Report",
+        "no_time_tracking_title": "No Time Tracking Available",
+        "no_time_tracking_message": "Currently, there is no time tracking data available or this feature has not been enabled.",
+        "back_later_message": "Please check back later.",
+        "week_day_label": "Working days of the week",
+        "week_day": {
+            "monday": "Monday",
+            "tuesday": "Tuesday",
+            "wednesday": "Wednesday",
+            "thursday": "Thursday",
+            "friday": "Friday",
+            "saturday": "Saturday",
+            "sunday": "Sunday"
+        },
+        "history_label": "Time Tracking History",
+        "report_label": "Submitted Reports",
+        "break_time_label": "Leave Requests",
+        "start_label": "Start",
+        "end_label": "End",
+        "summary": {
+            "total_hour": "Total Hours Worked",
+            "total_missing_hour": "Remaining Hours",
+            "go_late": "Late Arrival",
+            "out_soon": "Early Leave"
+        },
+        "record_label": "Records",
+        "record_status": {
+            "not_completed": "Not Completed",
+            "completed": "Completed",
+            "in_progress": "In Progress"
+        },
+        "day_off_label": "Day Off",
+        "confirm_delete_report": "Are you sure you want to delete this report?",
+        "waiting_approve_label": "Pending Approval",
+        "approved_label": "Approved",
+        "title_label": "Title",
+        "content_label": "Content",
+        "send_at_label": "Sent Date",
+        "not_check_in": "Request to add check-in",
+        "check_in_late": "Request for late check-in",
+        "not_check_out": "Request to complete check-out",
+        "check_out_soon": "Request for early check-out",
+        "select_report_type_label": "Select report type",
+        "create_report_label": "Create report",
+        "no_data_report": "No reports available",
+        "cannot_active": "You cannot activate this timesheet."
+    },
+    "coming_soon": {
+        "page_title": "Coming Soon",
+        "page_message": "This feature will be released in the future. Follow us to experience something new!"
     }
 }

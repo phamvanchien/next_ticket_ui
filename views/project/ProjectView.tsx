@@ -21,6 +21,7 @@ import { useAppDispatch } from "@/reduxs/store.redux";
 import { setSidebarSelected } from "@/reduxs/menu.redux";
 import ProjectLoading from "./components/ProjectLoading";
 import { usePathname, useSearchParams } from "next/navigation";
+import ImageIcon from "@/common/components/ImageIcon";
 
 interface ProjectViewProps {
   workspaceId: number
@@ -136,7 +137,8 @@ const ProjectView: React.FC<ProjectViewProps> = ({ workspaceId }) => {
     <div className="container-fluid px-3 py-3">
       <div className="d-flex justify-content-between align-items-center mb-3 mt-4">
         <h3 className="mb-0">
-          <FontAwesomeIcon icon={faBullseye} className="text-primary me-2" />
+          {/* <FontAwesomeIcon icon={faBullseye} className="text-primary me-2" /> */}
+          <ImageIcon name="project" width={35} height={35} />
           {t("projects_page.page_title")}
         </h3>
 

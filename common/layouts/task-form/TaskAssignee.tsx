@@ -55,7 +55,7 @@ const TaskAssignee: React.FC<TaskAssigneeProps> = ({ className, projectMembers, 
   return (
     <div className={`row ${className ?? ''}`}>
       <div className="col-lg-3 col-12 text-secondary mt-2 pt-3">
-        <FontAwesomeIcon icon={faUser} /> {label ? label : t('tasks_page.assignee_label')}:
+        <FontAwesomeIcon icon={faUser} /> {label ? label : t('tasks_page.assignee_label')}
       </div>
       <div className="col-lg-9 col-12 mt-2">
         <SelectMultiple 

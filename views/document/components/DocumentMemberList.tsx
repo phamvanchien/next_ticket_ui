@@ -1,11 +1,10 @@
 import { members } from "@/api/workspace.api";
 import UserAvatar from "@/common/components/AvatarName";
-import Input from "@/common/components/Input";
 import { API_CODE } from "@/enums/api.enum";
 import useDelaySearch from "@/hooks/useDelaySearch";
 import { ResponseWithPaginationType } from "@/types/base.type";
 import { UserType } from "@/types/user.type";
-import { faCheckCircle, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
+import { faMinus, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Switch } from "antd";
 import { useTranslations } from "next-intl";
@@ -13,6 +12,7 @@ import React, { useEffect, useState } from "react";
 import { MemberShareType } from "@/types/document.type";
 import { useSelector } from "react-redux";
 import { RootState } from "@/reduxs/store.redux";
+import Button from "@/common/components/Button";
 
 interface DocumentMemberListProps {
   workspaceId: number
@@ -89,57 +89,69 @@ const DocumentMemberList: React.FC<DocumentMemberListProps> = ({ workspaceId, us
 
   return (
     <>
-      <div className="col-12 mt-4">
-        <Input
-          type="search"
-          placeholder={t('workspaces_page.member.placeholder_input_search')}
-          value={keyword}
-          onChange={handleChange}
-        />
-        {membersData && (
-          <ul className="list-group">
-            {membersData.items.map((member) => (
-              <li
-                className="list-group-item pointer"
-                key={member.id}
-                onClick={() => handleSelectMember(member)}
-              >
-                <UserAvatar avatar={member.avatar} name={member.first_name} /> {member.first_name} {member.last_name} {memberSelected.find(_v => _v.user.id === member.id) && <FontAwesomeIcon icon={faCheckCircle} className="text-success float-right mt-2" />}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
-
-      {memberSelected.length > 0 && (
-        <div className="col-12 mt-4 mb-4">
-          <ul className="list-group">
-            {memberSelected.map((item) => (
-              <li
-                className="list-group-item d-flex justify-content-between align-items-center"
-                key={item.user.id}
-              >
-                <div>
-                  <FontAwesomeIcon
-                    icon={faTrashAlt}
-                    className="text-danger pointer me-2"
-                    onClick={() => handleRemoveMember(item.user.id)}
-                  />
-                  {item.user.first_name} {item.user.last_name}
-                </div>
-                <div>
-                  {t('documents.permission_label')}
-                  <Switch
-                    style={{ marginLeft: 7 }}
-                    checked={item.permission === 1}
-                    onChange={() => handleTogglePermission(item.user.id)}
-                  />
-                </div>
-              </li>
-            ))}
-          </ul>
+      <div className="col-12 col-lg-12 mt-4">
+        <div className="bg-white rounded-4 shadow-sm border p-3">
+          <div className="d-flex justify-content-between align-items-center mb-3 px-2">
+            <div className="position-relative w-100">
+              <FontAwesomeIcon icon={faSearch} className="position-absolute ms-3 wp-search-icon" />
+              <input
+                type="text"
+                className="form-control ps-5 rounded search-input float-right"
+                value={keyword}
+                onChange={handleChange}
+                placeholder={t("projects_page.create.placeholder_input_search_member")}
+              />
+            </div>
+          </div>
+          {
+            debouncedValue && membersData && membersData?.items.filter((user) => !memberSelected.some((u) => u.user.id === user.id)).length > 0 &&
+            <div className="table-responsive mb-2">
+              <table className="table align-middle mb-0">
+                <tbody>
+                  {membersData?.items.filter((user) => !memberSelected.some((u) => u.user.id === user.id)).map((user, index) => (
+                    <tr key={index} className="border-bottom pointer" onClick={() => handleSelectMember(user)}>
+                      <td>
+                        <UserAvatar name={user.first_name} avatar={user.avatar} />
+                      </td>
+                      <td className="fw-semibold text-dark">{user.first_name} {user.last_name}</td>
+                      <td className="text-muted">{user.email}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          }
         </div>
-      )}
+        {
+          memberSelected.length > 0 &&
+          <div className="table-responsive mb-2 mt-2">
+            <table className="table align-middle mb-0">
+              <tbody>
+                {
+                  memberSelected.map((user, index) => (
+                    <tr key={index} className="border-bottom">
+                      <td className="text-muted">
+                        <p className="m-unset">{user.user.email}</p>
+                        <Switch
+                          style={{ marginRight: 7 }}
+                          checked={user.permission === 1}
+                          onChange={() => handleTogglePermission(user.user.id)}
+                        />
+                        {t('documents.permission_label')}
+                      </td>
+                      <td className="text-end">
+                        <Button size="sm" color="danger" className="px-3 rounded" onClick={() => handleRemoveMember(user.user.id)}>
+                          <FontAwesomeIcon icon={faMinus} />
+                        </Button>
+                      </td>
+                    </tr>
+                  ))
+                }
+              </tbody>
+            </table>
+          </div>
+        }
+      </div>
     </>
   );
 };

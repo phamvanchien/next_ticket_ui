@@ -2,7 +2,7 @@
 import { RootState, useAppDispatch } from "@/reduxs/store.redux";
 import { setWorkspaceSelected } from "@/reduxs/workspace.redux";
 import { WorkspaceType } from "@/types/workspace.type";
-import { faBullseye, faCubes, faFileText, faGear, faHistory } from "@fortawesome/free-solid-svg-icons";
+import { faBullseye, faClock, faCubes, faFileText, faGear, faHistory } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useRef, useState } from "react";
 import UserAvatar from "../components/AvatarName";
 import { useSelector } from "react-redux";
+import ImageIcon from "../components/ImageIcon";
 
 interface MenuSidebarProps {
   workspace: WorkspaceType;
@@ -87,29 +88,42 @@ const MenuSidebar: React.FC<MenuSidebarProps> = ({ workspace }) => {
           </div>
           <div className={`nav mt-2`}>
             <Link className="nav-link" href={`/workspace/`} onClick={handleClickItem}>
-              <FontAwesomeIcon icon={faCubes} style={{ marginRight: 7 }} /> {t('sidebar.workspace')}
+              <ImageIcon name="laptop" width={35} height={40} /> {t('sidebar.workspace')}
             </Link>
           </div>
           <div className={`nav mt-2 ${sidebarSelected === 'project' ? 'menu-item-active' : ''}`}>
             <Link className="nav-link" href={`/workspace/${workspaceData.id}/project`} onClick={handleClickItem}>
-              <FontAwesomeIcon icon={faBullseye} style={{ marginRight: 7 }} /> {t('sidebar.project')}
+              <ImageIcon name="project" width={35} height={35} /> {t('sidebar.project')}
             </Link>
           </div>
           <div className={`nav mt-2 ${sidebarSelected === 'document' ? 'menu-item-active' : ''}`}>
             <Link className="nav-link" href={`/workspace/${workspaceData.id}/document`} onClick={handleClickItem}>
-              <FontAwesomeIcon icon={faFileText} style={{ marginRight: 7 }} /> {t('sidebar.document')}
+              <ImageIcon name="document" width={35} height={35} /> {t('sidebar.document')}
             </Link>
           </div>
           <div className={`nav mt-2 ${sidebarSelected === 'recent' ? 'menu-item-active' : ''}`}>
             <Link className="nav-link" href={`/workspace/${workspaceData.id}/recent`} onClick={handleClickItem}>
-              <FontAwesomeIcon icon={faHistory} style={{ marginRight: 7 }} /> {t('sidebar.recent')}
+              <ImageIcon name="recently" width={35} height={35} /> {t('sidebar.recent')}
             </Link>
           </div>
+          <div className={`nav mt-2 ${sidebarSelected === 'time-tracking' ? 'menu-item-active' : ''}`}>
+            <Link className="nav-link" href={`/workspace/${workspaceData.id}/time-tracking`} onClick={handleClickItem}>
+              <ImageIcon name="time-tracking" width={35} height={35} /> {t('time_tracking.page_title')}
+            </Link>
+          </div>
+          {
+            userLogged?.id === workspaceData.user_id &&
+            <div className={`nav mt-2 ${sidebarSelected === 'time-tracking-manage' ? 'menu-item-active' : ''}`}>
+              <Link className="nav-link" href={`/workspace/${workspaceData.id}/time-tracking/manage`} onClick={handleClickItem}>
+                <ImageIcon name="time-tracking-2" width={35} height={35} />{t('time_tracking.page_title_manage')}
+              </Link>
+            </div>
+          }
           {
             workspaceData.user_id === userLogged?.id &&
             <div className={`nav mt-2 ${sidebarSelected === 'workspace_setting' ? 'menu-item-active' : ''}`}>
               <Link className="nav-link" href={`/workspace/${workspaceData.id}/setting`} onClick={handleClickItem}>
-                <FontAwesomeIcon icon={faGear} style={{ marginRight: 7 }} /> {t('workspaces_page.setting.setting_title')}
+                <ImageIcon name="setting" width={35} height={35} />{t('workspaces_page.setting.setting_title')}
               </Link>
             </div>
           }

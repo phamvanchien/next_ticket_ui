@@ -9,7 +9,7 @@ const AuthLayout = ({ children }: { children: React.ReactNode }) => {
         <LanguageDropdown />
       </div>
       <div className="position-absolute start-50 translate-middle-x logo-auth-box">
-        <Logo withText width={110} height={80} />
+        <Logo withText width={110} height={100} />
       </div>
       {children}
     </div>

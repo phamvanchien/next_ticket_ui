@@ -1,6 +1,6 @@
 import { BaseResponseType, RequestWithPaginationType, ResponseWithPaginationType } from "./base.type";
 import { ProjectType } from "./project.type";
-import { ResponseUserDataType } from "./user.type";
+import { ResponseUserDataType, UserType } from "./user.type";
 
 export interface CreateDocumentRequestType {
   title: string;
@@ -47,13 +47,7 @@ export interface DocumentType {
 }
 
 export interface MemberShareType {
-  user: {
-    id: number
-    first_name: string
-    last_name: string
-    email: string
-    avatar: string
-  },
+  user: UserType,
   permission: number | null
 }
 

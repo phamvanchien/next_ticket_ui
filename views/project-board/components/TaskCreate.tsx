@@ -87,6 +87,7 @@ const TaskCreate: React.FC<TaskCreateProps> = ({
         setAttributesSelected([]);
         setAssignee([]);
         setOpen(false);
+        setDescription('');
         return;
       }
       displayMessage('error', response.error?.message);
@@ -134,7 +135,7 @@ const TaskCreate: React.FC<TaskCreateProps> = ({
       <TaskAssignee className="mt-4 dropdown-assignee" projectMembers={memberList} assigneeSelected={assignee} setAssigneeSelected={setAssignee} />
       <div className="row mt-3">
         <div className="col-4 col-lg-3 text-secondary">
-          <FontAwesomeIcon icon={faCalendar} /> {t('tasks_page.placeholder_due_date')}:
+          <FontAwesomeIcon icon={faCalendar} /> {t('tasks_page.placeholder_due_date')}
         </div>
         <div className="col-8 col-lg-9">
           <DatePickerCustom className="duedate-task" setDate={setDueDate} date={dueDate} />

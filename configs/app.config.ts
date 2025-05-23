@@ -52,6 +52,9 @@ export const APP_CONFIG: AppConfigType = {
         category: '/post/category',
         top: '/post/top-post',
         categoryWithPost: '/post/category-with-post'
+      },
+      time_tracking: {
+        url: '/time-tracking'
       }
     }
   }

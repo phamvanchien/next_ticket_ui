@@ -52,6 +52,9 @@ export interface AppConfigType {
         category: string
         top: string
         categoryWithPost: string
+      },
+      time_tracking: {
+        url: string
       }
     }
   }

@@ -28,6 +28,7 @@ const TaskComment: React.FC<TaskCommentProps> = ({ className, task }) => {
   const [confirmDelete, setConfirmDelete] = useState<number>();
   const [openDelete, setOpenDelete] = useState(false);
   const [loadingDelete, setLoadingDelete] = useState(false);
+  const [loading, setLoading] = useState(true);
   const t = useTranslations();
   const loadComments = async () => {
     try {
@@ -38,12 +39,14 @@ const TaskComment: React.FC<TaskCommentProps> = ({ className, task }) => {
         page: 1,
         size: 5
       });
+      setLoading(false);
       if (response && response.code === API_CODE.OK) {
         setCommentsData(response.data);
         return;
       }
       displaySmallMessage('error', response.error?.message);
     } catch (error) {
+      setLoading(false);
       displaySmallMessage('error', (error as BaseResponseType).error?.message);
     }
   }
@@ -71,6 +74,7 @@ const TaskComment: React.FC<TaskCommentProps> = ({ className, task }) => {
     }
   }
   useEffect(() => {
+    setLoading(true);
     loadComments();
   }, [task]);
   useEffect(() => {
@@ -85,7 +89,7 @@ const TaskComment: React.FC<TaskCommentProps> = ({ className, task }) => {
       setOpenDelete(false);
     }
   }, [confirmDelete]);
-  if (!commentsData) {
+  if (loading) {
     return <div>
       <SkeletonLoading heigth={70} className="mt-3" />
       <SkeletonLoading heigth={70} className="mt-3" />
